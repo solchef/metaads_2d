@@ -1,8 +1,7 @@
 import useCanvas from '../hooks/useCanvas'
 
 const AdSpace: React.FunctionComponent = () => {
-  const { canvasWidth, canvasHeight, cAreaRef, cMiniRef, zoomIn, zoomOut } =
-    useCanvas()
+  const { cAreaRef, cMiniRef, zoomIn, zoomOut } = useCanvas()
 
   return (
     <>
@@ -208,11 +207,7 @@ const AdSpace: React.FunctionComponent = () => {
           </div>
           <div ref={cAreaRef}>
             <div>
-              <canvas
-                id="adcanvas"
-                width={canvasWidth}
-                height={canvasHeight}
-              ></canvas>
+              <canvas id="adcanvas"></canvas>
             </div>
           </div>
         </div>

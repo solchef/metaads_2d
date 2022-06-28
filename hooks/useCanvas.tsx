@@ -18,9 +18,6 @@ export default function useCanvas() {
   const [selectorWidth, setWidth] = useState(10)
   const [selectorHeight, setHeight] = useState(10)
   const grid = 10
-  const unitScale = 10
-  const canvasWidth = 100 * unitScale
-  const canvasHeight = 100 * unitScale
 
   const initCanvas = () =>
     // console.log(cAreaRef.current.offsetWidth)
@@ -57,30 +54,52 @@ export default function useCanvas() {
 
   useEffect(() => {
     createGrid(adCanvas)
-    if (adCanvas) {
-      setSelector(adCanvas.add(rect))
-      adCanvas.centerObject(rect)
-    }
-  }, [adCanvas, selectorElem])
+    // if (adCanvas) {
+    //   setSelector(adCanvas.add(rect))
+    //   adCanvas.centerObject(rect)
+    // }
+  }, [adCanvas])
 
   const createGrid = (adBoard) => {
     if (adBoard) {
+      const gridlines = []
       for (let i = 0; i < 10000 / grid; i++) {
-        adBoard.add(
-          new fabric.Line([i * grid, grid, i * grid, 10000], {
-            stroke: 'white',
-            selectable: false,
-          })
-        )
-        adBoard.add(
-          new fabric.Line([0, i * grid, 10000, i * grid], {
-            stroke: 'white',
-            selectable: false,
-          })
-        )
+        const horiz = new fabric.Line([i * grid, grid, i * grid, 10000], {
+          stroke: 'white',
+          selectable: true,
+          width: 1,
+        })
 
+        const vertical = new fabric.Line([0, i * grid, 10000, i * grid], {
+          stroke: 'white',
+          selectable: true,
+          width: 1,
+          objectCaching: false,
+        })
+
+        gridlines.push(horiz)
+        gridlines.push(vertical)
         // console.log({ squre: i, cords: { x: i * grid, y: i * grid } })
       }
+
+      const adGroup = new fabric.Group(gridlines, {
+        // selectable: false,
+        // lockMovementX: true,
+        // lockMovementY: true,
+        // lockRotation: true,
+        // lockScalingX: true,
+        // lockScalingY: true,
+        // lockUniScaling: true,
+        hoverCursor: 'auto',
+        evented: false,
+        stroke: 'red',
+        strokeWidth: 1,
+        objectCaching: false,
+      })
+      adBoard.add(adGroup)
+      adBoard.centerObject(adGroup)
+      adBoard.add(rect)
+      adBoard.centerObject(rect)
       adBoard.renderAll()
 
       // const cols = 100
@@ -116,8 +135,6 @@ export default function useCanvas() {
       //     adBoard.add(rect2)
       //   }
       // }
-
-      adBoard.renderAll()
 
       initMinimap(adBoard, minimap)
     }
@@ -161,7 +178,7 @@ export default function useCanvas() {
 
   const updateMiniMapVP = (adCanvas, minimap) => {
     if (adCanvas && minimap) {
-      const designSize = { width: 800, height: 600 }
+      const designSize = { width: minimap.width, height: minimap.height }
       const rect = minimap.getObjects()[0]
       const designRatio = fabric.util.findScaleToFit(designSize, adCanvas)
       const totalRatio = fabric.util.findScaleToFit(designSize, minimap)
@@ -185,7 +202,7 @@ export default function useCanvas() {
       backgroundImage.scaleX = 1 / adCanvas.getRetinaScaling()
       backgroundImage.scaleY = 1 / adCanvas.getRetinaScaling()
       minimap.centerObject(backgroundImage)
-      minimap.backgroundColor = 'white'
+      minimap.backgroundColor = 'black'
       minimap.backgroundImage = backgroundImage
       minimap.requestRenderAll()
       const minimapView = new fabric.Rect({
@@ -308,8 +325,6 @@ export default function useCanvas() {
 
   return {
     cAreaRef,
-    canvasWidth,
-    canvasHeight,
     zoomIn,
     adCanvas,
     zoomOut,
