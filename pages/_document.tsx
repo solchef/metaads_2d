@@ -2,7 +2,8 @@
 /* eslint-disable @next/next/no-css-tags */
 // pages/_document.js
 import { Html, Head as MainHead, Main, NextScript } from 'next/document'
-import Head from 'next/Head'
+// import Head from 'next/Head'
+// import Script from 'next/script'
 
 export default function Document() {
   return (
@@ -38,7 +39,7 @@ export default function Document() {
         />
         <link rel="stylesheet" href="/assets/css/style.css" />
       </MainHead>
-      <Head>
+      {/* <Head>
         <title>QuadSpace</title>
         <meta charSet="utf-8" />
         <meta
@@ -47,14 +48,14 @@ export default function Document() {
         />
         <meta name="description" content="" />
         <meta name="author" content="" />
-      </Head>
+      </Head> */}
       <body>
         <Main />
         <NextScript />
-        <script async src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script async src="https://code.jquery.com/jquery-1.9.1.js"></script>
         <script
           async
-          src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"
+          src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"
         ></script>
         <script
           async
