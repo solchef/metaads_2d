@@ -1,34 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
-import React, { useState } from 'react'
 import useCanvas from '../hooks/useCanvas'
-// import { FullScreen, useFullScreenHandle } from 'react-full-screen'
-import { useWeb3Context } from '../context'
-// import { useWeb3Context } from '../context'
-// import useCanvas from '../hooks/useCanvas'
 
-const AdSpace: React.FunctionComponent = (props) => {
-  const { contracts, address } = useWeb3Context()
-  const adscontract = contracts['metaads']
-  const { canvasWidth, canvasHeight, cAreaRef, zoomIn, zoomOut } = useCanvas()
-  // const [totalCost, setTotalCost] = useState(0)
-
-  const handleMint = async () => {
-    console.log(contracts)
-    console.log(adscontract.address)
-    const selectedSqures = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-    const quantSupplies = [].fill(selectedSqures.length, '1')
-    const nameinput = 'Usernamechoice'
-    const spacecoords = 'x,y'
-    const identityImage = 'imageurl'
-    // console.log(adscontract.methods)
-    const mint_spaces = await adscontract.methods.mintBatch(
-      address,
-      selectedSqures,
-      quantSupplies,
-      [nameinput, spacecoords, identityImage]
-    )
-    console.log(mint_spaces)
-  }
+const AdSpace: React.FunctionComponent = () => {
+  const { canvasWidth, canvasHeight, cAreaRef, cMiniRef, zoomIn, zoomOut } =
+    useCanvas()
 
   return (
     <>
@@ -226,7 +200,7 @@ const AdSpace: React.FunctionComponent = (props) => {
             </div>
           </div>
 
-          <div className="map">
+          <div className="map" ref={cMiniRef} style={{ width: '20%' }}>
             <div>
               <canvas id="minimap"></canvas>
             </div>

@@ -11,6 +11,7 @@ import { fabric } from 'fabric'
 
 export default function useCanvas() {
   const cAreaRef = useRef()
+  const cMiniRef = useRef()
   const [adCanvas, setAdCanvas] = useState()
   const [selectorElem, setSelector] = useState()
   const [minimap, setMiniMap] = useState()
@@ -27,15 +28,15 @@ export default function useCanvas() {
       containerClass: 'canvas-box grid-box ratio ratio-1x1',
       backgroundColor: '',
       width: cAreaRef.current ? cAreaRef?.current.offsetWidth : 1200,
-      height: cAreaRef.current ? cAreaRef?.current.offsetHeight : 1200,
+      height: cAreaRef.current ? cAreaRef?.current.offsetWidth : 1200,
     })
 
   const initMini = () =>
     new fabric.Canvas('minimap', {
       containerClass: 'map-box ratio ratio-1x1',
       backgroundColor: '#f50070',
-      width: '400',
-      height: '450',
+      width: cMiniRef.current ? cMiniRef?.current.offsetWidth : 100,
+      height: cMiniRef.current ? cMiniRef?.current.offsetWidth : 100,
       top: '100',
     })
 
@@ -312,6 +313,7 @@ export default function useCanvas() {
     zoomIn,
     adCanvas,
     zoomOut,
+    cMiniRef,
     selectorHeight,
     selectorWidth,
     setSelectorWidth,
