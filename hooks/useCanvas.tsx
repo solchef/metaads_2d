@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { fabric } from 'fabric'
-import { cloneIcon, deleteIcon } from '../components/CanvasAssets'
+// import { cloneIcon, deleteIcon } from '../components/CanvasAssets'
 
-const deleteImg = document.createElement('img')
-deleteImg.src = deleteIcon
+// const deleteImg = document.createElement('img')
+// deleteImg.src = deleteIcon
 
-const cloneImg = document.createElement('img')
-cloneImg.src = cloneIcon
+// const cloneImg = document.createElement('img')
+// cloneImg.src = cloneIcon
 
 export default function useCanvas() {
   const cAreaRef = useRef()
