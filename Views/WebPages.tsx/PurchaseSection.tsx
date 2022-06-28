@@ -36,8 +36,9 @@ export const PurchaseSection = () => {
         <div className="offcanvas-body">
           <h3>ONE PARCELS</h3>
           <p>
-            <i className="bi bi-bounding-box-circles" /> = 10 X 10 px = $1 = 100
-            ft ²= <i className="bi bi-box" />
+            <i className="bi bi-bounding-box-circles" /> = {selectorWidth} X{' '}
+            {selectorHeight}
+            px = $1 = 100 ft ²= <i className="bi bi-box" />
           </p>
           <hr />
           <form>
