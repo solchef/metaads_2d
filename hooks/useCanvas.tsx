@@ -26,8 +26,8 @@ export default function useCanvas() {
     new fabric.Canvas('adcanvas', {
       containerClass: 'canvas-box grid-box ratio ratio-1x1',
       backgroundColor: '',
-      width: cAreaRef?.current.offsetWidth,
-      height: cAreaRef?.current.offsetHeight,
+      width: cAreaRef.current ? cAreaRef?.current.offsetWidth : 1200,
+      height: cAreaRef.current ? cAreaRef?.current.offsetHeight : 1200,
     })
 
   const initMini = () =>
