@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 /*!
 * All mine from scratch */
 
@@ -49,6 +50,7 @@ section {
   padding-left: 100px;
   padding-right: 100px;
 }
+
 /* Navbar */
 
 nav.navbar {
@@ -66,6 +68,7 @@ nav.navbar {
 .navbar .container-fluid {
   padding: 0 25px;
 }
+
 /* Typography */
 
 p {
@@ -141,6 +144,7 @@ a.web3 {
   border: 3px solid #f90070;
   padding: 5px 10px;
 }
+
 /* header section */
 
 header {
@@ -151,6 +155,7 @@ header {
   background-position: center;
   background-repeat: no-repeat;
 }
+
 /* phase section */
 
 section#phase-section {
@@ -160,6 +165,7 @@ section#phase-section {
 #phase-section img {
   width: 25px;
 }
+
 /* grid section */
 
 .canvas-box {
@@ -167,11 +173,14 @@ section#phase-section {
   border-radius: 5px;
   margin-top: 30px;
   border: 5px solid #fa0070;
+  height: auto;
 }
 
 section#grid-section {
   background-image: url('../images/grid_bg.png');
   background-size: cover;
+  /* height: calc(100vh - 72px) !important; */
+  overflow: hidden !important;
 }
 
 .map-box {
@@ -283,10 +292,16 @@ section#grid-section {
   color: #fff;
 }
 
+.checkbox-ad input[type='checkbox']:checked + label::before,
+.checkbox-ad input[type='radio']:checked + label::before {
+  background-color: red;
+  border-color: red;
+}
+
 .checkbox-own input[type='checkbox']:checked + label::before,
 .checkbox-own input[type='radio']:checked + label::before {
-  background-color: #fa0070;
-  border-color: #fa0070;
+  background-color: green;
+  border-color: green;
 }
 
 .checkbox-own input[type='checkbox']:checked + label::after,
@@ -425,8 +440,11 @@ button.btn.btn-primary.btn-lg.active {
 img.icon-chart {
   width: 25px;
 }
+
 /* presale section */
+
 /* adspace section */
+
 /* marketplace section */
 
 section#marketplace-section {
@@ -471,7 +489,12 @@ section#marketplace-section {
 .copyright {
   margin-bottom: 80px;
 }
+
 /* footer section */
+
+.carousel-indicators {
+  bottom: -85px !important;
+}
 
 @media (min-width: 768px) {
   .show-mobile {
@@ -490,7 +513,7 @@ section#marketplace-section {
     font-size: 35px;
   }
   .navbar-brand {
-    font-size: 20px;
+    font-size: 24px;
   }
   .navbar-brand + div {
     display: flex;
@@ -498,7 +521,7 @@ section#marketplace-section {
   }
   .navbar-brand + div a {
     white-space: nowrap;
-    font-size: 12px;
+    font-size: 16px;
   }
   .navbar-brand + div a.me-5 {
     margin-right: 1rem !important;
@@ -532,30 +555,32 @@ section#marketplace-section {
     padding-bottom: 30px;
   }
   .controls .btn {
-    height: 37px !important;
-    width: 37px !important;
+    height: 50px !important;
+    width: 50px !important;
     font-size: 20px !important;
   }
   .canvas-box.grid-box {
-    margin-top: 100px;
+    margin-top: 25px;
   }
   .hide-mobile {
     display: none !important;
   }
-  .offcanvas.offcanvas-start {
-    transform: translateY(100%);
-    top: 44%;
-    width: 100% !important;
-  }
-  .offcanvas-header {
-    justify-content: space-around !important;
-    align-items: center !important;
-    padding-bottom: 0 !important;
-  }
   .buttons {
     flex-wrap: nowrap;
   }
-  .offcanvas-top {
+  .offcanvas.offcanvas-start {
+    top: 72%;
+    width: 100% !important;
+  }
+  .mob.offcanvas-header {
+    justify-content: space-around !important;
+    align-items: center !important;
+    padding-bottom: 0 !important;
+    padding-top: 8px;
+    background: #f10171;
+  }
+  .offcanvas-top,
+  .offcanvas-bottom {
     width: 100% !important;
   }
   .offcanvas-body h3 {
@@ -565,10 +590,38 @@ section#marketplace-section {
   }
   .offcanvas-body p {
     margin-bottom: 0 !important;
+    font-size: 12px;
+    line-height: 18px;
   }
-  .offcanvas-body {
-    padding-top: 0;
-    padding-bottom: 0;
+  .offcanvas hr {
+    margin: 14px 0;
+  }
+  .offcanvas.show-mobile.offcanvas-top {
+    height: 25vh;
+  }
+  .offcanvas.show-mobile.offcanvas-top .offcanvas-body {
+    margin: 0;
+    padding: 0 !important;
+  }
+  .offcanvas.show-mobile.offcanvas-top .offcanvas-header {
+    justify-content: space-between !important;
+    margin: 0;
+  }
+  .offcanvas-body.d-flex.flex-lg-column {
+    gap: 20px;
+    padding-right: 10px;
+    padding-top: 20px;
+  }
+  .btn-primary.hoverable.btn-lg.mb-3.w-100 {
+    padding: 20px 15px;
+    font-size: 12px;
+    min-height: 61px;
+  }
+  .canvas-box {
+    height: 78vh;
+  }
+  a.web3:not(.launch) {
+    border: none;
   }
 }
 
@@ -580,11 +633,11 @@ section#marketplace-section {
     font-size: 30px;
   }
   .canvas-box {
-    margin-top: 150px;
+    margin-top: 120px;
   }
   .map-box {
     width: 200px;
-    top: 250px;
+    top: 210px;
   }
   .controls .btn {
     height: 50px;
@@ -593,4 +646,37 @@ section#marketplace-section {
   #marketplace-section img {
     padding: 0 !important;
   }
+  .canvas-box {
+    height: 58vh;
+  }
+}
+
+.board {
+  height: 1000000px;
+  width: 100%;
+}
+
+.canvas-box {
+  overflow: scroll;
+}
+
+.boardd {
+  box-sizing: border-box;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  /* background-image: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 9px,
+      #ccc 9px,
+      #ccc 10px
+    ),
+    repeating-linear-gradient(
+      -90deg,
+      transparent,
+      transparent 9px,
+      #ccc 9px,
+      #ccc 10px
+    ); */
 }

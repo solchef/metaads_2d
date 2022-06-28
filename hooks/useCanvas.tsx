@@ -9,20 +9,31 @@ import { fabric } from 'fabric'
 // const cloneImg = document.createElement('img')
 // cloneImg.src = cloneIcon
 
+const squreInfoDefault = {
+  x: '-',
+  y: '-',
+  Price: '0',
+  Status: 'Available',
+  owner: 'For Sale',
+  link: 'quadspace.io',
+  area: '1 X 1',
+}
+
 export default function useCanvas() {
   const cAreaRef = useRef()
   const cMiniRef = useRef()
-  const [adCanvas, setAdCanvas] = useState()
+  const [adCanvas, setAdCanvas] = useState<HTMLCanvasElement>(null)
   const [selectorElem, setSelector] = useState()
   const [minimap, setMiniMap] = useState()
-  const [selectorWidth, setWidth] = useState(10)
-  const [selectorHeight, setHeight] = useState(10)
-  const grid = 10
+  const [selectorWidth, setWidth] = useState(1)
+  const [selectorHeight, setHeight] = useState(1)
+  const [squreInfo, setSqureInfo] = useState(squreInfoDefault)
+  const grid = 5
 
   const initCanvas = () =>
     // console.log(cAreaRef.current.offsetWidth)
     new fabric.Canvas('adcanvas', {
-      containerClass: 'canvas-box grid-box ratio ratio-1x1',
+      containerClass: 'boardd',
       backgroundColor: '',
       width: cAreaRef.current ? cAreaRef?.current.offsetWidth : 1200,
       height: cAreaRef.current ? cAreaRef?.current.offsetWidth : 1200,
@@ -30,7 +41,7 @@ export default function useCanvas() {
 
   const initMini = () =>
     new fabric.Canvas('minimap', {
-      containerClass: 'map-box ratio ratio-1x1',
+      containerClass: '',
       backgroundColor: '#f50070',
       width: cMiniRef.current ? cMiniRef?.current.offsetWidth : 100,
       height: cMiniRef.current ? cMiniRef?.current.offsetWidth : 100,
@@ -43,6 +54,7 @@ export default function useCanvas() {
     originX: 'left',
     originY: 'top',
     centeredRotation: true,
+    name: 'defaultSelector',
     fill: '#f50070',
     // visible: false,
   })
@@ -60,21 +72,24 @@ export default function useCanvas() {
     // }
   }, [adCanvas])
 
+  useEffect(() => {
+    // console.log(squreInfo)
+  }, [squreInfo])
+
   const createGrid = (adBoard) => {
     if (adBoard) {
       const gridlines = []
-      for (let i = 0; i < 10000 / grid; i++) {
-        const horiz = new fabric.Line([i * grid, grid, i * grid, 10000], {
+      for (let i = 0; i < 1000 / grid; i++) {
+        const horiz = new fabric.Line([i * grid, grid, i * grid, 1000], {
           stroke: 'white',
-          selectable: true,
-          width: 1,
+          selectable: false,
+          width: 0.1,
         })
 
-        const vertical = new fabric.Line([0, i * grid, 10000, i * grid], {
+        const vertical = new fabric.Line([0, i * grid, 1000, i * grid], {
           stroke: 'white',
-          selectable: true,
-          width: 1,
-          objectCaching: false,
+          selectable: false,
+          width: 0.1,
         })
 
         gridlines.push(horiz)
@@ -83,23 +98,15 @@ export default function useCanvas() {
       }
 
       const adGroup = new fabric.Group(gridlines, {
-        // selectable: false,
-        // lockMovementX: true,
-        // lockMovementY: true,
-        // lockRotation: true,
-        // lockScalingX: true,
-        // lockScalingY: true,
-        // lockUniScaling: true,
-        hoverCursor: 'auto',
-        evented: false,
-        stroke: 'red',
         strokeWidth: 1,
         objectCaching: false,
+        selectable: true,
       })
+
       adBoard.add(adGroup)
-      adBoard.centerObject(adGroup)
       adBoard.add(rect)
-      adBoard.centerObject(rect)
+      adBoard.zoomToPoint({ x: 0, y: 0 }, adBoard.getZoom() * 3)
+
       adBoard.renderAll()
 
       // const cols = 100
@@ -238,6 +245,32 @@ export default function useCanvas() {
   //   updateMiniMap()
   // })
 
+  const addSelector = () => {
+    rect.left = CenterCoord(adCanvas).y
+    rect.top = CenterCoord(adCanvas).x
+    rect.visible = true
+
+    adCanvas.add(rect)
+    setSelector(rect)
+    // adCanvas.centerObject(rect)
+    let grid = adCanvas.getObjects()[0]
+    adCanvas.renderAll()
+    grid.sendBackwards()
+
+    updateMiniMap(minimap)
+  }
+
+  function CenterCoord(adCanvas) {
+    return {
+      x:
+        fabric.util.invertTransform(adCanvas.viewportTransform)[4] +
+        adCanvas.width / adCanvas.getZoom() / 2,
+      y:
+        fabric.util.invertTransform(adCanvas.viewportTransform)[5] +
+        adCanvas.height / adCanvas.getZoom() / 2,
+    }
+  }
+
   const zoomIn = () => {
     if (adCanvas) {
       zoomInCanvas(adCanvas)
@@ -267,14 +300,12 @@ export default function useCanvas() {
       adCanvas.on(
         'mouse:wheel',
         function (opt) {
-          console.log('wheel')
           const delta = opt.e.wheelDelta / 60
           let zoom = adCanvas.getZoom()
           zoom *= 0.999 ** delta
           if (zoom > 20) zoom = 20
           if (zoom < 0.01) zoom = 0.01
           adCanvas.setZoom(zoom)
-          // updateMiniMapVP(adc)
           opt.e.preventDefault()
           opt.e.stopPropagation()
         },
@@ -286,18 +317,17 @@ export default function useCanvas() {
         function (o) {
           adCanvas.selection = true
           const pointer = adCanvas.getPointer(o.e)
-          // setOrigX(Math.round(pointer.x / grid) * grid)
-          // setOrigY(Math.round(pointer.y / grid) * grid)
-          // console.log(selectorElem)
-          if (selectorElem) {
-            selectorElem.set({
-              x: Math.round(pointer.x / grid) * grid,
-              y: Math.round(pointer.y / grid) * grid,
-              visible: true,
-            })
-          } else {
-            console.log('oops. no selector added')
+          const squreInfoDefault = {
+            x: Math.round(pointer.x / grid),
+            y: Math.round(pointer.y / grid),
+            Price: 1,
+            Status: 'Available',
+            owner: 'For Sale',
+            link: 'quadspace.io',
+            area: '1 X 1',
           }
+          setSqureInfo(squreInfoDefault)
+          updateSelector(squreInfoDefault.x, squreInfoDefault.y)
         },
         { passive: true }
       )
@@ -312,19 +342,43 @@ export default function useCanvas() {
   }, [adCanvas, selectorElem])
 
   const setSelectorWidth = (e) => {
-    selectorElem.width = grid * e
+    const elem = adCanvas.getObjects()[1]
+    // console.log(adCanvas)
+    // if (elem) {
+    elem.width = grid * e
     setWidth(grid * e)
+    // adCanvas.centerObject(elem)
     adCanvas.renderAll()
+    // }
+    // adCanvas.centerObject(rect)
+    // adCanvas.renderAll()
   }
 
   const setSelectorHeight = (e) => {
-    selectorElem.height = grid * e
+    const elem = adCanvas.getObjects()[1]
+    // console.log(adCanvas)
+    // if (elem) {
+    elem.height = grid * e
     setHeight(grid * e)
+    // adCanvas.centerObject(elem)
     adCanvas.renderAll()
+    // }
+  }
+
+  const updateSelector = (x, y) => {
+    const elem = adCanvas.getObjects()[1]
+    if (elem) {
+      elem.left = x
+      elem.top = y
+      // elem.bringFoward()
+      adCanvas.renderAll()
+    }
   }
 
   return {
     cAreaRef,
+    squreInfo,
+    setSqureInfo,
     zoomIn,
     adCanvas,
     zoomOut,
@@ -333,5 +387,6 @@ export default function useCanvas() {
     selectorWidth,
     setSelectorWidth,
     setSelectorHeight,
+    addSelector,
   }
 }

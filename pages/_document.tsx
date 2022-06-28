@@ -70,6 +70,10 @@ export default function Document() {
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         ></script>
         <script async src="/assets/js/scripts.js"></script>
+        <script
+          async
+          src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
+        ></script>
       </body>
     </Html>
   )

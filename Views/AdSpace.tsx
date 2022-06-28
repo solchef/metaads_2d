@@ -1,8 +1,12 @@
 import useCanvas from '../hooks/useCanvas'
+import { PurchaseSection } from './WebPages.tsx/PurchaseSection'
+import SpaceDetails from './WebPages.tsx/SpaceDetails'
 
 const AdSpace: React.FunctionComponent = () => {
-  const { cAreaRef, cMiniRef, zoomIn, zoomOut } = useCanvas()
+  const { cAreaRef, cMiniRef, zoomIn, zoomOut, addSelector, squreInfo } =
+    useCanvas()
 
+  console.log(squreInfo)
   return (
     <>
       <section id="grid-section">
@@ -167,15 +171,20 @@ const AdSpace: React.FunctionComponent = () => {
                     </li>
                   </ul>
                 </div>
-                <button className="btn btn-primary btn-lg">
-                  <i className="bi bi-hand-index" />
+                <button
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasRight"
+                  aria-controls="offcanvasRight"
+                  className="btn btn-primary btn-lg"
+                >
+                  <i className="bi bi-hand-index"></i>
                 </button>
                 <button className="btn btn-primary btn-lg">
                   <i className="bi-arrow-clockwise" />
                 </button>
                 <button
                   className="btn btn-primary btn-lg"
-                  // onClick={() => addSelector()}
+                  onClick={() => addSelector()}
                 >
                   <i className="bi-arrows-move" />
                 </button>
@@ -199,20 +208,32 @@ const AdSpace: React.FunctionComponent = () => {
             </div>
           </div>
 
-          <div className="map" ref={cMiniRef} style={{ width: '20%' }}>
-            <div>
-              <canvas id="minimap"></canvas>
+          <div className="map">
+            <div
+              className="map-box hide-mobile ratio ratio-1x1"
+              ref={cMiniRef}
+              style={{ width: '20%' }}
+            >
+              <div>
+                <canvas id="minimap"></canvas>
+              </div>
             </div>
             <div className="data"></div>
           </div>
           <div ref={cAreaRef}>
-            <div>
-              <canvas id="adcanvas"></canvas>
+            <div className="canvas-box grid-box ratio ratio-1x1">
+              <div className="board">
+                <div>
+                  <canvas id="adcanvas"></canvas>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         {/* </FullScreen> */}
       </section>
+      <SpaceDetails />
+      <PurchaseSection />
     </>
   )
 }
