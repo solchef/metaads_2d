@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { fabric } from 'fabric'
 import { cloneIcon, deleteIcon } from '../components/CanvasAssets'
@@ -9,39 +9,25 @@ deleteImg.src = deleteIcon
 const cloneImg = document.createElement('img')
 cloneImg.src = cloneIcon
 
-fabric.Object.prototype.transparentCorners = false
-fabric.Object.prototype.cornerColor = 'blue'
-fabric.Object.prototype.cornerStyle = 'circle'
-let gScale = 1,
-  speed = 2
-
 export default function useCanvas() {
+  const cAreaRef = useRef()
   const [adCanvas, setAdCanvas] = useState()
   const [selectorElem, setSelector] = useState()
   const [minimap, setMiniMap] = useState()
-  const [origX, setOrigX] = useState()
-  const [origY, setOrigY] = useState()
-  const [selectorWidth, setWidth] = useState(1)
-  const [selectorHeight, setHeight] = useState(1)
-  const [isDown, setIsDown] = useState(false)
-  const drawingCanvas = new fabric.Canvas('c', { selection: false })
-  const [, setSelected] = useState([])
-  // const [selections, setSelections] = useState([])
-
+  const [selectorWidth, setWidth] = useState(10)
+  const [selectorHeight, setHeight] = useState(10)
   const grid = 10
   const unitScale = 10
   const canvasWidth = 100 * unitScale
   const canvasHeight = 100 * unitScale
 
-  drawingCanvas.setWidth(canvasWidth)
-  drawingCanvas.setHeight(canvasHeight)
-
   const initCanvas = () =>
+    // console.log(cAreaRef.current.offsetWidth)
     new fabric.Canvas('adcanvas', {
       containerClass: 'canvas-box grid-box ratio ratio-1x1',
       backgroundColor: '',
-      width: '1300',
-      height: '1300',
+      width: cAreaRef?.current.offsetWidth,
+      height: cAreaRef?.current.offsetHeight,
     })
 
   const initMini = () =>
@@ -72,6 +58,7 @@ export default function useCanvas() {
     createGrid(adCanvas)
     if (adCanvas) {
       setSelector(adCanvas.add(rect))
+      adCanvas.centerObject(rect)
     }
   }, [adCanvas, selectorElem])
 
@@ -95,11 +82,11 @@ export default function useCanvas() {
       }
       adBoard.renderAll()
 
-      const cols = 100
-      const rows = 100
-      const cells = rows * cols
-      const size = 25
-      const grids = []
+      // const cols = 100
+      // const rows = 100
+      // const cells = rows * cols
+      // const size = 25
+      // const grids = []
 
       // for (let i = 0; i < cells; ++i) {
       //   if (Math.random() < 0.5) {
@@ -279,12 +266,11 @@ export default function useCanvas() {
       adCanvas.on(
         'mouse:down',
         function (o) {
-          setIsDown(true)
           adCanvas.selection = true
           const pointer = adCanvas.getPointer(o.e)
           // setOrigX(Math.round(pointer.x / grid) * grid)
           // setOrigY(Math.round(pointer.y / grid) * grid)
-          console.log(selectorElem)
+          // console.log(selectorElem)
           if (selectorElem) {
             selectorElem.set({
               x: Math.round(pointer.x / grid) * grid,
@@ -307,27 +293,6 @@ export default function useCanvas() {
     }
   }, [adCanvas, selectorElem])
 
-  // function deleteObject(eventData, transform) {
-  //   const target = transform.target
-  //   const canvas = target.canvas
-  //   canvas.remove(target)
-  //   canvas.requestRenderAll()
-  // }
-
-  // function cloneObject(eventData, transform) {
-  //   const target = transform.target
-  //   const canvas = target.canvas
-  //   target.clone(function (cloned) {
-  //     cloned.left += 10
-  //     cloned.top += 10
-  //     canvas.add(cloned)
-  //   })
-  // }
-
-  // const AddSelector = () => {
-  //   Add()
-  // }
-
   const setSelectorWidth = (e) => {
     selectorElem.width = grid * e
     setWidth(grid * e)
@@ -335,13 +300,13 @@ export default function useCanvas() {
   }
 
   const setSelectorHeight = (e) => {
-    // console.log(e)
     selectorElem.height = grid * e
     setHeight(grid * e)
     adCanvas.renderAll()
   }
 
   return {
+    cAreaRef,
     canvasWidth,
     canvasHeight,
     zoomIn,
