@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { fabric } from 'fabric'
+import { HtmlProps } from 'next/dist/shared/lib/html-context'
 // import { cloneIcon, deleteIcon } from '../components/CanvasAssets'
 
 // const deleteImg = document.createElement('img')
@@ -20,14 +21,15 @@ const squreInfoDefault = {
 }
 
 export default function useCanvas() {
-  const cAreaRef = useRef()
-  const cMiniRef = useRef()
+  const cAreaRef = useRef<HTMLDivElement>()
+  const cMiniRef = useRef<HTMLDivElement>()
   const [adCanvas, setAdCanvas] = useState<HTMLCanvasElement>(null)
   const [selectorElem, setSelector] = useState()
-  const [minimap, setMiniMap] = useState()
+  // const [minimap, setMiniMap] = useState()
   const [selectorWidth, setWidth] = useState(1)
   const [group, setGroup] = useState()
   const [selectorHeight, setHeight] = useState(1)
+  const [capturedFileBuffer, setCapturedFileBuffer] = useState()
   const [squreInfo, setSqureInfo] = useState(squreInfoDefault)
   // const [selectedSqures, setSelectedSqures] = useState([])
 
@@ -42,29 +44,31 @@ export default function useCanvas() {
       height: cAreaRef.current ? cAreaRef?.current.offsetWidth : 1200,
     })
 
-  const initMini = () =>
-    new fabric.Canvas('minimap', {
-      containerClass: '',
-      backgroundColor: '#f50070',
-      width: cMiniRef.current ? cMiniRef?.current.offsetWidth : 100,
-      height: cMiniRef.current ? cMiniRef?.current.offsetWidth : 100,
-      top: '100',
-    })
+  // const initMini = () =>
+  //   new fabric.Canvas('minimap', {
+  //     containerClass: '',
+  //     backgroundColor: '#f50070',
+  //     width: cMiniRef.current ? cMiniRef?.current.offsetWidth : 100,
+  //     height: cMiniRef.current ? cMiniRef?.current.offsetWidth : 100,
+  //     top: '100',
+  //   })
+  fabric.Object.prototype.hasRotatingPoint = false
 
   const rect = new fabric.Rect({
-    height: grid * selectorHeight,
-    width: grid * selectorWidth,
-    originX: 'left',
-    originY: 'top',
-    centeredRotation: true,
+    height: grid,
+    width: grid,
+    top: 0 - 0.5,
+    left: 0 - 0.5,
+    centeredRotation: false,
+    hasRotatingPoint: false,
     name: 'defaultSelector',
     fill: '#f50070',
+    subTargetCheck: true,
     // visible: false,
   })
 
   useEffect(() => {
     setAdCanvas(initCanvas())
-    setMiniMap(initMini())
   }, [])
 
   useEffect(() => {
@@ -100,8 +104,8 @@ export default function useCanvas() {
           selectable: false,
           strokeWidth: 0.1,
           objectCaching: false,
-          width: 1,
         })
+        gridlines.push(horiz)
 
         const vertical = new fabric.Line([0, i * grid, 1000, i * grid], {
           stroke: '#a301b9',
@@ -110,7 +114,6 @@ export default function useCanvas() {
           objectCaching: false,
         })
 
-        gridlines.push(horiz)
         gridlines.push(vertical)
         // console.log({ squre: i, cords: { x: i * grid, y: i * grid } })
       }
@@ -157,8 +160,8 @@ export default function useCanvas() {
 
       purchased.forEach((purchase) => {
         const rect2 = new fabric.Rect({
-          top: Math.round((purchase[0] * grid) / grid) * grid,
-          left: Math.round((purchase[1] * grid) / grid) * grid,
+          top: purchase[0] * grid - 0.5,
+          left: purchase[1] * grid - 0.5,
           height: grid,
           width: grid,
           fill: '#f0ad4e',
@@ -171,13 +174,12 @@ export default function useCanvas() {
           lockScalingX: false,
         })
         rects.push(rect2)
-        // adBoard.add(rect2)
       })
 
       owned.forEach((purchase) => {
         const rect2 = new fabric.Rect({
-          top: Math.round((purchase[0] * grid) / grid) * grid,
-          left: Math.round((purchase[1] * grid) / grid) * grid,
+          top: purchase[0] * grid - 0.5,
+          left: purchase[1] * grid - 0.5,
           height: grid,
           width: grid,
           fill: 'green',
@@ -186,11 +188,10 @@ export default function useCanvas() {
           lockMovementY: true,
           lockRotation: true,
           lockUniScaling: true,
-          lockScalingY: true,
-          lockScalingX: true,
+          lockScalingY: false,
+          lockScalingX: false,
         })
         rects.push(rect2)
-        // adBoard.add(rect2)
       })
 
       const adGroup = new fabric.Group([...gridlines, ...rects], {
@@ -205,156 +206,107 @@ export default function useCanvas() {
       adBoard.zoomToPoint({ x: 0, y: 0 }, adBoard.getZoom() * 20)
 
       adBoard.renderAll()
-      // const cols = 100
-      // const rows = 100
-      // const cells = rows * cols
-      // const size = 25
-      // const grids = []
 
-      // for (let i = 0; i < cells; ++i) {
-      //   if (Math.random() < 0.5) {
-      //     grid.push('#FF8ED6')
-      //   } else {
-      //     grid.push('#8ED6FF')
-      //   }
-      // }
-
-      // for (let i = 0; i < cols; ++i) {
-      //     const rect2 = new fabric.Rect({
-      //       top: j * size,
-      //       left: i * size,
-      //       height: size,
-      //       width: size,
-      //       // fill: '#000000',
-      //       selection: false,
-      //       lockMovementX: true,
-      //       lockMovementY: true,
-      //       lockRotation: true,
-      //       lockUniScaling: true,
-      //       lockScalingY: true,
-      //       lockScalingX: true,
-      //     })
-      //     adBoard.add(rect2)
-      // }
-      // console.log(group)
-
-      initMinimap(adBoard, minimap)
+      // initMinimap(adBoard, minimap)
     }
   }
 
-  function createCanvasEl(adCanvas, minimap) {
-    if (adCanvas) {
-      const designSize = {
-        width: adCanvas.getWidth(),
-        height: adCanvas.getHeight(),
-      }
+  // function createCanvasEl(adCanvas, minimap) {
+  //   if (adCanvas) {
+  //     const designSize = {
+  //       width: adCanvas.getWidth(),
+  //       height: adCanvas.getHeight(),
+  //     }
 
-      const originalVPT = adCanvas.viewportTransform
-      const designRatio = fabric.util.findScaleToFit(designSize, adCanvas)
-      const minimapRatio = fabric.util.findScaleToFit(adCanvas, minimap)
+  //     const originalVPT = adCanvas.viewportTransform
+  //     const designRatio = fabric.util.findScaleToFit(designSize, adCanvas)
+  //     const minimapRatio = fabric.util.findScaleToFit(adCanvas, minimap)
 
-      const scaling = minimap.getRetinaScaling()
+  //     const scaling = minimap.getRetinaScaling()
 
-      const finalWidth = designSize.width * designRatio
-      const finalHeight = designSize.height * designRatio
+  //     const finalWidth = designSize.width * designRatio
+  //     const finalHeight = designSize.height * designRatio
 
-      adCanvas.viewportTransform = [
-        designRatio,
-        0,
-        0,
-        designRatio,
-        (adCanvas.getWidth() - finalWidth) / 2,
-        (adCanvas.getHeight() - finalHeight) / 2,
-      ]
-      const canvas = adCanvas.toCanvasElement(minimapRatio * scaling)
-      adCanvas.viewportTransform = originalVPT
-      return canvas
-    }
-  }
+  //     adCanvas.viewportTransform = [
+  //       designRatio,
+  //       0,
+  //       0,
+  //       designRatio,
+  //       (adCanvas.getWidth() - finalWidth) / 2,
+  //       (adCanvas.getHeight() - finalHeight) / 2,
+  //     ]
+  //     const canvas = adCanvas.toCanvasElement(minimapRatio * scaling)
+  //     adCanvas.viewportTransform = originalVPT
+  //     return canvas
+  //   }
+  // }
 
-  function updateMiniMap(minimap) {
-    const canvas = createCanvasEl(adCanvas, minimap)
-    minimap.backgroundImage._element = canvas
-    minimap.requestRenderAll()
-  }
+  // function updateMiniMap(minimap) {
+  //   const canvas = createCanvasEl(adCanvas, minimap)
+  //   minimap.backgroundImage._element = canvas
+  //   minimap.requestRenderAll()
+  // }
 
-  const updateMiniMapVP = (adCanvas, minimap) => {
-    if (adCanvas && minimap) {
-      const designSize = { width: minimap.width, height: minimap.height }
-      const rect = minimap.getObjects()[0]
-      const designRatio = fabric.util.findScaleToFit(designSize, adCanvas)
-      const totalRatio = fabric.util.findScaleToFit(designSize, minimap)
-      const finalRatio = designRatio / adCanvas.getZoom()
-      rect.scaleX = finalRatio
-      rect.scaleY = finalRatio
-      rect.top =
-        minimap.backgroundImage.top -
-        (adCanvas.viewportTransform[5] * totalRatio) / adCanvas.getZoom()
-      rect.left =
-        minimap.backgroundImage.left -
-        (adCanvas.viewportTransform[4] * totalRatio) / adCanvas.getZoom()
-      minimap.requestRenderAll()
-    }
-  }
+  // const updateMiniMapVP = (adCanvas, minimap) => {
+  //   if (adCanvas && minimap) {
+  //     const designSize = { width: minimap.width, height: minimap.height }
+  //     const rect = minimap.getObjects()[0]
+  //     const designRatio = fabric.util.findScaleToFit(designSize, adCanvas)
+  //     const totalRatio = fabric.util.findScaleToFit(designSize, minimap)
+  //     const finalRatio = designRatio / adCanvas.getZoom()
+  //     rect.scaleX = finalRatio
+  //     rect.scaleY = finalRatio
+  //     rect.top =
+  //       minimap.backgroundImage.top -
+  //       (adCanvas.viewportTransform[5] * totalRatio) / adCanvas.getZoom()
+  //     rect.left =
+  //       minimap.backgroundImage.left -
+  //       (adCanvas.viewportTransform[4] * totalRatio) / adCanvas.getZoom()
+  //     minimap.requestRenderAll()
+  //   }
+  // }
 
-  const initMinimap = (adCanvas, minimap) => {
-    if (adCanvas && minimap) {
-      const canvas = createCanvasEl(adCanvas, minimap)
-      const backgroundImage = new fabric.Image(canvas)
-      backgroundImage.scaleX = 1
-      backgroundImage.scaleY = 1
-      minimap.centerObject(backgroundImage)
-      minimap.backgroundColor = 'black'
-      minimap.backgroundImage = backgroundImage
-      minimap.requestRenderAll()
-      const minimapView = new fabric.Rect({
-        top: backgroundImage.top,
-        left: backgroundImage.left,
-        width: backgroundImage.width,
-        height: backgroundImage.height,
-        fill: 'rgba(0, 0, 255, 0.3)',
-        cornerSize: 6,
-        transparentCorners: false,
-        cornerColor: 'blue',
-        strokeWidth: 0,
-      })
-      minimapView.controls = {
-        br: fabric.Object.prototype.controls.br,
-      }
-      minimap.add(minimapView)
-    }
-  }
+  // const initMinimap = (adCanvas, minimap) => {
+  //   if (adCanvas && minimap) {
+  //     const canvas = createCanvasEl(adCanvas, minimap)
+  //     const backgroundImage = new fabric.Image(canvas)
+  //     setCapturedFileBuffer(canvas.toDataURL())
 
-  function renderIcon(icon) {
-    return function renderIcon(ctx, left, top, styleOverride, fabricObject) {
-      const size = fabric.Object.cornerSize
-      ctx.save()
-      ctx.translate(left, top)
-      ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle))
-      ctx.drawImage(icon, -size / 2, -size / 2, size, size)
-      ctx.restore()
-    }
-  }
+  //     backgroundImage.scaleX = 1
+  //     backgroundImage.scaleY = 1
+  //     minimap.centerObject(backgroundImage)
+  //     minimap.backgroundColor = 'black'
+  //     minimap.backgroundImage = backgroundImage
+  //     minimap.requestRenderAll()
 
-  // drawingCanvas.on('object:modified', function () {
-  //   updateMiniMap()
-  // })
+  //     const minimapView = new fabric.Rect({
+  //       top: backgroundImage.top,
+  //       left: backgroundImage.left,
+  //       width: backgroundImage.width,
+  //       height: backgroundImage.height,
+  //       fill: 'rgba(0, 0, 255, 0.3)',
+  //       cornerSize: 6,
+  //       transparentCorners: false,
+  //       cornerColor: 'blue',
+  //       strokeWidth: 0,
+  //     })
+  //     minimapView.controls = {
+  //       br: fabric.Object.prototype.controls.br,
+  //     }
+  //     minimap.add(minimapView)
+  //   }
+  // }
 
   const addSelector = () => {
-    rect.left = CenterCoord(adCanvas).y
-    rect.top = CenterCoord(adCanvas).x
+    rect.left = squreInfo.x + 0.5
+    rect.top = squreInfo.y + 0.5
     rect.width = selectorWidth
     rect.height = selectorHeight
     rect.visible = true
 
     adCanvas.add(rect)
     setSelector(rect)
-    // adCanvas.centerObject(rect)
-    // let grid = adCanvas.getObjects()[0]
-    // adCanvas.renderAll()
-    // grid.sendBackwards()
-
-    updateMiniMap(minimap)
+    adCanvas.renderAll()
   }
 
   function CenterCoord(adCanvas) {
@@ -409,6 +361,10 @@ export default function useCanvas() {
         { passive: true }
       )
 
+      adCanvas.on('mouse:up', function (o) {
+        adCanvas.setActiveObject(adCanvas.getObjects()[1])
+      })
+
       adCanvas.on(
         'mouse:down',
         function (o) {
@@ -423,14 +379,12 @@ export default function useCanvas() {
             link: 'quadspace.io',
             area: '1 X 1',
           }
-          // console.log(group)
-          // setSelectedSqures((selectedSqures) => [
-          //   ...selectedSqures,
-          //   squreInfoDefault,
-          // ])
 
           setSqureInfo(squreInfoDefault)
-          updateSelector(squreInfoDefault.x * grid, squreInfoDefault.y * grid)
+          updateSelector(
+            squreInfoDefault.x - 0.5 * grid,
+            squreInfoDefault.y * grid - 0.5
+          )
         },
         { passive: true }
       )
@@ -446,31 +400,22 @@ export default function useCanvas() {
 
   const setSelectorWidth = (e) => {
     const elem = adCanvas.getObjects()[1]
-    // console.log(adCanvas)
-    // if (elem) {
     elem.width = grid * e
     setWidth(grid * e)
-    // adCanvas.centerObject(elem)
     adCanvas.renderAll()
-    // }
-    // adCanvas.centerObject(rect)
-    // adCanvas.renderAll()
   }
 
   const setSelectorHeight = (e) => {
     const elem = adCanvas.getObjects()[1]
-    // console.log(adCanvas)
-    // if (elem) {
     elem.height = grid * e
     setHeight(grid * e)
-    // adCanvas.centerObject(elem)
     adCanvas.renderAll()
-    // }
   }
 
   const updateSelector = (x, y) => {
     const elem = adCanvas.getObjects()[1]
     if (elem) {
+      console.log(elem.left)
       elem.left = x
       elem.top = y
       // elem.bringFoward()
@@ -491,5 +436,6 @@ export default function useCanvas() {
     setSelectorWidth,
     setSelectorHeight,
     addSelector,
+    capturedFileBuffer,
   }
 }
