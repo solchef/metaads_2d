@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import useCanvas from '../../hooks/useCanvas'
 
-const SpaceDetails: React.FunctionComponent = () => {
+function SpaceDetails({ isCanvasRight }) {
   const { squreInfo } = useCanvas()
 
   const [info, setInfo] = useState(squreInfo)
@@ -13,7 +13,8 @@ const SpaceDetails: React.FunctionComponent = () => {
   return (
     <>
       <div
-        className="offcanvas offcanvas-end"
+        className={`offcanvas offcanvas-end show ${isCanvasRight && 'show'}`}
+
         data-bs-scroll="true"
         data-bs-backdrop="false"
         tabIndex={-1}
@@ -30,8 +31,7 @@ const SpaceDetails: React.FunctionComponent = () => {
             type="button"
             className="btn-close text-reset"
             data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          />
+            aria-label="Close" />
         </div>
         <div className="offcanvas-title hoverable">
           <i className="bi bi-camera" />
@@ -59,8 +59,8 @@ const SpaceDetails: React.FunctionComponent = () => {
               <i className="bi bi-person" /> {info.owner}{' '}
             </h3>
             <hr />
-            <h3 className="mt-4">Status : {info.Status} </h3>
-            <h3 className="mt-4">Price : $ {info.Price} .00</h3>
+            <h3 className="mt-4">Status: {info.Status} </h3>
+            <h3 className="mt-4">Price: $ {info.Price} .00</h3>
           </div>
         </div>
       </div>

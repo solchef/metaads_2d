@@ -7,19 +7,23 @@ interface ConnectProps {
 const ConnectButton = ({ connect }: ConnectProps) => {
   return connect ? (
   <>
-    <a href="#" onClick={connect} className="btn-primary hoverable hide-mobile btn-lg mb-3 w-100 ">
-      <i className="bi-wallet"></i> Connect Wallet
-    </a>
-                <a href="#" className="web3 show-mobile"><i className="bi-wallet"></i> </a>
+
+<a  onClick={connect} className="btn-primary hoverable btn-md hide-mobile" href="#"><i className="bi-wallet me-2" />CONNECT
+        WALLET</a>
+      <a  onClick={connect} className="btn-primary hoverable btn-md show-mobile" href="#"><i className="bi-wallet" /></a>
+
+
   
   </>
     
   ) : (
    <>
-    <a href="#" className="btn-primary hoverable hide-mobile btn-lg mb-3 w-100 ">
-      <i className="bi-wallet"></i> Loading..
-    </a>
-                <a href="#" className="web3 show-mobile"><i className="bi-wallet"></i> </a>
+   <a className="btn-primary hoverable btn-md hide-mobile" href="#"><i className="bi-wallet me-2" />
+   Loading.. </a>
+      <a  className="btn-primary hoverable btn-md show-mobile" href="#"><i className="bi-wallet" /></a>
+
+
+
    
    </>
   )
@@ -33,18 +37,21 @@ interface DisconnectProps {
 const DisconnectButton = ({ disconnect }: DisconnectProps) => {
   return disconnect ? (
   <>
-    <a href="#" onClick={disconnect} className="btn-primary hoverable hide-mobile btn-lg mb-3 w-100 ">
-      <i className="bi-wallet"></i> Connected
-    </a>
-                <a href="#" className="web3 show-mobile"><i className="bi-wallet"></i> </a>
+  <a  onClick={disconnect} className="btn-primary hoverable btn-md hide-mobile" href="#"><i className="bi-wallet me-2" />CONNECT
+  Connected</a>
+      <a  onClick={disconnect} className="btn-primary hoverable btn-md show-mobile" href="#"><i className="bi-wallet" /></a>
+
+
   
   </>
   ) : (
     // <button className="btn btn-warning">Loading...</button>
   <>
-    <a href="#" className="btn-primary hoverable hide-mobile btn-lg mb-3 w-100 ">
-      <i className="bi-wallet"></i> Loading..
-    </a>
+    <a className="btn-primary hoverable btn-md hide-mobile" href="#"><i className="bi-wallet me-2" /> Loading..
+  </a>
+      <a className="btn-primary hoverable btn-md show-mobile" href="#"><i className="bi-wallet" /></a>
+
+
   </>
   )
 }
@@ -53,6 +60,7 @@ export function Web3Button(props) {
   const { web3Provider, connect, disconnect } = useWeb3Context()
 
   return web3Provider ? (
+    
     <DisconnectButton className={props.class} disconnect={disconnect} />
   ) : (
     <ConnectButton connect={connect} />
