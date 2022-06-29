@@ -1,8 +1,6 @@
 import { useEffect } from 'react'
 import useCanvas from '../hooks/useCanvas'
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-
 const Space = () => {
   //   const board = useRef()
 
@@ -224,8 +222,8 @@ const Space = () => {
             </div>
           </div>
 
-          <div className="canvas-box grid-box ratio ratio-1x1">
-            <div className="board" ref={cAreaRef}>
+          <div className="canvas-box grid-box ratio ratio-1x1" ref={cAreaRef}>
+            <div className="board">
               <div className="boardd">
                 <canvas id="adcanvas"></canvas>
               </div>

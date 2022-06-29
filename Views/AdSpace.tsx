@@ -1,12 +1,16 @@
+import { useEffect } from 'react'
 import useCanvas from '../hooks/useCanvas'
-import { PurchaseSection } from './WebPages.tsx/PurchaseSection'
-import SpaceDetails from './WebPages.tsx/SpaceDetails'
+import PurchaseSection from './WebPages/PurchaseSection'
+import SpaceDetails from './WebPages/SpaceDetails'
 
 const AdSpace: React.FunctionComponent = () => {
   const { cAreaRef, cMiniRef, zoomIn, zoomOut, addSelector, squreInfo } =
     useCanvas()
 
-  console.log(squreInfo)
+  useEffect(() => {
+    console.log(squreInfo)
+  }, [squreInfo])
+
   return (
     <>
       <section id="grid-section">
@@ -208,18 +212,15 @@ const AdSpace: React.FunctionComponent = () => {
             </div>
           </div>
 
-          <div className="map">
-            <div
-              className="map-box hide-mobile ratio ratio-1x1"
-              ref={cMiniRef}
-              style={{ width: '20%' }}
-            >
+          <div className="map" ref={cMiniRef} style={{ width: '20%' }}>
+            <div className="map-box hide-mobile ratio ratio-1x1">
               <div>
                 <canvas id="minimap"></canvas>
               </div>
             </div>
             <div className="data"></div>
           </div>
+
           <div ref={cAreaRef}>
             <div className="canvas-box grid-box ratio ratio-1x1">
               <div className="board">
@@ -232,8 +233,10 @@ const AdSpace: React.FunctionComponent = () => {
         </div>
         {/* </FullScreen> */}
       </section>
+
       <SpaceDetails />
-      <PurchaseSection />
+
+      <PurchaseSection activeItem={squreInfo} />
     </>
   )
 }

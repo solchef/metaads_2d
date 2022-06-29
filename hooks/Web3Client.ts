@@ -3,7 +3,7 @@ import { ethers } from 'ethers'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk'
-import  metaadsabi from  '../ABI/metaadsnft.json'
+import metaadsabi from '../ABI/metaadsnft.json'
 
 import {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -56,12 +56,12 @@ export const useWeb3 = () => {
         toast.success('Connected to Web3')
 
         const metaadscontract = new ethers.Contract(
-          '0x087f4129a684f5d1af244cfa011e3d81b5988cff',
+          '0xF88f4efD9a9D6bd20cfdf1a3Eda76aED067fD907',
           metaadsabi,
           signer
         )
         const contracts = []
-        contracts['metaads'] = metaadscontract;
+        contracts['metaads'] = metaadscontract
 
         // console.log(contracts)
 
@@ -113,7 +113,7 @@ export const useWeb3 = () => {
           address: accounts[0],
         } as Web3Action)
       }
-      
+
       // https://docs.ethers.io/v5/concepts/best-practices/#best-practices--network-changes
       const handleChainChanged = (_hexChainId: string) => {
         if (typeof window !== 'undefined') {

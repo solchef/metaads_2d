@@ -26,9 +26,12 @@ export default function useCanvas() {
   const [selectorElem, setSelector] = useState()
   const [minimap, setMiniMap] = useState()
   const [selectorWidth, setWidth] = useState(1)
+  const [group, setGroup] = useState()
   const [selectorHeight, setHeight] = useState(1)
   const [squreInfo, setSqureInfo] = useState(squreInfoDefault)
-  const grid = 5
+  // const [selectedSqures, setSelectedSqures] = useState([])
+
+  const grid = 1
 
   const initCanvas = () =>
     // console.log(cAreaRef.current.offsetWidth)
@@ -65,6 +68,7 @@ export default function useCanvas() {
   }, [])
 
   useEffect(() => {
+    deleteCanvasItems()
     createGrid(adCanvas)
     // if (adCanvas) {
     //   setSelector(adCanvas.add(rect))
@@ -76,20 +80,34 @@ export default function useCanvas() {
     // console.log(squreInfo)
   }, [squreInfo])
 
+  function deleteCanvasItems() {
+    if (adCanvas) {
+      // const canvasObjects = adCanvas.getObjects()
+      // alert('we got ' + canvasObjects.length)
+      // while (canvasObjects.length != 0) {
+      //   adCanvas.remove(canvasObjects[0])
+      //   adCanvas.discardActiveGroup()
+      // }
+    }
+  }
+
   const createGrid = (adBoard) => {
     if (adBoard) {
       const gridlines = []
       for (let i = 0; i < 1000 / grid; i++) {
-        const horiz = new fabric.Line([i * grid, grid, i * grid, 1000], {
-          stroke: 'white',
+        const horiz = new fabric.Line([i * grid, 0, i * grid, 1000], {
+          stroke: '#a301b9',
           selectable: false,
-          width: 0.1,
+          strokeWidth: 0.1,
+          objectCaching: false,
+          width: 1,
         })
 
         const vertical = new fabric.Line([0, i * grid, 1000, i * grid], {
-          stroke: 'white',
+          stroke: '#a301b9',
           selectable: false,
-          width: 0.1,
+          strokeWidth: 0.1,
+          objectCaching: false,
         })
 
         gridlines.push(horiz)
@@ -97,18 +115,96 @@ export default function useCanvas() {
         // console.log({ squre: i, cords: { x: i * grid, y: i * grid } })
       }
 
-      const adGroup = new fabric.Group(gridlines, {
-        strokeWidth: 1,
+      const purchased = [
+        [1, 2],
+        [4, 5],
+        [36, 89],
+        [4, 6],
+        [702, 45],
+        [8, 9],
+        [8, 10],
+        [8, 11],
+        [8, 15],
+        [8, 18],
+        [8, 9],
+        [8, 29],
+        [8, 39],
+        [8, 49],
+        [8, 39],
+        [8, 19],
+      ]
+
+      const owned = [
+        [5, 2],
+        [4, 5],
+        [36, 89],
+        [4, 6],
+        [23, 45],
+        [8, 9],
+        [29, 10],
+        [29, 11],
+        [29, 15],
+        [29, 19],
+        [9, 29],
+        [29, 29],
+        [9, 39],
+        [229, 49],
+        [29, 39],
+        [29, 19],
+      ]
+
+      const rects = []
+
+      purchased.forEach((purchase) => {
+        const rect2 = new fabric.Rect({
+          top: Math.round((purchase[0] * grid) / grid) * grid,
+          left: Math.round((purchase[1] * grid) / grid) * grid,
+          height: grid,
+          width: grid,
+          fill: '#f0ad4e',
+          selection: false,
+          lockMovementX: true,
+          lockMovementY: true,
+          lockRotation: true,
+          lockUniScaling: true,
+          lockScalingY: false,
+          lockScalingX: false,
+        })
+        rects.push(rect2)
+        // adBoard.add(rect2)
+      })
+
+      owned.forEach((purchase) => {
+        const rect2 = new fabric.Rect({
+          top: Math.round((purchase[0] * grid) / grid) * grid,
+          left: Math.round((purchase[1] * grid) / grid) * grid,
+          height: grid,
+          width: grid,
+          fill: 'green',
+          selection: false,
+          lockMovementX: true,
+          lockMovementY: true,
+          lockRotation: true,
+          lockUniScaling: true,
+          lockScalingY: true,
+          lockScalingX: true,
+        })
+        rects.push(rect2)
+        // adBoard.add(rect2)
+      })
+
+      const adGroup = new fabric.Group([...gridlines, ...rects], {
         objectCaching: false,
         selectable: true,
       })
 
+      setGroup(adGroup)
+
       adBoard.add(adGroup)
       adBoard.add(rect)
-      adBoard.zoomToPoint({ x: 0, y: 0 }, adBoard.getZoom() * 3)
+      adBoard.zoomToPoint({ x: 0, y: 0 }, adBoard.getZoom() * 20)
 
       adBoard.renderAll()
-
       // const cols = 100
       // const rows = 100
       // const cells = rows * cols
@@ -124,7 +220,6 @@ export default function useCanvas() {
       // }
 
       // for (let i = 0; i < cols; ++i) {
-      //   for (let j = 0; j < rows; ++j) {
       //     const rect2 = new fabric.Rect({
       //       top: j * size,
       //       left: i * size,
@@ -140,8 +235,8 @@ export default function useCanvas() {
       //       lockScalingX: true,
       //     })
       //     adBoard.add(rect2)
-      //   }
       // }
+      // console.log(group)
 
       initMinimap(adBoard, minimap)
     }
@@ -206,8 +301,8 @@ export default function useCanvas() {
     if (adCanvas && minimap) {
       const canvas = createCanvasEl(adCanvas, minimap)
       const backgroundImage = new fabric.Image(canvas)
-      backgroundImage.scaleX = 1 / adCanvas.getRetinaScaling()
-      backgroundImage.scaleY = 1 / adCanvas.getRetinaScaling()
+      backgroundImage.scaleX = 1
+      backgroundImage.scaleY = 1
       minimap.centerObject(backgroundImage)
       minimap.backgroundColor = 'black'
       minimap.backgroundImage = backgroundImage
@@ -215,8 +310,8 @@ export default function useCanvas() {
       const minimapView = new fabric.Rect({
         top: backgroundImage.top,
         left: backgroundImage.left,
-        width: backgroundImage.width / adCanvas.getRetinaScaling(),
-        height: backgroundImage.height / adCanvas.getRetinaScaling(),
+        width: backgroundImage.width,
+        height: backgroundImage.height,
         fill: 'rgba(0, 0, 255, 0.3)',
         cornerSize: 6,
         transparentCorners: false,
@@ -248,14 +343,16 @@ export default function useCanvas() {
   const addSelector = () => {
     rect.left = CenterCoord(adCanvas).y
     rect.top = CenterCoord(adCanvas).x
+    rect.width = selectorWidth
+    rect.height = selectorHeight
     rect.visible = true
 
     adCanvas.add(rect)
     setSelector(rect)
     // adCanvas.centerObject(rect)
-    let grid = adCanvas.getObjects()[0]
-    adCanvas.renderAll()
-    grid.sendBackwards()
+    // let grid = adCanvas.getObjects()[0]
+    // adCanvas.renderAll()
+    // grid.sendBackwards()
 
     updateMiniMap(minimap)
   }
@@ -318,14 +415,20 @@ export default function useCanvas() {
           adCanvas.selection = true
           const pointer = adCanvas.getPointer(o.e)
           const squreInfoDefault = {
-            x: Math.round(pointer.x / grid),
-            y: Math.round(pointer.y / grid),
+            x: Math.round(pointer.x / grid) * grid,
+            y: Math.round(pointer.y / grid) * grid,
             Price: 1,
             Status: 'Available',
             owner: 'For Sale',
             link: 'quadspace.io',
             area: '1 X 1',
           }
+          // console.log(group)
+          // setSelectedSqures((selectedSqures) => [
+          //   ...selectedSqures,
+          //   squreInfoDefault,
+          // ])
+
           setSqureInfo(squreInfoDefault)
           updateSelector(squreInfoDefault.x * grid, squreInfoDefault.y * grid)
         },
@@ -339,7 +442,7 @@ export default function useCanvas() {
         })
       })
     }
-  }, [adCanvas, selectorElem])
+  }, [adCanvas, selectorElem, group])
 
   const setSelectorWidth = (e) => {
     const elem = adCanvas.getObjects()[1]
