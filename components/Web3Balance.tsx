@@ -1,20 +1,11 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import { useWeb3Context } from '../context/'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ethers } from 'ethers'
 import { formatEther } from 'ethers/lib/utils'
 
 export function Web3Balance() {
   const { web3Provider, address } = useWeb3Context()
   const [balance, setBalance] = useState<string>('')
-
-  useEffect(() => {
-    if (web3Provider && address) {
-      fetchBalance(web3Provider, address)
-    } else {
-      setBalance('')
-    }
-  }, [web3Provider, address])
 
   const fetchBalance = useCallback(
     async (web3Provider: ethers.providers.Web3Provider, address: string) => {
@@ -23,6 +14,13 @@ export function Web3Balance() {
     },
     []
   )
+  useEffect(() => {
+    if (web3Provider && address) {
+      fetchBalance(web3Provider, address)
+    } else {
+      setBalance('')
+    }
+  }, [web3Provider, address, fetchBalance])
 
   return (
     <div className="flex items-center justify-center">
