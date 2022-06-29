@@ -4,7 +4,7 @@ import useCanvas from '../../hooks/useCanvas'
 import { useIPFS } from '../../hooks/useIPFS'
 import { QuadDescription } from '../../utils/constants'
 
-const PurchaseSection = ({isCanvasLeft, activeItem }) => {
+const PurchaseSection = ({isCanvasLeft,setIsCanvasLeft, activeItem }) => {
   const {
     setSelectorHeight,
     setSelectorWidth,
@@ -97,20 +97,15 @@ const PurchaseSection = ({isCanvasLeft, activeItem }) => {
          className={`offcanvas offcanvas-start hide-mobile ${
           isCanvasLeft && 'show'
         }`}
-        data-bs-scroll="true"
+  
         data-bs-backdrop="false"
-        tabIndex={-1}
-        id="offcanvasScrolling"
-        aria-labelledby="offcanvasScrollingLabel"
+  
         style={{ visibility: 'visible' }}
-        aria-modal="true"
-        role="dialog"
+
+
       >
         <div className="offcanvas-header">
-          <h3>
-            <i className="bi-flag" />
-          </h3>
-          <h3>PurCHASE LAND</h3>
+         
           <button
             type="button"
             onClick={() => setIsCanvasLeft(false)}
@@ -119,7 +114,7 @@ const PurchaseSection = ({isCanvasLeft, activeItem }) => {
             aria-label="Close"
           />
         </div>
-        <div className="offcanvas-title hide-mobile hoverable">
+        <div style={{padding: '30px'}} className="offcanvas-title hide-mobile hoverable">
           <i className="bi-flag" />
           <h3>PurCHASE LAND</h3>
         </div>
@@ -161,7 +156,7 @@ const PurchaseSection = ({isCanvasLeft, activeItem }) => {
           <form>
             <div className="input-group hoverable mb-2">
               <span className="input-group-text ">
-                <i className="bi-border"></i>
+                <i className="bi bi-geo-alt"></i>
               </span>
               <input
                 type="text"
@@ -172,6 +167,12 @@ const PurchaseSection = ({isCanvasLeft, activeItem }) => {
               />
             </div>
           </form>
+          <p>
+            You can <i className="bi-arrows-move" /> your plot to desired
+            location and purchase parcels.
+          </p>
+          <hr />
+      
           <div className="flex-column d-flex">
             <button
               className="btn-primary hoverable btn-lg mb-3 w-100"

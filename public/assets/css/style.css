@@ -250,9 +250,9 @@ btn:active {
     /* -webkit-transition: all 0.3s ease; */
     -ms-transition: all 0.3s ease;
     transition: all 0.3s ease;
-    -webkit-box-shadow: 0px 10px 20px -6px rgb(0 0 0 / 12%);
+    -webkit-box-shadow: 0px 10px 20px -6px rgb(0 0 0 / 74%);
     -moz-box-shadow: 0px 10px 20px -6px rgba(0, 0, 0, 0.12);
-    box-shadow: 0px 10px 20px -6px rgb(0 0 0 / 53%);
+    box-shadow: 0px 10px 20px -6px rgb(0 0 0 / 73%);
     overflow: hidden;
 }
 
@@ -283,7 +283,7 @@ header {
 /* ======| Phase Sectionw |================================*/
 
 section#phase-section {
-    background: #fa0070;
+    background: #ff006f;
 }
 
 #phase-section img {
@@ -302,9 +302,8 @@ button.carousel-control-prev {
 }
 
 .carousel-control-next {
-    left: 0px;
-    left: auto;
-    margin-top: -30px;
+    left0px left: auto;
+    margin-top: -30px
 }
 
 
@@ -313,7 +312,7 @@ button.carousel-control-prev {
 .canvas-box {
     background: #000000;
     border: 2px solid #f90070;
-    height: 81vh;
+    /* height: 81vh; */
     background-size: 10px 10px;
     background-image: linear-gradient(to right, #f9007030 1px, transparent 1px), linear-gradient(to bottom, #f900707d 1px, transparent 1px);
 }
@@ -324,6 +323,7 @@ section#grid-section {
     overflow: hidden !important;
     background-position-y: bottom;
     padding-top: 0;
+    margin-top: 100px;
 }
 
 .map-box {
@@ -347,7 +347,6 @@ section#grid-section {
     margin: 0;
     height: 1000000px;
     width: 100%;
-    /* background-image: repeating-linear-gradient(0deg, transparent, transparent 9px, #ccc 9px, #ccc 10px), repeating-linear-gradient(-90deg, transparent, transparent 9px, #ccc 9px, #ccc 10px); */
 }
 
 .controls .buy-btn {
@@ -364,10 +363,15 @@ fieldset:disabled .btn {
 }
 
 .controls {
-    background: #0f0f0f;
-    padding: 20px;
+    padding: 20px 0;
     border-radius: none;
     align-content: center;
+    /* margin-top: 100px; */
+    margin-bottom: 50p;
+}
+
+.form-control::placeholder {
+    font-size: 24px;
 }
 
 
