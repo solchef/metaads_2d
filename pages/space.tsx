@@ -74,7 +74,7 @@ const Space = () => {
 </section>
 <div className={`offcanvas offcanvas-start ${  isCanvasRight &&'show'}`} data-bs-backdrop="false " style={{ visibility:' visible'}}  >
   <div className="mob offcanvas-header ">
-    <button onClick={()=>setIsCanvasLeft(false)} className="btn-close text-reset " />
+    <button onClick={()=>setIsCanvasRight(false)} className="btn-close text-reset " />
   </div>
   <div className="offcanvas-title hide-mobile hoverable ">
     <i className="bi-flag " />
@@ -114,7 +114,7 @@ const Space = () => {
 <div className={`offcanvas offcanvas-end ${ isCanvasLeft &&'show'}`}   data-bs-backdrop="false " style={{ visibility:' visible'}}>
   <div className="offcanvas-header ">
   
-    <button className="btn-close text-reset " onClick={()=>setIsCanvasRight(false)} />
+    <button className="btn-close text-reset " onClick={()=>setIsCanvasLeft(false)} />
   </div>
   <div className="offcanvas-title hoverable ">
     <i className="bi bi-camera " />
