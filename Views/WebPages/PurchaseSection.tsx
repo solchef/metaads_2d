@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useWeb3Context } from '../../context'
 import useCanvas from '../../hooks/useCanvas'
+import { useIPFS } from '../../hooks/useIPFS'
+import { QuadDescription } from '../../utils/constants'
 
 const PurchaseSection = ({ activeItem }) => {
   const {
@@ -9,9 +11,17 @@ const PurchaseSection = ({ activeItem }) => {
     selectorHeight,
     selectorWidth,
     squreInfo,
+    capturedFileBuffer,
   } = useCanvas()
+
+  const { uploadMetadata, uploadImage } = useIPFS()
+
   const [mintStatus, setMintStatus] = useState('PURCHASE PLOT')
+  const [message, setMessage] = useState('PURCHASE PLOT')
+
   const { contracts, address } = useWeb3Context()
+  const [name, setName] = useState('')
+
   const adscontract = contracts['metaads']
   const [info, setInfo] = useState(squreInfo)
 
@@ -39,19 +49,28 @@ const PurchaseSection = ({ activeItem }) => {
       '1X1',
     ]
 
-    const nameinput = 'Usernamechoice'
-    const identityImage = 'imageurl' //screenshot of full selections
-    console.log(adscontract)
+    // console.log(adscontract)
+
+    const image = await uploadImage(capturedFileBuffer)
+
+    const metadata = await uploadMetadata(
+      name,
+      QuadDescription,
+      image,
+      info.x,
+      info.y
+    )
+
+    if (!metadata) {
+      setMessage('Failed to set ther asset data. Please check back')
+      return
+    }
+
     try {
       const mintAction = await adscontract
-        .mint(
-          address,
-          selectedSqures[1],
-          quantSupplies[1],
-          '0x2274657374220000000000000000000000000000000000000000000000000000'
-        )
+        .mint(address, selectedSqures[1], quantSupplies[1], metadata)
         .on('transactionHash', (hash) => {
-          setMintStatus('Minted', hash)
+          setMintStatus('Minted')
         })
         .on('confirmation', (hash) => {
           setMintStatus('Success')
@@ -140,6 +159,7 @@ const PurchaseSection = ({ activeItem }) => {
                 type="text"
                 aria-label="x"
                 placeholder="ENTER LOT NAME"
+                onChange={(e) => setName(e.target.value)}
                 className="form-control"
               />
             </div>
@@ -152,12 +172,13 @@ const PurchaseSection = ({ activeItem }) => {
               <i className="bi-cart me-2" />
               {mintStatus}
             </button>
+            <span>{message}</span>
             <p className="muted">
               QTY: {selectorHeight * selectorWidth} Parcels
               <br /> PRICE: $ {selectorHeight * selectorWidth}
               <br /> ADSPACE: {selectorHeight * selectorWidth}, <br />
               QuadRooms: 12'000ft2 <br />
-              Parcels: {`${info.x}X ${activeItem.y}Y`}{' '}
+              Parcels: {`${info.x}X ${info.y}Y`}{' '}
             </p>
           </div>
         </div>

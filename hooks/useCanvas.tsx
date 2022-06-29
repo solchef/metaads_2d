@@ -28,6 +28,7 @@ export default function useCanvas() {
   const [selectorWidth, setWidth] = useState(1)
   const [group, setGroup] = useState()
   const [selectorHeight, setHeight] = useState(1)
+  const [capturedFileBuffer, setCapturedFileBuffer] = useState()
   const [squreInfo, setSqureInfo] = useState(squreInfoDefault)
   // const [selectedSqures, setSelectedSqures] = useState([])
 
@@ -52,11 +53,11 @@ export default function useCanvas() {
     })
 
   const rect = new fabric.Rect({
-    height: grid * selectorHeight,
-    width: grid * selectorWidth,
-    originX: 'left',
-    originY: 'top',
-    centeredRotation: true,
+    height: grid,
+    width: grid,
+    top: 0 - 0.5,
+    left: 0 - 0.5,
+    centeredRotation: false,
     name: 'defaultSelector',
     fill: '#f50070',
     // visible: false,
@@ -100,8 +101,8 @@ export default function useCanvas() {
           selectable: false,
           strokeWidth: 0.1,
           objectCaching: false,
-          width: 1,
         })
+        gridlines.push(horiz)
 
         const vertical = new fabric.Line([0, i * grid, 1000, i * grid], {
           stroke: '#a301b9',
@@ -110,7 +111,6 @@ export default function useCanvas() {
           objectCaching: false,
         })
 
-        gridlines.push(horiz)
         gridlines.push(vertical)
         // console.log({ squre: i, cords: { x: i * grid, y: i * grid } })
       }
@@ -157,8 +157,8 @@ export default function useCanvas() {
 
       purchased.forEach((purchase) => {
         const rect2 = new fabric.Rect({
-          top: Math.round((purchase[0] * grid) / grid) * grid,
-          left: Math.round((purchase[1] * grid) / grid) * grid,
+          top: purchase[0] * grid - 0.5,
+          left: purchase[1] * grid - 0.5,
           height: grid,
           width: grid,
           fill: '#f0ad4e',
@@ -171,13 +171,12 @@ export default function useCanvas() {
           lockScalingX: false,
         })
         rects.push(rect2)
-        // adBoard.add(rect2)
       })
 
       owned.forEach((purchase) => {
         const rect2 = new fabric.Rect({
-          top: Math.round((purchase[0] * grid) / grid) * grid,
-          left: Math.round((purchase[1] * grid) / grid) * grid,
+          top: purchase[0] * grid - 0.5,
+          left: purchase[1] * grid - 0.5,
           height: grid,
           width: grid,
           fill: 'green',
@@ -186,11 +185,10 @@ export default function useCanvas() {
           lockMovementY: true,
           lockRotation: true,
           lockUniScaling: true,
-          lockScalingY: true,
-          lockScalingX: true,
+          lockScalingY: false,
+          lockScalingX: false,
         })
         rects.push(rect2)
-        // adBoard.add(rect2)
       })
 
       const adGroup = new fabric.Group([...gridlines, ...rects], {
@@ -205,38 +203,6 @@ export default function useCanvas() {
       adBoard.zoomToPoint({ x: 0, y: 0 }, adBoard.getZoom() * 20)
 
       adBoard.renderAll()
-      // const cols = 100
-      // const rows = 100
-      // const cells = rows * cols
-      // const size = 25
-      // const grids = []
-
-      // for (let i = 0; i < cells; ++i) {
-      //   if (Math.random() < 0.5) {
-      //     grid.push('#FF8ED6')
-      //   } else {
-      //     grid.push('#8ED6FF')
-      //   }
-      // }
-
-      // for (let i = 0; i < cols; ++i) {
-      //     const rect2 = new fabric.Rect({
-      //       top: j * size,
-      //       left: i * size,
-      //       height: size,
-      //       width: size,
-      //       // fill: '#000000',
-      //       selection: false,
-      //       lockMovementX: true,
-      //       lockMovementY: true,
-      //       lockRotation: true,
-      //       lockUniScaling: true,
-      //       lockScalingY: true,
-      //       lockScalingX: true,
-      //     })
-      //     adBoard.add(rect2)
-      // }
-      // console.log(group)
 
       initMinimap(adBoard, minimap)
     }
@@ -301,6 +267,7 @@ export default function useCanvas() {
     if (adCanvas && minimap) {
       const canvas = createCanvasEl(adCanvas, minimap)
       const backgroundImage = new fabric.Image(canvas)
+      setCapturedFileBuffer(backgroundImage)
       backgroundImage.scaleX = 1
       backgroundImage.scaleY = 1
       minimap.centerObject(backgroundImage)
@@ -341,8 +308,8 @@ export default function useCanvas() {
   // })
 
   const addSelector = () => {
-    rect.left = CenterCoord(adCanvas).y
-    rect.top = CenterCoord(adCanvas).x
+    rect.left = squreInfo.x + 0.5
+    rect.top = squreInfo.y + 0.5
     rect.width = selectorWidth
     rect.height = selectorHeight
     rect.visible = true
@@ -430,7 +397,10 @@ export default function useCanvas() {
           // ])
 
           setSqureInfo(squreInfoDefault)
-          updateSelector(squreInfoDefault.x * grid, squreInfoDefault.y * grid)
+          updateSelector(
+            squreInfoDefault.x - 0.5 * grid,
+            squreInfoDefault.y * grid - 0.5
+          )
         },
         { passive: true }
       )
@@ -446,15 +416,10 @@ export default function useCanvas() {
 
   const setSelectorWidth = (e) => {
     const elem = adCanvas.getObjects()[1]
-    // console.log(adCanvas)
-    // if (elem) {
     elem.width = grid * e
     setWidth(grid * e)
-    // adCanvas.centerObject(elem)
     adCanvas.renderAll()
-    // }
-    // adCanvas.centerObject(rect)
-    // adCanvas.renderAll()
+    adCanvas.renderAll()
   }
 
   const setSelectorHeight = (e) => {
@@ -471,6 +436,7 @@ export default function useCanvas() {
   const updateSelector = (x, y) => {
     const elem = adCanvas.getObjects()[1]
     if (elem) {
+      console.log(elem.left)
       elem.left = x
       elem.top = y
       // elem.bringFoward()
@@ -491,5 +457,6 @@ export default function useCanvas() {
     setSelectorWidth,
     setSelectorHeight,
     addSelector,
+    capturedFileBuffer,
   }
 }

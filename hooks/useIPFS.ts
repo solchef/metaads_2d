@@ -1,8 +1,10 @@
-import { useMoralisFile } from 'react-moralis'
-
+import { create } from 'ipfs-http-client'
+const ipfs = create({
+  host: 'ipfs.infura.io',
+  port: 5001,
+  protocol: 'https',
+})
 export const useIPFS = () => {
-  const { error, isUploading, moralisFile, saveFile } = useMoralisFile()
-
   // Format the IPFS url
   const resolveLink = (url) => {
     if (!url || !url.includes('ipfs://')) return url
@@ -11,35 +13,56 @@ export const useIPFS = () => {
 
   // Upload image to IPFS
   const uploadImage = async (imageFile) => {
-    const file = await saveFile(imageFile.name, imageFile, { saveIPFS: true })
-    return file.ipfs()
+    const fileAdded = await ipfs.add(imageFile)
+    if (!fileAdded) {
+      console.error('Something went wrong when updloading the file')
+      return
+    }
+
+    return fileAdded
   }
 
   // Upload metadata to IPFS
-  const uploadMetadata = async (name, description, imageURL) => {
+  const uploadMetadata = async (name, description, imageURL, xProp, yProp) => {
     const metadata = {
-      name: name,
-      description: description,
+      name: `QUADSPACE(${xProp}, ${yProp})`,
+      description: 'QUADSPACE allows you to ...',
       image: imageURL,
+      quad: {
+        name: name,
+        description: description,
+        image: imageURL,
+      },
+      properties: [
+        {
+          trait_type: 'Space X',
+          value: xProp,
+          max_value: 408,
+          display_type: 'number',
+        },
+        {
+          trait_type: 'Space Y',
+          value: yProp,
+          max_value: 408,
+          display_type: 'number',
+        },
+        {
+          trait_type: 'QUAD SPACE',
+          value: 'Regular',
+        },
+      ],
+      external_url: 'https://quadspace.io/',
     }
 
-    // const file = await saveFile("file.json", {saveIPFS: true, base64 : Buffer.from(JSON.stringify(metadata), 'base64')});
-    // const buff = Buffer.from(JSON.stringify(metadata), 'base64')
-    const buff = btoa(JSON.stringify(metadata))
-    const file = await saveFile(
-      '0x00.json',
-      { base64: buff },
-      { saveIPFS: true }
-    )
-    return file.hash()
+    const metadataAdded = await ipfs.add(JSON.stringify(metadata))
+
+    if (!metadataAdded) {
+      console.error('Something went wrong when updloading the file')
+      return
+    }
+
+    return metadataAdded.path
   }
 
-  // Mint NFT
-  const mintNft = async (name, description, imageFile) => {
-    const image = await uploadImage(imageFile)
-    const cidHash = await uploadMetadata(name, description, image)
-    return cidHash
-  }
-
-  return { resolveLink, isUploading, error, moralisFile, mintNft }
+  return { resolveLink, uploadImage, uploadMetadata }
 }
