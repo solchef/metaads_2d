@@ -49,11 +49,12 @@ const AdSpace: React.FunctionComponent = () => {
                   <div>
                     {/* <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrollingg" aria-controls="offcanvasScrollingg" className="btn btn-primary purp-btn btn-lg btn-buy hide-mobile"><i className="bi-cart me-2 " />BUY QUADS LOT</button> */}
                     <button
-                      onClick={offcanvasLeft}
-                      className="btn hoverable btn-primary purp-btn btn-lg btn-buy"
-                    >
-                      <i className="bi-cart " />
-                    </button>
+                onClick={offcanvasLeft}
+                className="btn btn-primary hoverable purp-btn btn-lg btn-buy hide-mobile"
+              >
+                <i className="bi-cart me-2 " />
+                BUY QUADS LOT
+              </button>
                   </div>
 
                   <button className="col hoverable hide-mobile btn btn-primary purp-btn btn-lg ">
