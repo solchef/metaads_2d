@@ -267,13 +267,15 @@ export default function useCanvas() {
     if (adCanvas && minimap) {
       const canvas = createCanvasEl(adCanvas, minimap)
       const backgroundImage = new fabric.Image(canvas)
-      setCapturedFileBuffer(backgroundImage)
+      setCapturedFileBuffer(canvas.toDataURL())
+
       backgroundImage.scaleX = 1
       backgroundImage.scaleY = 1
       minimap.centerObject(backgroundImage)
       minimap.backgroundColor = 'black'
       minimap.backgroundImage = backgroundImage
       minimap.requestRenderAll()
+
       const minimapView = new fabric.Rect({
         top: backgroundImage.top,
         left: backgroundImage.left,
@@ -318,7 +320,7 @@ export default function useCanvas() {
     setSelector(rect)
     // adCanvas.centerObject(rect)
     // let grid = adCanvas.getObjects()[0]
-    // adCanvas.renderAll()
+    adCanvas.renderAll()
     // grid.sendBackwards()
 
     updateMiniMap(minimap)

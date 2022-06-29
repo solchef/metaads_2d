@@ -68,7 +68,12 @@ const PurchaseSection = ({ activeItem }) => {
 
     try {
       const mintAction = await adscontract
-        .mint(address, selectedSqures[1], quantSupplies[1], metadata)
+        .mint(
+          address,
+          selectedSqures[1],
+          quantSupplies[1],
+          '0x4554480000000000000000000000000000000000000000000000000000000000'
+        )
         .on('transactionHash', (hash) => {
           setMintStatus('Minted')
         })
