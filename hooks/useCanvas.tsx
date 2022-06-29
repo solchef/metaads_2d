@@ -327,7 +327,7 @@ export default function useCanvas() {
             area: '1 X 1',
           }
           setSqureInfo(squreInfoDefault)
-          updateSelector(squreInfoDefault.x, squreInfoDefault.y)
+          updateSelector(squreInfoDefault.x * grid, squreInfoDefault.y * grid)
         },
         { passive: true }
       )
