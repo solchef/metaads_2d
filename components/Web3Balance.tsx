@@ -1,5 +1,6 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import { useWeb3Context } from '../context/'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ethers } from 'ethers'
 import { formatEther } from 'ethers/lib/utils'
 
