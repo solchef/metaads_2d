@@ -37,7 +37,7 @@ interface DisconnectProps {
 const DisconnectButton = ({ disconnect }: DisconnectProps) => {
   return disconnect ? (
   <>
-  <a  onClick={disconnect} className="btn-primary hoverable btn-md hide-mobile" href="#"><i className="bi-wallet me-2" />CONNECT
+  <a  onClick={disconnect} className="btn-primary hoverable btn-md hide-mobile" href="#"><i className="bi-wallet me-2" />
   Connected</a>
       <a  onClick={disconnect} className="btn-primary hoverable btn-md show-mobile" href="#"><i className="bi-wallet" /></a>
 
