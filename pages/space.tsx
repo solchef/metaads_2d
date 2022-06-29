@@ -1,7 +1,20 @@
-import { useEffect } from 'react'
+import {useState, useEffect } from 'react'
 import useCanvas from '../hooks/useCanvas'
 
 const Space = () => {
+  const [isCanvasRight, setIsCanvasRight] = useState(false);
+  const [isCanvasLeft, setIsCanvasLeft] = useState(false);
+  const offcanvasRight = () => {
+    setIsCanvasRight(!isCanvasRight);
+   setIsCanvasLeft (false)
+  };
+  const offcanvasLeft = () => {
+    setIsCanvasLeft(!isCanvasLeft);
+    setIsCanvasRight (false)
+
+  };
+
+
   //   const board = useRef()
 
   useEffect(() => {
@@ -12,237 +25,113 @@ const Space = () => {
 
   return (
     <>
-      <section id="grid-section">
-        {/* <FullScreen handle={handle}> */}
-        <div className="container">
-          <div className="controls d-flex flex-column justify-content-between align-items-end">
-            <div className="filter hide-mobile d-flex ms-auto mb-3">
-              <div className="checkbox checkbox-available">
-                <input
-                  id="checkboxAvailable"
-                  className="styled"
-                  type="checkbox"
-                  defaultChecked
-                  disabled
-                />
-                <label htmlFor="checkboxAvailable">Available to Buy</label>
-              </div>
-              <div className="checkbox checkbox-own">
-                <input
-                  id="checkboxOwn"
-                  type="checkbox"
-                  className="styled"
-                  defaultChecked
-                />
-                <label htmlFor="checkboxOwn">PREMIUM ADSPACE</label>
-              </div>
-              <div className="checkbox checkbox-own">
-                <input
-                  id="checkboxOwn"
-                  type="checkbox"
-                  className="styled"
-                  defaultChecked
-                />
-                <label htmlFor="checkboxOwn">I Already Own</label>
-              </div>
-              <div className="checkbox checkbox-sold">
-                <input
-                  id="checkboxSold"
-                  type="checkbox"
-                  className="styled"
-                  defaultChecked
-                />
-                <label htmlFor="checkboxSold">Already Sold</label>
-              </div>
-            </div>
-            <div className="d-flex flex-row-inverse wrap-flow">
-              <div className="buttons hide-mobile d-flex flex-row ">
-                <button
-                  className="col btn btn-primary purp-btn btn-lg"
-                  type="button"
-                  data-bs-target="#offcanvasScrolling"
-                  aria-controls="offcanvasScrolling"
-                  data-bs-toggle="offcanvas"
-                  data-bs-placement="bottom"
-                  title="Tooltip on bottom"
-                >
-                  <i className="bi-flag" />
-                </button>
-                <button
-                  className="col btn btn-primary purp-btn btn-lg"
-                  disabled
-                >
-                  <i className="bi bi-border" />
-                </button>
-                <button
-                  className="col btn btn-primary purp-btn btn-lg"
-                  disabled
-                >
-                  <i className="bi bi-signpost-fill" />
-                </button>
-                <button
-                  className="col btn btn-primary purp-btn btn-lg"
-                  disabled
-                >
-                  <i className="bi bi-image" />
-                </button>
-                <button
-                  className="col btn btn-primary purp-btn btn-lg"
-                  disabled
-                >
-                  <i className="bi bi-box" />
-                </button>
-              </div>
-              <div className="buttons">
-                <a
-                  className="btn btn-primary"
-                  data-bs-toggle="offcanvas"
-                  href="#offcanvasTop"
-                  role="button"
-                  aria-controls="offcanvasTop"
-                >
-                  <span className="bi bi-arrow-down-up" />
-                </a>
-                <div className="btn-group show-mobile">
-                  <button
-                    type="button"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasScrolling"
-                    aria-controls="offcanvasScrolling"
-                    className="btn btn-bi btn-danger"
-                  >
-                    <i className="bi-flag" />
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-bi btn-danger dropdown-toggle dropdown-toggle-split"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <span className="visually-hidden">Toggle Dropdown</span>
-                  </button>
-                  <ul className="dropdown-menu">
-                    <li>
-                      {' '}
-                      <button
-                        className="col mb-3 btn btn-primary purp-btn btn-lg"
-                        type="button"
-                        data-bs-target="#offcanvasScrolling"
-                        aria-controls="offcanvasScrolling"
-                        data-bs-toggle="offcanvas"
-                        data-bs-placement="bottom"
-                        title="Tooltip on bottom"
-                      >
-                        <i className="bi-flag" />
-                      </button>{' '}
-                    </li>
-                    <li>
-                      {' '}
-                      <button
-                        className="col mb-3 btn btn-primary purp-btn btn-lg"
-                        disabled
-                      >
-                        <i className="bi bi-border" />
-                      </button>{' '}
-                    </li>
-                    <li>
-                      {' '}
-                      <button
-                        className="col mb-3 btn btn-primary purp-btn btn-lg"
-                        disabled
-                      >
-                        <i className="bi bi-signpost-fill" />
-                      </button>{' '}
-                    </li>
-                    <li>
-                      {' '}
-                      <button
-                        className="col mb-3 btn btn-primary purp-btn btn-lg"
-                        disabled
-                      >
-                        <i className="bi bi-image" />
-                      </button>{' '}
-                    </li>
-                    <li>
-                      {' '}
-                      <button
-                        className="col btn btn-primary purp-btn btn-lg"
-                        disabled
-                      >
-                        <i className="bi bi-box" />
-                      </button>{' '}
-                    </li>
-                  </ul>
-                </div>
-                <button className="btn btn-primary btn-lg">
-                  <i className="bi bi-hand-index" />
-                </button>
-                <button className="btn btn-primary btn-lg">
-                  <i className="bi-arrow-clockwise" />
-                </button>
-                <button
-                  className="btn btn-primary btn-lg"
-                  // onClick={() => addSelector()}
-                >
-                  <i className="bi-arrows-move" />
-                </button>
-                <button
-                  className="btn btn-primary btn-lg"
-                  onClick={() => zoomIn()}
-                >
-                  {' '}
-                  <i className="bi-zoom-out" />
-                </button>
-                <button
-                  className="btn btn-primary btn-lg"
-                  onClick={() => zoomOut()}
-                >
-                  <i className="bi-zoom-in" />
-                </button>
-                <button className="btn btn-primary btn-lg">
-                  <i className="bi-fullscreen" />
-                </button>
-              </div>
-            </div>
-          </div>
+    <section  id="grid-section">
+  <div className="controls">
+    <div className="d-flex flex-row-inverse justify-content-end wrap-flow">
+      <div className="buttons d-flex flex-row ">
+        <button onClick={offcanvasRight}  className="btn-primary text-nowrap  btn-buy-lot"><i className="bi-cart me-1 " />BUY
+          LOT</button>
+        <button className="col hide-mobile btn btn-primary purp-btn btn-lg " ><i className="bi bi-border " /></button>
+        <button className="col hide-mobile btn btn-primary purp-btn btn-lg " ><i className="bi bi-signpost-fill " /></button>
+        <button className="col hide-mobile btn btn-primary purp-btn btn-lg " ><i className="bi bi-image " /></button>
+        <button className="col hide-mobile btn btn-primary purp-btn btn-lg " ><i className="bi bi-box " /></button>
+      </div>
+      <div className="buttons ">
+        {/* Example split danger button */}
+        <button onClick={offcanvasLeft} className="btn btn-primary btn-lg "><i className="bi bi-hand-index " /></button>
+        <button data-bs-toggle="tooltip " data-bs-placement="bottom " title="Tooltip on top " className="btn btn-primary btn-lg ">
+          <i className="bi-arrow-clockwise " />
+        </button><button data-bs-toggle="tooltip " data-bs-placement="bottom " title="Tooltip on top " className="btn btn-primary btn-lg ">
+          <i className="bi-arrows-move " />
+        </button>
+        <button  onClick={() => zoomIn()}  className="btn btn-primary btn-lg "> <i className="bi-zoom-out " />
+        </button>
+        <button onClick={() => zoomOut()}   className="btn btn-primary btn-lg ">
+          <i className="bi-zoom-in " />
+          </button>
+          <button data-bs-toggle="tooltip " data-bs-placement="bottom " title="Tooltip on top " className="btn btn-primary btn-lg ">
+          <i className="bi-fullscreen " /></button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div className="map-box hide-mobile" ref={cMiniRef} >
+ 
+      <canvas id="minimap"></canvas>
 
-          <div className="map" ref={cMiniRef} style={{ width: '20%' }}>
-            <div>
-              <canvas id="minimap"></canvas>
-            </div>
-            <div className="data"></div>
-          </div>
-          <div className="canvas-box grid-box ratio ratio-1x1" ref={cAreaRef}>
-            <div className="board">
-              <div className="boardd">
-                <div>
-                  <canvas id="adcanvas"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div className="canvas-box grid-box ratio ratio-1x1" ref={cAreaRef}>
-            <div className="board">
-              <div className="boardd">
-                <canvas id="adcanvas"></canvas>
-              </div>
-            </div>
-          </div>
+    
+    </div>
+    <div className="canvas-box "  ref={cAreaRef}>
+      <div className="board ">
+        <div className="boardd ">
+        <canvas id="adcanvas"></canvas>
 
-          {/* <div ref={cAreaRef}>
-            <div>
-              <canvas id="adcanvas"></canvas>
-            </div>
-          </div> */}
-          {/* <div className="canvas-box grid-box ratio ratio-1x1">
-            <div className="board">
-                
-                </div>
-          </div> */}
         </div>
-        {/* </FullScreen> */}
-      </section>
+      </div>
+    </div>
+  </div>
+</section>
+<div className={`offcanvas offcanvas-start ${  isCanvasRight &&'show'}`} data-bs-backdrop="false " style={{ visibility:' visible'}}  >
+  <div className="mob offcanvas-header ">
+    <button onClick={()=>setIsCanvasRight(false)} className="btn-close text-reset " />
+  </div>
+  <div className="offcanvas-title hide-mobile hoverable ">
+    <i className="bi-flag " />
+    <h3>PurCHASE LAND</h3>
+  </div>
+  <div className="offcanvas-body d-flex flex-lg-column ">
+    <div>
+      <h3>ONE PARCELS</h3>
+      <p><i className="bi bi-bounding-box-circles " /> = 10 X 10 px = $1 = 100 ft ²= <i className="bi bi-box " />
+      </p>
+      <hr />
+      <form>
+        <div className="input-group hoverable mb-2 ">
+          <span className="input-group-text "><i className="bi-border " /></span>
+          <input type="text " aria-label="x " placeholder="X " className="form-control " defaultValue={10 } />
+          <input type="text " aria-label="y " defaultValue={12 } placeholder="Y " className="form-control value=" />
+        </div>
+      </form>
+      <p>You can <i className=" bi-arrows-move " /> your plot to desired location and purchase parcels.</p>
+      <hr />
+      <form>
+        <div className="input-group hoverable mb-2 ">
+          <span className="input-group-text "><i className="bi-geo-alt " /></span>
+          <input type="text " aria-label="x " placeholder="ENTER LOT NAME " className="form-control " />
+        </div>
+      </form>
+      <p>You can <i className="bi-arrows-move " /> your plot to desired location and purchase parcels.</p>
+      <hr />
+    </div>
+    <div className="flex-column d-flex ">
+      <a className="btn-primary hoverable btn-lg mb-3 w-100 " href="# "><i className="bi-cart me-2 " />PURCHASE
+        LOT</a>
+      <p className="muted ">QTY: 120 Parcels <br /> PRCE: $120 (35ae)<br /> ADSPACE: 800px, QuadRooms: 12'000ft2 Parcels: X112-Y76 </p>
+    </div>
+  </div>
+</div>
+<div className={`offcanvas offcanvas-end ${ isCanvasLeft &&'show'}`}   data-bs-backdrop="false " style={{ visibility:' visible'}}>
+  <div className="offcanvas-header ">
+  
+    <button className="btn-close text-reset " onClick={()=>setIsCanvasLeft(false)} />
+  </div>
+  <div className="offcanvas-title hoverable ">
+    <i className="bi bi-camera " />
+  </div>
+  <div className="offcanvas-body d-flex flex-lg-column ">
+    <div>
+      <h3 className="mt-4 "><i className="bi bi-geo-alt " /> 72iy24 </h3>
+      <h3 className="mt-4 "><i className="bi-border " /> 72iy24 </h3>
+      <h3 className="mt-4 "><i className="bi bi-link-45deg " /> 72iy24 </h3>
+      <h3 className="mt-4 "><i className="bi bi-person " /> 72iy24 </h3>
+      <hr />
+      <h3 className="mt-4 ">Status : </h3>
+      <h3 className="mt-4 ">Price :</h3>
+    </div>
+  </div>
+</div>
+
     </>
   )
 }

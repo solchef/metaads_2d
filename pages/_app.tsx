@@ -3,6 +3,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Web3ContextProvider } from '../context'
 import { Layout } from '../components'
+import './space.css'
 
 const MyApp = ({ Component, pageProps }) => {
   return (
