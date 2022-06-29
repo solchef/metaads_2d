@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import useCanvas from '../../hooks/useCanvas'
 
-function SpaceDetails({ isCanvasRight }) {
+function SpaceDetails({ isCanvasRight,setIsCanvasRight }) {
   const { squreInfo } = useCanvas()
 
   const [info, setInfo] = useState(squreInfo)
@@ -13,15 +13,9 @@ function SpaceDetails({ isCanvasRight }) {
   return (
     <>
       <div
-        className={`offcanvas offcanvas-end show ${isCanvasRight && 'show'}`}
-
-        data-bs-scroll="true"
+        className={`offcanvas offcanvas-end ${isCanvasRight && 'show'}`}
         data-bs-backdrop="false"
-        tabIndex={-1}
-        id="offcanvasRight"
-        aria-labelledby="offcanvasRightLabel"
-        aria-modal="true"
-        role="dialog"
+        style={{ visibility: 'visible' }}
       >
         <div className="offcanvas-header">
           <h3>
@@ -29,6 +23,8 @@ function SpaceDetails({ isCanvasRight }) {
           </h3>
           <button
             type="button"
+            onClick={() => setIsCanvasRight(false)}
+
             className="btn-close text-reset"
             data-bs-dismiss="offcanvas"
             aria-label="Close" />

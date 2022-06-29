@@ -6,6 +6,9 @@ import FormTwo from '../components/FormTwo'
 import FormThree from '../components/FormThree'
 import FormFour from '../components/FormFour'
 import Review from '../components/Review'
+import PurchaseSection from '../Views/WebPages/PurchaseSection'
+import SpaceDetails from '../Views/WebPages/SpaceDetails'
+import Link from 'next/link'
 const Space = () => {
   const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
@@ -31,8 +34,12 @@ const Space = () => {
     // const context = board.current.getContext('2d')
     // context.scale(2000, 2000)
   }, [])
-  const { cMiniRef, cAreaRef, zoomIn, zoomOut } = useCanvas()
 
+  const { cAreaRef, zoomIn, zoomOut, squreInfo } =
+    useCanvas()
+    useEffect(() => {
+      console.log(squreInfo)
+    }, [squreInfo])
   const [twoFeeTypes, setTwoFeeTypes] = useState(1)
 
   const addFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes + 1)
@@ -41,93 +48,48 @@ const Space = () => {
 
   return (
     <>
-      <section className="grid-section" id="grid-section">
-        <div className="controls">
-          <div className="d-flex flex-row-inverse justify-content-end wrap-flow">
-            <div className="buttons d-flex flex-row ">
-              <button
-                onClick={offcanvasRight}
-                className="btn-primary text-nowrap  btn-buy-lot"
-              >
-                <i className="bi-cart me-1 " />
-                BUY LOT
-              </button>
-              <button className="col hide-mobile btn btn-primary purp-btn btn-lg ">
-                <i className="bi bi-border " />
-              </button>
-              <button className="col hide-mobile btn btn-primary purp-btn btn-lg ">
-                <i className="bi bi-signpost-fill " />
-              </button>
-              <button className="col hide-mobile btn btn-primary purp-btn btn-lg ">
-                <i className="bi bi-image " />
-              </button>
-              <button className="col hide-mobile btn btn-primary purp-btn btn-lg ">
-                <i className="bi bi-box " />
-              </button>
-            </div>
-            <div className="buttons ">
-              {/* Example split danger button */}
-              <button
-                onClick={offcanvasLeft}
-                className="btn btn-primary btn-lg "
-              >
-                <i className="bi bi-hand-index " />
-              </button>
-              <button
-                data-bs-toggle="tooltip "
-                data-bs-placement="bottom "
-                title="Tooltip on top "
-                className="btn btn-primary btn-lg "
-              >
-                <i className="bi-arrow-clockwise " />
-              </button>
-              <button
-                data-bs-toggle="tooltip "
-                data-bs-placement="bottom "
-                title="Tooltip on top "
-                className="btn btn-primary btn-lg "
-              >
-                <i className="bi-arrows-move " />
-              </button>
-              <button
-                onClick={() => zoomIn()}
-                className="btn btn-primary btn-lg "
-              >
-                {' '}
-                <i className="bi-zoom-out " />
-              </button>
-              <button
-                onClick={() => zoomOut()}
-                className="btn btn-primary btn-lg "
-              >
-                <i className="bi-zoom-in " />
-              </button>
-              <button
-                data-bs-toggle="tooltip "
-                data-bs-placement="bottom "
-                title="Tooltip on top "
-                className="btn btn-primary btn-lg "
-              >
-                <i className="bi-fullscreen " />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div className="map-box hide-mobile" ref={cMiniRef}>
-            <canvas id="minimap"></canvas>
-          </div>
-          <div className="canvas-box " ref={cAreaRef}>
-            <div className="board ">
-              <div className="boardd ">
-                <canvas id="adcanvas"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <div className={`accordion show-mobile ${isCanvasBottem && 'show'}`}>
+<section id="grid-section" >
+  <div className="controls align-items-center">
+    <div className="d-flex flex-row-inverse justify-content-between align-items-center wrap-flow">
+      <div className="buttons d-flex flex-row ">
+        <button   onClick={offcanvasLeft}  className="btn btn-primary hoverable purp-btn btn-lg btn-buy hide-mobile"><i className="bi-cart me-2 " />BUY QUADS LOT</button>
+        <button   onClick={offcanvasLeft}  className="btn btn-primary hoverable purp-btn btn-lg btn-buy show-mobile"><i className="bi-cart " /></button>
+        <button className="col hide-mobile hoverable btn btn-primary purp-btn btn-lg " ><i className="bi bi-border " /></button>
+        <button className="col hide-mobile hoverable btn btn-primary purp-btn btn-lg " ><i className="bi bi-signpost-fill " /></button>
+        <button className="col hide-mobile hoverable btn btn-primary purp-btn btn-lg " ><i className="bi bi-image " /></button>
+        <button className="col hide-mobile hoverable btn btn-primary purp-btn btn-lg " ><i className="bi bi-box " /></button>
+      </div>
+      <div className="buttons ">
+        <button onClick={offcanvasRight} className="btn btn-primary hoverable btn-lg"><i className="bi bi-hand-index" /></button>
+        <button title="Reset" className="btn btn-primary hoverable btn-lg">
+          <i className="bi-arrow-clockwise" />
+        </button><button title="Move Map" className="btn btn-primary hoverable btn-lg ">
+          <i className="bi-arrows-move" />
+        </button><button   onClick={() => zoomIn()} title="Zoom-out" className="btn btn-primary hoverable btn-lg"> <i className="bi-zoom-out " />
+        </button>
+        <button   onClick={() => zoomOut()}title="Zoom-in" className="btn btn-primary hoverable btn-lg">
+          <i className="bi-zoom-in " /></button>
+        <button title="Fullscreen" className="btn btn-primary hoverable btn-lg">
+<Link href="/">
+<i className="bi-fullscreen " />
+
+</Link>
+          
+          </button>
+      </div>
+    </div>
+  </div>
+  
+  <div ref={cAreaRef} className="canvas-box ratio ratio-1x1 hoverable">
+
+           
+                <canvas id="adcanvas"></canvas>
+        
+          </div>
+
+</section>
+<div className={`accordion show-mobile ${isCanvasBottem && 'show'}`}>
         <div className="accordion-item ">
           <h2 className="accordion-header">
             <button
@@ -162,6 +124,21 @@ const Space = () => {
         </div>
       </div>
 
+
+
+
+      <SpaceDetails setIsCanvasRight={setIsCanvasRight} isCanvasRight={isCanvasRight}  />
+
+      <PurchaseSection setIsCanvasLeft={setIsCanvasLeft} isCanvasLeft={isCanvasLeft}  activeItem={squreInfo} />
+
+
+
+
+
+
+
+
+
       {/* 
       <div className="offcanvas offcanvas-bottom " data-bs-backdrop="false">
 
@@ -192,7 +169,7 @@ const Space = () => {
         </div>
       </div> */}
 
-      <div
+      {/* <div
         className={`offcanvas offcanvas-start hide-mobile ${
           isCanvasRight && 'show'
         }`}
@@ -307,7 +284,7 @@ const Space = () => {
             <h3 className="mt-4 ">Price :</h3>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   )
 }
