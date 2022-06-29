@@ -479,12 +479,50 @@ img.icon-chart {
     .controls {
         margin-bottom: 22px;
     }
-    section#grid-section {
+    .grid-section {
         margin-bottom: 50px;
         height: calc(100vh - 140px) !important;
+        overflow: hidden;
     }
     .canvas-box {
         height: calc(100vh - 225px);
+    }
+    .accordion {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        z-index: 99999999;
+        transform: translateY(85%);
+        transition: 0.3s;
+    }
+    .accordion.show {
+        transform: translateY(0);
+    }
+    .accordion-button:not(.collapsed),
+    .accordion-button {
+        background-color: #fa0070;
+        color: white;
+        height: 50px;
+        box-shadow: none;
+    }
+    .accordion-item {
+        border: none;
+    }
+    .accordion-body button,
+    .accordion-body button:hover {
+        margin-top: 20px;
+        padding: 10px 15px;
+    }
+    .accordion-body {
+        height: 28vh;
+        background-color: #454545;
+    }
+    .accordion-collapse.collapse {
+        display: block;
+    }
+    .accordion-collapse.collapse.show {
+        display: block;
     }
 }
 
