@@ -47,8 +47,9 @@ const Space = () => {
 
   return (
     <>
-      <section id="grid-section">
-        <div className="controls align-items-center">
+      <section className='mt-0' id="grid-section">
+       <div className="container">
+       <div className="controls align-items-center">
           <div className="d-flex flex-row-inverse justify-content-between align-items-center wrap-flow">
             <div className="buttons d-flex flex-row ">
               <button
@@ -123,9 +124,10 @@ const Space = () => {
           </div>
         </div>
 
-        <div ref={cAreaRef} className="canvas-box ratio ratio-1x1 hoverable">
+        <div ref={cAreaRef} className="canvas-box  ratio-1x1 hoverable">
           <canvas id="adcanvas"></canvas>
         </div>
+       </div>
       </section>
       <div className={`accordion show-mobile ${isCanvasBottem && 'show'}`}>
         <div className="accordion-item ">
