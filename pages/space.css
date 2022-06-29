@@ -509,7 +509,13 @@ img.icon-chart {
     .accordion-item {
         border: none;
     }
+    .accordion-body button,
+    .accordion-body button:hover {
+        margin-top: 20px;
+        padding: 10px 15px;
+    }
     .accordion-body {
+        height: 28vh;
         background-color: #454545;
     }
     .accordion-collapse.collapse {

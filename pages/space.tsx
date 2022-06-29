@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react'
 import useCanvas from '../hooks/useCanvas'
-
+import StepWizard from "react-step-wizard";
+import FormOne from "../components/FormOne";
+import FormTwo from "../components/FormTwo";
+import FormThree from "../components/FormThree";
+import FormFour from "../components/FormFour";
+import Review from "../components/Review";
 const Space = () => {
   const [isCanvasRight, setIsCanvasRight] = useState(false);
   const [isCanvasLeft, setIsCanvasLeft] = useState(false);
@@ -29,10 +34,22 @@ const Space = () => {
   }, [])
   const { cMiniRef, cAreaRef, zoomIn, zoomOut } = useCanvas()
 
+  const [twoFeeTypes, setTwoFeeTypes] = useState(1);
+
+  const addFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes+1);
+
+  const removeFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes-1);
+
   return (
     <>
-     
+
+
       <section className='grid-section' id="grid-section">
+
+
+
+
+
         <div className="controls">
           <div className="d-flex flex-row-inverse justify-content-end wrap-flow">
             <div className="buttons d-flex flex-row ">
@@ -94,16 +111,19 @@ const Space = () => {
           </h2>
           <div className={`accordion-collapse collapse ${isCanvasBottem && 'show'}`} aria-labelledby="panelsStayOpen-headingOne">
             <div className="accordion-body">
-            <h3 className='text-white'>ONE PARCELS</h3>
-            <p className=" text-white"><i className="bi bi-bounding-box-circles " />=10 X 10 px = $1 = 100 ft ²=<i className="bi bi-box " /></p>
-            <form>
-              <div className="input-group pb-2 ">
-                <span className="input-group-text "><i className="bi-border " /></span>
-                <input type="text " aria-label="x " placeholder="X " className="form-control " defaultValue={10} />
-                <input type="text " aria-label="y " defaultValue={12} placeholder="Y " className="form-control value=" />
-              </div>
-            </form>
-                        </div>
+            
+
+
+              <StepWizard>
+                <FormOne addFormTwoHandler={addFormTwoHandler} />
+                <FormTwo removeFormTwoHandler={removeFormTwoHandler} />
+                <FormThree removeFormTwoHandler={removeFormTwoHandler} />
+                <FormFour removeFormTwoHandler={removeFormTwoHandler} />
+
+                <Review />
+              </StepWizard>
+
+            </div>
           </div>
         </div>
 
@@ -111,7 +131,7 @@ const Space = () => {
 
 
 
-{/* 
+      {/* 
       <div className="offcanvas offcanvas-bottom " data-bs-backdrop="false">
 
         <div className="offcanvas-title hide-mobile hoverable ">
@@ -183,7 +203,7 @@ const Space = () => {
           <div className="flex-column d-flex ">
             <a className="btn-primary hoverable btn-lg mb-3 w-100 " href="# "><i className="bi-cart me-2 " />PURCHASE
               LOT</a>
-            <p className="muted ">QTY: 120 Parcels <br /> PRCE: $120 (35ae)<br /> ADSPACE: 800px, QuadRooms: 12'000ft2 Parcels: X112-Y76 </p>
+            <p className="muted ">QTY: 120 Parcels <br /> PRCE: $120 (35ae)<br /> ADSPACE: 800px, QuadRooms: 12000ft2 Parcels: X112-Y76 </p>
           </div>
         </div>
       </div>
@@ -196,7 +216,7 @@ const Space = () => {
           <i className="bi bi-camera " />
         </div>
         <div className="offcanvas-body d-flex flex-lg-column ">
-          <div>
+          <div className='w-100'>
             <h3 className="mt-4 "><i className="bi bi-geo-alt " /> 72iy24 </h3>
             <h3 className="mt-4 "><i className="bi-border " /> 72iy24 </h3>
             <h3 className="mt-4 "><i className="bi bi-link-45deg " /> 72iy24 </h3>
