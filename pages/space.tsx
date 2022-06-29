@@ -94,8 +94,16 @@ const Space = () => {
           </h2>
           <div className={`accordion-collapse collapse ${isCanvasBottem && 'show'}`} aria-labelledby="panelsStayOpen-headingOne">
             <div className="accordion-body">
-              <strong>This is the first items accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-            </div>
+            <h3 className='text-white'>ONE PARCELS</h3>
+            <p className=" text-white"><i className="bi bi-bounding-box-circles " />=10 X 10 px = $1 = 100 ft ²=<i className="bi bi-box " /></p>
+            <form>
+              <div className="input-group pb-2 ">
+                <span className="input-group-text "><i className="bi-border " /></span>
+                <input type="text " aria-label="x " placeholder="X " className="form-control " defaultValue={10} />
+                <input type="text " aria-label="y " defaultValue={12} placeholder="Y " className="form-control value=" />
+              </div>
+            </form>
+                        </div>
           </div>
         </div>
 

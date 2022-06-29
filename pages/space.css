@@ -509,6 +509,9 @@ img.icon-chart {
     .accordion-item {
         border: none;
     }
+    .accordion-body {
+        background-color: #454545;
+    }
     .accordion-collapse.collapse {
         display: block;
     }
