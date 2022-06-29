@@ -4,7 +4,7 @@ import useCanvas from '../../hooks/useCanvas'
 import { useIPFS } from '../../hooks/useIPFS'
 import { QuadDescription } from '../../utils/constants'
 
-const PurchaseSection = ({ activeItem }) => {
+const PurchaseSection = ({isCanvasLeft, activeItem }) => {
   const {
     setSelectorHeight,
     setSelectorWidth,
@@ -94,7 +94,9 @@ const PurchaseSection = ({ activeItem }) => {
   return (
     <>
       <div
-        className="offcanvas offcanvas-start"
+         className={`offcanvas offcanvas-start hide-mobile ${
+          isCanvasLeft && 'show'
+        }`}
         data-bs-scroll="true"
         data-bs-backdrop="false"
         tabIndex={-1}
@@ -111,6 +113,7 @@ const PurchaseSection = ({ activeItem }) => {
           <h3>PurCHASE LAND</h3>
           <button
             type="button"
+            onClick={() => setIsCanvasLeft(false)}
             className="btn-close text-reset"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
