@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import useCanvas from '../../hooks/useCanvas'
 
-function SpaceDetails({ isCanvasRight,setIsCanvasRight }) {
+function SpaceDetails({ isCanvasRight, setIsCanvasRight }) {
   const { squreInfo } = useCanvas()
 
   const [info, setInfo] = useState(squreInfo)
@@ -24,10 +24,10 @@ function SpaceDetails({ isCanvasRight,setIsCanvasRight }) {
           <button
             type="button"
             onClick={() => setIsCanvasRight(false)}
-
             className="btn-close text-reset"
             data-bs-dismiss="offcanvas"
-            aria-label="Close" />
+            aria-label="Close"
+          />
         </div>
         <div className="offcanvas-title hoverable">
           <i className="bi bi-camera" />

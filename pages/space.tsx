@@ -47,87 +47,87 @@ const Space = () => {
 
   return (
     <>
-      <section className='mt-0' id="grid-section">
-       <div className="container">
-       <div className="controls align-items-center">
-          <div className="d-flex flex-row-inverse justify-content-between align-items-center wrap-flow">
-            <div className="buttons d-flex flex-row ">
-              <button
-                onClick={offcanvasLeft}
-                className="btn btn-primary hoverable purp-btn btn-lg btn-buy hide-mobile"
-              >
-                <i className="bi-cart me-2 " />
-                BUY QUADS LOT
-              </button>
-              <button
-                onClick={offcanvasLeft}
-                className="btn btn-primary hoverable purp-btn btn-lg btn-buy show-mobile"
-              >
-                <i className="bi-cart " />
-              </button>
-              <button className="col hide-mobile hoverable btn btn-primary purp-btn btn-lg ">
-                <i className="bi bi-border " />
-              </button>
-              <button className="col hide-mobile hoverable btn btn-primary purp-btn btn-lg ">
-                <i className="bi bi-signpost-fill " />
-              </button>
-              <button className="col hide-mobile hoverable btn btn-primary purp-btn btn-lg ">
-                <i className="bi bi-image " />
-              </button>
-              <button className="col hide-mobile hoverable btn btn-primary purp-btn btn-lg ">
-                <i className="bi bi-box " />
-              </button>
-            </div>
-            <div className="buttons ">
-              <button
-                onClick={offcanvasRight}
-                className="btn btn-primary hoverable btn-lg"
-              >
-                <i className="bi bi-hand-index" />
-              </button>
-              <button
-                title="Reset"
-                className="btn btn-primary hoverable btn-lg"
-              >
-                <i className="bi-arrow-clockwise" />
-              </button>
-              <button
-                title="Move Map"
-                className="btn btn-primary hoverable btn-lg "
-              >
-                <i className="bi-arrows-move" />
-              </button>
-              <button
-                onClick={() => zoomIn()}
-                title="Zoom-out"
-                className="btn btn-primary hoverable btn-lg"
-              >
-                {' '}
-                <i className="bi-zoom-out " />
-              </button>
-              <button
-                onClick={() => zoomOut()}
-                title="Zoom-in"
-                className="btn btn-primary hoverable btn-lg"
-              >
-                <i className="bi-zoom-in " />
-              </button>
-              <button
-                title="Fullscreen"
-                className="btn btn-primary hoverable btn-lg"
-              >
-                <Link href="/">
-                  <i className="bi-fullscreen " />
-                </Link>
-              </button>
+      <section className="mt-0" id="grid-section">
+        <div className="container">
+          <div className="controls align-items-center">
+            <div className="d-flex flex-row-inverse justify-content-between align-items-center wrap-flow">
+              <div className="buttons d-flex flex-row ">
+                <button
+                  onClick={offcanvasLeft}
+                  className="btn btn-primary hoverable purp-btn btn-lg btn-buy hide-mobile"
+                >
+                  <i className="bi-cart me-2 " />
+                  BUY QUADS LOT
+                </button>
+                <button
+                  onClick={offcanvasLeft}
+                  className="btn btn-primary hoverable purp-btn btn-lg btn-buy show-mobile"
+                >
+                  <i className="bi-cart " />
+                </button>
+                <button className="col hide-mobile hoverable btn btn-primary purp-btn btn-lg ">
+                  <i className="bi bi-border " />
+                </button>
+                <button className="col hide-mobile hoverable btn btn-primary purp-btn btn-lg ">
+                  <i className="bi bi-signpost-fill " />
+                </button>
+                <button className="col hide-mobile hoverable btn btn-primary purp-btn btn-lg ">
+                  <i className="bi bi-image " />
+                </button>
+                <button className="col hide-mobile hoverable btn btn-primary purp-btn btn-lg ">
+                  <i className="bi bi-box " />
+                </button>
+              </div>
+              <div className="buttons ">
+                <button
+                  onClick={offcanvasRight}
+                  className="btn btn-primary hoverable btn-lg"
+                >
+                  <i className="bi bi-hand-index" />
+                </button>
+                <button
+                  title="Reset"
+                  className="btn btn-primary hoverable btn-lg"
+                >
+                  <i className="bi-arrow-clockwise" />
+                </button>
+                <button
+                  title="Move Map"
+                  className="btn btn-primary hoverable btn-lg "
+                >
+                  <i className="bi-arrows-move" />
+                </button>
+                <button
+                  onClick={() => zoomIn()}
+                  title="Zoom-out"
+                  className="btn btn-primary hoverable btn-lg"
+                >
+                  {' '}
+                  <i className="bi-zoom-out " />
+                </button>
+                <button
+                  onClick={() => zoomOut()}
+                  title="Zoom-in"
+                  className="btn btn-primary hoverable btn-lg"
+                >
+                  <i className="bi-zoom-in " />
+                </button>
+                <button
+                  title="Fullscreen"
+                  className="btn btn-primary hoverable btn-lg"
+                >
+                  <Link href="/">
+                    <i className="bi-fullscreen " />
+                  </Link>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div ref={cAreaRef} className="canvas-box  ratio-1x1 hoverable">
-          <canvas id="adcanvas"></canvas>
+          <div ref={cAreaRef} className="canvas-box  ratio-1x1 hoverable">
+            <canvas id="adcanvas"></canvas>
+          </div>
         </div>
-       </div>
       </section>
       {/* <div className={`accordion show-mobile ${isCanvasBottem && 'show'}`}>
         <div className="accordion-item ">

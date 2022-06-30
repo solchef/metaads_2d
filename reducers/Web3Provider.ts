@@ -1,4 +1,3 @@
-
 import { ethers } from 'ethers'
 
 export type Web3ProviderState = {
@@ -6,7 +5,7 @@ export type Web3ProviderState = {
   web3Provider: ethers.providers.Web3Provider | null | undefined
   address: string | null | undefined
   network: ethers.providers.Network | null | undefined
-  contracts: [] 
+  contracts: []
   connect: (() => Promise<void>) | null
   disconnect: (() => Promise<void>) | null
 }

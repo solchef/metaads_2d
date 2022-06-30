@@ -5,20 +5,25 @@ import SpaceDetails from './WebPages/SpaceDetails'
 import Link from 'next/link'
 
 const AdSpace: React.FunctionComponent = () => {
-  const { cAreaRef, zoomIn, zoomOut, addSelector, squreInfo } = useCanvas()
+  const { cAreaRef, zoomIn, zoomOut, addSelector, squreInfo, resetPlane } =
+    useCanvas()
 
   useEffect(() => {
     console.log(squreInfo)
   }, [squreInfo])
   const [isCanvasRight, setIsCanvasRight] = useState(false)
+  const [show, setShow] = useState(false)
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
   const [isCanvasBottem, setIsCanvasBottem] = useState(false)
   const offcanvasRight = () => {
+    setShow(false)
     offcanvasBottem()
     setIsCanvasRight(!isCanvasRight)
     setIsCanvasLeft(false)
   }
   const offcanvasLeft = () => {
+    // console.log(squreInfo.x)
+    setShow(true)
     setIsCanvasLeft(!isCanvasLeft)
     setIsCanvasRight(false)
     setIsCanvasBottem(false)
@@ -49,24 +54,27 @@ const AdSpace: React.FunctionComponent = () => {
                   <div>
                     {/* <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrollingg" aria-controls="offcanvasScrollingg" className="btn btn-primary purp-btn btn-lg btn-buy hide-mobile"><i className="bi-cart me-2 " />BUY QUADS LOT</button> */}
                     <button
-                onClick={offcanvasLeft}
-                className="btn btn-primary hoverable purp-btn btn-lg btn-buy hide-mobile"
-              >
-                <i className="bi-cart me-2 " />
-                BUY QUADS LOT
-              </button>
+                      onClick={offcanvasLeft}
+                      className="btn btn-primary hoverable purp-btn btn-lg btn-buy hide-mobile"
+                    >
+                      <i className="bi-cart me-2 " />
+                      BUY QUADS LOT
+                    </button>
                   </div>
 
-                  <button className="col hoverable hide-mobile btn btn-primary purp-btn btn-lg ">
+                  <button
+                    className="col hoverable hide-mobile btn btn-primary purp-btn btn-lg "
+                    disabled
+                  >
                     <i className="bi bi-border " />
                   </button>
-                  <button className="col hoverable hide-mobile btn btn-primary purp-btn btn-lg ">
+                  <button className="col hoverable hide-mobile btn btn-primary purp-btn btn-lg disabled">
                     <i className="bi bi-signpost-fill " />
                   </button>
-                  <button className="col hoverable hide-mobile btn btn-primary purp-btn btn-lg ">
+                  <button className="col hoverable hide-mobile btn btn-primary purp-btn btn-lg disabled">
                     <i className="bi bi-image " />
                   </button>
-                  <button className="col hoverable hide-mobile btn btn-primary purp-btn btn-lg ">
+                  <button className="col hoverable hide-mobile btn btn-primary purp-btn btn-lg disabled">
                     <i className="bi bi-box " />
                   </button>
                 </div>
@@ -77,7 +85,10 @@ const AdSpace: React.FunctionComponent = () => {
                   >
                     <i className="bi bi-hand-index " />
                   </button>
-                  <button className="btn hoverable btn-primary btn-lg ">
+                  <button
+                    onClick={() => resetPlane()}
+                    className="btn hoverable btn-primary btn-lg "
+                  >
                     <i className="bi-arrow-clockwise " />
                   </button>
                   <button
@@ -108,23 +119,27 @@ const AdSpace: React.FunctionComponent = () => {
               </div>
             </div>
 
-            <div ref={cAreaRef} className="canvas-box ratio-1x1 hoverable">
-              <canvas id="adcanvas"></canvas>
+            <div className="canvas-box ratio-1x1 hoverable">
+              <div ref={cAreaRef}>
+                <canvas id="adcanvas"></canvas>
+              </div>
             </div>
           </div>
         </section>
       </Fragment>
-
-      <SpaceDetails
-        setIsCanvasRight={setIsCanvasRight}
-        isCanvasRight={isCanvasRight}
-      />
-
-      <PurchaseSection
-        setIsCanvasLeft={setIsCanvasLeft}
-        isCanvasLeft={isCanvasLeft}
-        activeItem={squreInfo}
-      />
+      {show && (
+        <PurchaseSection
+          setIsCanvasLeft={setIsCanvasLeft}
+          isCanvasLeft={isCanvasLeft}
+          activeItem={squreInfo}
+        />
+      )}
+      {!show && (
+        <SpaceDetails
+          setIsCanvasRight={setIsCanvasRight}
+          isCanvasRight={isCanvasRight}
+        />
+      )}
     </>
   )
 }

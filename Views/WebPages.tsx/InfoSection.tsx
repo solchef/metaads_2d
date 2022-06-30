@@ -2,12 +2,10 @@
 /* eslint-disable react/no-unescaped-entities */
 // import Image from 'next/image'
 
-import Link from 'next/link'
-
 export const InfoSection = () => {
   return (
     <>
-      <section id="realtor-section">
+      <section id="reator-section">
         <div className="container">
           <div className="row row-cols-1 row-cols-md-2 align-items-center">
             <div className="col">
@@ -18,25 +16,28 @@ export const InfoSection = () => {
               />
             </div>
             <div className="col">
-              <h2 className="mt-sm-4">
-                META REALTOR TO <span className="gradiant">ADSPACE</span>{' '}
-                DISPLAY OPPORTUNITY
+              <h2>
+                A <span className="gradiant">1000X</span> Meta Real-Estate &amp;
+                Adspace Opportunity
               </h2>
               <p>
-                Virtual plots in the metaverses are now rivalling real-word real
-                estate values, with popular locations selling for millions. Now
-                is your chance to invest in the space for as low as $1. At
-                first, each Quads (parcels) holds 100px (10 X 10) area that can
-                be used for adSpace. Lots can also be divided, resold or rented.
-                But wait, this is only the beginning of something much bigger...
+                Real estate within the Metaverse is rapidly becoming a sizzling
+                asset class. Virtual plots in the metaverses are now rivalling
+                real-word real estate values, with popular locations selling for
+                millions. Now is your chance to invest in meta-commercial real
+                estate. Unlike other Metaverse, Quadspace focuses on retail
+                opportunities and AdSpace, which means you will not only be able
+                to resell your plot, but advertise businesses directly on your
+                plot even before it's built. Take advantage of the presale for
+                $1 parcels as you can 1000X your investment as fast as 90 days
+                when phase 3 begins.
               </p>
-              <br />
-              <Link href="/space">
-                <a className="btn-primary hoverable btn-md">
-                  <i className="bi bi-grid-3x3 me-2" />
-                  BUY QUADS FOR $1
-                </a>
-              </Link>
+              <a href="#grid-section" className="link">
+                <span className="gradiant">
+                  Buy a Plot
+                  <i className="bi-arrow-right" />
+                </span>
+              </a>
             </div>
           </div>
         </div>
@@ -56,13 +57,12 @@ export const InfoSection = () => {
                 interact within your showroom and sell your product within
                 Quadspace Metaverse.
               </p>
-              <br />
-              <Link href="/space">
-                <a className="btn-primary hoverable btn-md">
-                  <i className="bi bi-grid-3x3 me-2" />
-                  BUY QUADS FOR $1
-                </a>
-              </Link>
+              <a href="#grid-section" className="link">
+                <span className="gradiant">
+                  Buy a Plot
+                  <i className="bi-arrow-right" />
+                </span>
+              </a>
             </div>
             <div className="col-7">
               <img
@@ -98,16 +98,14 @@ export const InfoSection = () => {
                 party 3D modellers to sell their models, extending our
                 comprehensive library.
               </p>
-              <br />
-              <Link href="/space">
-                <a className="btn-primary hoverable btn-md">
-                  <i className="bi bi-grid-3x3 me-2" />
-                  BUY QUADS FOR $1
-                </a>
-              </Link>
+              <a href="#grid-section" className="link">
+                <span className="gradiant">
+                  Buy a Plot
+                  <i className="bi-arrow-right" />
+                </span>
+              </a>
             </div>
           </div>
-          {/*PARTNERS ROW ============================ */}
           <div className="partners">
             <img alt="" src="assets/images/partners_logo.png" />
           </div>
@@ -122,12 +120,13 @@ export const InfoSection = () => {
               <i className="bi-discord" />
             </a>
           </div>
-          {/*COPYRIGHT ROW ============================ */}
           <div className="copyright">
             <h6>Copyright 2022. All Right Reserved. Quadspace.io</h6>
           </div>
         </div>
       </section>
+
+      
     </>
   )
 }
