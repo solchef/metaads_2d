@@ -28,6 +28,7 @@ export default function useCanvas() {
   // const [minimap, setMiniMap] = useState()
   const [selectorWidth, setWidth] = useState(1)
   const [group, setGroup] = useState()
+  const [fab, setFab] = useState()
   const [selectorHeight, setHeight] = useState(1)
   const [capturedFileBuffer, setCapturedFileBuffer] = useState()
   const [squreInfo, setSqureInfo] = useState(squreInfoDefault)
@@ -35,14 +36,17 @@ export default function useCanvas() {
 
   const grid = 1
 
-  const initCanvas = () =>
-    // console.log(cAreaRef.current.offsetWidth)
-    new fabric.Canvas('adcanvas', {
+  const initCanvas = () => {
+    const fabr = new fabric.Canvas('adcanvas', {
       containerClass: '',
       backgroundColor: '',
       width: cAreaRef.current ? cAreaRef?.current.offsetWidth : 1200,
       height: cAreaRef.current ? cAreaRef?.current.offsetWidth : 1200,
+      name: 'quadspace',
     })
+    setFab(fabr)
+    return fab
+  }
 
   // const initMini = () =>
   //   new fabric.Canvas('minimap', {
@@ -73,9 +77,10 @@ export default function useCanvas() {
 
   useEffect(() => {
     // deleteCanvasItems()
-
     if (adCanvas) {
       createGrid(adCanvas)
+      console.log(fab)
+      adCanvas.getObjects().filter((obj) => obj.name === 'quadspace')
     }
   }, [adCanvas])
 
@@ -393,6 +398,8 @@ export default function useCanvas() {
       )
 
       adCanvas.on('object:moving', function (options) {
+        console.log(adCanvas.getObjects())
+
         options.target.set({
           left: Math.round(options.target.left / grid) * grid,
           top: Math.round(options.target.top / grid) * grid,
