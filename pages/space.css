@@ -1,0 +1,36 @@
+ .accordion {
+     position: fixed;
+     bottom: 0;
+     left: 0;
+     width: 100%;
+     z-index: 999999;
+     transition: 0.5s;
+ }
+ 
+ .showw {
+     transform: translateY(77%);
+ }
+ 
+ .accordion-item {
+     background-color: #454545!important;
+ }
+ 
+ .accordion-header button {
+     background-color: #f50074!important;
+     color: white !important;
+     font-size: 22px;
+ }
+ 
+ .accordion-header button:focus {
+     box-shadow: none;
+ }
+ 
+ .accordion-body button {
+     margin-top: 25px;
+     font-size: 14px;
+     padding: 10px 20px !important;
+ }
+ 
+ .accordion-item form {
+     margin-top: 25px;
+ }

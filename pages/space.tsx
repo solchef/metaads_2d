@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
 import useCanvas from '../hooks/useCanvas'
-// import StepWizard from 'react-step-wizard'
-// import FormOne from '../components/FormOne'
-// import FormTwo from '../components/FormTwo'
-// import FormThree from '../components/FormThree'
-// import FormFour from '../components/FormFour'
-// import Review from '../components/Review'
+import StepWizard from 'react-step-wizard'
+import FormOne from '../components/FormOne'
+import FormTwo from '../components/FormTwo'
+import FormThree from '../components/FormThree'
+import FormFour from '../components/FormFour'
 import PurchaseSection from '../Views/WebPages/PurchaseSection'
 import SpaceDetails from '../Views/WebPages/SpaceDetails'
 import Link from 'next/link'
@@ -14,9 +13,10 @@ const Space = () => {
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
   const [isCanvasBottem, setIsCanvasBottem] = useState(false)
   const offcanvasRight = () => {
-    offcanvasBottem()
     setIsCanvasRight(!isCanvasRight)
     setIsCanvasLeft(false)
+    setIsCanvasBottem(false)
+
   }
   const offcanvasLeft = () => {
     setIsCanvasLeft(!isCanvasLeft)
@@ -25,7 +25,7 @@ const Space = () => {
   }
   const offcanvasBottem = () => {
     setIsCanvasBottem(!isCanvasBottem)
-    setIsCanvasLeft(false)
+    setIsCanvasRight(false)
   }
 
   //   const board = useRef()
@@ -39,11 +39,11 @@ const Space = () => {
   useEffect(() => {
     console.log(squreInfo)
   }, [squreInfo])
-  // const [twoFeeTypes, setTwoFeeTypes] = useState(1)
+  const [twoFeeTypes, setTwoFeeTypes] = useState(1)
 
-  // const addFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes + 1)
+  const addFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes + 1)
 
-  // const removeFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes - 1)
+  const removeFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes - 1)
 
   return (
     <>
@@ -60,7 +60,7 @@ const Space = () => {
                   BUY QUADS LOT
                 </button>
                 <button
-                  onClick={offcanvasLeft}
+                  onClick={offcanvasBottem}
                   className="btn btn-primary hoverable purp-btn btn-lg btn-buy show-mobile"
                 >
                   <i className="bi-cart " />
@@ -129,12 +129,14 @@ const Space = () => {
           </div>
         </div>
       </section>
-      {/* <div className={`accordion show-mobile ${isCanvasBottem && 'show'}`}>
+
+
+      <div className={`accordion show-mobile show ${isCanvasBottem ?'': 'showw'}`}>
         <div className="accordion-item ">
           <h2 className="accordion-header">
             <button
               onClick={offcanvasBottem}
-              className={`accordion-button  ${isCanvasBottem && 'collapsed'}  `}
+              className={`accordion-button  ${isCanvasBottem &&'collapsed'}  `}
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#panelsStayOpen-collapseOne"
@@ -145,8 +147,8 @@ const Space = () => {
             </button>
           </h2>
           <div
-            className={`accordion-collapse collapse ${
-              isCanvasBottem && 'show'
+            className={`accordion-collapse collapse show ${
+              isCanvasBottem && ''
             }`}
             aria-labelledby="panelsStayOpen-headingOne"
           >
@@ -157,12 +159,11 @@ const Space = () => {
                 <FormThree removeFormTwoHandler={removeFormTwoHandler} />
                 <FormFour removeFormTwoHandler={removeFormTwoHandler} />
 
-                <Review />
               </StepWizard>
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
 
       <SpaceDetails
         setIsCanvasRight={setIsCanvasRight}
