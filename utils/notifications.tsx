@@ -83,7 +83,7 @@ export  const  ConnectedWallet = (address)=> {
             // confirmButtonText:  'Disconnect',
             confirmButtonAriaLabel: 'Thumbs up, great!',
             html:
-              `You are connected to quadSpace as <br/> . ${address}` 
+              `You are connected to quadSpace as <br/>  ${address}` 
         })}`
     )
    

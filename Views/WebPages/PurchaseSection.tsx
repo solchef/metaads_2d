@@ -4,7 +4,7 @@ import { useWeb3Context } from '../../context'
 import useCanvas from '../../hooks/useCanvas'
 import { useIPFS } from '../../hooks/useIPFS'
 import { QuadDescription } from '../../utils/constants'
-import { ErrorTransaction, MiningTransaction, SuccessfulTransaction, WarningMessage } from '../../utils/notifications';
+import { ErrorTransaction, MiningTransaction, SuccessfulTransaction, InfoMessage } from '../../utils/notifications';
 
 
 function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
@@ -26,9 +26,9 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
 
   const adscontract = contracts['metaads']
   const [info, setInfo] = useState(squreInfo)
-
+  
   useEffect(() => {
-    // console.log(squreInfo)
+    console.log(squreInfo)
     setInfo(squreInfo)
   }, [squreInfo])
 
@@ -60,8 +60,7 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
       return
     }
 
-    WarningMessage({title: "QUAD purchase", description:"Purchasing of the quads has not began."})
-  return
+    InfoMessage({title: "QUAD purchase", description:"Purchasing of the quads has not began."})
     try {
    await adscontract
         .create(
@@ -128,7 +127,7 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
                 <i className="bi-border" />
               </span>
               <input
-                type="text"
+                type="number"
                 aria-label="x"
                 placeholder="X"
                 onChange={(e) => setSelectorWidth(e.target.value)}
@@ -136,7 +135,7 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
                 defaultValue={selectorWidth}
               />
               <input
-                type="text"
+                type="number"
                 aria-label="y"
                 defaultValue={selectorHeight}
                 placeholder="Y"
@@ -156,7 +155,7 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
                 <i className="bi bi-geo-alt"></i>
               </span>
               <input
-                type="text"
+                type="number"
                 aria-label="x"
                 placeholder="ENTER LOT NAME"
                 onChange={(e) => setName(e.target.value)}
