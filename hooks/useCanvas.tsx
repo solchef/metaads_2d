@@ -75,7 +75,7 @@ export default function useCanvas() {
   useEffect(() => {
     // deleteCanvasItems()
     if (adCanvas) {
-      console.log(gridCreated)
+      // console.log(gridCreated)
       if (!gridCreated) createGrid(adCanvas)
     }
   }, [adCanvas])
