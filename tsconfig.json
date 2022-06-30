@@ -28,7 +28,9 @@
 
   
 
+
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "hooks/Web3Client.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules","components"]
 }
+
