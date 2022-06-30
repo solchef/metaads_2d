@@ -38,6 +38,8 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
     // const selectedSqures = [1]
     // const quantSupplies = [1]
     // const cords = [1]
+    
+      console.log(activeItem);
 
     const image = await uploadImage(await getMintImage())
 

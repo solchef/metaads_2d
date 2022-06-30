@@ -4,6 +4,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Web3ContextProvider } from '../context'
 import { Layout } from '../components'
 import 'sweetalert2/src/sweetalert2.scss'
+import '@sweetalert2/themes/dark/dark.scss';
+
 import './space.css'
 
 const MyApp = ({ Component, pageProps }) => {
