@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
+import { Web3Button } from '../../components'
 import { useWeb3Context } from '../../context'
 import useCanvas from '../../hooks/useCanvas'
 import { useIPFS } from '../../hooks/useIPFS'
 import { QuadDescription } from '../../utils/constants'
+import { ErrorTransaction, MiningTransaction, SuccessfulTransaction, WarningMessage } from '../../utils/notifications';
+
 
 function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
   const {
@@ -11,47 +14,32 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
     selectorHeight,
     selectorWidth,
     squreInfo,
-    capturedFileBuffer,
+    getMintImage
   } = useCanvas()
 
   const { uploadMetadata, uploadImage } = useIPFS()
-
   const [mintStatus, setMintStatus] = useState('PURCHASE PLOT')
   const [message, setMessage] = useState('PURCHASE PLOT')
 
-  const { contracts, address } = useWeb3Context()
+  const { contracts, address, web3Provider } = useWeb3Context()
   const [name, setName] = useState('')
 
   const adscontract = contracts['metaads']
   const [info, setInfo] = useState(squreInfo)
 
   useEffect(() => {
-    console.log(squreInfo)
+    // console.log(squreInfo)
     setInfo(squreInfo)
   }, [squreInfo])
 
   const handleMint = async () => {
-    // console.log(contracts)
-    // console.log(adscontract.address)
+    console.log(squreInfo)
     setMintStatus('Minting')
-    const selectedSqures = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-    const quantSupplies = ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1']
-    const cords = [
-      '1X1',
-      '1X1',
-      '1X1',
-      '1X1',
-      '1X1',
-      '1X1',
-      '1X1',
-      '81X1',
-      '1X1',
-      '1X1',
-    ]
+    // const selectedSqures = [1]
+    // const quantSupplies = [1]
+    // const cords = [1]
 
-    // console.log(adscontract)
-
-    const image = await uploadImage(capturedFileBuffer)
+    const image = await uploadImage(await getMintImage())
 
     const metadata = await uploadMetadata(
       name,
@@ -62,30 +50,39 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
     )
 
     if (!metadata) {
-      setMessage('Failed to set ther asset data. Please check back')
+      ErrorTransaction({title: "Metadata Error ", description:"Metatadata could not be uploaded. Please try again later"})
+      return
+    }
+    if(!name){
+      ErrorTransaction({title: "Upload Error ", description:"Please provide a name for your quad"})
       return
     }
 
+    WarningMessage({title: "QUAD purchase", description:"Purchasing of the quads has not began."})
+  return
     try {
-      const mintAction = await adscontract
-        .mint(
+   await adscontract
+        .create(
           address,
-          selectedSqures[1],
-          quantSupplies[1],
-          '0x4554480000000000000000000000000000000000000000000000000000000000'
+          101, 
+          1,  
+          metadata,
+          "0x00"
         )
         .on('transactionHash', (hash) => {
           setMintStatus('Minted')
+          MiningTransaction({title: "Mining", description:hash})
         })
         .on('confirmation', (hash) => {
+          SuccessfulTransaction({title: "Confirmed", description:hash})
           setMintStatus('Success')
         })
         .on('error', (e) => {
-          window.alert('Something went wrong when pushing to the blockchain')
+          ErrorTransaction({title: "Error Occurred", description:e})
           setMintStatus('An Error Occurred')
         })
-      console.log(mintAction)
     } catch (e) {
+      ErrorTransaction({title: "Error Occurred", description:"Transaction could not be processed"})
       console.log(e)
       setMintStatus('An Error Occurred')
     }
@@ -172,19 +169,26 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
           <hr />
 
           <div className="flex-column d-flex">
-            <button
-              className="btn-primary hoverable btn-lg mb-3 w-100"
-              onClick={() => handleMint()}
-            >
-              <i className="bi-cart me-2" />
-              {mintStatus}
-            </button>
+            {web3Provider ? 
+                <button
+                className="btn-primary hoverable btn-lg mb-3 w-100"
+                onClick={() => handleMint()}
+              >
+                <i className="bi-cart me-2" />
+                {mintStatus}
+              </button>
+              :
+              <Web3Button/>
+          }
+            
             <span>{message}</span>
             <p className="muted">
+
               QTY: {selectorHeight * selectorWidth} Parcels
               <br /> PRICE: $ {selectorHeight * selectorWidth}
               <br /> ADSPACE: {selectorHeight * selectorWidth}, <br />
-              QuadRooms: 12'000ft2 <br />
+              QuadRooms: 12000ft2 <br />
+
               Parcels: {`${info.x}X ${info.y}Y`}{' '}
             </p>
           </div>

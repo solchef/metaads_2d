@@ -30,7 +30,6 @@ export default function useCanvas() {
   const [selectorWidth, setWidth] = useState(1)
   const [group, setGroup] = useState()
   const [selectorHeight, setHeight] = useState(1)
-  const [capturedFileBuffer, setCapturedFileBuffer] = useState()
   const [squreInfo, setSqureInfo] = useState(squreInfoDefault)
   const [gridCreated, setCreateGrid] = useState(false)
   // const [selectedSqures, setSelectedSqures] = useState([])
@@ -339,6 +338,10 @@ export default function useCanvas() {
     adCanvas.renderAll()
   }
 
+  const getMintImage = () => {
+        return adCanvas.toDataURL();
+  }
+
   const updateSelector = (x, y) => {
     const elem = adCanvas.getObjects()[1]
     console.log(elem)
@@ -369,7 +372,8 @@ export default function useCanvas() {
     setSelectorWidth,
     setSelectorHeight,
     addSelector,
-    capturedFileBuffer,
+    getMintImage ,
     resetPlane,
+    getCurrentXoYo
   }
 }

@@ -15,6 +15,7 @@ import {
 } from '../reducers'
 
 import { toast } from 'react-toastify'
+import { QuadSpaceContract } from '../utils/constants'
 
 const providerOptions = {
   walletlink: {
@@ -63,7 +64,7 @@ export const useWeb3 = () => {
         toast.success('Connected to Web3')
 
         const metaadscontract = new ethers.Contract(
-          '0xF88f4efD9a9D6bd20cfdf1a3Eda76aED067fD907',
+          QuadSpaceContract,
           metaadsabi,
           signer
         )
