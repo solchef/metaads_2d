@@ -13,7 +13,7 @@ function SpaceDetails({ isCanvasRight,setIsCanvasRight }) {
   return (
     <>
       <div
-        className={`offcanvas offcanvas-end ${isCanvasRight && 'show'}`}
+        className={`offcanvas offcanvas-end  ${isCanvasRight && 'show'}`}
         data-bs-backdrop="false"
         style={{ visibility: 'visible' }}
       >
