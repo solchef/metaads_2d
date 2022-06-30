@@ -13,12 +13,22 @@
  
  .accordion-item {
      background-color: #454545!important;
+     height: 297px;
+ }
+ 
+ .rsw_2f {
+     height: 200px;
  }
  
  .accordion-header button {
      background-color: #f50074!important;
      color: white !important;
-     font-size: 22px;
+     font-size: 20px;
+ }
+ 
+ .accordion-header button i {
+     margin-right: 110px !important;
+     font-size: 24px;
  }
  
  .accordion-header button:focus {
@@ -33,4 +43,42 @@
  
  .accordion-item form {
      margin-top: 25px;
+     margin-bottom: 75px;
+ }
+ 
+ .circlee {
+     width: 15px;
+     height: 15px;
+     background-color: white;
+     border-radius: 50%;
+     margin-right: 10px;
+ }
+ 
+ .cir {
+     position: absolute;
+     bottom: 10px;
+     left: 50%;
+     transform: translate(-50%);
+ }
+ 
+ .Next,
+ .Back {
+     position: absolute;
+     bottom: 0;
+ }
+ 
+ .Back {
+     left: 0;
+ }
+ 
+ .Next {
+     right: 0;
+ }
+ 
+ .circlee.active {
+     background-color: #f50074;
+ }
+ 
+ .purchase {
+     margin-top: 0 !important;
  }
