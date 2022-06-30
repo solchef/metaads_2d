@@ -16,15 +16,15 @@
     "incremental": true,
     "sourceMap": true,
     "noImplicitThis": true,
-    "no-empty-function": "off",
-    "@typescript-eslint/no-empty-function": ["error"],
-    "@typescript-eslint/no-this-alias": [
-      "error",
-      {
-        "allowDestructuring": false, // Disallow `const { props, state } = this`; true by default
-        "allowedNames": ["self"] // Allow `const self = this`; `[]` by default
-      }
-    ]
+    // "no-empty-function": "off",
+    // "@typescript-eslint/no-empty-function": ["error"],
+    // "@typescript-eslint/no-this-alias": [
+    //   "error",
+    //   {
+    //     "allowDestructuring": false, // Disallow `const { props, state } = this`; true by default
+    //     "allowedNames": ["self"] // Allow `const self = this`; `[]` by default
+    //   }
+    // ]
 
   
 

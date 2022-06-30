@@ -7,7 +7,7 @@ const FormThree = (props) => {
 <p className="text-white">You can <i className=" bi-arrows-move " /> your plot to desired location and purchase parcels.</p>
 
 
-<form>
+<form className="btn-slide">
         <div className="input-group hoverable  ">
           <span className="input-group-text "><i className="bi-geo-alt " /></span>
           <input type="text " aria-label="x " placeholder="ENTER LOT NAME " className="form-control " />
@@ -16,16 +16,16 @@ const FormThree = (props) => {
 
    <div className="d-flex justify-content-between mt-2">
    <div className="d-flex cir">
- <div className="circlee ">
+ <div onClick={() =>props.goToStep(1)} className="circlee ">
 
  </div>
- <div className="circlee ">
+ <div onClick={() =>props.goToStep(2)} className="circlee ">
 
  </div>
- <div className="circlee active">
+ <div onClick={() =>props.goToStep(3)} className="circlee active">
 
  </div>
- <div className="circlee">
+ <div onClick={() =>props.goToStep(4)} className="circlee">
 
  </div>
 </div>
