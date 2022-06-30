@@ -136,7 +136,8 @@ const AdSpace: React.FunctionComponent = () => {
       )}
       {!show && (
         <SpaceDetails
-      offcanvasRight={offcanvasRight}
+      offcanvasBottem={offcanvasBottem}
+      offcanvasLeft={offcanvasLeft}
 
           setIsCanvasRight={setIsCanvasRight}
           isCanvasRight={isCanvasRight}

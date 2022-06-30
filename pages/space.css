@@ -41,7 +41,7 @@
      padding: 10px 20px !important;
  }
  
- .accordion-item form {
+ .accordion-item .btn-slide {
      margin-top: 25px;
      margin-bottom: 75px;
  }
@@ -81,4 +81,18 @@
  
  .purchase {
      margin-top: 0 !important;
+ }
+ 
+ .offcanvas-end .offcanvas-body i {
+     font-size: 24px;
+     margin-right: 5px;
+ }
+ 
+ .offcanvas-end .offcanvas-body h3 {
+     font-size: 20px;
+     margin-top: 25px!important;
+ }
+ 
+ .offcanvas-body>div {
+     width: 100%;
  }
