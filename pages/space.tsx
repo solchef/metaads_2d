@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import useCanvas from '../hooks/useCanvas'
-import StepWizard from 'react-step-wizard'
-import FormOne from '../components/FormOne'
-import FormTwo from '../components/FormTwo'
-import FormThree from '../components/FormThree'
-import FormFour from '../components/FormFour'
-import Review from '../components/Review'
+// import StepWizard from 'react-step-wizard'
+// import FormOne from '../components/FormOne'
+// import FormTwo from '../components/FormTwo'
+// import FormThree from '../components/FormThree'
+// import FormFour from '../components/FormFour'
+// import Review from '../components/Review'
 import PurchaseSection from '../Views/WebPages/PurchaseSection'
 import SpaceDetails from '../Views/WebPages/SpaceDetails'
 import Link from 'next/link'
@@ -39,11 +39,11 @@ const Space = () => {
   useEffect(() => {
     console.log(squreInfo)
   }, [squreInfo])
-  const [twoFeeTypes, setTwoFeeTypes] = useState(1)
+  // const [twoFeeTypes, setTwoFeeTypes] = useState(1)
 
-  const addFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes + 1)
+  // const addFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes + 1)
 
-  const removeFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes - 1)
+  // const removeFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes - 1)
 
   return (
     <>
@@ -129,7 +129,7 @@ const Space = () => {
         </div>
        </div>
       </section>
-      <div className={`accordion show-mobile ${isCanvasBottem && 'show'}`}>
+      {/* <div className={`accordion show-mobile ${isCanvasBottem && 'show'}`}>
         <div className="accordion-item ">
           <h2 className="accordion-header">
             <button
@@ -162,7 +162,7 @@ const Space = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <SpaceDetails
         setIsCanvasRight={setIsCanvasRight}

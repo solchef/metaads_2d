@@ -559,13 +559,6 @@ section#marketplace-section {
         top: 72%;
         width: 100% !important;
     }
-    .offcanvas-header {
-        justify-content: space-around !important;
-        align-items: center !important;
-        padding-bottom: 0 !important;
-        padding-top: 8px;
-        BACKGROUND: #f10171;
-    }
     .offcanvas-top,
     .offcanvas-bottom {
         width: 100% !important;
