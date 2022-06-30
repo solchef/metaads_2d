@@ -23,7 +23,7 @@ const squreInfoDefault = {
 export default function useCanvas() {
   const cAreaRef = useRef<HTMLDivElement>()
   const cMiniRef = useRef<HTMLDivElement>()
-  const [adCanvas, setAdCanvas] = useState<HTMLCanvasElement>(null)
+  const [adCanvas, setAdCanvas] = useState(null)
   const [selectorElem, setSelector] = useState()
   // const [minimap, setMiniMap] = useState()
   const [selectorWidth, setWidth] = useState(1)
@@ -38,7 +38,7 @@ export default function useCanvas() {
   const initCanvas = () =>
     // console.log(cAreaRef.current.offsetWidth)
     new fabric.Canvas('adcanvas', {
-      containerClass: 'boardd',
+      containerClass: '',
       backgroundColor: '',
       width: cAreaRef.current ? cAreaRef?.current.offsetWidth : 1200,
       height: cAreaRef.current ? cAreaRef?.current.offsetWidth : 1200,
@@ -72,28 +72,31 @@ export default function useCanvas() {
   }, [])
 
   useEffect(() => {
-    deleteCanvasItems()
-    createGrid(adCanvas)
-    // if (adCanvas) {
-    //   setSelector(adCanvas.add(rect))
-    //   adCanvas.centerObject(rect)
-    // }
+    // deleteCanvasItems()
+
+    if (adCanvas) {
+      createGrid(adCanvas)
+    }
   }, [adCanvas])
 
   useEffect(() => {
     // console.log(squreInfo)
   }, [squreInfo])
 
-  function deleteCanvasItems() {
-    if (adCanvas) {
-      // const canvasObjects = adCanvas.getObjects()
-      // alert('we got ' + canvasObjects.length)
-      // while (canvasObjects.length != 0) {
-      //   adCanvas.remove(canvasObjects[0])
-      //   adCanvas.discardActiveGroup()
-      // }
-    }
-  }
+  // function deleteCanvasItems() {
+  //   if (adCanvas) {
+  //     const canvasObjects = adCanvas.getObjects()
+  //     alert('we got ' + canvasObjects.length)
+  //     while (canvasObjects.length != 0) {
+  //       try {
+  //         adCanvas.remove(canvasObjects[0])
+  //         adCanvas.discardActiveGroup()
+  //       } catch (e) {
+  //         console.log(e)
+  //       }
+  //     }
+  //   }
+  // }
 
   const createGrid = (adBoard) => {
     if (adBoard) {
@@ -419,7 +422,7 @@ export default function useCanvas() {
       elem.left = x
       elem.top = y
       // elem.bringFoward()
-      adCanvas.renderAll()
+      // adCanvas.renderAll()
     }
   }
 

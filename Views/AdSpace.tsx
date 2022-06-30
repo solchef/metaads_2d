@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import useCanvas from '../hooks/useCanvas'
 import PurchaseSection from './WebPages/PurchaseSection'
 import SpaceDetails from './WebPages/SpaceDetails'
@@ -29,11 +29,11 @@ const AdSpace: React.FunctionComponent = () => {
   }
   return (
     <>
-      <div>
+      <Fragment>
         <section id="grid-section" className="show-mobile">
           <div className="container d-flex justify-content-center  mobile-grid-button">
             <Link href="/space">
-              <a className="btn-primary hoverable btn-lg" href="grid.html">
+              <a className="btn-primary hoverable btn-lg">
                 <i className="bi bi-grid-3x3 me-2" />
                 BUY QUADS FOR $1
               </a>
@@ -99,28 +99,21 @@ const AdSpace: React.FunctionComponent = () => {
                   >
                     <i className="bi-zoom-in " />
                   </button>
-                  <button className="btn btn-primary btn-lg hoverable">
-                    <i className="bi-fullscreen " />
-                  </button>
+                  <Link href="/space">
+                    <button className="btn btn-primary btn-lg hoverable">
+                      <i className="bi-fullscreen " />
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
-
-            {/* <div className="map" ref={cMiniRef} style={{ width: '20%' }}>
-            <div className="map-box hide-mobile ratio ratio-1x1">
-              <div>
-                <canvas id="minimap"></canvas>
-              </div>
-            </div>
-            <div className="data"></div>
-          </div> */}
 
             <div ref={cAreaRef} className="canvas-box ratio-1x1 hoverable">
               <canvas id="adcanvas"></canvas>
             </div>
           </div>
         </section>
-      </div>
+      </Fragment>
 
       <SpaceDetails
         setIsCanvasRight={setIsCanvasRight}
