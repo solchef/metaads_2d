@@ -164,8 +164,8 @@ const Space = () => {
           </div>
         </div>
       </div>
-
       <SpaceDetails
+      offcanvasRight={offcanvasRight}
         setIsCanvasRight={setIsCanvasRight}
         isCanvasRight={isCanvasRight}
       />
