@@ -165,7 +165,8 @@ const Space = () => {
         </div>
       </div>
       <SpaceDetails
-      offcanvasRight={offcanvasRight}
+      offcanvasBottem={offcanvasBottem}
+      offcanvasLeft={offcanvasLeft}
         setIsCanvasRight={setIsCanvasRight}
         isCanvasRight={isCanvasRight}
       />
@@ -176,152 +177,7 @@ const Space = () => {
         activeItem={squreInfo}
       />
 
-      {/* 
-      <div className="offcanvas offcanvas-bottom " data-bs-backdrop="false">
-
-        <div className="offcanvas-title hide-mobile hoverable ">
-          <i className="bi-flag " />
-          <h3>PurCHASE LAND</h3>
-        </div>
-        <div className="offcanvas-body d-flex row-cols-2 ">
-          <div className="col pe-3 ">
-            <h3>ONE PARCELS</h3>
-            <p className="pb-2 pt-1 "><i className="bi bi-bounding-box-circles " />=10 X 10 px = $1 = 100 ft ²=<i className="bi bi-box " /></p>
-            <form>
-              <div className="input-group pb-2 ">
-                <span className="input-group-text "><i className="bi-border " /></span>
-                <input type="text " aria-label="x " placeholder="X " className="form-control " defaultValue={10} />
-                <input type="text " aria-label="y " defaultValue={12} placeholder="Y " className="form-control value=" />
-              </div>
-            </form>
-            <p>You can <i className=" bi-arrows-move " /> your plot to desired location and purchase parcels.</p>
-          </div>
-          <div className="d-flex flex-column ">
-            <a className="btn-primary hoverable btn-lg mb-3 w-100 " href="# "><i className="bi-cart me-2 " />PURCHASE
-              LOT</a>
-            <p className="muted ">QTY:120 Parcels <br /> PRCE: $120 (35ae)<br /> ADSPACE: 800px, <br />QuadRooms: 12'000ft2
-              <br /> Parcels: X112-Y76
-            </p>
-          </div>
-        </div>
-      </div> */}
-
-      {/* <div
-        className={`offcanvas offcanvas-start hide-mobile ${
-          isCanvasRight && 'show'
-        }`}
-        data-bs-backdrop="false "
-        style={{ visibility: ' visible' }}
-      >
-        <div className="mob offcanvas-header ">
-          <button
-            onClick={() => setIsCanvasRight(false)}
-            className="btn-close text-reset "
-          />
-        </div>
-        <div className="offcanvas-title hide-mobile hoverable ">
-          <i className="bi-flag " />
-          <h3>PurCHASE LAND</h3>
-        </div>
-        <div className="offcanvas-body  ">
-          <div>
-            <h3>ONE PARCELS</h3>
-            <p>
-              <i className="bi bi-bounding-box-circles " /> = 10 X 10 px = $1 =
-              100 ft ²= <i className="bi bi-box " />
-            </p>
-            <hr />
-            <form>
-              <div className="input-group hoverable mb-2 ">
-                <span className="input-group-text ">
-                  <i className="bi-border " />
-                </span>
-                <input
-                  type="text "
-                  aria-label="x "
-                  placeholder="X "
-                  className="form-control "
-                  defaultValue={10}
-                />
-                <input
-                  type="text "
-                  aria-label="y "
-                  defaultValue={12}
-                  placeholder="Y "
-                  className="form-control value="
-                />
-              </div>
-            </form>
-            <p>
-              You can <i className=" bi-arrows-move " /> your plot to desired
-              location and purchase parcels.
-            </p>
-            <hr />
-            <form>
-              <div className="input-group hoverable mb-2 ">
-                <span className="input-group-text ">
-                  <i className="bi-geo-alt " />
-                </span>
-                <input
-                  type="text "
-                  aria-label="x "
-                  placeholder="ENTER LOT NAME "
-                  className="form-control "
-                />
-              </div>
-            </form>
-            <p>
-              You can <i className="bi-arrows-move " /> your plot to desired
-              location and purchase parcels.
-            </p>
-            <hr />
-          </div>
-          <div className="flex-column d-flex ">
-            <a className="btn-primary hoverable btn-lg mb-3 w-100 " href="# ">
-              <i className="bi-cart me-2 " />
-              PURCHASE LOT
-            </a>
-            <p className="muted ">
-              QTY: 120 Parcels <br /> PRCE: $120 (35ae)
-              <br /> ADSPACE: 800px, QuadRooms: 12000ft2 Parcels: X112-Y76{' '}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div
-        className={`offcanvas offcanvas-end ${isCanvasLeft && 'show'}`}
-        data-bs-backdrop="false "
-        style={{ visibility: ' visible' }}
-      >
-        <div className="offcanvas-header ">
-          <button
-            className="btn-close text-reset "
-            onClick={() => setIsCanvasLeft(false)}
-          />
-        </div>
-        <div className="offcanvas-title hoverable ">
-          <i className="bi bi-camera " />
-        </div>
-        <div className="offcanvas-body d-flex flex-lg-column ">
-          <div className="w-100">
-            <h3 className="mt-4 ">
-              <i className="bi bi-geo-alt " /> 72iy24{' '}
-            </h3>
-            <h3 className="mt-4 ">
-              <i className="bi-border " /> 72iy24{' '}
-            </h3>
-            <h3 className="mt-4 ">
-              <i className="bi bi-link-45deg " /> 72iy24{' '}
-            </h3>
-            <h3 className="mt-4 ">
-              <i className="bi bi-person " /> 72iy24{' '}
-            </h3>
-            <hr />
-            <h3 className="mt-4 ">Status : </h3>
-            <h3 className="mt-4 ">Price :</h3>
-          </div>
-        </div>
-      </div> */}
+   
     </>
   )
 }
