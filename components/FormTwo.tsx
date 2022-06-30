@@ -14,9 +14,23 @@ const FormTwo = (props) => {
             </form>
 
             <div className="d-flex justify-content-between mt-2">
+            <div className="d-flex cir">
+          <div className="circlee ">
 
-      <button className="btn btn-primary ps-5 pe-5 " onClick={props.previousStep}>Back</button>
-      <button className="btn btn-primary ps-5 pe-5 " onClick={props.nextStep}>Next</button>
+          </div>
+          <div className="circlee active">
+
+          </div>
+          <div className="circlee">
+
+          </div>
+          <div className="circlee">
+
+          </div>
+        </div>
+      <button className="btn btn-primary Next ps-5 pe-5 " onClick={props.nextStep}>Next</button>
+  <button className="btn btn-primary Back ps-5 pe-5 " onClick={props.previousStep}>Back</button>
+
       </div>
    
     </>
