@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import useCanvas from '../../hooks/useCanvas'
 
-function SpaceDetails({ isCanvasRight, setIsCanvasRight }) {
+function SpaceDetails({offcanvasRight, isCanvasRight, setIsCanvasRight }) {
   const { squreInfo } = useCanvas()
 
   const [info, setInfo] = useState(squreInfo)
@@ -43,7 +43,8 @@ function SpaceDetails({ isCanvasRight, setIsCanvasRight }) {
             <h3 className="mt-4">
               <i className="bi bi-link-45deg text-lowercase" />
               <a
-                href="#"
+                    onClick={offcanvasRight}
+
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasScrolling"
                 aria-controls="offcanvasScrolling"
