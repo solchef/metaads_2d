@@ -12,9 +12,7 @@ const FormThree = (props) => {
           <span className="input-group-text "><i className="bi-geo-alt " /></span>
           <input type="text " aria-label="x " placeholder="ENTER LOT NAME " className="form-control " />
         </div>
-        <p className="pt-3">
-        Give your lot a name
-        </p>
+       
       </form>
 
    <div className="d-flex justify-content-between mt-2">
