@@ -25,12 +25,21 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
   const [info, setInfo] = useState(squreInfo)
 
   useEffect(() => {
-    console.log(activeItem)
     setInfo(activeItem)
   }, [activeItem])
 
+<<<<<<< HEAD
   const handleSubmit = async () => {
     const result = await handleMint(
+=======
+  const handleMint = async () => {
+    console.log(squreInfo)
+    setMintStatus('Minting')
+    // console.log(activeItem);
+    const image = await uploadImage(await getMintImage())
+
+    const metadata = await uploadMetadata(
+>>>>>>> 25829fff (dynamic values)
       name,
       address,
       adscontract,
@@ -39,7 +48,56 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
       uploadMetadata,
       uploadImage
     )
+<<<<<<< HEAD
     setMintStatus(result)
+=======
+
+    InfoMessage({
+      title: 'QUAD purchase',
+      description: 'Public minting of the quads has not began.',
+    })
+
+    if (!metadata) {
+      ErrorTransaction({
+        title: 'Metadata Error ',
+        description: 'Metatadata could not be uploaded. Please try again later',
+      })
+      return
+    }
+    if (!name) {
+      ErrorTransaction({
+        title: 'Upload Error ',
+        description: 'Please provide a name for your quad',
+      })
+      return
+    }
+
+    let squrePos = (info.y - 1) * 1000 + info.x
+
+    try {
+      await adscontract
+        .create(address, 101, squrePos, metadata, '0x00')
+        .on('transactionHash', (hash) => {
+          setMintStatus('Minted')
+          MiningTransaction({ title: 'Mining', description: hash })
+        })
+        .on('confirmation', (hash) => {
+          SuccessfulTransaction({ title: 'Confirmed', description: hash })
+          setMintStatus('Success')
+        })
+        .on('error', (e) => {
+          ErrorTransaction({ title: 'Error Occurred', description: e })
+          setMintStatus('An Error Occurred')
+        })
+    } catch (e) {
+      ErrorTransaction({
+        title: 'Error Occurred',
+        description: 'Transaction could not be processed',
+      })
+      console.log(e)
+      setMintStatus('An Error Occurred')
+    }
+>>>>>>> 25829fff (dynamic values)
   }
 
   return (

@@ -25,7 +25,12 @@ export default function useCanvas() {
   const [selectorHeight, setHeight] = useState(1)
   const [squreInfo, setSqureInfo] = useState(squreInfoDefault)
   const [gridCreated, setCreateGrid] = useState(false)
+  const [userMode, setUserMode] = useState(1)
 
+  //user modes
+
+  // 1. Viewing and moving around
+  // 2. Purchase mode. Allows user to define the purchase area
   const grid = 1
   // console.log(cAreaRef?.current?.clientWidth)
   const initCanvas = () => {
@@ -38,6 +43,7 @@ export default function useCanvas() {
         height: window.innerWidth,
         name: 'quadspace',
         objectCaching: false,
+        renderOnAddRemove: true,
       })
     )
   }
@@ -47,8 +53,8 @@ export default function useCanvas() {
   const rect = new fabric.Rect({
     height: selectorWidth,
     width: selectorHeight,
-    top: 500 - 0.5,
-    left: 500 - 0.5,
+    top: squreInfo.x,
+    left: squreInfo.y,
     centeredRotation: false,
     hasRotatingPoint: false,
     name: 'defaultSelector',
@@ -56,7 +62,9 @@ export default function useCanvas() {
     subTargetCheck: true,
     borderColor: ' #000',
     cornerColor: '#DDD',
-    objectCaching: true,
+    objectCaching: false,
+    lockScalingY: true,
+    lockScalingX: true,
   })
 
   useEffect(() => {
@@ -66,7 +74,7 @@ export default function useCanvas() {
   useEffect(() => {
     // deleteCanvasItems()
     if (adCanvas) {
-      console.log(gridCreated)
+      // console.log(gridCreated)
       if (!gridCreated) createGrid(adCanvas)
     }
   }, [adCanvas])
@@ -145,35 +153,58 @@ export default function useCanvas() {
       setGroup(adGroup)
 
       adBoard.add(adGroup)
+      rect.setControlVisible('mt', false)
       adBoard.add(rect)
-      // adBoard.zoomToPoint({ x: 0, y: 0 }, adBoard.getZoom() * 30)
-      adBoard.zoomToPoint(new fabric.Point(500, 500), adBoard.getZoom() * 10)
 
       adBoard.renderAll()
 
-      // initMinimap(adBoard, minimap)
+      setUserMode(1)
     }
   }
 
+  useEffect(() => {
+    if (adCanvas) {
+      defaultZoom()
+    }
+  }, [adCanvas])
+
+  useEffect(() => {
+    // console.log(userMode)
+    if (adCanvas) {
+      const elem = adCanvas.getItemByName('defaultSelector')
+      if (userMode == 1) {
+        adCanvas.sendToBack(elem)
+      } else {
+        adCanvas.bringToFront(elem)
+      }
+
+      adCanvas.renderAll()
+    }
+  }, [userMode])
+
   const resetPlane = () => {
-    adCanvas.zoomToPoint(new fabric.Point(500, 500), 10)
-    adCanvas.renderAll()
+    alert('removing')
+    const elem = adCanvas.getItemByName('defaultSelector')
+    let cnv = adCanvas.remove(adCanvas.getObjects()[1])
+
+    console.log(cnv)
+
+    // adCanvas.rect.remove()
+    // adCanvas.add(rect)
+    // defaultZoom()
+    cnv.renderAll()
+    setAdCanvas(cnv)
+
+    console.log(adCanvas)
   }
 
   const addSelector = () => {
-    const elem = adCanvas.getObjects()[1]
-
-    // elem.left = squreInfo.x + 0.5
-    // elem.top = squreInfo.y + 0.5
-    elem.scaleX = 10
-    elem.scaleY = 10
-    elem.visible = true
-    // adCanvas.add(rect)
-    setSelector(elem)
+    adCanvas.add(rect)
     adCanvas.renderAll()
-
-    console.log(elem)
+    adCanvas.requestRenderAll()
   }
+
+  const getSelector = () => {}
 
   const getCurrentXoYo = () => {
     const obj = adCanvas.getObjects()[0]
@@ -196,6 +227,12 @@ export default function useCanvas() {
       y:
         fabric.util.invertTransform(adCanvas.viewportTransform)[5] +
         adCanvas.height / adCanvas.getZoom() / 2,
+    }
+  }
+
+  const defaultZoom = () => {
+    if (adCanvas) {
+      adCanvas.zoomToPoint(new fabric.Point(500, 500), adCanvas.getZoom() * 10)
     }
   }
 
@@ -243,8 +280,13 @@ export default function useCanvas() {
       )
 
       adCanvas.on('mouse:up', function (o) {
-        const elem = adCanvas.getObjects()[1]
-        adCanvas.setActiveObject(elem)
+        // console.log(adCanvas.getObjects())
+        try {
+          const elem = adCanvas.getObjects()[1]
+          adCanvas.setActiveObject(elem)
+        } catch (e) {
+          console.log('error')
+        }
       })
 
       adCanvas.on(
@@ -350,5 +392,7 @@ export default function useCanvas() {
     getMintImage,
     resetPlane,
     getCurrentXoYo,
+    userMode,
+    setUserMode,
   }
 }

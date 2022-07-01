@@ -13,19 +13,14 @@ const AdSpace: React.FunctionComponent = () => {
     useCanvas()
 
   useEffect(() => {
-    // console.log(squreInfo)
+    console.log(squreInfo)
   }, [squreInfo])
   const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [show, setShow] = useState(false)
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
   const [isCanvasBottem, setIsCanvasBottem] = useState(false)
-  const adscontract = contracts['metaads']
-  const offcanvasRight = () => {
-    setShow(false)
-    offcanvasBottem()
-    setIsCanvasRight(!isCanvasRight)
-    setIsCanvasLeft(false)
-  }
+  // console.log(userMode)
+
   const offcanvasLeft = () => {
     // console.log(squreInfo.x)
     setShow(true)
@@ -58,8 +53,15 @@ const AdSpace: React.FunctionComponent = () => {
                 <div className="row">
                   <div className="col-xl-10 col-12 pe-5">
                     <span style={{ color: '#ff006f' }} className="text-nowrap">
+<<<<<<< HEAD
                       <b> &lt; LOT NAME &gt; </b>
                     </span>
+=======
+                      {' '}
+                      <b> &lt; LOT NAME &gt; </b>{' '}
+                    </span>
+
+>>>>>>> 25829fff (dynamic values)
                     <div className="mt-2">
                       <span className="text-nowrap me-5">
                         <i className="bi bi-geo-alt"></i> {squreInfo.x}X,{' '}
@@ -189,12 +191,13 @@ const AdSpace: React.FunctionComponent = () => {
           </div>
         </section>
       </Fragment>
-
-      <PurchaseSection
-        setIsCanvasLeft={setIsCanvasLeft}
-        isCanvasLeft={isCanvasLeft}
-        activeItem={squreInfo}
-      />
+      {show && (
+        <PurchaseSection
+          setIsCanvasLeft={setIsCanvasLeft}
+          isCanvasLeft={isCanvasLeft}
+          activeItem={squreInfo}
+        />
+      )}
     </>
   )
 }
