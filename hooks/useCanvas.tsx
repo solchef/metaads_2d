@@ -293,7 +293,7 @@ export default function useCanvas() {
     // elem.set('width', grid * e)
     // console.log(e)
     setWidth(grid * e)
-    elem.scaleY =  grid * e
+    elem.scaleX =  grid * e
     adCanvas.renderAll()
   }
 
@@ -301,7 +301,7 @@ export default function useCanvas() {
     const elem = adCanvas.getItemByName('defaultSelector');
     // elem.set('height', grid * e)
 
-    elem.scaleX =  grid  * e
+    elem.scaleY =  grid  * e
     setHeight(grid * e)
     adCanvas.renderAll()
   }
