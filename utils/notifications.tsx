@@ -1,5 +1,4 @@
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-import { useWeb3Context } from '../context'
 
 
 export const SuccessfulTransaction = ({ title, description }) => {
@@ -11,9 +10,9 @@ export const SuccessfulTransaction = ({ title, description }) => {
     // cancelButtonColor: '#d33',
     confirmButtonText: 'Close',
   }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire('Thank You!', 'Check your wallet.', 'success')
-    }
+    // if (result.isConfirmed) {
+    //   Swal.fire('Thank You!', 'Check your wallet.', 'success')
+    // }
   })
 }
 
@@ -26,9 +25,9 @@ export const InfoMessage = ({ title, description }) => {
     // cancelButtonColor: '#d33',
     confirmButtonText: 'Close',
   }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire('Thank You!', 'Please Try Again Later.', 'warning')
-    }
+    // if (result.isConfirmed) {
+    //   Swal.fire('Thank You!', 'Please Try Again Later.', 'warning')
+    // }
   })
 }
 
@@ -40,9 +39,9 @@ export const ErrorTransaction = ({ title, description }) => {
     confirmButtonColor: '#b401ab',
     confirmButtonText: 'Close',
   }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire('Please check!', 'And then try again.', 'error')
-    }
+    // if (result.isConfirmed) {
+    //   Swal.fire('Please check!', 'And then try again.', 'error')
+    // }
   })
 }
 

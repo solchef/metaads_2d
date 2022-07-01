@@ -321,8 +321,8 @@ export default function useCanvas() {
       adCanvas.on('object:moving', function (options) {
         // console.log(adCanvas.getObjects())
         options.target.set({
-          left: Math.round(options.target.left / grid) * grid,
-          top: Math.round(options.target.top / grid) * grid,
+          left: Math.round(options.target.left / grid - 0.5) * grid,
+          top: Math.round(options.target.top / grid - 0.5) * grid,
         })
       })
 
@@ -348,19 +348,19 @@ export default function useCanvas() {
   const setSelectorWidth = (e) => {
     const elem = adCanvas.getItemByName('defaultSelector');
     // const scale = elem.getObjectScaling()
-    elem.set('width', grid * e)
-    setWidth(grid * e)
-    // adCanvas.renderAll()
+    // elem.set('width', grid * e)
+    setWidth(grid  * e)
+    elem.scaleY =  grid * e
+    adCanvas.renderAll()
   }
 
   const setSelectorHeight = (e) => {
     const elem = adCanvas.getItemByName('defaultSelector');
+    // elem.set('height', grid * e)
 
-    console.log(elem)
-    elem.set('height', grid * e)
-    elem.set('left', elem * e)
-    setHeight(grid * e)
-    // adCanvas.renderAll()
+    elem.scaleX =  grid  * e
+    setHeight(grid  * e)
+    adCanvas.renderAll()
   }
 
   const getMintImage = () => {
@@ -389,12 +389,10 @@ export default function useCanvas() {
       elem.set({
         left: grid * x,
         top: grid * y,
-        height: selectorHeight,
-        width: selectorHeight,
-        scalex: 1,
-        scaley: 1,
-        hasRotatingPoint: false,
       })
+
+      elem.scaleX = selectorWidth
+      elem.scaleY = selectorHeight
     }
     adCanvas.renderAll()
   }
