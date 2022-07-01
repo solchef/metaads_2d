@@ -323,6 +323,7 @@ export default function useCanvas() {
           top: Math.round(options.target.top / grid - 0.5) * grid,
         })
       })
+<<<<<<< Updated upstream
     }
   }, [adCanvas, selectorElem, group])
 
@@ -331,6 +332,16 @@ export default function useCanvas() {
     // const scale = elem.getObjectScaling()
     // elem.set('width', grid * e)
     // console.log(e)
+=======
+
+
+    
+  }, [adCanvas, selectorElem, group])
+
+  const setSelectorWidth = (e) => {
+    const elem = adCanvas.getItemByName('defaultSelector');
+
+>>>>>>> Stashed changes
     setWidth(grid * e)
     elem.scaleX = grid * e
     adCanvas.renderAll()
