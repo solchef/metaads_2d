@@ -5,7 +5,6 @@ const FormOne = (props) => {
     <>
       <h3 className='text-white mb-4'>STEP 1 - SELECT LOT SIZE</h3>
 
-      <div className="btn-slide">
 
       <form className="btn-slide">
               <div className="input-group hoverable mb-2 ">
@@ -13,10 +12,9 @@ const FormOne = (props) => {
                 <input type="text " aria-label="x " placeholder="X " className="form-control " defaultValue={10} />
                 <input type="text " aria-label="y " defaultValue={12} placeholder="Y " className="form-control value=" />
               </div>
-            <p className="pt-3">Enter your lot dimension above</p>
 
             </form>
-      </div>
+     
 
       <div className="d-flex justify-content-between mt-2">
         <div className="d-flex cir">

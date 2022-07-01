@@ -24,9 +24,7 @@ const FormThree = (props) => {
             className="form-control "
           />
         </div>
-        <p className="pt-3">
-        Give your lot a name
-        </p>
+       
       </form>
 
       <div className="d-flex justify-content-between mt-2">
