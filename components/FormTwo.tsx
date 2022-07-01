@@ -1,8 +1,6 @@
 import React from 'react'
-import useCanvas from '../hooks/useCanvas'
 
 const FormTwo = (props) => {
-  const { setSelectorWidth, setSelectorHeight } = useCanvas()
   return (
     <>
       <p className="text-white">
@@ -19,15 +17,13 @@ const FormTwo = (props) => {
             type="text "
             aria-label="x "
             placeholder="X "
-            onChange={(e) => setSelectorWidth(e.target.value)}
             className="form-control "
-            defaultValue={1}
+            defaultValue={10}
           />
           <input
             type="text "
             aria-label="y "
-            onChange={(e) => setSelectorHeight(e.target.value)}
-            defaultValue={1}
+            defaultValue={12}
             placeholder="Y "
             className="form-control value="
           />

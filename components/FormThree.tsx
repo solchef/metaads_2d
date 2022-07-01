@@ -1,9 +1,6 @@
-import React, { useState } from 'react'
-import useCanvas from '../hooks/useCanvas'
+import React from 'react'
 
 const FormThree = (props) => {
-  const [name, setName] = useState('')
-
   return (
     <>
       <p className="text-white">
@@ -20,7 +17,6 @@ const FormThree = (props) => {
             type="text "
             aria-label="x "
             placeholder="ENTER LOT NAME "
-            onChange={(e) => props.setLandName(e.target.value)}
             className="form-control "
           />
         </div>
