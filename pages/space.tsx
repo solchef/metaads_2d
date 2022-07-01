@@ -8,7 +8,6 @@ import FormFour from '../components/FormFour'
 import PurchaseSection from '../Views/WebPages/PurchaseSection'
 import SpaceDetails from '../Views/WebPages/SpaceDetails'
 import Link from 'next/link'
-import AdSpace from '../Views/AdSpace'
 const Space = () => {
   const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
@@ -43,7 +42,7 @@ const Space = () => {
 
   return (
     <>
-      {/* <section className="mt-0" id="grid-section">
+      <section className="mt-0" id="grid-section">
         <div className="container">
           <div className="controls align-items-center">
             <div className="d-flex flex-row-inverse justify-content-between align-items-center wrap-flow">
@@ -126,9 +125,7 @@ const Space = () => {
             <canvas id="adcanvas"></canvas>
           </div>
         </div>
-      </section> */}
-
-      <AdSpace/>
+      </section>
 
 
       <div className={`accordion show-mobile show ${isCanvasBottem ?'': 'showw'}`}>
@@ -158,6 +155,7 @@ const Space = () => {
                 <FormTwo removeFormTwoHandler={removeFormTwoHandler} />
                 <FormThree removeFormTwoHandler={removeFormTwoHandler} />
                 <FormFour removeFormTwoHandler={removeFormTwoHandler} />
+
               </StepWizard>
             </div>
           </div>
