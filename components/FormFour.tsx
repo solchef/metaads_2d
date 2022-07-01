@@ -1,9 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useWeb3Context } from '../context'
+import useCanvas from '../hooks/useCanvas'
+import { useIPFS } from '../hooks/useIPFS'
+import { handleMint } from '../utils/handleMint'
 
 const FormFour = (props) => {
+   const { contracts, address } = useWeb3Context()
+  const adscontract = contracts['metaads']
+  const { squreInfo, getMintImage } = useCanvas()
+  const { uploadMetadata, uploadImage }: any = useIPFS()
+
+  const handleSubmint = async () => {
+    console.log(props.landName)
+    console.log(squreInfo)
+    console.log(adscontract)
+    const result = await handleMint(
+      props.landName,
+      address,
+      adscontract,
+      getMintImage,
+      squreInfo,
+      uploadMetadata,
+      uploadImage
+    )
   return (
     <>
-      <button className="btn-primary btn-lg w-100 buy-lot hoverable mt-1">
+      <button className="btn-primary btn-lg w-100 buy-lot hoverable mt-1"   onClick={handleSubmint}>
         <i className="bi-cart me-2 " />
         BUY LOT{' '}
       </button>

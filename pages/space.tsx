@@ -12,6 +12,8 @@ const Space = () => {
   const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
   const [isCanvasBottem, setIsCanvasBottem] = useState(false)
+  const [userLandName, setUserLandName] = useState('')
+
   const offcanvasRight = () => {
     setIsCanvasRight(!isCanvasRight)
     setIsCanvasLeft(false)
@@ -293,8 +295,14 @@ const Space = () => {
               <StepWizard>
                 <FormOne addFormTwoHandler={addFormTwoHandler} />
                 <FormTwo removeFormTwoHandler={removeFormTwoHandler} />
-                <FormThree removeFormTwoHandler={removeFormTwoHandler} />
-                <FormFour removeFormTwoHandler={removeFormTwoHandler} />
+                <FormThree
+                  removeFormTwoHandler={removeFormTwoHandler}
+                  setLandName={(e) => setUserLandName(e)}
+                />
+                <FormFour
+                  removeFormTwoHandler={removeFormTwoHandler}
+                  landName={userLandName}
+                />
               </StepWizard>
             </div>
           </div>

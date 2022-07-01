@@ -14,6 +14,7 @@ const FormThree = (props) => {
             type="text "
             aria-label="x "
             placeholder="ENTER LOT NAME "
+            onChange={(e) => props.setLandName(e.target.value)}
             className="form-control "
           />
         </div>

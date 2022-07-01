@@ -3,13 +3,7 @@ import { Web3Button } from '../../components'
 import { useWeb3Context } from '../../context'
 import useCanvas from '../../hooks/useCanvas'
 import { useIPFS } from '../../hooks/useIPFS'
-import { QuadDescription } from '../../utils/constants'
-import {
-  ErrorTransaction,
-  MiningTransaction,
-  SuccessfulTransaction,
-  InfoMessage,
-} from '../../utils/notifications'
+import { handleMint } from '../../utils/handleMint'
 
 function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
   const {
@@ -23,7 +17,6 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
 
   const { uploadMetadata, uploadImage } = useIPFS()
   const [mintStatus, setMintStatus] = useState('PURCHASE PLOT')
-  const [message, setMessage] = useState('PURCHASE PLOT')
 
   const { contracts, address, web3Provider } = useWeb3Context()
   const [name, setName] = useState('')
@@ -36,60 +29,17 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
     setInfo(activeItem)
   }, [activeItem])
 
-  const handleMint = async () => {
-    console.log(squreInfo)
-    setMintStatus('Minting')
-    // console.log(activeItem);
-
-    const image = await uploadImage(await getMintImage())
-
-    const metadata = await uploadMetadata(
+  const handleSubmit = async () => {
+    const result = await handleMint(
       name,
-      QuadDescription,
-      image,
-      info.x,
-      info.y
+      address,
+      adscontract,
+      getMintImage,
+      squreInfo,
+      uploadMetadata,
+      uploadImage
     )
-
-    InfoMessage({
-      title: 'QUAD purchase',
-      description: 'Public minting of the quads has not began.',
-    })
-
-    // if (!metadata) {
-    //   ErrorTransaction({title: "Metadata Error ", description:"Metatadata could not be uploaded. Please try again later"})
-    //   return
-    // }
-    // if(!name){
-    //   ErrorTransaction({title: "Upload Error ", description:"Please provide a name for your quad"})
-    //   return
-    // }
-
-    let squrePos = (info.y - 1) * 1000 + info.x
-
-    try {
-      await adscontract
-        .create(address, 101, squrePos, metadata, '0x00')
-        .on('transactionHash', (hash) => {
-          setMintStatus('Minted')
-          MiningTransaction({ title: 'Mining', description: hash })
-        })
-        .on('confirmation', (hash) => {
-          SuccessfulTransaction({ title: 'Confirmed', description: hash })
-          setMintStatus('Success')
-        })
-        .on('error', (e) => {
-          ErrorTransaction({ title: 'Error Occurred', description: e })
-          setMintStatus('An Error Occurred')
-        })
-    } catch (e) {
-      ErrorTransaction({
-        title: 'Error Occurred',
-        description: 'Transaction could not be processed',
-      })
-      console.log(e)
-      setMintStatus('An Error Occurred')
-    }
+    setMintStatus(result)
   }
 
   return (
@@ -172,7 +122,7 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
           {web3Provider ? (
             <button
               className="btn-primary hoverable hoverable btn-lg mb-3 w-100"
-              onClick={() => handleMint()}
+              onClick={() => handleSubmit()}
             >
               <i className="bi-cart me-2" />
               {mintStatus}
