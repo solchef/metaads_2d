@@ -9,7 +9,7 @@ const AdSpace: React.FunctionComponent = () => {
     useCanvas()
 
   useEffect(() => {
-    console.log(squreInfo)
+    // console.log(squreInfo)
   }, [squreInfo])
   const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [show, setShow] = useState(false)

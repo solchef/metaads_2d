@@ -28,9 +28,9 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
   const [info, setInfo] = useState(squreInfo)
   
   useEffect(() => {
-    console.log(squreInfo)
-    setInfo(squreInfo)
-  }, [squreInfo])
+    console.log(activeItem)
+    setInfo(activeItem)
+  }, [activeItem])
 
   const handleMint = async () => {
     console.log(squreInfo)
@@ -51,6 +51,8 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
       info.y
     )
 
+    InfoMessage({title: "QUAD purchase", description:"Public minting of the quads has not began."})
+
     if (!metadata) {
       ErrorTransaction({title: "Metadata Error ", description:"Metatadata could not be uploaded. Please try again later"})
       return
@@ -60,7 +62,7 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
       return
     }
 
-    InfoMessage({title: "QUAD purchase", description:"Purchasing of the quads has not began."})
+    return;    
     try {
    await adscontract
         .create(
@@ -185,10 +187,10 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
             <span>{message}</span>
             <p className="muted">
 
-              QTY: {selectorHeight * selectorWidth} Parcels
+              QTY: {selectorHeight * selectorWidth} Quads
               <br /> PRICE: $ {selectorHeight * selectorWidth}
               <br /> ADSPACE: {selectorHeight * selectorWidth}, <br />
-              QuadRooms: 12000ft2 <br />
+              {/* QuadRooms: 12000ft2 <br /> */}
 
               Parcels: {`${info.x}X ${info.y}Y`}{' '}
             </p>

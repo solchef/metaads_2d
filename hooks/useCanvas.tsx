@@ -384,7 +384,7 @@ export default function useCanvas() {
 
   const updateSelector = (x, y) => {
     const elem = adCanvas.getItemByName('defaultSelector');
-    console.log(elem)
+    // console.log(elem)
     if (elem) {
       elem.set({
         left: grid * x,
