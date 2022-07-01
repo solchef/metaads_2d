@@ -72,6 +72,7 @@ nav.navbar {
     z-index: 99999;
     background-color: #000000 !important;
     display: inherit;
+    height: 86px;
 }
 
 .navbar-brand {
@@ -120,9 +121,10 @@ h2 {
 
 h3 {
     font-weight: 200;
-    font-size: 20px;
+    font-size: 18px;
     text-transform: uppercase;
-    letter-spacing: 3px;
+    /* letter-spacing: 3px; */
+    margin-bottom: 10px;
 }
 
 h4 {
@@ -371,7 +373,7 @@ fieldset:disabled .btn {
 }
 
 .form-control::placeholder {
-    font-size: 24px;
+    font-size: 20px;
 }
 
 
@@ -394,7 +396,7 @@ span.input-group-text {
     background: #fa0070;
     text-align: center;
     padding: 50px;
-    font-size: 50px;
+    font-size: 30px;
 }
 
 .offcanvas-header {

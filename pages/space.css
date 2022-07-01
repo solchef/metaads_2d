@@ -97,3 +97,12 @@
  .offcanvas-body>div {
      width: 100%;
  }
+ 
+ .grid-section .canvas-box {
+     border: none;
+     background-image: none;
+ }
+ 
+ .grid-section {
+     height: calc(100vh - 86px);
+ }

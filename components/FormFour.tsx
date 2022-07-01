@@ -5,11 +5,6 @@ const FormFour = (props) => {
     <>
 
 
-<p className="muted ">QTY: 120 Parcels <br /> PRCE: $120 (35ae)<br /> ADSPACE: 800px, QuadRooms: 12000ft2 Parcels: X112-Y76 </p>
-
-
- 
-
 <button className="btn-primary btn-slide purchase hoverable ps-5 pe-5 "  ><i className="bi-cart me-2 " />PURCHASE
      LOT</button>
 

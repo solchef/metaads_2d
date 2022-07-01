@@ -3,15 +3,14 @@ import React from "react";
 const FormTwo = (props) => {
   return (
     <>
-            <p className="text-white">You can <i className=" bi-arrows-move " /> your plot to desired location and purchase parcels.</p>
+      <h3 className='text-white mb-4'>STEP 2 - PICK  LOT LOCATION</h3>
 
-         <form className="btn-slide">
-              <div className="input-group hoverable mb-2 ">
-                <span className="input-group-text "><i className="bi-border " /></span>
-                <input type="text " aria-label="x " placeholder="X " className="form-control " defaultValue={10} />
-                <input type="text " aria-label="y " defaultValue={12} placeholder="Y " className="form-control value=" />
-              </div>
-            </form>
+         <div className="btn-slide">
+          <p>
+          You can <i className=" bi-arrows-move " />  drag your plot to the desired location.
+
+          </p>
+            </div>
 
             <div className="d-flex justify-content-between mt-2">
             <div className="d-flex cir">
