@@ -26,7 +26,7 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
 
   const adscontract = contracts['metaads']
   const [info, setInfo] = useState(squreInfo)
-  
+
   useEffect(() => {
     console.log(activeItem)
     setInfo(activeItem)
@@ -35,7 +35,7 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
   const handleMint = async () => {
     console.log(squreInfo)
     setMintStatus('Minting')
-      // console.log(activeItem);
+    // console.log(activeItem);
 
     const image = await uploadImage(await getMintImage())
 
@@ -47,7 +47,7 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
       info.y
     )
 
-    InfoMessage({title: "QUAD purchase", description:"Public minting of the quads has not began."})
+    InfoMessage({ title: "QUAD purchase", description: "Public minting of the quads has not began." })
 
     // if (!metadata) {
     //   ErrorTransaction({title: "Metadata Error ", description:"Metatadata could not be uploaded. Please try again later"})
@@ -60,30 +60,30 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
 
     // let squrePos = (info.y - 1)*1000 + info.x
 
-    return;    
+    return;
     try {
-   await adscontract
+      await adscontract
         .create(
           address,
-          101, 
-          squrePos,  
+          101,
+          squrePos,
           metadata,
           "0x00"
         )
         .on('transactionHash', (hash) => {
           setMintStatus('Minted')
-          MiningTransaction({title: "Mining", description:hash})
+          MiningTransaction({ title: "Mining", description: hash })
         })
         .on('confirmation', (hash) => {
-          SuccessfulTransaction({title: "Confirmed", description:hash})
+          SuccessfulTransaction({ title: "Confirmed", description: hash })
           setMintStatus('Success')
         })
         .on('error', (e) => {
-          ErrorTransaction({title: "Error Occurred", description:e})
+          ErrorTransaction({ title: "Error Occurred", description: e })
           setMintStatus('An Error Occurred')
         })
     } catch (e) {
-      ErrorTransaction({title: "Error Occurred", description:"Transaction could not be processed"})
+      ErrorTransaction({ title: "Error Occurred", description: "Transaction could not be processed" })
       console.log(e)
       setMintStatus('An Error Occurred')
     }
@@ -92,9 +92,8 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
   return (
     <>
       <div
-        className={`offcanvas offcanvas-start hide-mobile ${
-          isCanvasLeft && 'show'
-        }`}
+        className={`offcanvas offcanvas-start hide-mobile ${isCanvasLeft && 'show'
+          }`}
         data-bs-backdrop="false"
         style={{ visibility: 'visible' }}
       >
@@ -112,17 +111,14 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
           className="offcanvas-title hide-mobile hoverable"
         >
           <i className="bi-flag" />
-          <h3>PurCHASE LAND</h3>
+          <h3 className='mb-0'>PurCHASE LAND</h3>
         </div>
-        <div className="offcanvas-body">
-          <h3>ONE PARCELS</h3>
-          <p>
-            <i className="bi bi-bounding-box-circles" /> = 1 X 1 px = $ 1 = 100
-            ft ²= <i className="bi bi-box" />
-          </p>
-          <hr />
+        <div className="offcanvas-body pt-5">
+
+          <h3>SELECT LOT SIZE</h3>
+
           <form>
-            <div className="input-group hoverable mb-2">
+            <div className="input-group hoverable mb-4">
               <span className="input-group-text ">
                 <i className="bi-border" />
               </span>
@@ -144,13 +140,20 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
               />
             </div>
           </form>
+
+          <hr />
+          <h3> PICK  LOT LOCATION</h3>
+
+
           <p>
-            You can <i className="bi-arrows-move" /> your plot to desired
-            location and purchase parcels.
+            You can <i className="bi-arrows-move" /> drag your plot to the desired location.
+
           </p>
           <hr />
+          <h3> PICK  LOT NAME</h3>
+
           <form>
-            <div className="input-group hoverable mb-2">
+            <div className="input-group hoverable mb-4">
               <span className="input-group-text ">
                 <i className="bi bi-geo-alt"></i>
               </span>
@@ -162,36 +165,98 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
               />
             </div>
           </form>
-          <p>
-            You can <i className="bi-arrows-move" /> your plot to desired
-            location and purchase parcels.
-          </p>
+
           <hr />
+          {web3Provider ?
+            <button
+              className="btn-primary hoverable hoverable btn-lg mb-3 w-100"
+              onClick={() => handleMint()}
+            >
+              <i className="bi-cart me-2" />
+              {mintStatus}
+            </button>
+            :
+            <div className='mb-4 mt-4'>
+              <Web3Button />
 
-          <div className="flex-column d-flex">
-            {web3Provider ? 
-                <button
-                className="btn-primary hoverable btn-lg mb-3 w-100"
-                onClick={() => handleMint()}
-              >
-                <i className="bi-cart me-2" />
-                {mintStatus}
-              </button>
-              :
-              <Web3Button/>
+            </div>
           }
-            
-            <span>{message}</span>
-            <p className="muted">
 
-              QTY: {selectorHeight * selectorWidth} Quads
-              <br /> PRICE: $ {selectorHeight * selectorWidth}
-              <br /> ADSPACE: {selectorHeight * selectorWidth}, <br />
-              {/* QuadRooms: 12000ft2 <br /> */}
+    <div className="row">
+      <div className="col-6">
+      <div className='d-flex flex-column'>
+            <span className='mb-2'><img src="assets/images/square_icon.png" width="15%"/> : {selectorHeight * selectorWidth} Quads</span>
+            <span className='text-nowrap'> <b><i className="bi bi-tag"></i> : </b>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
+                xmlSpace="preserve"
+                width="11%"
+                height="11%"
+                version="1.1"
+                shapeRendering="geometricPrecision"
+                textRendering="geometricPrecision"
+                imageRendering="optimizeQuality"
+                fillRule="evenodd"
+                clipRule="evenodd"
+                viewBox="0 0 784.37 1277.39"
+              >
+                <g id="Layer_x0020_1">
+                  <metadata id="CorelCorpID_0Corel-Layer" />
+                  <g id="_1421394342400">
+                    <g>
+                      <polygon
+                        fill="#343434"
+                        fillRule="nonzero"
+                        points="392.07,0 383.5,29.11 383.5,873.74 392.07,882.29 784.13,650.54 "
+                      />
+                      <polygon
+                        fill="#8C8C8C"
+                        fillRule="nonzero"
+                        points="392.07,0 -0,650.54 392.07,882.29 392.07,472.33 "
+                      />
+                      <polygon
+                        fill="#3C3C3B"
+                        fillRule="nonzero"
+                        points="392.07,956.52 387.24,962.41 387.24,1263.28 392.07,1277.38 784.37,724.89 "
+                      />
+                      <polygon
+                        fill="#8C8C8C"
+                        fillRule="nonzero"
+                        points="392.07,1277.38 392.07,956.52 -0,724.89 "
+                      />
+                      <polygon
+                        fill="#141414"
+                        fillRule="nonzero"
+                        points="392.07,882.29 784.13,650.54 392.07,472.33 "
+                      />
+                      <polygon
+                        fill="#393939"
+                        fillRule="nonzero"
+                        points="0,650.54 392.07,882.29 392.07,472.33 "
+                      />
+                    </g>
+                  </g>
+                </g>
+              </svg> &nbsp;0.333 
 
-              Parcels: {`${info.x}X ${info.y}Y`}{' '}
-            </p>
+              (${selectorHeight * selectorWidth})</span>
+        
           </div>
+          
+
+      </div>
+      <div className="col-6">
+      <div className='d-flex align-items-end flex-column'>
+       
+       <span className='mb-2'><i className='bi bi-border '></i> : ( {selectorHeight * selectorWidth} x {selectorHeight * selectorWidth} )</span>
+       <span><i className='bi bi-geo-alt'></i> {`${info.x}X , ${info.y}Y`}{' '}</span>
+     </div>
+      </div>
+    </div>
+
+
+
         </div>
       </div>
       <div
