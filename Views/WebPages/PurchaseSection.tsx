@@ -35,11 +35,7 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
   const handleMint = async () => {
     console.log(squreInfo)
     setMintStatus('Minting')
-    // const selectedSqures = [1]
-    // const quantSupplies = [1]
-    // const cords = [1]
-    
-      console.log(activeItem);
+      // console.log(activeItem);
 
     const image = await uploadImage(await getMintImage())
 
@@ -53,16 +49,16 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
 
     InfoMessage({title: "QUAD purchase", description:"Public minting of the quads has not began."})
 
-    if (!metadata) {
-      ErrorTransaction({title: "Metadata Error ", description:"Metatadata could not be uploaded. Please try again later"})
-      return
-    }
-    if(!name){
-      ErrorTransaction({title: "Upload Error ", description:"Please provide a name for your quad"})
-      return
-    }
+    // if (!metadata) {
+    //   ErrorTransaction({title: "Metadata Error ", description:"Metatadata could not be uploaded. Please try again later"})
+    //   return
+    // }
+    // if(!name){
+    //   ErrorTransaction({title: "Upload Error ", description:"Please provide a name for your quad"})
+    //   return
+    // }
 
-    let squrePos = (info.y - 1)*1000 + info.x
+    // let squrePos = (info.y - 1)*1000 + info.x
 
     return;    
     try {
@@ -159,8 +155,7 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
                 <i className="bi bi-geo-alt"></i>
               </span>
               <input
-                type="number"
-                aria-label="x"
+                type="text"
                 placeholder="ENTER LOT NAME"
                 onChange={(e) => setName(e.target.value)}
                 className="form-control"
