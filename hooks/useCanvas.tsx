@@ -268,8 +268,8 @@ export default function useCanvas() {
           setSqureInfo(squreInfoDefault)
 
           updateSelector(
-            Math.round(squreInfoDefault.x)- 0.5 * grid,
-            Math.round(squreInfoDefault.y) * grid - 0.5
+            Math.round(pointer.y/grid)- 0.5 * grid,
+            Math.round(pointer.x/grid) * grid - 0.5
           )
         },
         { passive: true }
@@ -327,14 +327,13 @@ export default function useCanvas() {
 
   const updateSelector = (x, y) => {
     const elem = adCanvas.getItemByName('defaultSelector');
-    // console.log(elem)
+
+    //chage and update centerpoint of object
     if (elem) {
       elem.set({
-        left: grid * x,
-        top: grid * y,
+        left: grid * y,
+        top: grid * x,
       })
-      // elem.scaleX = elem.scaleX
-      // elem.scaleY = elem.scaleY
     }
     adCanvas.renderAll()
   }
