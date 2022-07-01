@@ -106,43 +106,9 @@ export default function useCanvas() {
         // console.log({ squre: i, cords: { x: i * grid, y: i * grid } })
       }
 
-      const purchased = [
-        [1, 2],
-        [4, 5],
-        [36, 89],
-        [4, 6],
-        [702, 45],
-        [8, 9],
-        [8, 10],
-        [8, 11],
-        [8, 15],
-        [8, 18],
-        [8, 9],
-        [8, 29],
-        [8, 39],
-        [8, 49],
-        [8, 39],
-        [8, 19],
-      ]
+      const purchased = []
 
-      const owned = [
-        [5, 2],
-        [4, 5],
-        [36, 89],
-        [4, 6],
-        [23, 45],
-        [8, 9],
-        [29, 10],
-        [29, 11],
-        [29, 15],
-        [29, 19],
-        [9, 29],
-        [29, 29],
-        [9, 39],
-        [229, 49],
-        [29, 39],
-        [29, 19],
-      ]
+      const owned = []
 
       const rects = []
 
@@ -326,21 +292,6 @@ export default function useCanvas() {
         })
       })
 
-    //   adCanvas.on('object:modified', function(options) {
-    //     options.target.set({opacity: 1}); 
-
-    //     var newWidth = (Math.round(options.target.width / grid)) * grid;
-    //     console.log("Width:" + options.target.width);
-    //     console.log("Desired width: " + newWidth);
-
-    //     if(options.target.width !== newWidth) {
-    //         console.log("alter the width");
-    //         options.target.set({ width: newWidth });
-    //         console.log("Width changed to: " + options.target.width);
-    //     }
-
-    //     console.log("Final width: " + options.target.width);
-    // });
 
     }
   }, [adCanvas, selectorElem, group])
@@ -390,9 +341,8 @@ export default function useCanvas() {
         left: grid * x,
         top: grid * y,
       })
-
-      elem.scaleX = selectorWidth
-      elem.scaleY = selectorHeight
+      // elem.scaleX = elem.scaleX
+      // elem.scaleY = elem.scaleY
     }
     adCanvas.renderAll()
   }
