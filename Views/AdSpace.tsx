@@ -56,8 +56,7 @@ const AdSpace: React.FunctionComponent = () => {
                 <div className="row">
                   <div className="col-xl-10 col-12 pe-5">
                     <span style={{ color: '#ff006f' }} className="text-nowrap">
-                      {' '}
-                      <b>LOT NAME</b>{' '}
+                      <b> &lt; LOT NAME &gt; </b>
                     </span>
                     <div className="mt-2">
                       <span className="text-nowrap me-5">
