@@ -1,13 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { fabric } from 'fabric'
-// import { cloneIcon, deleteIcon } from '../components/CanvasAssets'
-
-// const deleteImg = document.createElement('img')
-// deleteImg.src = deleteIcon
-
-// const cloneImg = document.createElement('img')
-// cloneImg.src = cloneIcon
 
 const squreInfoDefault = {
   x: -1,
@@ -40,10 +33,10 @@ export default function useCanvas() {
       new fabric.Canvas('adcanvas', {
         containerClass: '',
         backgroundColor: '',
-        width: cAreaRef?.current?.clientWidth || 0,
-        height: cAreaRef.current?.clientWidth || 0,
+        width: 1500,
+        height: 1500,
         name: 'quadspace',
-        objectCaching: true,
+        objectCaching: false,
       })
     )
 
@@ -61,10 +54,8 @@ export default function useCanvas() {
     subTargetCheck: true,
     borderColor: ' #000',
     cornerColor: '#DDD',
-    objectCaching: true,
-    // cornerStyle: 'circle',
-    // cornerSize: 5,
-    // visible: false,
+    objectCaching: true
+
   })
 
   useEffect(() => {
@@ -243,7 +234,7 @@ export default function useCanvas() {
           const delta = opt.e.wheelDelta / 20
           let zoom = adCanvas.getZoom()
           zoom *= 0.999 ** delta
-          if (zoom > 40) zoom = 20
+          if (zoom > 60) zoom = 20
           if (zoom < 0.01) zoom = 0.01
           adCanvas.setZoom(zoom)
           opt.e.preventDefault()
@@ -300,6 +291,7 @@ export default function useCanvas() {
     const elem = adCanvas.getItemByName('defaultSelector');
     // const scale = elem.getObjectScaling()
     // elem.set('width', grid * e)
+    // console.log(e)
     setWidth(grid * e)
     elem.scaleY =  grid * e
     adCanvas.renderAll()

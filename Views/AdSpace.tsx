@@ -127,17 +127,23 @@ const AdSpace: React.FunctionComponent = () => {
           </div>
         </section>
       </Fragment>
-      {show && (
+
+      <PurchaseSection
+          setIsCanvasLeft={setIsCanvasLeft}
+          isCanvasLeft={isCanvasLeft}
+          activeItem={squreInfo}
+        />
+      {/* {show && (
         <PurchaseSection
           setIsCanvasLeft={setIsCanvasLeft}
           isCanvasLeft={isCanvasLeft}
           activeItem={squreInfo}
         />
-      )}
+      )} */}
       {!show && (
         <SpaceDetails
-      offcanvasBottem={offcanvasBottem}
-      offcanvasLeft={offcanvasLeft}
+          offcanvasBottem={offcanvasBottem}
+          offcanvasLeft={offcanvasLeft}
 
           setIsCanvasRight={setIsCanvasRight}
           isCanvasRight={isCanvasRight}
