@@ -62,13 +62,15 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
       return
     }
 
+    let squrePos = (info.y - 1)*1000 + info.x
+
     return;    
     try {
    await adscontract
         .create(
           address,
           101, 
-          1,  
+          squrePos,  
           metadata,
           "0x00"
         )
