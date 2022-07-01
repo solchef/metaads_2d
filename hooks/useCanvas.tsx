@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { fabric } from 'fabric'
-import { HtmlProps } from 'next/dist/shared/lib/html-context'
 // import { cloneIcon, deleteIcon } from '../components/CanvasAssets'
 
 // const deleteImg = document.createElement('img')
@@ -11,9 +10,9 @@ import { HtmlProps } from 'next/dist/shared/lib/html-context'
 // cloneImg.src = cloneIcon
 
 const squreInfoDefault = {
-  x: '-',
-  y: '-',
-  Price: '0',
+  x: -1,
+  y: -1,
+  Price: 0,
   Status: 'Available',
   owner: 'For Sale',
   link: 'quadspace.io',
@@ -44,7 +43,7 @@ export default function useCanvas() {
         width: 2500,
         height: 2500,
         name: 'quadspace',
-        // objectCaching: false,
+        objectCaching: true,
       })
     )
 
@@ -53,8 +52,8 @@ export default function useCanvas() {
   const rect = new fabric.Rect({
     height: selectorWidth,
     width: selectorHeight,
-    top: 0 - 0.5,
-    left: 0 - 0.5,
+    top: 500 - 0.5,
+    left: 500 - 0.5,
     centeredRotation: false,
     hasRotatingPoint: false,
     name: 'defaultSelector',
@@ -62,7 +61,7 @@ export default function useCanvas() {
     subTargetCheck: true,
     borderColor: ' #000',
     cornerColor: '#DDD',
-    objectCaching: false,
+    objectCaching: true,
     // cornerStyle: 'circle',
     // cornerSize: 5,
     // visible: false,
@@ -75,10 +74,13 @@ export default function useCanvas() {
   useEffect(() => {
     // deleteCanvasItems()
     if (adCanvas) {
-      // console.log(gridCreated)
+      console.log(gridCreated)
       if (!gridCreated) createGrid(adCanvas)
     }
   }, [adCanvas])
+
+
+  
 
   const createGrid = (adBoard) => {
     setCreateGrid(true)
@@ -204,16 +206,19 @@ export default function useCanvas() {
   }
 
   const addSelector = () => {
-    rect.left = squreInfo.x + 0.5
-    rect.top = squreInfo.y + 0.5
-    rect.width = 10
-    rect.height = 10
-    rect.width = selectorWidth
-    rect.height = selectorHeight
-    rect.visible = true
-    adCanvas.add(rect)
-    setSelector(rect)
+
+    const elem  = adCanvas.getObjects()[1]
+
+    // elem.left = squreInfo.x + 0.5
+    // elem.top = squreInfo.y + 0.5
+    elem.scaleX = 10
+    elem.scaleY = 10
+    elem.visible = true
+    // adCanvas.add(rect)
+    setSelector(elem)
     adCanvas.renderAll()
+
+    console.log(elem)
   }
 
   const getCurrentXoYo = () => {
@@ -294,9 +299,9 @@ export default function useCanvas() {
           adCanvas.selection = true
           const pointer = adCanvas.getPointer(o.e)
           const squreInfoDefault = {
-            x: (Math.round(pointer.x / grid) * grid).toString(),
-            y: (Math.round(pointer.y / grid) * grid).toString(),
-            Price: '1',
+            x: Math.round(pointer.x / grid) * grid,
+            y: Math.round(pointer.y / grid) * grid,
+            Price: 1,
             Status: 'Available',
             owner: 'For Sale',
             link: 'quadspace.io',
@@ -306,8 +311,8 @@ export default function useCanvas() {
           setSqureInfo(squreInfoDefault)
 
           updateSelector(
-            Number(squreInfoDefault.x) - 0.5 * grid,
-            Number(squreInfoDefault.y) * grid - 0.5
+            Math.round(squreInfoDefault.x)- 0.5 * grid,
+            Math.round(squreInfoDefault.y) * grid - 0.5
           )
         },
         { passive: true }
@@ -320,37 +325,72 @@ export default function useCanvas() {
           top: Math.round(options.target.top / grid) * grid,
         })
       })
+
+    //   adCanvas.on('object:modified', function(options) {
+    //     options.target.set({opacity: 1}); 
+
+    //     var newWidth = (Math.round(options.target.width / grid)) * grid;
+    //     console.log("Width:" + options.target.width);
+    //     console.log("Desired width: " + newWidth);
+
+    //     if(options.target.width !== newWidth) {
+    //         console.log("alter the width");
+    //         options.target.set({ width: newWidth });
+    //         console.log("Width changed to: " + options.target.width);
+    //     }
+
+    //     console.log("Final width: " + options.target.width);
+    // });
+
     }
   }, [adCanvas, selectorElem, group])
 
   const setSelectorWidth = (e) => {
-    const elem = adCanvas.getObjects()[1]
+    const elem = adCanvas.getItemByName('defaultSelector');
     // const scale = elem.getObjectScaling()
     elem.set('width', grid * e)
     setWidth(grid * e)
-    adCanvas.renderAll()
+    // adCanvas.renderAll()
   }
 
   const setSelectorHeight = (e) => {
-    const elem = adCanvas.getObjects()[1]
+    const elem = adCanvas.getItemByName('defaultSelector');
+
+    console.log(elem)
     elem.set('height', grid * e)
+    elem.set('left', elem * e)
     setHeight(grid * e)
-    adCanvas.renderAll()
+    // adCanvas.renderAll()
   }
 
   const getMintImage = () => {
         return adCanvas.toDataURL();
   }
 
+  fabric.Canvas.prototype.getItemByName = function(name) {
+    var object = null,
+        objects = this.getObjects();
+  
+    for (var i = 0, len = this.size(); i < len; i++) {
+      if (objects[i].name && objects[i].name === name) {
+        object = objects[i];
+        break;
+      }
+    }
+  
+    return object;
+  };
+  
+
   const updateSelector = (x, y) => {
-    const elem = adCanvas.getObjects()[1]
+    const elem = adCanvas.getItemByName('defaultSelector');
     console.log(elem)
     if (elem) {
       elem.set({
         left: grid * x,
         top: grid * y,
-        // height: 10,
-        // width: 10,
+        height: selectorHeight,
+        width: selectorHeight,
         scalex: 1,
         scaley: 1,
         hasRotatingPoint: false,
