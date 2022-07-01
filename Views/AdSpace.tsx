@@ -197,15 +197,6 @@ const AdSpace: React.FunctionComponent = () => {
         isCanvasLeft={isCanvasLeft}
         activeItem={squreInfo}
       />
-
-      {!show && (
-        <SpaceDetails
-          offcanvasBottem={offcanvasBottem}
-          offcanvasLeft={offcanvasLeft}
-          setIsCanvasRight={setIsCanvasRight}
-          isCanvasRight={isCanvasRight}
-        />
-      )}
     </>
   )
 }
