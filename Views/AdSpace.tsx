@@ -4,9 +4,10 @@ import PurchaseSection from './WebPages/PurchaseSection'
 import SpaceDetails from './WebPages/SpaceDetails'
 import Link from 'next/link'
 import { useWeb3Context } from '../context'
+import { QuadSpaceContract } from '../utils/constants'
 
 const AdSpace: React.FunctionComponent = () => {
-  const { address } = useWeb3Context()
+  const { address, contracts } = useWeb3Context()
 
   const { cAreaRef, zoomIn, zoomOut, addSelector, squreInfo, resetPlane } =
     useCanvas()
@@ -18,6 +19,7 @@ const AdSpace: React.FunctionComponent = () => {
   const [show, setShow] = useState(false)
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
   const [isCanvasBottem, setIsCanvasBottem] = useState(false)
+  const adscontract = contracts['metaads']
   const offcanvasRight = () => {
     setShow(false)
     offcanvasBottem()
@@ -57,15 +59,19 @@ const AdSpace: React.FunctionComponent = () => {
                   <div className="col-xl-10 col-12 pe-5">
                     <span style={{ color: '#ff006f' }} className="text-nowrap">
                       {' '}
-                      <b>LOT NAME</b>{' '}
+                      <b>LOT NAME</b>
+                      {''}
                     </span>
                     <div className="mt-2">
                       <span className="text-nowrap me-5">
-                        <i className="bi bi-geo-alt"></i> 10X, 404Y
+                        <i className="bi bi-geo-alt"></i> {squreInfo.x}X,{' '}
+                        {squreInfo.y}Y
                       </span>
                       <span className="text-nowrap me-5">
                         <i className="bi bi-person"></i>{' '}
-                        {address && address.substring(0, 10) + '...'}
+                        {address
+                          ? address.substring(0, 10) + '...'
+                          : QuadSpaceContract}
                       </span>
                     </div>
                   </div>
@@ -134,7 +140,7 @@ const AdSpace: React.FunctionComponent = () => {
                               </g>
                             </g>
                           </svg>{' '}
-                          &nbsp;0.333 ( $ 1 )
+                          &nbsp;0.000942 ( $ 1 )
                         </span>
                       </span>
                     </div>
@@ -191,21 +197,6 @@ const AdSpace: React.FunctionComponent = () => {
         isCanvasLeft={isCanvasLeft}
         activeItem={squreInfo}
       />
-      {/* {show && (
-        <PurchaseSection
-          setIsCanvasLeft={setIsCanvasLeft}
-          isCanvasLeft={isCanvasLeft}
-          activeItem={squreInfo}
-        />
-      )} */}
-      {!show && (
-        <SpaceDetails
-          offcanvasBottem={offcanvasBottem}
-          offcanvasLeft={offcanvasLeft}
-          setIsCanvasRight={setIsCanvasRight}
-          isCanvasRight={isCanvasRight}
-        />
-      )}
     </>
   )
 }
