@@ -3,9 +3,7 @@ import { Web3Button } from '../../components'
 import { useWeb3Context } from '../../context'
 import useCanvas from '../../hooks/useCanvas'
 import { useIPFS } from '../../hooks/useIPFS'
-import { QuadDescription } from '../../utils/constants'
-import { ErrorTransaction, MiningTransaction, SuccessfulTransaction, InfoMessage } from '../../utils/notifications';
-
+import { handleMint } from '../../utils/handleMint'
 
 function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
   const {
@@ -14,12 +12,11 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
     selectorHeight,
     selectorWidth,
     squreInfo,
-    getMintImage
+    getMintImage,
   } = useCanvas()
 
-  const { uploadMetadata, uploadImage } = useIPFS()
+  const { uploadMetadata, uploadImage }: any = useIPFS()
   const [mintStatus, setMintStatus] = useState('PURCHASE PLOT')
-  const [message, setMessage] = useState('PURCHASE PLOT')
 
   const { contracts, address, web3Provider } = useWeb3Context()
   const [name, setName] = useState('')
@@ -28,10 +25,11 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
   const [info, setInfo] = useState(squreInfo)
 
   useEffect(() => {
-    console.log(activeItem)
+    // console.log(activeItem)
     setInfo(activeItem)
   }, [activeItem])
 
+<<<<<<< Updated upstream
   const handleMint = async () => {
     console.log(squreInfo)
     setMintStatus('Minting')
@@ -40,12 +38,19 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
     const image = await uploadImage(await getMintImage())
 
     const metadata = await uploadMetadata(
+=======
+  const handleSubmit = async () => {
+    const result = await handleMint(
+>>>>>>> Stashed changes
       name,
-      QuadDescription,
-      image,
-      info.x,
-      info.y
+      address,
+      adscontract,
+      getMintImage,
+      squreInfo,
+      uploadMetadata,
+      uploadImage
     )
+<<<<<<< Updated upstream
 
     InfoMessage({ title: "QUAD purchase", description: "Public minting of the quads has not began." })
 
@@ -87,6 +92,9 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
       console.log(e)
       setMintStatus('An Error Occurred')
     }
+=======
+    setMintStatus(result)
+>>>>>>> Stashed changes
   }
 
   return (
@@ -179,6 +187,7 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
             <div className='mb-4 mt-4'>
               <Web3Button />
 
+<<<<<<< Updated upstream
             </div>
           }
 
@@ -242,6 +251,29 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
 
               (${selectorHeight * selectorWidth})</span>
         
+=======
+          <div className="flex-column d-flex">
+            {web3Provider ? (
+              <button
+                className="btn-primary hoverable btn-lg mb-3 w-100"
+                onClick={() => handleSubmit()}
+              >
+                <i className="bi-cart me-2" />
+                {mintStatus}
+              </button>
+            ) : (
+              <Web3Button />
+            )}
+
+            <span>PURCHASE PLOT</span>
+            <p className="muted">
+              QTY: {selectorHeight * selectorWidth} Quads
+              <br /> PRICE: $ {selectorHeight * selectorWidth}
+              <br /> ADSPACE: {selectorHeight * selectorWidth}, <br />
+              {/* QuadRooms: 12000ft2 <br /> */}
+              Parcels: {`${info.x}X ${info.y}Y`}{' '}
+            </p>
+>>>>>>> Stashed changes
           </div>
           
 
