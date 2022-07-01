@@ -28,17 +28,19 @@ export default function useCanvas() {
 
   const grid = 1
   // console.log(cAreaRef?.current?.clientWidth)
-  const initCanvas = () =>
+  const initCanvas = () => {
+    // canvas-box
     setAdCanvas(
       new fabric.Canvas('adcanvas', {
         containerClass: '',
         backgroundColor: '',
-        width: 1500,
-        height: 1500,
+        width: window.innerWidth,
+        height: window.innerWidth,
         name: 'quadspace',
         objectCaching: false,
       })
     )
+  }
 
   fabric.Object.prototype.hasRotatingPoint = false
 
@@ -329,7 +331,6 @@ export default function useCanvas() {
     }
     adCanvas.renderAll()
   }
-
 
   return {
     cAreaRef,
