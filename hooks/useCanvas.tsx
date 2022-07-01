@@ -34,14 +34,14 @@ export default function useCanvas() {
   // const [selectedSqures, setSelectedSqures] = useState([])
 
   const grid = 1
-
+    // console.log(cAreaRef?.current?.clientWidth)
   const initCanvas = () =>
     setAdCanvas(
       new fabric.Canvas('adcanvas', {
         containerClass: '',
         backgroundColor: '',
-        width: 2500,
-        height: 2500,
+        width: cAreaRef?.current?.clientWidth || 0,
+        height: cAreaRef.current?.clientWidth || 0,
         name: 'quadspace',
         objectCaching: true,
       })

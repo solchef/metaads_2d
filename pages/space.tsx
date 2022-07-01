@@ -28,14 +28,9 @@ const Space = () => {
     setIsCanvasRight(false)
   }
 
-  //   const board = useRef()
 
-  useEffect(() => {
-    // const context = board.current.getContext('2d')
-    // context.scale(2000, 2000)
-  }, [])
 
-  const { cAreaRef, zoomIn, zoomOut, squreInfo } = useCanvas()
+  const { cAreaRef, zoomIn, zoomOut, squreInfo, addSelector, resetPlane } = useCanvas()
   useEffect(() => {
     console.log(squreInfo)
   }, [squreInfo])
@@ -87,12 +82,14 @@ const Space = () => {
                 </button>
                 <button
                   title="Reset"
+                  onClick={() => resetPlane()}
                   className="btn btn-primary hoverable btn-lg"
                 >
                   <i className="bi-arrow-clockwise" />
                 </button>
                 <button
                   title="Move Map"
+                  onClick={() => addSelector()}
                   className="btn btn-primary hoverable btn-lg "
                 >
                   <i className="bi-arrows-move" />
