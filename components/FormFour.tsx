@@ -5,7 +5,7 @@ import { useIPFS } from '../hooks/useIPFS'
 import { handleMint } from '../utils/handleMint'
 
 const FormFour = (props) => {
-   const { contracts, address } = useWeb3Context()
+  const { contracts, address } = useWeb3Context()
   const adscontract = contracts['metaads']
   const { squreInfo, getMintImage } = useCanvas()
   const { uploadMetadata, uploadImage }: any = useIPFS()
@@ -23,9 +23,13 @@ const FormFour = (props) => {
       uploadMetadata,
       uploadImage
     )
+  }
   return (
     <>
-      <button className="btn-primary btn-lg w-100 buy-lot hoverable mt-1"   onClick={handleSubmint}>
+      <button
+        className="btn-primary btn-lg w-100 buy-lot hoverable mt-1"
+        onClick={handleSubmint}
+      >
         <i className="bi-cart me-2 " />
         BUY LOT{' '}
       </button>
