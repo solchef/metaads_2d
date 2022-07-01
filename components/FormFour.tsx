@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 const FormFour = (props) => {
   return (
@@ -105,7 +105,7 @@ const FormFour = (props) => {
 
 
     </>
-  );
-};
+  )
+}
 
-export default FormFour;
+export default FormFour

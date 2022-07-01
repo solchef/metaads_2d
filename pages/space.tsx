@@ -16,7 +16,6 @@ const Space = () => {
     setIsCanvasRight(!isCanvasRight)
     setIsCanvasLeft(false)
     setIsCanvasBottem(false)
-
   }
   const offcanvasLeft = () => {
     setIsCanvasLeft(!isCanvasLeft)
@@ -28,9 +27,8 @@ const Space = () => {
     setIsCanvasRight(false)
   }
 
-
-
-  const { cAreaRef, zoomIn, zoomOut, squreInfo, addSelector, resetPlane } = useCanvas()
+  const { cAreaRef, zoomIn, zoomOut, squreInfo, addSelector, resetPlane } =
+    useCanvas()
   useEffect(() => {
     console.log(squreInfo)
   }, [squreInfo])
@@ -247,6 +245,7 @@ const Space = () => {
       </div>
 
       <div className={`accordion show-mobile show ${isCanvasBottem ? '' : 'showw'}`}>
+    
         <div className="accordion-item ">
           <h2 className="accordion-header">
             <button
@@ -272,7 +271,6 @@ const Space = () => {
                 <FormTwo removeFormTwoHandler={removeFormTwoHandler} />
                 <FormThree removeFormTwoHandler={removeFormTwoHandler} />
                 <FormFour removeFormTwoHandler={removeFormTwoHandler} />
-
               </StepWizard>
             </div>
           </div>
@@ -290,7 +288,6 @@ const Space = () => {
         isCanvasLeft={isCanvasLeft}
         activeItem={squreInfo}
       />
-
 
     </>
   )
