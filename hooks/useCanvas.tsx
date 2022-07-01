@@ -7,9 +7,10 @@ const squreInfoDefault = {
   y: -1,
   Price: 0,
   Status: 'Available',
-  owner: 'For Sale',
+  owner: '0.000942',
   link: 'quadspace.io',
   area: '1 X 1',
+  qty: 1,
 }
 
 export default function useCanvas() {
@@ -24,7 +25,6 @@ export default function useCanvas() {
   const [selectorHeight, setHeight] = useState(1)
   const [squreInfo, setSqureInfo] = useState(squreInfoDefault)
   const [gridCreated, setCreateGrid] = useState(false)
-  // const [selectedSqures, setSelectedSqures] = useState([])
 
   const grid = 1
   // console.log(cAreaRef?.current?.clientWidth)
@@ -252,6 +252,7 @@ export default function useCanvas() {
         function (o) {
           adCanvas.selection = true
           const pointer = adCanvas.getPointer(o.e)
+
           const squreInfoDefault = {
             x: Math.round(pointer.x / grid) * grid,
             y: Math.round(pointer.y / grid) * grid,
@@ -260,6 +261,7 @@ export default function useCanvas() {
             owner: 'For Sale',
             link: 'quadspace.io',
             area: '1 X 1',
+            qty: 1,
           }
 
           setSqureInfo(squreInfoDefault)
