@@ -27,7 +27,7 @@ export default function useCanvas() {
   // const [selectedSqures, setSelectedSqures] = useState([])
 
   const grid = 1
-    // console.log(cAreaRef?.current?.clientWidth)
+  // console.log(cAreaRef?.current?.clientWidth)
   const initCanvas = () =>
     setAdCanvas(
       new fabric.Canvas('adcanvas', {
@@ -54,8 +54,7 @@ export default function useCanvas() {
     subTargetCheck: true,
     borderColor: ' #000',
     cornerColor: '#DDD',
-    objectCaching: true
-
+    objectCaching: true,
   })
 
   useEffect(() => {
@@ -69,9 +68,6 @@ export default function useCanvas() {
       if (!gridCreated) createGrid(adCanvas)
     }
   }, [adCanvas])
-
-
-  
 
   const createGrid = (adBoard) => {
     setCreateGrid(true)
@@ -163,8 +159,7 @@ export default function useCanvas() {
   }
 
   const addSelector = () => {
-
-    const elem  = adCanvas.getObjects()[1]
+    const elem = adCanvas.getObjects()[1]
 
     // elem.left = squreInfo.x + 0.5
     // elem.top = squreInfo.y + 0.5
@@ -268,8 +263,8 @@ export default function useCanvas() {
           setSqureInfo(squreInfoDefault)
 
           updateSelector(
-            Math.round(pointer.y/grid)- 0.5 * grid,
-            Math.round(pointer.x/grid) * grid - 0.5
+            Math.round(pointer.y / grid) - 0.5 * grid,
+            Math.round(pointer.x / grid) * grid - 0.5
           )
         },
         { passive: true }
@@ -282,51 +277,48 @@ export default function useCanvas() {
           top: Math.round(options.target.top / grid - 0.5) * grid,
         })
       })
-
-
     }
   }, [adCanvas, selectorElem, group])
 
   const setSelectorWidth = (e) => {
-    const elem = adCanvas.getItemByName('defaultSelector');
+    const elem = adCanvas.getItemByName('defaultSelector')
     // const scale = elem.getObjectScaling()
     // elem.set('width', grid * e)
     // console.log(e)
     setWidth(grid * e)
-    elem.scaleX =  grid * e
+    elem.scaleX = grid * e
     adCanvas.renderAll()
   }
 
   const setSelectorHeight = (e) => {
-    const elem = adCanvas.getItemByName('defaultSelector');
+    const elem = adCanvas.getItemByName('defaultSelector')
     // elem.set('height', grid * e)
 
-    elem.scaleY =  grid  * e
+    elem.scaleY = grid * e
     setHeight(grid * e)
     adCanvas.renderAll()
   }
 
   const getMintImage = () => {
-        return adCanvas.toDataURL();
+    return adCanvas.toDataURL()
   }
 
-  fabric.Canvas.prototype.getItemByName = function(name) {
+  fabric.Canvas.prototype.getItemByName = function (name) {
     var object = null,
-        objects = this.getObjects();
-  
+      objects = this.getObjects()
+
     for (var i = 0, len = this.size(); i < len; i++) {
       if (objects[i].name && objects[i].name === name) {
-        object = objects[i];
-        break;
+        object = objects[i]
+        break
       }
     }
-  
-    return object;
-  };
-  
+
+    return object
+  }
 
   const updateSelector = (x, y) => {
-    const elem = adCanvas.getItemByName('defaultSelector');
+    const elem = adCanvas.getItemByName('defaultSelector')
 
     //chage and update centerpoint of object
     if (elem) {
@@ -337,6 +329,7 @@ export default function useCanvas() {
     }
     adCanvas.renderAll()
   }
+
 
   return {
     cAreaRef,
@@ -351,8 +344,8 @@ export default function useCanvas() {
     setSelectorWidth,
     setSelectorHeight,
     addSelector,
-    getMintImage ,
+    getMintImage,
     resetPlane,
-    getCurrentXoYo
+    getCurrentXoYo,
   }
 }
