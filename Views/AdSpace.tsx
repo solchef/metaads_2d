@@ -47,21 +47,19 @@ const AdSpace: React.FunctionComponent = () => {
         </section>
 
         <section id="grid-section" className="hide-mobile">
-          <div className="container-fluid">
+          <div className="container">
             <div className="controls align-items-center" id="buy-quads">
               <div className="d-flex flex-row-inverse justify-content-between align-items-center wrap-flow">
                 <div className="row">
                   <div className="col-xl-10 col-12 pe-5">
                     <span style={{ color: '#ff006f' }} className="text-nowrap">
-<<<<<<< HEAD
-                      <b> &lt; LOT NAME &gt; </b>
-                    </span>
-=======
                       {' '}
-                      <b> &lt; LOT NAME &gt; </b>{' '}
+                      <b>
+                        {' '}
+                        X{squreInfo.x}Y{squreInfo.y}
+                      </b>{' '}
                     </span>
 
->>>>>>> 25829fff (dynamic values)
                     <div className="mt-2">
                       <span className="text-nowrap me-5">
                         <i className="bi bi-geo-alt"></i> {squreInfo.x}X,{' '}

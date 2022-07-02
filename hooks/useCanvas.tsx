@@ -31,6 +31,7 @@ export default function useCanvas() {
 
   // 1. Viewing and moving around
   // 2. Purchase mode. Allows user to define the purchase area
+
   const grid = 1
   // console.log(cAreaRef?.current?.clientWidth)
   const initCanvas = () => {
@@ -63,8 +64,6 @@ export default function useCanvas() {
     borderColor: ' #000',
     cornerColor: '#DDD',
     objectCaching: false,
-    lockScalingY: true,
-    lockScalingX: true,
   })
 
   useEffect(() => {
@@ -89,6 +88,7 @@ export default function useCanvas() {
           selectable: false,
           strokeWidth: 0.1,
           objectCaching: false,
+          subTargetCheck: true,
         })
         gridlines.push(horiz)
 
@@ -97,6 +97,7 @@ export default function useCanvas() {
           selectable: false,
           strokeWidth: 0.1,
           objectCaching: false,
+          subTargetCheck: true,
         })
 
         gridlines.push(vertical)
@@ -146,6 +147,7 @@ export default function useCanvas() {
       })
 
       const adGroup = new fabric.Group([...gridlines, ...rects], {
+        subTargetCheck: true,
         objectCaching: false,
         selectable: true,
       })
@@ -153,7 +155,6 @@ export default function useCanvas() {
       setGroup(adGroup)
 
       adBoard.add(adGroup)
-      rect.setControlVisible('mt', false)
       adBoard.add(rect)
 
       adBoard.renderAll()
@@ -183,25 +184,18 @@ export default function useCanvas() {
   }, [userMode])
 
   const resetPlane = () => {
-    alert('removing')
-    const elem = adCanvas.getItemByName('defaultSelector')
-    let cnv = adCanvas.remove(adCanvas.getObjects()[1])
+    var matrix = adCanvas.getObjects()[0].calcTransformMatrix()
+    var options = fabric.util.qrDecompose(matrix)
+    // console.log(options.translateX, options.translateY)
 
-    console.log(cnv)
-
-    // adCanvas.rect.remove()
-    // adCanvas.add(rect)
     // defaultZoom()
-    cnv.renderAll()
-    setAdCanvas(cnv)
-
-    console.log(adCanvas)
+    // console.log(adCanvas)
   }
 
   const addSelector = () => {
+    // console.log(adCanvas.getCoords())
     adCanvas.add(rect)
     adCanvas.renderAll()
-    adCanvas.requestRenderAll()
   }
 
   const getSelector = () => {}
@@ -232,7 +226,7 @@ export default function useCanvas() {
 
   const defaultZoom = () => {
     if (adCanvas) {
-      adCanvas.zoomToPoint(new fabric.Point(500, 500), adCanvas.getZoom() * 10)
+      adCanvas.zoomToPoint(new fabric.Point(0, 0), adCanvas.getZoom() * 10)
     }
   }
 
@@ -280,14 +274,25 @@ export default function useCanvas() {
       )
 
       adCanvas.on('mouse:up', function (o) {
-        // console.log(adCanvas.getObjects())
+        // console.log(adCanvas.getObjects()[0].getPointer(o.e))
         try {
           const elem = adCanvas.getObjects()[1]
           adCanvas.setActiveObject(elem)
         } catch (e) {
-          console.log('error')
+          // console.log('error')
         }
       })
+
+      // if (group) {
+      //   group.on('mousedown', (e) => {
+      //     console.log('clicked on image')
+      //     console.log(e)
+
+      //     if (e.subTargets[0] && e.subTargets[0].type === 'line') {
+      //       // console.log('clicked on image')
+      //     }
+      //   })
+      // }
 
       adCanvas.on(
         'mouse:down',
@@ -306,6 +311,10 @@ export default function useCanvas() {
             qty: 1,
           }
 
+          // let group = adCanvas.getObjects()[0]
+
+          // console.log(group)
+
           setSqureInfo(squreInfoDefault)
 
           updateSelector(
@@ -323,7 +332,6 @@ export default function useCanvas() {
           top: Math.round(options.target.top / grid - 0.5) * grid,
         })
       })
-<<<<<<< Updated upstream
     }
   }, [adCanvas, selectorElem, group])
 
@@ -332,16 +340,6 @@ export default function useCanvas() {
     // const scale = elem.getObjectScaling()
     // elem.set('width', grid * e)
     // console.log(e)
-=======
-
-
-    
-  }, [adCanvas, selectorElem, group])
-
-  const setSelectorWidth = (e) => {
-    const elem = adCanvas.getItemByName('defaultSelector');
-
->>>>>>> Stashed changes
     setWidth(grid * e)
     elem.scaleX = grid * e
     adCanvas.renderAll()
