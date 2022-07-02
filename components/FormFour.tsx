@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react'
 import { useWeb3Context } from '../context'
-import useCanvas from '../hooks/useCanvas'
 import { useIPFS } from '../hooks/useIPFS'
 import { handleMint } from '../utils/handleMint'
 
 const FormFour = (props) => {
   const { contracts, address } = useWeb3Context()
   const adscontract = contracts['metaads']
-  const { squreInfo, getMintImage } = useCanvas()
   const { uploadMetadata, uploadImage }: any = useIPFS()
 
   const handleSubmint = async () => {
@@ -18,8 +16,8 @@ const FormFour = (props) => {
       props.landName,
       address,
       adscontract,
-      getMintImage,
-      squreInfo,
+      props.getMintImage,
+      props.squreInfo,
       uploadMetadata,
       uploadImage
     )

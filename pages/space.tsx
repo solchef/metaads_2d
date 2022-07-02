@@ -8,11 +8,14 @@ import FormFour from '../components/FormFour'
 import PurchaseSection from '../Views/WebPages/PurchaseSection'
 import SpaceDetails from '../Views/WebPages/SpaceDetails'
 import Link from 'next/link'
+import { useWeb3Context } from '../context'
+import { QuadSpaceContract } from '../utils/constants'
 const Space = () => {
   const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
   const [isCanvasBottem, setIsCanvasBottem] = useState(false)
   const [userLandName, setUserLandName] = useState('')
+  const { address, contracts } = useWeb3Context()
 
   const offcanvasRight = () => {
     setIsCanvasRight(!isCanvasRight)
@@ -25,12 +28,26 @@ const Space = () => {
     setIsCanvasBottem(false)
   }
   const offcanvasBottem = () => {
+    if (isCanvasRight == false) {
+      addSelector()
+    }
     setIsCanvasBottem(!isCanvasBottem)
     setIsCanvasRight(false)
   }
 
-  const { cAreaRef, zoomIn, zoomOut, squreInfo, addSelector, resetPlane } =
-    useCanvas()
+  const {
+    cAreaRef,
+    zoomIn,
+    zoomOut,
+    squreInfo,
+    addSelector,
+    resetPlane,
+    setSelectorWidth,
+    setSelectorHeight,
+    selectorWidth,
+    selectorHeight,
+    getMintImage,
+  } = useCanvas()
   useEffect(() => {
     console.log(squreInfo)
   }, [squreInfo])
@@ -49,11 +66,14 @@ const Space = () => {
               <div className="col-10 pe-5">
                 <span style={{ color: '#ff006f' }} className="text-nowrap">
                   {' '}
-                  <b>LOT NAME</b>{' '}
+                  <b>
+                    Y{squreInfo.y}x{squreInfo.x}
+                  </b>{' '}
                 </span>
                 <div className="mt-2">
                   <span className="text-nowrap me-5">
-                    <i className="bi bi-geo-alt"></i> 10X, 404Y
+                    <i className="bi bi-geo-alt"></i> {squreInfo.x}X,{' '}
+                    {squreInfo.y}Y
                   </span>
                   <span className="text-nowrap me-5">
                     <i className="bi bi-person"></i> X05023...
@@ -181,18 +201,24 @@ const Space = () => {
       <div className="space-details show-mobile p-3">
         <span style={{ color: '#ff006f' }} className="text-nowrap ">
           {' '}
-          <b> &lt; LOT NAME &gt; </b>{' '}
+          <b>
+            {' '}
+            Y{squreInfo.y}x{squreInfo.x}{' '}
+          </b>{' '}
         </span>
 
         <div className="d-flex justify-content-between mt-3">
           <div className="">
             <div className="">
               <span className="text-nowrap me-5">
-                <i className="bi bi-geo-alt"></i> 10X, 404Y
+                <i className="bi bi-geo-alt"></i> {squreInfo.x}X, {squreInfo.y}Y
               </span>
               <div className="mt-4">
                 <span className="text-nowrap me-5">
-                  <i className="bi bi-person"></i> X05023...
+                  <i className="bi bi-person"></i>{' '}
+                  {address
+                    ? address.substring(0, 10) + '...'
+                    : QuadSpaceContract.substring(0, 10) + '...'}
                 </span>
               </div>
             </div>
@@ -293,7 +319,13 @@ const Space = () => {
           >
             <div className="accordion-body">
               <StepWizard>
-                <FormOne addFormTwoHandler={addFormTwoHandler} />
+                <FormOne
+                  addFormTwoHandler={addFormTwoHandler}
+                  setSelectorWidth={setSelectorWidth}
+                  setSelectorHeight={setSelectorHeight}
+                  selectorWidth={selectorWidth}
+                  selectorHeight={selectorHeight}
+                />
                 <FormTwo removeFormTwoHandler={removeFormTwoHandler} />
                 <FormThree
                   removeFormTwoHandler={removeFormTwoHandler}
@@ -302,24 +334,14 @@ const Space = () => {
                 <FormFour
                   removeFormTwoHandler={removeFormTwoHandler}
                   landName={userLandName}
+                  squreInfo={squreInfo}
+                  getMintImage={getMintImage}
                 />
               </StepWizard>
             </div>
           </div>
         </div>
       </div>
-      <SpaceDetails
-        offcanvasBottem={offcanvasBottem}
-        offcanvasLeft={offcanvasLeft}
-        setIsCanvasRight={setIsCanvasRight}
-        isCanvasRight={isCanvasRight}
-      />
-
-      <PurchaseSection
-        setIsCanvasLeft={setIsCanvasLeft}
-        isCanvasLeft={isCanvasLeft}
-        activeItem={squreInfo}
-      />
     </>
   )
 }

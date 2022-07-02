@@ -27,9 +27,7 @@ export default function useCanvas() {
   const [gridCreated, setCreateGrid] = useState(false)
 
   const grid = 1
-  // console.log(cAreaRef?.current?.clientWidth)
   const initCanvas = () => {
-    // canvas-box
     setAdCanvas(
       new fabric.Canvas('adcanvas', {
         containerClass: '',
@@ -166,17 +164,11 @@ export default function useCanvas() {
 
   const addSelector = () => {
     const elem = adCanvas.getObjects()[1]
-
-    // elem.left = squreInfo.x + 0.5
-    // elem.top = squreInfo.y + 0.5
     elem.height = 10
     elem.height = 10
     elem.visible = true
-    // adCanvas.add(rect)
     setSelector(elem)
     adCanvas.renderAll()
-
-    console.log(elem)
   }
 
   const getCurrentXoYo = () => {
@@ -185,7 +177,6 @@ export default function useCanvas() {
       left: obj.left,
       top: obj.top,
     })
-
     return {
       left: obj.left,
       top: obj.top,

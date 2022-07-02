@@ -1,9 +1,6 @@
 import React from 'react'
-import useCanvas from '../hooks/useCanvas'
 
 const FormOne = (props) => {
-  const { setSelectorWidth, setSelectorHeight } = useCanvas()
-
   return (
     <>
       <h3 className="text-white mb-4">STEP 1 - SELECT LOT SIZE</h3>
@@ -17,15 +14,15 @@ const FormOne = (props) => {
             type="text"
             aria-label="x"
             placeholder="X"
-            onChange={(e) => setSelectorWidth(e.target.value)}
+            onChange={(e) => props.setSelectorWidth(e.target.value)}
             className="form-control "
-            defaultValue={1}
+            defaultValue={props.selectorWidth}
           />
           <input
             type="text"
             aria-label="y"
-            onChange={(e) => setSelectorHeight(e.target.value)}
-            defaultValue={1}
+            onChange={(e) => props.etSelectorHeight(e.target.value)}
+            defaultValue={props.selectorHeight}
             placeholder="Y"
             className="form-control value="
           />
