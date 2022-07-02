@@ -25,6 +25,7 @@ export default function useCanvas() {
   const [selectorHeight, setHeight] = useState(10)
   const [squreInfo, setSqureInfo] = useState(squreInfoDefault)
   const [gridCreated, setCreateGrid] = useState(false)
+  const [enableBuy, setEnableBuy] = useState(true)
 
   const grid = 1
   const initCanvas = () => {
@@ -260,7 +261,7 @@ export default function useCanvas() {
           }
 
           setSqureInfo(squreInfoDefault)
-
+          console.log(enableBuy)
           updateSelector(
             Math.round(pointer.y / grid) - 0.5 * grid,
             Math.round(pointer.x / grid) * grid - 0.5
@@ -318,12 +319,15 @@ export default function useCanvas() {
 
   const updateSelector = (x, y) => {
     const elem = adCanvas.getItemByName('defaultSelector')
-
-    //chage and update centerpoint of object
-    if (elem) {
+    if (enableBuy) {
       elem.set({
         left: grid * y,
         top: grid * x,
+      })
+    } else {
+      elem.set({
+        left: 0,
+        top: 0,
       })
     }
     adCanvas.renderAll()
@@ -345,5 +349,7 @@ export default function useCanvas() {
     getMintImage,
     resetPlane,
     getCurrentXoYo,
+    enableBuy,
+    setEnableBuy,
   }
 }

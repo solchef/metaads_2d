@@ -16,25 +16,6 @@ const Space = () => {
   const [isCanvasBottem, setIsCanvasBottem] = useState(false)
   const [userLandName, setUserLandName] = useState('')
   const { address, contracts } = useWeb3Context()
-
-  const offcanvasRight = () => {
-    setIsCanvasRight(!isCanvasRight)
-    setIsCanvasLeft(false)
-    setIsCanvasBottem(false)
-  }
-  const offcanvasLeft = () => {
-    setIsCanvasLeft(!isCanvasLeft)
-    setIsCanvasRight(false)
-    setIsCanvasBottem(false)
-  }
-  const offcanvasBottem = () => {
-    if (isCanvasRight == false) {
-      addSelector()
-    }
-    setIsCanvasBottem(!isCanvasBottem)
-    setIsCanvasRight(false)
-  }
-
   const {
     cAreaRef,
     zoomIn,
@@ -47,7 +28,25 @@ const Space = () => {
     selectorWidth,
     selectorHeight,
     getMintImage,
+    enableBuy,
+    setEnableBuy,
   } = useCanvas()
+  const offcanvasRight = () => {
+    setIsCanvasRight(!isCanvasRight)
+    setIsCanvasLeft(false)
+    setIsCanvasBottem(false)
+  }
+  const offcanvasLeft = () => {
+    setEnableBuy(!enableBuy)
+    setIsCanvasLeft(!isCanvasLeft)
+    setIsCanvasRight(false)
+    setIsCanvasBottem(false)
+  }
+  const offcanvasBottem = () => {
+    setIsCanvasBottem(!isCanvasBottem)
+    setIsCanvasRight(false)
+  }
+
   useEffect(() => {
     console.log(squreInfo)
   }, [squreInfo])

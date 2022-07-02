@@ -9,8 +9,15 @@ import { QuadSpaceContract } from '../utils/constants'
 const AdSpace: React.FunctionComponent = () => {
   const { address, contracts } = useWeb3Context()
 
-  const { cAreaRef, zoomIn, zoomOut, addSelector, squreInfo, resetPlane } =
-    useCanvas()
+  const {
+    cAreaRef,
+    zoomIn,
+    zoomOut,
+    addSelector,
+    squreInfo,
+    resetPlane,
+    setEnableBuy,
+  } = useCanvas()
 
   const {
     setSelectorHeight,
@@ -27,14 +34,10 @@ const AdSpace: React.FunctionComponent = () => {
   const [show, setShow] = useState(false)
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
   const [isCanvasBottem, setIsCanvasBottem] = useState(false)
-  // console.log(userMode)
+  const [buyState, setBuyState] = useState(false)
 
   const offcanvasLeft = () => {
-    // console.log(squreInfo.x)
-    setShow(true)
-    if (!show) {
-      addSelector()
-    }
+    setBuyState(!buyState)
     setIsCanvasLeft(!isCanvasLeft)
     setIsCanvasRight(false)
     setIsCanvasBottem(false)
@@ -43,6 +46,7 @@ const AdSpace: React.FunctionComponent = () => {
     setIsCanvasBottem(!isCanvasBottem)
     setIsCanvasLeft(false)
   }
+
   return (
     <>
       <Fragment>
@@ -209,6 +213,8 @@ const AdSpace: React.FunctionComponent = () => {
         setIsCanvasLeft={setIsCanvasLeft}
         isCanvasLeft={isCanvasLeft}
         activeItem={squreInfo}
+        enableBuy={buyState}
+        setEnableBuy={setEnableBuy}
       />
       {/* )} */}
     </>

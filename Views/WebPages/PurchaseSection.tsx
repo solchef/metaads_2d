@@ -13,19 +13,23 @@ function PurchaseSection({
   setSelectorWidth,
   selectorHeight,
   selectorWidth,
+  enableBuy,
+  setEnableBuy,
 }) {
   const { uploadMetadata, uploadImage } = useIPFS()
   const [mintStatus, setMintStatus] = useState('PURCHASE PLOT')
 
   const { contracts, address, web3Provider } = useWeb3Context()
   const [name, setName] = useState('')
-
+  const [buyState, setBuyState] = useState(activeItem)
   const adscontract = contracts['metaads']
   const [info, setInfo] = useState(activeItem)
   const getMintImage = () => {}
   useEffect(() => {
+    // setEnableBuy(enableBuy)
+    // console.log(enableBuy)
     setInfo(activeItem)
-  }, [activeItem])
+  }, [activeItem, enableBuy])
 
   const handleSubmit = async () => {
     const result = await handleMint(
