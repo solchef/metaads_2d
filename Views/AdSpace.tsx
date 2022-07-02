@@ -69,7 +69,7 @@ const AdSpace: React.FunctionComponent = () => {
                         <i className="bi bi-person"></i>{' '}
                         {address
                           ? address.substring(0, 10) + '...'
-                          : QuadSpaceContract}
+                          : QuadSpaceContract.substring(0, 10) + '...'}
                       </span>
                     </div>
                   </div>
