@@ -12,6 +12,14 @@ const AdSpace: React.FunctionComponent = () => {
   const { cAreaRef, zoomIn, zoomOut, addSelector, squreInfo, resetPlane } =
     useCanvas()
 
+  const {
+    setSelectorHeight,
+    setSelectorWidth,
+    selectorHeight,
+    selectorWidth,
+    getMintImage,
+  } = useCanvas()
+
   useEffect(() => {
     console.log(squreInfo)
   }, [squreInfo])
@@ -24,6 +32,9 @@ const AdSpace: React.FunctionComponent = () => {
   const offcanvasLeft = () => {
     // console.log(squreInfo.x)
     setShow(true)
+    if (!show) {
+      addSelector()
+    }
     setIsCanvasLeft(!isCanvasLeft)
     setIsCanvasRight(false)
     setIsCanvasBottem(false)
@@ -189,13 +200,17 @@ const AdSpace: React.FunctionComponent = () => {
           </div>
         </section>
       </Fragment>
-      {show && (
-        <PurchaseSection
-          setIsCanvasLeft={setIsCanvasLeft}
-          isCanvasLeft={isCanvasLeft}
-          activeItem={squreInfo}
-        />
-      )}
+      {/* {show && ( */}
+      <PurchaseSection
+        setSelectorHeight={setSelectorHeight}
+        setSelectorWidth={setSelectorWidth}
+        selectorHeight={selectorHeight}
+        selectorWidth={selectorWidth}
+        setIsCanvasLeft={setIsCanvasLeft}
+        isCanvasLeft={isCanvasLeft}
+        activeItem={squreInfo}
+      />
+      {/* )} */}
     </>
   )
 }

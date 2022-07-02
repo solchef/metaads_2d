@@ -125,7 +125,7 @@ const Space = () => {
                           </g>
                         </g>
                       </svg>{' '}
-                      &nbsp;0.333 ( $ 1 )
+                      &nbsp; 0.000942( $ 1 )
                     </span>
                   </span>
                 </div>
@@ -258,7 +258,7 @@ const Space = () => {
                       </g>
                     </g>
                   </svg>{' '}
-                  &nbsp;0.333 ( $ 1 )
+                  &nbsp; 0.000942 ( $ 1 )
                 </span>
               </span>
             </div>

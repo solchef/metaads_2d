@@ -20,17 +20,11 @@ export default function useCanvas() {
   const [selectorElem, setSelector] = useState()
   const [objPos, setObjPos] = useState({ left: 0, top: 0 })
   // const [minimap, setMiniMap] = useState()
-  const [selectorWidth, setWidth] = useState(1)
+  const [selectorWidth, setWidth] = useState(10)
   const [group, setGroup] = useState()
-  const [selectorHeight, setHeight] = useState(1)
+  const [selectorHeight, setHeight] = useState(10)
   const [squreInfo, setSqureInfo] = useState(squreInfoDefault)
   const [gridCreated, setCreateGrid] = useState(false)
-  const [userMode, setUserMode] = useState(1)
-
-  //user modes
-
-  // 1. Viewing and moving around
-  // 2. Purchase mode. Allows user to define the purchase area
 
   const grid = 1
   // console.log(cAreaRef?.current?.clientWidth)
@@ -44,7 +38,6 @@ export default function useCanvas() {
         height: window.innerWidth,
         name: 'quadspace',
         objectCaching: false,
-        renderOnAddRemove: true,
       })
     )
   }
@@ -54,16 +47,20 @@ export default function useCanvas() {
   const rect = new fabric.Rect({
     height: selectorWidth,
     width: selectorHeight,
-    top: squreInfo.x,
-    left: squreInfo.y,
+    top: 500 - 0.5,
+    left: 500 - 0.5,
     centeredRotation: false,
     hasRotatingPoint: false,
     name: 'defaultSelector',
     fill: '#f50070',
     subTargetCheck: true,
     borderColor: ' #000',
-    cornerColor: '#DDD',
+    cornerColor: '#a301b9',
     objectCaching: false,
+    lockRotation: true,
+    lockUniScaling: true,
+    lockScalingY: true,
+    lockScalingX: true,
   })
 
   useEffect(() => {
@@ -73,7 +70,7 @@ export default function useCanvas() {
   useEffect(() => {
     // deleteCanvasItems()
     if (adCanvas) {
-      // console.log(gridCreated)
+      console.log(gridCreated)
       if (!gridCreated) createGrid(adCanvas)
     }
   }, [adCanvas])
@@ -86,18 +83,16 @@ export default function useCanvas() {
         const horiz = new fabric.Line([i * grid, 0, i * grid, 1000], {
           stroke: '#a301b9',
           selectable: false,
-          strokeWidth: 0.1,
+          strokeWidth: 0.05,
           objectCaching: false,
-          subTargetCheck: true,
         })
         gridlines.push(horiz)
 
         const vertical = new fabric.Line([0, i * grid, 1000, i * grid], {
           stroke: '#a301b9',
           selectable: false,
-          strokeWidth: 0.1,
+          strokeWidth: 0.05,
           objectCaching: false,
-          subTargetCheck: true,
         })
 
         gridlines.push(vertical)
@@ -147,7 +142,6 @@ export default function useCanvas() {
       })
 
       const adGroup = new fabric.Group([...gridlines, ...rects], {
-        subTargetCheck: true,
         objectCaching: false,
         selectable: true,
       })
@@ -156,49 +150,34 @@ export default function useCanvas() {
 
       adBoard.add(adGroup)
       adBoard.add(rect)
+      // adBoard.zoomToPoint({ x: 0, y: 0 }, adBoard.getZoom() * 30)
+      adBoard.zoomToPoint(new fabric.Point(500, 500), adBoard.getZoom() * 10)
 
       adBoard.renderAll()
 
-      setUserMode(1)
+      // initMinimap(adBoard, minimap)
     }
   }
-
-  useEffect(() => {
-    if (adCanvas) {
-      defaultZoom()
-    }
-  }, [adCanvas])
-
-  useEffect(() => {
-    // console.log(userMode)
-    if (adCanvas) {
-      const elem = adCanvas.getItemByName('defaultSelector')
-      if (userMode == 1) {
-        adCanvas.sendToBack(elem)
-      } else {
-        adCanvas.bringToFront(elem)
-      }
-
-      adCanvas.renderAll()
-    }
-  }, [userMode])
 
   const resetPlane = () => {
-    var matrix = adCanvas.getObjects()[0].calcTransformMatrix()
-    var options = fabric.util.qrDecompose(matrix)
-    // console.log(options.translateX, options.translateY)
-
-    // defaultZoom()
-    // console.log(adCanvas)
-  }
-
-  const addSelector = () => {
-    // console.log(adCanvas.getCoords())
-    adCanvas.add(rect)
+    adCanvas.zoomToPoint(new fabric.Point(500, 500), 10)
     adCanvas.renderAll()
   }
 
-  const getSelector = () => {}
+  const addSelector = () => {
+    const elem = adCanvas.getObjects()[1]
+
+    // elem.left = squreInfo.x + 0.5
+    // elem.top = squreInfo.y + 0.5
+    elem.height = 10
+    elem.height = 10
+    elem.visible = true
+    // adCanvas.add(rect)
+    setSelector(elem)
+    adCanvas.renderAll()
+
+    console.log(elem)
+  }
 
   const getCurrentXoYo = () => {
     const obj = adCanvas.getObjects()[0]
@@ -221,12 +200,6 @@ export default function useCanvas() {
       y:
         fabric.util.invertTransform(adCanvas.viewportTransform)[5] +
         adCanvas.height / adCanvas.getZoom() / 2,
-    }
-  }
-
-  const defaultZoom = () => {
-    if (adCanvas) {
-      adCanvas.zoomToPoint(new fabric.Point(0, 0), adCanvas.getZoom() * 10)
     }
   }
 
@@ -274,25 +247,9 @@ export default function useCanvas() {
       )
 
       adCanvas.on('mouse:up', function (o) {
-        // console.log(adCanvas.getObjects()[0].getPointer(o.e))
-        try {
-          const elem = adCanvas.getObjects()[1]
-          adCanvas.setActiveObject(elem)
-        } catch (e) {
-          // console.log('error')
-        }
+        const elem = adCanvas.getObjects()[1]
+        adCanvas.setActiveObject(elem)
       })
-
-      // if (group) {
-      //   group.on('mousedown', (e) => {
-      //     console.log('clicked on image')
-      //     console.log(e)
-
-      //     if (e.subTargets[0] && e.subTargets[0].type === 'line') {
-      //       // console.log('clicked on image')
-      //     }
-      //   })
-      // }
 
       adCanvas.on(
         'mouse:down',
@@ -310,10 +267,6 @@ export default function useCanvas() {
             area: '1 X 1',
             qty: 1,
           }
-
-          // let group = adCanvas.getObjects()[0]
-
-          // console.log(group)
 
           setSqureInfo(squreInfoDefault)
 
@@ -341,7 +294,7 @@ export default function useCanvas() {
     // elem.set('width', grid * e)
     // console.log(e)
     setWidth(grid * e)
-    elem.scaleX = grid * e
+    elem.width = grid * e
     adCanvas.renderAll()
   }
 
@@ -349,7 +302,7 @@ export default function useCanvas() {
     const elem = adCanvas.getItemByName('defaultSelector')
     // elem.set('height', grid * e)
 
-    elem.scaleY = grid * e
+    elem.height = grid * e
     setHeight(grid * e)
     adCanvas.renderAll()
   }
@@ -401,7 +354,5 @@ export default function useCanvas() {
     getMintImage,
     resetPlane,
     getCurrentXoYo,
-    userMode,
-    setUserMode,
   }
 }

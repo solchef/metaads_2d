@@ -5,16 +5,15 @@ import useCanvas from '../../hooks/useCanvas'
 import { useIPFS } from '../../hooks/useIPFS'
 import { handleMint } from '../../utils/handleMint'
 
-function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
-  const {
-    setSelectorHeight,
-    setSelectorWidth,
-    selectorHeight,
-    selectorWidth,
-    squreInfo,
-    getMintImage,
-  } = useCanvas()
-
+function PurchaseSection({
+  isCanvasLeft,
+  setIsCanvasLeft,
+  activeItem,
+  setSelectorHeight,
+  setSelectorWidth,
+  selectorHeight,
+  selectorWidth,
+}) {
   const { uploadMetadata, uploadImage } = useIPFS()
   const [mintStatus, setMintStatus] = useState('PURCHASE PLOT')
 
@@ -22,8 +21,8 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
   const [name, setName] = useState('')
 
   const adscontract = contracts['metaads']
-  const [info, setInfo] = useState(squreInfo)
-
+  const [info, setInfo] = useState(activeItem)
+  const getMintImage = () => {}
   useEffect(() => {
     setInfo(activeItem)
   }, [activeItem])
@@ -34,7 +33,7 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
       address,
       adscontract,
       getMintImage,
-      squreInfo,
+      activeItem,
       uploadMetadata,
       uploadImage
     )
@@ -76,6 +75,8 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
               </span>
               <input
                 type="number"
+                min="1"
+                max="1000000"
                 aria-label="x"
                 placeholder="X"
                 onChange={(e) => setSelectorWidth(e.target.value)}
@@ -85,6 +86,8 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
               <input
                 type="number"
                 aria-label="y"
+                min="1"
+                max="1000000"
                 defaultValue={selectorHeight}
                 placeholder="Y"
                 onChange={(e) => setSelectorHeight(e.target.value)}
@@ -128,17 +131,18 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
             </button>
           ) : (
             <div className="mb-4 mt-4">
-              <Web3Button />
+              <Web3Button title={'PURCHASE PLOT'} />
             </div>
           )}
 
           <div className="row">
-            <div className="col-6">
-              <div className="d-flex flex-column">
+            <div className="col-12">
+              <div className="d-flex flex-wrap flex-column">
                 <span className="mb-2">
-                  <img src="assets/images/square_icon.png" width="15%" /> :{' '}
+                  <img src="assets/images/square_icon.png" width="10%" /> :{' '}
                   {selectorHeight * selectorWidth} Quads
                 </span>
+
                 <span className="text-nowrap">
                   {' '}
                   <b>
@@ -148,8 +152,8 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
                     xmlns="http://www.w3.org/2000/svg"
                     xmlnsXlink="http://www.w3.org/1999/xlink"
                     xmlSpace="preserve"
-                    width="11%"
-                    height="11%"
+                    width="8%"
+                    height="8%"
                     version="1.1"
                     shapeRendering="geometricPrecision"
                     textRendering="geometricPrecision"
@@ -196,12 +200,13 @@ function PurchaseSection({ isCanvasLeft, setIsCanvasLeft, activeItem }) {
                       </g>
                     </g>
                   </svg>{' '}
-                  &nbsp;0.333 (${selectorHeight * selectorWidth})
+                  &nbsp;0.000942(${selectorHeight * selectorWidth})
                 </span>
               </div>
             </div>
-            <div className="col-6">
-              <div className="d-flex align-items-end flex-column">
+
+            <div className="col-12">
+              <div className="d-flex  flex-column">
                 <span className="mb-2">
                   <i className="bi bi-border "></i> : ({' '}
                   {selectorHeight * selectorWidth} x{' '}

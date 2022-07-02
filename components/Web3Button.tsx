@@ -1,14 +1,11 @@
 import React from 'react'
 import { useWeb3Context } from '../context/'
-import truncateEthAddress from '../utils/truncate';
+import truncateEthAddress from '../utils/truncate'
 
 interface ConnectProps {
   connect: (() => Promise<void>) | null
 }
-const ConnectButton = ({ connect }: ConnectProps) => {
-
-  
-
+const ConnectButton = ({ connect, title }: ConnectProps) => {
   return connect ? (
     <>
       <a
@@ -17,7 +14,7 @@ const ConnectButton = ({ connect }: ConnectProps) => {
         href="#"
       >
         <i className="bi-wallet me-2" />
-        CONNECT WALLET
+        {title ? title : 'CONNECT WALLET'}
       </a>
       <a
         onClick={connect}
@@ -43,30 +40,24 @@ const ConnectButton = ({ connect }: ConnectProps) => {
 interface DisconnectProps {
   disconnect: (() => Promise<void>) | null
   class: string | null
-  address:null
+  address: null
 }
 
 const DisconnectButton = ({ disconnect, address }: DisconnectProps) => {
   return disconnect ? (
     <>
-      <a
-        className="btn-primary hoverable btn-md hide-mobile"
-        href="#"
-      >
+      <a className="btn-primary hoverable btn-md hide-mobile" href="#">
         <i className="bi-wallet me-2" />
         {truncateEthAddress(address)}
       </a>
-      <a
-        className="btn-primary hoverable btn-md show-mobile"
-        href="#"
-      >
+      <a className="btn-primary hoverable btn-md show-mobile" href="#">
         <i className="bi-wallet" />
       </a>
     </>
   ) : (
     // <button className="btn btn-warning">Loading...</button>
     <>
-      <a className="btn-primary hoverable btn-md hide-mobile" href="#" >
+      <a className="btn-primary hoverable btn-md hide-mobile" href="#">
         <i className="bi-wallet me-2" /> Loading..
       </a>
       <a className="btn-primary hoverable btn-md show-mobile" href="#">
@@ -80,8 +71,12 @@ export function Web3Button(props) {
   const { web3Provider, connect, disconnect, address } = useWeb3Context()
 
   return web3Provider ? (
-    <DisconnectButton className={props.class} disconnect={disconnect} address={address} />
+    <DisconnectButton
+      className={props.class}
+      disconnect={disconnect}
+      address={address}
+    />
   ) : (
-    <ConnectButton connect={connect} />
+    <ConnectButton connect={connect} title={props.title} />
   )
 }
