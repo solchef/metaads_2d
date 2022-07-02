@@ -25,7 +25,7 @@ export default function useCanvas() {
   const [selectorHeight, setHeight] = useState(10)
   const [squreInfo, setSqureInfo] = useState(squreInfoDefault)
   const [gridCreated, setCreateGrid] = useState(false)
-  const [enableBuy, setEnableBuy] = useState(true)
+  const [enableBuy, setEnableBuy] = useState(false)
 
   const grid = 1
   const initCanvas = () => {

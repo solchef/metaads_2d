@@ -47,27 +47,28 @@ export const handleMint = async (
 
   let squrePos = (squreInfo.y - 1) * 1000 + squreInfo.x
 
-  try {
-    await adscontract
-      .create(address, 101, squrePos, metadata, '0x00')
-      .on('transactionHash', (hash) => {
-        MiningTransaction({ title: 'Mining', description: hash })
-        return 'Minted'
-      })
-      .on('confirmation', (hash) => {
-        SuccessfulTransaction({ title: 'Confirmed', description: hash })
-        return 'Success'
-      })
-      .on('error', (e) => {
-        ErrorTransaction({ title: 'Error Occurred', description: e })
-        return 'An Error Occurred'
-      })
-  } catch (e) {
-    ErrorTransaction({
-      title: 'Error Occurred',
-      description: 'Transaction could not be processed',
+  // try {
+  await adscontract
+    .create(address, 1, squrePos, metadata, '0x00')
+    .on('transactionHash', (hash) => {
+      MiningTransaction({ title: 'Mining', description: hash })
+      return 'Minted'
     })
-    console.log(e)
-    return 'An Error Occurred'
-  }
+    .on('confirmation', (hash) => {
+      SuccessfulTransaction({ title: 'Confirmed', description: hash })
+      return 'Success'
+    })
+    .on('error', (e) => {
+      ErrorTransaction({ title: 'Error Occurred', description: e })
+      return 'An Error Occurred'
+    })
 }
+// catch (e) {
+//   ErrorTransaction({
+//     title: 'Error Occurred',
+//     description: 'Transaction could not be processed',
+//   })
+//   // console.log(e)
+//   return 'An Error Occurred'
+// }
+// }

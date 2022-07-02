@@ -215,6 +215,7 @@ const AdSpace: React.FunctionComponent = () => {
         activeItem={squreInfo}
         enableBuy={buyState}
         setEnableBuy={setEnableBuy}
+        getMintImage={getMintImage}
       />
       {/* )} */}
     </>

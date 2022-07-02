@@ -15,6 +15,7 @@ function PurchaseSection({
   selectorWidth,
   enableBuy,
   setEnableBuy,
+  getMintImage,
 }) {
   const { uploadMetadata, uploadImage } = useIPFS()
   const [mintStatus, setMintStatus] = useState('PURCHASE PLOT')
@@ -24,7 +25,6 @@ function PurchaseSection({
   const [buyState, setBuyState] = useState(activeItem)
   const adscontract = contracts['metaads']
   const [info, setInfo] = useState(activeItem)
-  const getMintImage = () => {}
   useEffect(() => {
     // setEnableBuy(enableBuy)
     // console.log(enableBuy)
