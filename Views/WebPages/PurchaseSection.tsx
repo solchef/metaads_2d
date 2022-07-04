@@ -143,21 +143,20 @@ function PurchaseSection({
             <div className="col-12">
               <div className="d-flex flex-wrap flex-column">
                 <span className="mb-2">
-                  <img src="assets/images/square_icon.png" width="10%" /> :{' '}
+                  <img src="assets/images/square_icon.png" width="16px" /> :{' '}
                   {selectorHeight * selectorWidth} Quads
                 </span>
 
-                <span className="text-nowrap">
+                <span className="text-nowrap mb-2">
                   {' '}
                   <b>
-                    <i className="bi bi-tag"></i> :{' '}
+                    <i className="bi bi-tag"></i> : {' '}
                   </b>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     xmlnsXlink="http://www.w3.org/1999/xlink"
                     xmlSpace="preserve"
-                    width="8%"
-                    height="8%"
+                    width="12px"
                     version="1.1"
                     shapeRendering="geometricPrecision"
                     textRendering="geometricPrecision"
@@ -204,7 +203,7 @@ function PurchaseSection({
                       </g>
                     </g>
                   </svg>{' '}
-                  &nbsp;0.000942(${selectorHeight * selectorWidth})
+                  &nbsp;0.000942 ( $ {selectorHeight * selectorWidth} )
                 </span>
               </div>
             </div>
