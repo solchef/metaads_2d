@@ -11,7 +11,6 @@ import Link from 'next/link'
 import { useWeb3Context } from '../context'
 import { QuadSpaceContract } from '../utils/constants'
 const Space = () => {
-  const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
   const [isCanvasBottem, setIsCanvasBottem] = useState(false)
   const [userLandName, setUserLandName] = useState('')
@@ -31,20 +30,14 @@ const Space = () => {
     enableBuy,
     setEnableBuy,
   } = useCanvas()
-  const offcanvasRight = () => {
-    setIsCanvasRight(!isCanvasRight)
-    setIsCanvasLeft(false)
-    setIsCanvasBottem(false)
-  }
+
   const offcanvasLeft = () => {
     setEnableBuy(!enableBuy)
     setIsCanvasLeft(!isCanvasLeft)
-    setIsCanvasRight(false)
     setIsCanvasBottem(false)
   }
   const offcanvasBottem = () => {
     setIsCanvasBottem(!isCanvasBottem)
-    setIsCanvasRight(false)
   }
 
   useEffect(() => {
@@ -157,7 +150,7 @@ const Space = () => {
                 className="btn text-nowrap btn-primary hoverable purp-btn btn-lg btn-buy hide-mobile"
               >
                 <i className="bi-cart me-2 " />
-                BUY QUADS LOT
+                BUY QUADS LOT 
               </button>
               <button
                 onClick={offcanvasBottem}
