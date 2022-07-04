@@ -25,7 +25,7 @@ export default function useCanvas() {
   const [selectorHeight, setHeight] = useState(10)
   const [squreInfo, setSqureInfo] = useState(squreInfoDefault)
   const [gridCreated, setCreateGrid] = useState(false)
-  const [enableBuy, setEnableBuy] = useState(false)
+  const [enableBuy, setEnableBuy] = useState(true)
 
   const grid = 1
   const initCanvas = () => {
@@ -74,6 +74,20 @@ export default function useCanvas() {
     }
   }, [adCanvas])
 
+  const getQuadrant = (data, n, quad) => {
+    var result = []
+    for (var i = 0; i < data.length; i += n) {
+      var p = i + n / 2
+
+      if (quad == 0 && i < data.length / 2) result.push(...data.slice(i, p))
+      if (quad == 1 && i < data.length / 2) result.push(...data.slice(p, i + n))
+      if (quad == 2 && i >= data.length / 2) result.push(...data.slice(i, p))
+      if (quad == 3 && i >= data.length / 2)
+        result.push(...data.slice(p, i + n))
+    }
+    return result
+  }
+
   const createGrid = (adBoard) => {
     setCreateGrid(true)
     if (adBoard) {
@@ -98,9 +112,21 @@ export default function useCanvas() {
         // console.log({ squre: i, cords: { x: i * grid, y: i * grid } })
       }
 
+      var data = Array.from(Array(1000000), (e, i) => (e = i))
+
+      console.log(JSON.stringify(getQuadrant(data, 10, 0)))
+      console.log(JSON.stringify(getQuadrant(data, 10, 1)))
+      console.log(JSON.stringify(getQuadrant(data, 10, 3)))
+
       const purchased = []
 
-      const owned = []
+      const owned = [
+        [0, 0],
+        [900, 900],
+        [900, 0],
+        [0, 900],
+        [450, 450],
+      ]
 
       const rects = []
 
@@ -126,9 +152,9 @@ export default function useCanvas() {
         const rect2 = new fabric.Rect({
           top: purchase[0] * grid - 0.5,
           left: purchase[1] * grid - 0.5,
-          height: grid,
-          width: grid,
-          fill: 'green',
+          height: 100,
+          width: 100,
+          fill: '#7b0000',
           selection: false,
           lockMovementX: true,
           lockMovementY: true,
@@ -150,7 +176,7 @@ export default function useCanvas() {
       adBoard.add(adGroup)
       adBoard.add(rect)
       // adBoard.zoomToPoint({ x: 0, y: 0 }, adBoard.getZoom() * 30)
-      adBoard.zoomToPoint(new fabric.Point(500, 500), adBoard.getZoom() * 10)
+      adBoard.zoomToPoint(new fabric.Point(0, 0), adBoard.getZoom() * 10)
 
       adBoard.renderAll()
 
@@ -159,7 +185,7 @@ export default function useCanvas() {
   }
 
   const resetPlane = () => {
-    adCanvas.zoomToPoint(new fabric.Point(500, 500), 10)
+    adCanvas.zoomToPoint(new fabric.Point(0, 0), 10)
     adCanvas.renderAll()
   }
 

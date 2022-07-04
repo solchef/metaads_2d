@@ -22,7 +22,7 @@ export default function Document() {
     buddies to kick it!"
           />
           <meta name="author" />
-          
+
           <title>QUADSPACE.IO</title>
           {/* Favicon*/}
           <link rel="icon" type="image/png" href="assets/favicon.png" />
@@ -66,7 +66,7 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
-        <script async src="https://code.jquery.com/jquery-1.9.1.js"></script>
+        {/* <script async src="https://code.jquery.com/jquery-1.9.1.js"></script>
         <script
           async
           src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"
@@ -87,7 +87,7 @@ export default function Document() {
         <script
           async
           src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
-        ></script>
+        ></script> */}
       </body>
     </Html>
   )
