@@ -60,7 +60,7 @@ const Space = () => {
     <>
       <section className="mt-0 grid-section" id="grid-section">
         <div className="controls pt-0  pe-3 ps-3 align-items-center">
-          <div className="d-flex flex-row-inverse justify-content-between align-items-center wrap-flow">
+          <div className="d-flex flex-row-inverse justify-content-end justify-content-md-between align-items-center wrap-flow">
             <div className="row d-flex flex-column flex-xl-row hide-mobile">
               <div className="col-10 pe-5">
                 <span style={{ color: '#ff006f' }} className="text-nowrap">
