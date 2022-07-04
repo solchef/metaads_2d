@@ -52,7 +52,7 @@ export default function useCanvas() {
     centeredRotation: false,
     hasRotatingPoint: false,
     name: 'defaultSelector',
-    fill: '##00707b',
+    fill: '#00707b',
     subTargetCheck: true,
     borderColor: ' #000',
     cornerColor: '#a301b9',
