@@ -175,8 +175,8 @@ export default function useCanvas() {
 
       adBoard.add(adGroup)
       adBoard.add(rect)
-      // adBoard.zoomToPoint({ x: 0, y: 0 }, adBoard.getZoom() * 30)
-      adBoard.zoomToPoint(new fabric.Point(0, 0), adBoard.getZoom() * 10)
+      adBoard.zoomToPoint({ x: 0, y: 0 }, adBoard.getZoom() * 1.3)
+      // adBoard.zoomToPoint(new fabric.Point(0, 0), adBoard.getZoom() * 10)
 
       adBoard.renderAll()
 
