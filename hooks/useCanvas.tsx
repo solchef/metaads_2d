@@ -29,6 +29,7 @@ export default function useCanvas() {
 
   const grid = 1
   const snap = 1
+
   const initCanvas = () => {
     setAdCanvas(
       new fabric.Canvas('adcanvas', {
@@ -70,7 +71,7 @@ export default function useCanvas() {
   useEffect(() => {
     // deleteCanvasItems()
     if (adCanvas) {
-      console.log(gridCreated)
+      // console.log(gridCreated)
       if (!gridCreated) createGrid(adCanvas)
     }
   }, [adCanvas])
@@ -115,9 +116,9 @@ export default function useCanvas() {
 
       var data = Array.from(Array(1000000), (e, i) => (e = i))
 
-      console.log(JSON.stringify(getQuadrant(data, 10, 0)))
-      console.log(JSON.stringify(getQuadrant(data, 10, 1)))
-      console.log(JSON.stringify(getQuadrant(data, 10, 3)))
+      // console.log(JSON.stringify(getQuadrant(data, 10, 0)))
+      // console.log(JSON.stringify(getQuadrant(data, 10, 1)))
+      // console.log(JSON.stringify(getQuadrant(data, 10, 3)))
 
       const purchased = []
 
@@ -176,7 +177,7 @@ export default function useCanvas() {
 
       adBoard.add(adGroup)
       adBoard.add(rect)
-      adBoard.zoomToPoint({ x: 0, y: 0 }, adBoard.getZoom() * 1.3)
+      adBoard.zoomToPoint({ x: 0, y: 0 }, adBoard.getZoom() * 1)
       // adBoard.zoomToPoint(new fabric.Point(0, 0), adBoard.getZoom() * 10)
 
       adBoard.renderAll()
@@ -270,6 +271,20 @@ export default function useCanvas() {
         adCanvas.setActiveObject(elem)
       })
 
+      adCanvas.on('object:modified', function (options) {
+        console.log(options)
+        // console.log('first')
+        var newWidth = Math.round(options.target.width / 1) * 1
+        var newHeight = Math.round(options.target.height / 1) * 1
+
+        options.target.set({
+          width: newWidth,
+          height: newHeight,
+          scaleX: 1,
+          scaleY: 1,
+        })
+      })
+
       adCanvas.on(
         'mouse:down',
         function (o) {
@@ -326,11 +341,20 @@ export default function useCanvas() {
 
   const setSelectorWidth = (e) => {
     const elem = adCanvas.getItemByName('defaultSelector')
-    // const scale = elem.getObjectScaling()
-    // elem.set('width', grid * e)
-    // console.log(e)
+
+    console.log(squreInfo.x)
     setWidth(grid * e)
-    elem.width = grid * e
+    // elem.width = grid * e
+    // elem.top = squreInfo.x
+    // elem.left = squreInfo.y
+    elem
+      .set({
+        left: squreInfo.x,
+        top: squreInfo.y,
+        width: grid * e,
+      })
+      .setCoords()
+
     adCanvas.renderAll()
   }
 
@@ -339,6 +363,8 @@ export default function useCanvas() {
     // elem.set('height', grid * e)
 
     elem.height = grid * e
+    elem.top = squreInfo.x
+    elem.left = squreInfo.y
     setHeight(grid * e)
     adCanvas.renderAll()
   }

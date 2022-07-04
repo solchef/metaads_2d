@@ -21,7 +21,7 @@ const FormOne = (props) => {
           <input
             type="text"
             aria-label="y"
-            onChange={(e) => props.etSelectorHeight(e.target.value)}
+            onChange={(e) => props.setSelectorHeight(e.target.value)}
             defaultValue={props.selectorHeight}
             placeholder="Y"
             className="form-control value="
