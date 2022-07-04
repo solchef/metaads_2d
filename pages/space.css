@@ -1,123 +1,128 @@
 .accordion {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 999999;
-  transition: 0.5s;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999999;
+    transition: 0.5s;
 }
 
 .showw {
-  transform: translateY(78%);
+    transform: translateY(78%);
 }
 
 .accordion-item {
-  background-color: #454545 !important;
-  height: 255px;
+    background-color: #454545 !important;
+    height: 255px;
 }
 
 .rsw_2f {
-  height: 200px;
+    height: 200px;
 }
 
 .accordion-header button {
-  background-color: #f50074 !important;
-  color: white !important;
-  font-size: 20px;
+    background-color: #f50074 !important;
+    color: white !important;
+    font-size: 20px;
 }
 
 .accordion-header button i {
-  margin-right: 110px !important;
-  font-size: 24px;
+    margin-right: 110px !important;
+    font-size: 24px;
 }
 
 .accordion-header button:focus {
-  box-shadow: none;
+    box-shadow: none;
 }
 
 .accordion-body button {
-  margin-top: 25px;
-  font-size: 14px;
-  padding: 10px 20px !important;
+    margin-top: 25px;
+    font-size: 14px;
+    padding: 10px 20px !important;
 }
 
 .accordion-item .btn-slide {
-  margin-top: 25px;
-  margin-bottom: 75px;
+    margin-top: 25px;
+    margin-bottom: 75px;
 }
 
 .circlee {
-  width: 15px;
-  height: 15px;
-  background-color: white;
-  border-radius: 50%;
-  margin-right: 10px;
-  cursor: pointer;
+    width: 15px;
+    height: 15px;
+    background-color: white;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
 }
 
 .cir {
-  position: absolute;
-  bottom: 45px;
-  left: 50%;
-  transform: translate(-50%);
+    position: absolute;
+    bottom: 45px;
+    left: 50%;
+    transform: translate(-50%);
 }
 
 .Next,
 .Back {
-  position: absolute;
-  bottom: 35px;
+    position: absolute;
+    bottom: 35px;
 }
 
 .Back {
-  left: 0;
+    left: 0;
 }
 
 .Next {
-  right: 0;
+    right: 0;
 }
 
 .circlee.active {
-  background-color: #f50074;
+    background-color: #f50074;
 }
 
 .purchase {
-  margin-top: 0 !important;
+    margin-top: 0 !important;
 }
 
 .offcanvas-end .offcanvas-body i {
-  font-size: 24px;
-  margin-right: 5px;
+    font-size: 24px;
+    margin-right: 5px;
 }
 
 .offcanvas-end .offcanvas-body h3 {
-  font-size: 20px;
-  margin-top: 25px !important;
+    font-size: 20px;
+    margin-top: 25px !important;
 }
 
-.offcanvas-body > div {
-  width: 100%;
+.offcanvas-body>div {
+    width: 100%;
 }
 
 .grid-section .canvas-box {
-  border: none;
-  background-image: none;
+    border: none;
+    background-image: none;
 }
 
 .grid-section {
-  height: calc(100vh - 86px);
+    height: calc(100vh - 86px);
 }
 
 .buy-lot {
-  height: 60px;
-  font-size: 16px !important;
+    height: 60px;
+    font-size: 16px !important;
 }
 
 .space-details {
-  height: 155px;
-  width: 100%;
-  z-index: 999;
-  background-color: #454545;
-  position: fixed;
-  bottom: 40px;
-  left: 0;
+    height: 155px;
+    width: 100%;
+    z-index: 999;
+    background-color: #454545;
+    position: fixed;
+    bottom: 40px;
+    left: 0;
+}
+
+.accordion-header .position-absolute {
+    right: 50%;
+    transform: translate(50%);
 }

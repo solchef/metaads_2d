@@ -300,7 +300,8 @@ const Space = () => {
               aria-expanded="true"
               aria-controls="panelsStayOpen-collapseOne"
             >
-              <i className="bi-flag " /> BUY LOT
+              <i className="bi-flag " /> 
+              <div className='position-absolute '>PURCHASE LOT</div>
             </button>
           </h2>
           <div
