@@ -34,7 +34,7 @@ const FormFour = (props) => {
 
       <div className="btn-slide text-nowrap mt-3">
         <span className=" pe-2">
-          <img src="assets/images/square_icon.png" width="20px" /> : 1{' '}
+          <img src="assets/images/square_icon.png" width="16px" /> : 1{' '}
         </span>
         <span className="text-nowrap pe-2">
           {' '}
@@ -45,8 +45,7 @@ const FormFour = (props) => {
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
             xmlSpace="preserve"
-            width="24px"
-            height="24px"
+            width="12px"
             version="1.1"
             shapeRendering="geometricPrecision"
             textRendering="geometricPrecision"

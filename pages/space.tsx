@@ -90,7 +90,7 @@ const Space = () => {
                         xmlns="http://www.w3.org/2000/svg"
                         xmlnsXlink="http://www.w3.org/1999/xlink"
                         xmlSpace="preserve"
-                        width="15px"
+                        width="12px"
                         version="1.1"
                         shapeRendering="geometricPrecision"
                         textRendering="geometricPrecision"
@@ -137,7 +137,7 @@ const Space = () => {
                           </g>
                         </g>
                       </svg>{' '}
-                      &nbsp; 0.000942( $ 1 )
+                    0.000942 ( $ 1 )
                     </span>
                   </span>
                 </div>
