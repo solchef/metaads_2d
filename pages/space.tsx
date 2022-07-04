@@ -59,7 +59,7 @@ const Space = () => {
   return (
     <>
       <section className="mt-0 grid-section" id="grid-section">
-        <div className="controls align-items-center">
+        <div className="controls pt-0  pe-3 ps-3 align-items-center">
           <div className="d-flex flex-row-inverse justify-content-between align-items-center wrap-flow">
             <div className="row d-flex flex-column flex-xl-row hide-mobile">
               <div className="col-10 pe-5">
@@ -69,7 +69,7 @@ const Space = () => {
                     Y{squreInfo.y}x{squreInfo.x}
                   </b>{' '}
                 </span>
-                <div className="mt-2">
+                <div className="mt-2 mb-2">
                   <span className="text-nowrap me-5">
                     <i className="bi bi-geo-alt"></i> {squreInfo.x}X,{' '}
                     {squreInfo.y}Y
@@ -212,7 +212,7 @@ const Space = () => {
               <span className="text-nowrap me-5">
                 <i className="bi bi-geo-alt"></i> {squreInfo.x}X, {squreInfo.y}Y
               </span>
-              <div className="mt-4">
+              <div className="mt-3">
                 <span className="text-nowrap me-5">
                   <i className="bi bi-person"></i>{' '}
                   {address
@@ -228,7 +228,7 @@ const Space = () => {
               <b>FOR SALE</b>{' '}
             </span>
             <br />
-            <div className="mt-4">
+            <div className="mt-3">
               <span className="text-nowrap">
                 {' '}
                 <span className="text-nowrap">
