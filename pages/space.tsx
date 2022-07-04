@@ -190,6 +190,20 @@ const Space = () => {
           <canvas id="adcanvas"></canvas>
         </div>
       </section>
+      <PurchaseSection
+        setSelectorHeight={setSelectorHeight}
+        setSelectorWidth={setSelectorWidth}
+        selectorHeight={selectorHeight}
+        selectorWidth={selectorWidth}
+        setIsCanvasLeft={setIsCanvasLeft}
+        isCanvasLeft={isCanvasLeft}
+        activeItem={squreInfo}
+        enableBuy={enableBuy}
+        setEnableBuy={setEnableBuy}
+        getMintImage={getMintImage}
+      />
+
+      
       <div className="space-details show-mobile p-3">
         <span style={{ color: '#ff006f' }} className="text-nowrap ">
           {' '}
