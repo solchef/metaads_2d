@@ -1,23 +1,24 @@
 import { Fragment, useEffect, useState } from 'react'
 import useCanvas from '../hooks/useCanvas'
 import PurchaseSection from './WebPages/PurchaseSection'
-import SpaceDetails from './WebPages/SpaceDetails'
 import Link from 'next/link'
+import {
+  fitScrean,
+  loadGrid,
+  setBuyStateModal,
+  zoomIn,
+  zoomOut,
+} from './WebPages/canvesGrid'
 import { useWeb3Context } from '../context'
 import { QuadSpaceContract } from '../utils/constants'
+import { selectLand } from '../components/reducers/Settings'
+import { useAppSelector } from '../components/store/hooks'
 
 const AdSpace: React.FunctionComponent = () => {
   const { address, contracts } = useWeb3Context()
+  const landData = useAppSelector(selectLand)
 
-  const {
-    cAreaRef,
-    zoomIn,
-    zoomOut,
-    addSelector,
-    squreInfo,
-    resetPlane,
-    setEnableBuy,
-  } = useCanvas()
+  const { cAreaRef, squreInfo, setEnableBuy } = useCanvas()
 
   const {
     setSelectorHeight,
@@ -28,7 +29,7 @@ const AdSpace: React.FunctionComponent = () => {
   } = useCanvas()
 
   useEffect(() => {
-    console.log(squreInfo)
+    loadGrid()
   }, [squreInfo])
   const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [show, setShow] = useState(false)
@@ -41,6 +42,8 @@ const AdSpace: React.FunctionComponent = () => {
     setIsCanvasLeft(!isCanvasLeft)
     setIsCanvasRight(false)
     setIsCanvasBottem(false)
+    setBuyStateModal(!buyState)
+    // console.log(buyState)
   }
   const offcanvasBottem = () => {
     setIsCanvasBottem(!isCanvasBottem)
@@ -71,14 +74,14 @@ const AdSpace: React.FunctionComponent = () => {
                       {' '}
                       <b>
                         {' '}
-                        X{squreInfo.x}Y{squreInfo.y}
+                        X{landData.x}Y{landData.y}
                       </b>{' '}
                     </span>
 
                     <div className="mt-2">
                       <span className="text-nowrap me-5">
-                        <i className="bi bi-geo-alt"></i> {squreInfo.x}X,{' '}
-                        {squreInfo.y}Y
+                        <i className="bi bi-geo-alt"></i> {landData.x}X,{' '}
+                        {landData.y}Y
                       </span>
                       <span className="text-nowrap me-5">
                         <i className="bi bi-person"></i>{' '}
@@ -153,7 +156,7 @@ const AdSpace: React.FunctionComponent = () => {
                               </g>
                             </g>
                           </svg>{' '}
-                        0.000942 ( $ 1 )
+                          0.000942 ( $ 1 )
                         </span>
                       </span>
                     </div>
@@ -169,7 +172,7 @@ const AdSpace: React.FunctionComponent = () => {
                     BUY QUADS LOT
                   </button>
                   <button
-                    onClick={() => resetPlane()}
+                    onClick={() => fitScrean()}
                     className="btn hoverable btn-primary btn-lg "
                   >
                     <i className="bi-arrow-clockwise " />
@@ -196,9 +199,9 @@ const AdSpace: React.FunctionComponent = () => {
               </div>
             </div>
 
-            <div className="canvas-box ratio-1x1 hoverable">
+            <div className="canvas-box ratio-1x1 hoverable" id="container">
               <div ref={cAreaRef}>
-                <canvas id="adcanvas"></canvas>
+                <canvas id="adcanvass"></canvas>
               </div>
             </div>
           </div>

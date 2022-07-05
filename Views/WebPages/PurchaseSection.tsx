@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Web3Button } from '../../components'
+import { selectLand } from '../../components/reducers/Settings'
+import { useAppSelector } from '../../components/store/hooks'
 import { useWeb3Context } from '../../context'
 import useCanvas from '../../hooks/useCanvas'
 import { useIPFS } from '../../hooks/useIPFS'
 import { handleMint } from '../../utils/handleMint'
+import { setWidth, setHeight, getLandDefSize, getLands } from './canvesGrid'
 
 function PurchaseSection({
   isCanvasLeft,
@@ -19,25 +22,37 @@ function PurchaseSection({
 }) {
   const { uploadMetadata, uploadImage } = useIPFS()
   const [mintStatus, setMintStatus] = useState('PURCHASE PLOT')
-
+  const landData = useAppSelector(selectLand)
   const { contracts, address, web3Provider } = useWeb3Context()
   const [name, setName] = useState('')
   const [buyState, setBuyState] = useState(activeItem)
   const adscontract = contracts['metaads']
   const [info, setInfo] = useState(activeItem)
+  const [land, setLand] = useState<any>({})
   useEffect(() => {
     // setEnableBuy(enableBuy)
     // console.log(enableBuy)
     setInfo(activeItem)
   }, [activeItem, enableBuy])
 
+  useEffect(() => {
+    setLand({
+      x: landData.x,
+      y: landData.y,
+      w: landData.w,
+      h: landData.h,
+    })
+  }, [landData])
+
   const handleSubmit = async () => {
+    console.log(getLands()[0])
+    const land = getLands()[0]
     const result = await handleMint(
       name,
       address,
       adscontract,
       getMintImage,
-      activeItem,
+      land,
       uploadMetadata,
       uploadImage
     )
@@ -83,18 +98,18 @@ function PurchaseSection({
                 max="1000000"
                 aria-label="x"
                 placeholder="X"
-                onChange={(e) => setSelectorWidth(e.target.value)}
+                onChange={(e) => setWidth(e.target.value)}
                 className="form-control"
-                defaultValue={selectorWidth}
+                defaultValue={getLandDefSize().w}
               />
               <input
                 type="number"
                 aria-label="y"
                 min="1"
                 max="1000000"
-                defaultValue={selectorHeight}
+                defaultValue={getLandDefSize().h}
                 placeholder="Y"
-                onChange={(e) => setSelectorHeight(e.target.value)}
+                onChange={(e) => setHeight(e.target.value)}
                 className="form-control value="
               />
             </div>
@@ -150,7 +165,7 @@ function PurchaseSection({
                 <span className="text-nowrap mb-2">
                   {' '}
                   <b>
-                    <i className="bi bi-tag"></i> : {' '}
+                    <i className="bi bi-tag"></i> :{' '}
                   </b>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -211,12 +226,10 @@ function PurchaseSection({
             <div className="col-12">
               <div className="d-flex  flex-column">
                 <span className="mb-2">
-                  <i className="bi bi-border "></i> : ({' '}
-                  {selectorHeight * selectorWidth} x{' '}
-                  {selectorHeight * selectorWidth} )
+                  <i className="bi bi-border "></i> : ( {land.w} x {land.h} )
                 </span>
                 <span>
-                  <i className="bi bi-geo-alt"></i> {`${info.x}X , ${info.y}Y`}{' '}
+                  <i className="bi bi-geo-alt"></i> {`${land.x}X , ${land.y}Y`}{' '}
                 </span>
               </div>
             </div>
