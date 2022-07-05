@@ -51,7 +51,7 @@ const Space = () => {
 
   return (
     <>
-      <section className="mt-0 grid-section" id="grid-section">
+      <section className="mt-0 position-fixed grid-section" id="grid-section">
         <div className="controls pt-0  pe-3 ps-3 align-items-center">
           <div className="d-flex flex-row-inverse justify-content-end justify-content-md-between align-items-center wrap-flow">
             <div className="row d-flex flex-column flex-xl-row hide-mobile">
