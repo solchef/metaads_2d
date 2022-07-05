@@ -317,6 +317,9 @@ button.carousel-control-prev {
   background-image: linear-gradient(to right, #f9007030 1px, transparent 1px),
     linear-gradient(to bottom, #f900707d 1px, transparent 1px);
 }
+.canvas-box.fullscrean {
+  width: 100vh;
+}
 
 section#grid-section {
   background-image: url('../images/grid_bg.png');

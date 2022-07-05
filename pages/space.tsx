@@ -10,6 +10,13 @@ import SpaceDetails from '../Views/WebPages/SpaceDetails'
 import Link from 'next/link'
 import { useWeb3Context } from '../context'
 import { QuadSpaceContract } from '../utils/constants'
+import {
+  fitScrean,
+  loadGrid,
+  setBuyStateModal,
+  zoomIn,
+  zoomOut,
+} from '../Views/WebPages/canvesGrid'
 const Space = () => {
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
   const [isCanvasBottem, setIsCanvasBottem] = useState(false)
@@ -17,11 +24,7 @@ const Space = () => {
   const { address, contracts } = useWeb3Context()
   const {
     cAreaRef,
-    zoomIn,
-    zoomOut,
     squreInfo,
-    addSelector,
-    resetPlane,
     setSelectorWidth,
     setSelectorHeight,
     selectorWidth,
@@ -35,13 +38,14 @@ const Space = () => {
     setEnableBuy(!enableBuy)
     setIsCanvasLeft(!isCanvasLeft)
     setIsCanvasBottem(false)
+    setBuyStateModal(enableBuy)
   }
   const offcanvasBottem = () => {
     setIsCanvasBottem(!isCanvasBottem)
   }
 
   useEffect(() => {
-    console.log(squreInfo)
+    loadGrid()
   }, [squreInfo])
   const [twoFeeTypes, setTwoFeeTypes] = useState(1)
 
@@ -137,7 +141,7 @@ const Space = () => {
                           </g>
                         </g>
                       </svg>{' '}
-                    0.000942 ( $ 1 )
+                      0.000942 ( $ 1 )
                     </span>
                   </span>
                 </div>
@@ -150,7 +154,7 @@ const Space = () => {
                 className="btn text-nowrap btn-primary hoverable purp-btn btn-lg btn-buy hide-mobile"
               >
                 <i className="bi-cart me-2 " />
-                BUY QUADS LOT 
+                BUY QUADS LOT
               </button>
               <button
                 onClick={offcanvasBottem}
@@ -159,7 +163,7 @@ const Space = () => {
                 <i className="bi-cart " />
               </button>
               <button
-                onClick={() => resetPlane()}
+                onClick={() => fitScrean()}
                 className="btn hoverable btn-primary btn-lg "
               >
                 <i className="bi-arrow-clockwise " />
@@ -186,8 +190,12 @@ const Space = () => {
           </div>
         </div>
 
-        <div ref={cAreaRef} className="canvas-box  ratio-1x1 hoverable">
-          <canvas id="adcanvas"></canvas>
+        <div
+          ref={cAreaRef}
+          className="canvas-box fullscrean  ratio-1x1 hoverable"
+          id="container"
+        >
+          <canvas id="adcanvass"></canvas>
         </div>
       </section>
       <PurchaseSection
@@ -203,7 +211,6 @@ const Space = () => {
         getMintImage={getMintImage}
       />
 
-      
       <div className="space-details show-mobile p-3">
         <span style={{ color: '#ff006f' }} className="text-nowrap ">
           {' '}
@@ -314,8 +321,8 @@ const Space = () => {
               aria-expanded="true"
               aria-controls="panelsStayOpen-collapseOne"
             >
-              <i className="bi-flag " /> 
-              <div className='position-absolute '>PURCHASE LOT</div>
+              <i className="bi-flag " />
+              <div className="position-absolute ">PURCHASE LOT</div>
             </button>
           </h2>
           <div
