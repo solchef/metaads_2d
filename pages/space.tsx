@@ -17,11 +17,14 @@ import {
   zoomIn,
   zoomOut,
 } from '../Views/WebPages/canvesGrid'
+import { selectLand } from '../components/reducers/Settings'
+import { useAppSelector } from '../components/store/hooks'
 const Space = () => {
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
   const [isCanvasBottem, setIsCanvasBottem] = useState(false)
   const [userLandName, setUserLandName] = useState('')
   const { address, contracts } = useWeb3Context()
+  const landData = useAppSelector(selectLand)
   const {
     cAreaRef,
     squreInfo,
@@ -63,13 +66,13 @@ const Space = () => {
                 <span style={{ color: '#ff006f' }} className="text-nowrap">
                   {' '}
                   <b>
-                    Y{squreInfo.y}x{squreInfo.x}
+                    Y{landData.y}x{landData.x}
                   </b>{' '}
                 </span>
                 <div className="mt-2 mb-2">
                   <span className="text-nowrap me-5">
-                    <i className="bi bi-geo-alt"></i> {squreInfo.x}X,{' '}
-                    {squreInfo.y}Y
+                    <i className="bi bi-geo-alt"></i> {landData.x}X,{' '}
+                    {landData.y}Y
                   </span>
                   <span className="text-nowrap me-5">
                     <i className="bi bi-person"></i> X05023...
