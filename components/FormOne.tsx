@@ -1,4 +1,9 @@
 import React from 'react'
+import {
+  getLandDefSize,
+  setHeight,
+  setWidth,
+} from '../Views/WebPages/canvesGrid'
 
 const FormOne = (props) => {
   return (
@@ -14,15 +19,15 @@ const FormOne = (props) => {
             type="text"
             aria-label="x"
             placeholder="X"
-            onChange={(e) => props.setSelectorWidth(e.target.value)}
+            onChange={(e) => setWidth(e.target.value)}
             className="form-control "
-            defaultValue={props.selectorWidth}
+            defaultValue={getLandDefSize().w}
           />
           <input
             type="text"
             aria-label="y"
-            onChange={(e) => props.setSelectorHeight(e.target.value)}
-            defaultValue={props.selectorHeight}
+            onChange={(e) => setHeight(e.target.value)}
+            defaultValue={getLandDefSize().h}
             placeholder="Y"
             className="form-control value="
           />
