@@ -65,8 +65,8 @@ const AdSpace: React.FunctionComponent = () => {
         </section>
 
         <section id="grid-section" className="hide-mobile">
-          <div className="container">
-            <div className="controls align-items-center" id="buy-quads">
+          <div className="container-fluid">
+            <div className="controls align-items-center pl-3 pr-3" id="buy-quads">
               <div className="d-flex flex-row-inverse justify-content-between align-items-center wrap-flow">
                 <div className="row">
                   <div className="col-xl-10 col-12 pe-5">
@@ -199,8 +199,8 @@ const AdSpace: React.FunctionComponent = () => {
               </div>
             </div>
 
-            <div className="canvas-box ratio-1x1 hoverable" id="container">
-              <div ref={cAreaRef}>
+            <div className="canvas-box  hoverable">
+              <div ref={cAreaRef}  id="container">
                 <canvas id="adcanvass"></canvas>
               </div>
             </div>
