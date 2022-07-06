@@ -13,7 +13,8 @@ import { useWeb3Context } from '../context'
 import { QuadSpaceContract } from '../utils/constants'
 import { selectLand } from '../components/reducers/Settings'
 import { useAppSelector } from '../components/store/hooks'
-
+import Minimap, { Child as ChildComponent } from "react-minimap";
+import "react-minimap/dist/react-minimap.css";
 const AdSpace: React.FunctionComponent = () => {
   const { address, contracts } = useWeb3Context()
   const landData = useAppSelector(selectLand)
@@ -49,6 +50,7 @@ const AdSpace: React.FunctionComponent = () => {
     setIsCanvasBottem(!isCanvasBottem)
     setIsCanvasLeft(false)
   }
+  const [checked, setChecked] = useState(false)
 
   return (
     <>
@@ -66,7 +68,7 @@ const AdSpace: React.FunctionComponent = () => {
 
         <section id="grid-section" className="hide-mobile">
           <div className="container-fluid">
-            <div className="controls align-items-center pl-3 pr-3" id="buy-quads">
+            <div className="controls g-n align-items-center pe-3 ps-3" id="buy-quads">
               <div className="d-flex flex-row-inverse justify-content-between align-items-center wrap-flow">
                 <div className="row">
                   <div className="col-xl-10 col-12 pe-5">
@@ -162,7 +164,13 @@ const AdSpace: React.FunctionComponent = () => {
                     </div>
                   </div>
                 </div>
-
+                <label className="switch">
+                  <input type="checkbox"
+                    checked={!checked}
+                    onClick={() => setChecked(!checked)}
+                  />
+                  <span className="slider round"></span>
+                </label>
                 <div className="buttons flex-nowrap ">
                   <button
                     onClick={offcanvasLeft}
@@ -199,11 +207,23 @@ const AdSpace: React.FunctionComponent = () => {
               </div>
             </div>
 
-            <div className="canvas-box  hoverable">
-              <div ref={cAreaRef}  id="container">
+           <div className="g-main g-s">
+           <Minimap
+              selector=".box"
+              keepAspectRatio={checked}
+            >
+              <div
+                ref={cAreaRef}
+                className="canvas-box  hoverable"
+                id="container"
+              >
                 <canvas id="adcanvass"></canvas>
               </div>
-            </div>
+
+            </Minimap>
+           </div>
+
+
           </div>
         </section>
       </Fragment>
