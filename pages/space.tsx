@@ -19,6 +19,8 @@ import {
 } from '../Views/WebPages/canvesGrid'
 import { selectLand } from '../components/reducers/Settings'
 import { useAppSelector } from '../components/store/hooks'
+import Minimap, { Child as ChildComponent } from "react-minimap";
+import "react-minimap/dist/react-minimap.css";
 const Space = () => {
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
   const [isCanvasBottem, setIsCanvasBottem] = useState(false)
@@ -55,6 +57,14 @@ const Space = () => {
   const addFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes + 1)
 
   const removeFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes - 1)
+  const [checked, setChecked] = useState(false)
+  const [offset, setOffset] = useState(0);
+
+  const css = `
+  .minimap{
+     display:none;
+  }
+`
 
   return (
     <>
@@ -150,7 +160,13 @@ const Space = () => {
                 </div>
               </div>
             </div>
-
+            <label className="switch">
+              <input type="checkbox"
+                checked={!checked}
+                onClick={() => setChecked(!checked)}
+              />
+              <span className="slider round"></span>
+            </label>
             <div className="buttons flex-nowrap ">
               <button
                 onClick={offcanvasLeft}
@@ -193,13 +209,30 @@ const Space = () => {
           </div>
         </div>
 
-        <div
-          ref={cAreaRef}
-          className="canvas-box fullscrean  ratio-1x1 hoverable"
-          id="container"
-        >
-          <canvas id="adcanvass"></canvas>
+
+        <div className="g-space g-s">
+<style>
+{checked? css :''}
+</style>
+          <Minimap
+            selector=".box"
+            keepAspectRatio={checked}
+          >
+            <div
+              ref={cAreaRef}
+
+              className="canvas-box hoverable"
+              id="container"
+            >
+              <canvas id="adcanvass"></canvas>
+            </div>
+
+          </Minimap>
+
         </div>
+
+
+
       </section>
       <PurchaseSection
         setSelectorHeight={setSelectorHeight}
@@ -309,9 +342,8 @@ const Space = () => {
       </div>
 
       <div
-        className={`accordion show-mobile show ${
-          isCanvasBottem ? '' : 'showw'
-        }`}
+        className={`accordion show-mobile show ${isCanvasBottem ? '' : 'showw'
+          }`}
       >
         <div className="accordion-item ">
           <h2 className="accordion-header">
@@ -329,9 +361,8 @@ const Space = () => {
             </button>
           </h2>
           <div
-            className={`accordion-collapse collapse show ${
-              isCanvasBottem && ''
-            }`}
+            className={`accordion-collapse collapse show ${isCanvasBottem && ''
+              }`}
             aria-labelledby="panelsStayOpen-headingOne"
           >
             <div className="accordion-body">
