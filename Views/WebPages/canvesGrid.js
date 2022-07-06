@@ -173,8 +173,8 @@ export const loadGrid = () => {
     })
     const lineList = []
     for (var i = 0; i < 1000; i++) {
-        // var distance = i * options.distance,
-        var distance = i * options.width / 1000,
+        var distance = i * options.distance,
+            // var distance = i * options.width/1000,
             horizontal = new fabric.Line(
                 [distance, 0, distance, options.width],
                 options.param
