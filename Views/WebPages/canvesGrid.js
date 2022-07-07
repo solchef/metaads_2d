@@ -9,6 +9,7 @@ let c
 let mouseIsDown = false
 let buyStatuse = false
 let mouseIsMoved = false
+let mobile = false
 let recMove = false
 let adGroup
 const rectlist = []
@@ -23,21 +24,16 @@ const owned = [
 const rect = new fabric.Rect({
   height: h,
   width: w,
-  top: 500,
-  left: 500,
+  top: -10,
+  left: -10,
   centeredRotation: false,
-  hasRotatingPoint: false,
   name: 'defaultSelector',
   fill: '#00707b',
-  subTargetCheck: true,
   borderColor: ' #000',
   cornerColor: '#a301b9',
   objectCaching: false,
   lockRotation: true,
   hasControls: false,
-  lockUniScaling: true,
-  lockScalingY: true,
-  lockScalingX: true,
 })
 
 export const loadGrid = () => {
@@ -48,17 +44,17 @@ export const loadGrid = () => {
     width: size.width,
   })
   var options = {
-      distance: 1,
-      height: 1000,
-      width: 1000,
-      param: {
-        stroke: '#a301b9',
-        selectable: false,
-        strokeWidth: 0.1,
-        objectCaching: false,
-      },
+    distance: 1,
+    height: 1050,
+    width: 1050,
+    param: {
+      type: 'line',
+      stroke: '#a301b9',
+      selectable: false,
+      strokeWidth: 0.1,
+      objectCaching: false,
     },
-    gridLen = options.width / options.distance
+  }
   c.on(
     'mouse:wheel',
     function (opt) {
@@ -77,6 +73,7 @@ export const loadGrid = () => {
     { passive: true }
   )
   c.on('object:moving', function (options) {
+    // console.log(adGroup.oCoords)
     let offsetNumberX = 0
     let offsetNumberY = 0
     if (!w % 2 == 0) {
@@ -91,21 +88,12 @@ export const loadGrid = () => {
       const maxNumberX = c.vptCoords.br.x - 1001
       const maxNumberY = c.vptCoords.br.y - 1001
 
-      // console.log(options.target.ownMatrixCache.value)
-      // console.log(options.target.left)
-      // console.log(options.target.top)
-      //   console.log(rect)
-      //   console.log('..........................')
-
-      // console.log(options.target)
       if (options.target.left >= maxNumberX) {
         if (Math.sign(options.target.left) !== 1) {
           options.target.set({
             left: x,
           })
         } else {
-          //   console.log(options.target.oCoords)
-          //   console.log(Math.abs(options.target.oCoords.tl.x))
           options.target.set({
             left: 0,
           })
@@ -140,50 +128,43 @@ export const loadGrid = () => {
   c.on(
     'mouse:down',
     function (o) {
-      //   console.log(o.target)
-      //   var activegroup = o.target.getActiveGroup()
-      //   console.log(adGroup.getObjects())
-
-      if (o.target.name === 'defaultSelector') {
-        c.remove(rect)
-        c.remove(adGroup)
-        rect.set({
-          left: rect.left - 500,
-          top: rect.top - 500,
-        })
-        adGroup.add(rect)
-        c.add(adGroup)
-        c.renderAll()
-      }
-      //   console.log(activegroup)
-      mouseIsMoved = false
-      mouseIsDown = true
-      c.selection = true
-      const pointer = c.getPointer(o.e)
-      let offsetNumberX = 0.5
-      let offsetNumberY = 0.5
-      if (h % 2 != 0) {
-        offsetNumberX = 0
-      }
-      if (w % 2 != 0) {
-        offsetNumberY = 0
-      }
-      x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberY
-      y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberX
-      console.log(x)
-      const elem = c.getItemByName('defaultSelector')
-      console.log(elem)
-      if (elem !== null)
-        if (x - 500 >= elem.left && x - 500 <= elem.left + elem.height) {
-          if (y - 500 >= elem.top && y - 500 <= elem.top + elem.width) {
-            // recMove = true
-          }
+      if (buyStatuse) {
+        mouseIsMoved = false
+        mouseIsDown = true
+        c.selection = true
+        console.log(o)
+        const pointer = c.getPointer(o.e)
+        let offsetNumberX = 0.5
+        let offsetNumberY = 0.5
+        if (h % 2 != 0) {
+          offsetNumberX = 0
         }
-      if (mouseIsMoved) {
-        //   setSqureInfo(squreInfoDefault)
-        updateSelector(y, x)
+        if (w % 2 != 0) {
+          offsetNumberY = 0
+        }
+        x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberY
+        y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberX
+        if (o.target.name === 'defaultSelector' && !mobile) {
+          console.log(x)
+          c.remove(rect)
+          c.remove(adGroup)
+          adGroup.add(rect)
+          c.add(adGroup)
+          rect.set({
+            left: rect.left - 500,
+            top: rect.top - 500,
+          })
+          c.renderAll()
+        }
+
+        if (mouseIsMoved) {
+          //   setSqureInfo(squreInfoDefault)
+          // updateSelector(y, x)
+        } else {
+        }
+
+        updateData()
       }
-      updateData()
     },
     { passive: true }
   )
@@ -191,7 +172,8 @@ export const loadGrid = () => {
     mouseIsDown = false
     recMove = false
     c.bringToFront(rect)
-    if (!mouseIsMoved) {
+    c.setActiveObject(rect)
+    if (!mouseIsMoved && buyStatuse) {
       const squreInfoDefault = {
         x: x,
         y: y,
@@ -202,7 +184,29 @@ export const loadGrid = () => {
         area: h + ' X ' + w,
         qty: 1,
       }
-
+      if (mobile) {
+        const pointer = c.getPointer(o.e)
+        let offsetNumberX = 0.5
+        let offsetNumberY = 0.5
+        if (h % 2 != 0) {
+          offsetNumberX = 0
+        }
+        if (w % 2 != 0) {
+          offsetNumberY = 0
+        }
+        x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberY
+        y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberX
+        console.log(x, y)
+        c.remove(rect)
+        c.remove(adGroup)
+        rect.set({
+          left: x - 500,
+          top: y - 500,
+        })
+        adGroup.add(rect)
+        c.add(adGroup)
+        c.renderAll()
+      }
       rectlist.push(squreInfoDefault)
     }
     updateData()
@@ -221,7 +225,7 @@ export const loadGrid = () => {
   c.on('mouse:move', function (e) {
     mouseIsMoved = true
     e.e.preventDefault()
-    const pointer = c.getPointer(e)
+    const pointer = c.getPointer(e.e)
     let offsetNumberX = 0.5
     let offsetNumberY = 0.5
     if (h % 2 != 0) {
@@ -244,7 +248,6 @@ export const loadGrid = () => {
       //   const elem = c.getItemByName('defaultSelector')
       //   elem.bringToFront()
 
-      console.log(x - 500)
       if (mouseIsDown) {
         if (recMove) {
           const elem = c.getItemByName('defaultSelector')
@@ -316,9 +319,13 @@ export const loadGrid = () => {
   adGroup = new fabric.Group([...lineList, ...rects], {
     objectCaching: false,
     hasControls: false,
+    preserveObjectStacking: true,
+    // height: 1000,
+    // width: 1000,
   })
 
   c.add(adGroup)
+
   const updateSelector = (x, y) => {
     const elem = c.getItemByName('defaultSelector')
     elem.set({
