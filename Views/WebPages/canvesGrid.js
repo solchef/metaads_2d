@@ -318,6 +318,8 @@ const onMouseDown = (o) => {
 }
 
 const onWheel = (opt) => {
+  opt.e.preventDefault()
+  opt.e.stopPropagation()
   if (opt.e.ctrlKey) {
     // console.log('pinch')
     var delta = opt.e.deltaY
