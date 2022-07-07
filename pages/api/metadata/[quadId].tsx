@@ -10,8 +10,8 @@ export default function handler(req, res) {
       'https://bafybeibaxec4sl7cbx4ey5djtofzdahowg7mv5vmfvkx3kxcfq7koecbx4.ipfs.nftstorage.link',
     external_url: 'https://quadspace.io',
     attributes: [
-      { trait_type: 'Row', value: x },
-      { trait_type: 'Column', value: y },
+      { trait_type: 'Row', value: x.toString() },
+      { trait_type: 'Column', value: y.toString() },
       { trait_type: 'QuadSpace', value: req.query.quadId },
     ],
   })

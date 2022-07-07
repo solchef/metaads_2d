@@ -24,8 +24,8 @@ const owned = [
 const rect = new fabric.Rect({
   height: h,
   width: w,
-  top: -10,
-  left: -10,
+  top: -10 - 0.5,
+  left: -10 - 0.5,
   name: 'defaultSelector',
   fill: '#00707b',
   borderColor: ' #000',
@@ -41,6 +41,9 @@ const loadEvents = () => {
   c.on('mouse:up', onMouseUp, { passive: true })
   c.on('object:modified', onObjectModified, { passive: true })
   c.on('mouse:move', onMouseMove, { passive: true })
+  c.on('after:render', function () {
+    c.calcOffset()
+  })
 }
 
 export const loadGrid = (mintingData) => {
@@ -58,7 +61,7 @@ export const loadGrid = (mintingData) => {
       type: 'line',
       stroke: '#a301b9',
       selectable: false,
-      strokeWidth: 0.1,
+      strokeWidth: 0.05,
       objectCaching: false,
     },
   }
@@ -89,18 +92,12 @@ export const loadGrid = (mintingData) => {
     let y = Number(all) % 1000
 
     const rect2 = new fabric.Rect({
-      top: x * options.distance,
-      left: y * options.distance,
+      top: x * options.distance - 0.5,
+      left: y * options.distance - 0.5,
       height: options.distance,
       width: options.distance,
       fill: '#7b0000',
       selection: false,
-      lockMovementX: true,
-      lockMovementY: true,
-      lockRotation: true,
-      lockUniScaling: true,
-      lockScalingY: false,
-      lockScalingX: false,
     })
     rects.push(rect2)
   })
@@ -110,37 +107,24 @@ export const loadGrid = (mintingData) => {
     let y = Number(own) % 1000
 
     const rect2 = new fabric.Rect({
-      top: x * options.distance,
-      left: y * options.distance,
+      top: x * options.distance - 0.5,
+      left: y * options.distance - 0.5,
       height: options.distance,
       width: options.distance,
       fill: '#f0ad4e',
       selection: false,
-      lockMovementX: true,
-      lockMovementY: true,
-      lockRotation: true,
-      lockUniScaling: true,
-      lockScalingY: false,
-      lockScalingX: false,
     })
     rects.push(rect2)
   })
 
   owned.forEach((purchase) => {
     const rect2 = new fabric.Rect({
-      top: purchase[0] * 1,
-      left: purchase[1] * 1,
+      top: purchase[0] * 1 - 0.5,
+      left: purchase[1] * 1 - 0.5,
       height: 100,
       width: 100,
       fill: '#7b0000',
       selection: false,
-      lockMovementX: true,
-      lockMovementY: true,
-      lockRotation: true,
-      hasControls: false,
-      lockUniScaling: true,
-      lockScalingY: false,
-      lockScalingX: false,
     })
     rects.push(rect2)
     // c.add(rect2)
@@ -162,7 +146,7 @@ export const loadGrid = (mintingData) => {
 
 /////////////////    update location
 const updateData = () => {
-  store.dispatch(setLand({ x: x + 500, y: y + 500, w: w, h: h }))
+  store.dispatch(setLand({ x: x - 0.5 + 500, y: y - 0.5 + 500, w: w, h: h }))
 }
 
 const updateSelector = (x, y) => {
@@ -180,8 +164,8 @@ const onMouseMove = (e) => {
   mouseIsMoved = true
   e.e.preventDefault()
   const pointer = c.getPointer(e.e)
-  let offsetNumberX = 0.5
-  let offsetNumberY = 0.5
+  let offsetNumberX = 0
+  let offsetNumberY = 0
   if (h % 2 != 0) {
     offsetNumberX = 0
   }
@@ -245,8 +229,8 @@ const onMouseUp = (o) => {
     }
     if (mobile) {
       const pointer = c.getPointer(o.e)
-      let offsetNumberX = 0.5
-      let offsetNumberY = 0.5
+      let offsetNumberX = 0
+      let offsetNumberY = 0
       if (h % 2 != 0) {
         offsetNumberX = 0
       }
@@ -255,7 +239,7 @@ const onMouseUp = (o) => {
       }
       x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberY
       y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberX
-      console.log(x, y)
+      // console.log(x, y)
       c.remove(rect)
       c.remove(adGroup)
       rect.set({
@@ -280,8 +264,8 @@ const onMouseDown = (o) => {
     mouseIsDown = true
     c.selection = true
     const pointer = c.getPointer(o.e)
-    let offsetNumberX = 0.5
-    let offsetNumberY = 0.5
+    let offsetNumberX = 0
+    let offsetNumberY = 0
     if (h % 2 != 0) {
       offsetNumberX = 0
     }
@@ -299,18 +283,15 @@ const onMouseDown = (o) => {
       c.remove(adGroup)
       adGroup.add(rect)
       c.add(adGroup)
-      console.log(x)
       rect.set({
-        left: x,
-        top: y,
+        left: x - 0.5,
+        top: y - 0.5,
       })
       c.renderAll()
     }
 
     if (mouseIsMoved) {
-      //   setSqureInfo(squreInfoDefault)
-      updateSelector(y, x)
-    } else {
+      updateSelector(y - 0.5, x - 0.5)
     }
 
     updateData()
@@ -333,16 +314,16 @@ const onWheel = (opt) => {
 
 const onObjectMoving = (options) => {
   // console.log(adGroup.oCoords)
-  let offsetNumberX = 0
-  let offsetNumberY = 0
+  let offsetNumberX = 0.5
+  let offsetNumberY = 0.5
   if (!w % 2 == 0) {
     offsetNumberX = 0.5
   }
   if (!h % 2 == 0) {
     offsetNumberY = 0.5
   }
-  x = Math.round(options.target.left / 1) * 1 - offsetNumberX
-  y = Math.round(options.target.top / 1) * 1 - offsetNumberY
+  x = Math.round(options.target.left / 1) * 1
+  y = Math.round(options.target.top / 1) * 1
   if (options.target.name === undefined) {
     const maxNumberX = c.vptCoords.br.x - 1001
     const maxNumberY = c.vptCoords.br.y - 1001
@@ -378,8 +359,8 @@ const onObjectMoving = (options) => {
     }
   } else {
     options.target.set({
-      top: y,
-      left: x,
+      top: y - 0.5,
+      left: x - 0.5,
     })
   }
   c.renderAll()
