@@ -770,11 +770,15 @@ input:checked+.slider:before {
     border-radius: 50%;
 }
 
-.canvas-box {
-    height: 2000px;
-    width: 2000px;
-}
-
 .g-main {
     border: 2px solid #f90070;
+}
+
+.bo {
+    border: 2px #fa0070 solid;
+    padding: 0;
+}
+
+.bo .btn {
+    border-radius: 0;
 }
