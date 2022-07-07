@@ -136,7 +136,7 @@ export const loadGrid = () => {
 
 /////////////////    update location
 const updateData = () => {
-  store.dispatch(setLand({ x: x, y: y, w: w, h: h }))
+  store.dispatch(setLand({ x: x + 500, y: y + 500, w: w, h: h }))
 }
 
 const updateSelector = (x, y) => {
@@ -169,7 +169,7 @@ const onMouseMove = (e) => {
       left: x,
       top: y,
     })
-    updateData()
+
     rect.setCoords()
     c.renderAll()
   } else {
@@ -184,6 +184,9 @@ const onMouseMove = (e) => {
       }
     }
   }
+  x = rect.left
+  y = rect.top
+  updateData()
 }
 
 const onObjectModified = (options) => {
@@ -239,16 +242,17 @@ const onMouseUp = (o) => {
     }
     rectlist.push(squreInfoDefault)
   }
+  //x: x, y: y
+  x = rect.left
+  y = rect.top
   updateData()
 }
 
 const onMouseDown = (o) => {
-  console.log(adGroup)
   if (buyStatuse) {
     mouseIsMoved = false
     mouseIsDown = true
     c.selection = true
-    console.log(o)
     const pointer = c.getPointer(o.e)
     let offsetNumberX = 0.5
     let offsetNumberY = 0.5
@@ -258,17 +262,21 @@ const onMouseDown = (o) => {
     if (w % 2 != 0) {
       offsetNumberY = 0
     }
-    x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberY
-    y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberX
+    x = Math.round(
+      (pointer.x / 1) * 1 - w / 2 - offsetNumberY - 500 - adGroup.left
+    )
+    y = Math.round(
+      pointer.y / 1 - (h / 2) * 1 - offsetNumberX - 500 - adGroup.top
+    )
     if (o.target.name === 'defaultSelector' && !mobile) {
-      console.log(x)
       c.remove(rect)
       c.remove(adGroup)
       adGroup.add(rect)
       c.add(adGroup)
+      console.log(x)
       rect.set({
-        left: rect.left - 500,
-        top: rect.top - 500,
+        left: x,
+        top: y,
       })
       c.renderAll()
     }
@@ -343,7 +351,6 @@ const onObjectMoving = (options) => {
       })
     }
   } else {
-    console.log(x)
     options.target.set({
       top: y,
       left: x,
