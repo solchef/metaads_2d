@@ -16,7 +16,9 @@ const FormOne = (props) => {
             <i className="bi-border " />
           </span>
           <input
-            type="text"
+            type="number"
+            min="1"
+            max="1000000"
             aria-label="x"
             placeholder="X"
             onChange={(e) => setWidth(e.target.value)}
@@ -24,7 +26,9 @@ const FormOne = (props) => {
             defaultValue={getLandDefSize().w}
           />
           <input
-            type="text"
+            type="number"
+            min="1"
+            max="1000000"
             aria-label="y"
             onChange={(e) => setHeight(e.target.value)}
             defaultValue={getLandDefSize().h}

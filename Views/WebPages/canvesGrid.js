@@ -318,25 +318,17 @@ const onMouseDown = (o) => {
 }
 
 const onWheel = (opt) => {
+  const delta = opt.e.wheelDelta / 20
+  let zoom = c.getZoom()
+  //   console.log(zoom)
+  zoom *= 0.999 ** delta
+  if (zoom > 60) zoom = 20
+  if (zoom < 0.01) zoom = 0.01
+  if (zoom > 2.35 && zoom < 15) c.zoomToPoint({ x: 0, y: 0 }, zoom)
   opt.e.preventDefault()
   opt.e.stopPropagation()
-  if (opt.e.ctrlKey) {
-    var delta = opt.e.deltaY
-    var zoom = c.getZoom()
-    zoom *= 0.999 ** delta
-    c.setZoom(zoom)
-    c.renderAll()
-  } else {
-    const delta = opt.e.wheelDelta / 20
-    let zoom = c.getZoom()
-    //   console.log(zoom)
-    zoom *= 0.999 ** delta
-    if (zoom > 60) zoom = 20
-    if (zoom < 0.01) zoom = 0.01
-    if (zoom > 2.35 && zoom < 15) c.zoomToPoint({ x: 0, y: 0 }, zoom)
 
-    c.renderAll()
-  }
+  c.renderAll()
 }
 
 const onObjectMoving = (options) => {
