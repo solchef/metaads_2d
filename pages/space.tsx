@@ -21,6 +21,7 @@ import { selectLand } from '../components/reducers/Settings'
 import { useAppSelector } from '../components/store/hooks'
 import Minimap, { Child as ChildComponent } from 'react-minimap'
 import 'react-minimap/dist/react-minimap.css'
+import { MetaadsContractUnsigned } from '../utils/readOnly'
 const Space = () => {
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
   const [isCanvasBottem, setIsCanvasBottem] = useState(false)
@@ -56,31 +57,28 @@ const Space = () => {
   const adsunsignedcontract = contracts['metaads_unsigned']
 
   const loadMintingData = async () => {
-    if (address) {
-      let walletNfts = await adsunsignedcontract.getTokenIdsOfWallet(address)
-      let allMintedIds = await adsunsignedcontract.occupiedList()
-      setMintingData({
-        walletQuads: walletNfts,
-        otherQuads: allMintedIds,
-      })
-      if (allMintedIds.length > 0) {
-        // console.log(allMintedIds)
-        loadGrid({ walletQuads: walletNfts, otherQuads: allMintedIds })
-      }
-    } else {
-      loadGrid({ walletQuads: [], otherQuads: [] })
+    let walletNfts = []
+    let allMintedIds = []
+
+    if (address)
+      walletNfts = await MetaadsContractUnsigned.getTokenIdsOfWallet(address)
+
+    if (MetaadsContractUnsigned)
+      allMintedIds = await MetaadsContractUnsigned.occupiedList()
+
+    setMintingData({
+      walletQuads: walletNfts,
+      otherQuads: allMintedIds,
+    })
+    if (allMintedIds.length > 0) {
+      loadGrid({ walletQuads: walletNfts, otherQuads: allMintedIds })
     }
   }
 
   useEffect(() => {
-    if (adscontract) {
-      if (mintingData.otherQuads) {
-        loadMintingData()
-      }
-    } else {
-      loadMintingData()
-    }
-  }, [squreInfo, adscontract])
+    loadMintingData()
+  }, [squreInfo])
+
   const [twoFeeTypes, setTwoFeeTypes] = useState(1)
 
   const addFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes + 1)

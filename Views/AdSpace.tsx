@@ -17,7 +17,7 @@ import Minimap, { Child as ChildComponent } from 'react-minimap'
 import 'react-minimap/dist/react-minimap.css'
 import { MetaadsContractUnsigned } from '../utils/readOnly'
 const AdSpace: React.FunctionComponent = () => {
-  const { address, contracts } = useWeb3Context()
+  const { address } = useWeb3Context()
   const landData = useAppSelector(selectLand)
 
   const { cAreaRef, squreInfo, setEnableBuy } = useCanvas()
@@ -33,8 +33,6 @@ const AdSpace: React.FunctionComponent = () => {
     selectorWidth,
     getMintImage,
   } = useCanvas()
-
-  const adscontract = contracts['metaads']
 
   const loadMintingData = async () => {
     let walletNfts = []
@@ -56,14 +54,8 @@ const AdSpace: React.FunctionComponent = () => {
   }
 
   useEffect(() => {
-    if (adscontract) {
-      if (mintingData.otherQuads) {
-        loadMintingData()
-      }
-    } else {
-      loadMintingData()
-    }
-  }, [squreInfo, adscontract])
+    loadMintingData()
+  }, [squreInfo])
 
   const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [show, setShow] = useState(false)
