@@ -19,8 +19,10 @@ import {
 } from '../Views/WebPages/canvesGrid'
 import { selectLand } from '../components/reducers/Settings'
 import { useAppSelector } from '../components/store/hooks'
-import Minimap, { Child as ChildComponent } from "react-minimap";
-import "react-minimap/dist/react-minimap.css";
+import Minimap, { Child as ChildComponent } from 'react-minimap'
+import 'react-minimap/dist/react-minimap.css'
+import AdSpace from '../Views/adspaceminter'
+import dynamic from 'next/dynamic'
 const Space = () => {
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
   const [isCanvasBottem, setIsCanvasBottem] = useState(false)
@@ -49,16 +51,16 @@ const Space = () => {
     setIsCanvasBottem(!isCanvasBottem)
   }
 
-  useEffect(() => {
-    loadGrid()
-  }, [squreInfo])
+  // useEffect(() => {
+  //   loadGrid()
+  // }, [squreInfo])
   const [twoFeeTypes, setTwoFeeTypes] = useState(1)
 
   const addFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes + 1)
 
   const removeFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes - 1)
   const [checked, setChecked] = useState(false)
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(0)
 
   const css = `
   .minimap{
@@ -66,10 +68,14 @@ const Space = () => {
   }
 `
 
+  const AdSpace = dynamic(() => import('../Views/AdSpace'), {
+    ssr: false,
+  })
+
   return (
     <>
-      <section className="mt-0 position-fixed grid-section" id="grid-section">
-        <div className="controls pt-0 pe-2">
+      {/* <section className="mt-0 position-fixed grid-section" id="grid-section"> */}
+      {/* <div className="controls pt-0 pe-2">
           <div className="d-flex gap-g flex-row-inverse justify-content-end align-items-center wrap-flow">
             <div className="d-flex flex-column hide-mobile">
               <span style={{ color: '#ff006f' }} className="text-nowrap">
@@ -248,17 +254,11 @@ const Space = () => {
 
             </div>
           </div>
-        </div>
+        </div> */}
 
-
+      {/* 
         <div className="g-space g-s">
-          {/* <style>
-            {checked ? css : ''}
-          </style> */}
-          {/* <Minimap
-            selector=".box"
-            keepAspectRatio={true}
-          > */}
+
           <div
             ref={cAreaRef}
 
@@ -267,14 +267,14 @@ const Space = () => {
           >
             <canvas id="adcanvass"></canvas>
           </div>
-          {/* 
-          </Minimap> */}
-
-        </div>
 
 
+        </div> */}
 
-      </section>
+      {/* </section> */}
+
+      <AdSpace />
+
       <PurchaseSection
         setSelectorHeight={setSelectorHeight}
         setSelectorWidth={setSelectorWidth}
@@ -289,18 +289,14 @@ const Space = () => {
       />
 
       <div className="space-details show-mobile p-3">
-        <span  className="text-nowrap ">
-
+        <span className="text-nowrap ">
           <b>
-
             Y{squreInfo.y}x{squreInfo.x}
           </b>
           <span style={{ color: '#ff006f' }} className="text-nowrap mx-2">
-
             <b>FOR SALE</b>
           </span>
           <span className="text-nowrap">
-
             <span className="text-nowrap">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -375,15 +371,12 @@ const Space = () => {
             </div>
           </div>
 
-          <div className="minimap">
-
-          </div>
+          <div className="minimap"></div>
         </div>
       </div>
 
       <div
-        className={`accordion show-mobile show ${isCanvasLeft ? '' : 'showw'
-          }`}
+        className={`accordion show-mobile show ${isCanvasLeft ? '' : 'showw'}`}
       >
         <div className="accordion-item ">
           <h2 className="accordion-header">
@@ -401,8 +394,7 @@ const Space = () => {
             </button>
           </h2>
           <div
-            className={`accordion-collapse collapse show ${isCanvasLeft && ''
-              }`}
+            className={`accordion-collapse collapse show ${isCanvasLeft && ''}`}
             aria-labelledby="panelsStayOpen-headingOne"
           >
             <div className="accordion-body">
@@ -430,8 +422,6 @@ const Space = () => {
           </div>
         </div>
       </div>
-
-
     </>
   )
 }
