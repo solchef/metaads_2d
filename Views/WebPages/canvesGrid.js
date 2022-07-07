@@ -323,7 +323,7 @@ const onWheel = (opt) => {
   if (opt.e.ctrlKey) {
     // console.log('pinch')
     var delta = opt.e.deltaY
-    var zoom = canvas.getZoom()
+    var zoom = c.getZoom()
     zoom *= 0.999 ** delta
     c.setZoom(zoom)
   } else {
