@@ -33,15 +33,15 @@ const AdSpace: React.FunctionComponent = () => {
     selectorWidth,
     getMintImage,
   } = useCanvas()
+
   const adscontract = contracts['metaads']
-  const adsunsignedcontract = contracts['metaads_unsigned']
 
   const loadMintingData = async () => {
     let walletNfts = []
     let allMintedIds = []
 
     if (address)
-      walletNfts = await adsunsignedcontract.getTokenIdsOfWallet(address)
+      walletNfts = await MetaadsContractUnsigned.getTokenIdsOfWallet(address)
 
     if (MetaadsContractUnsigned)
       allMintedIds = await MetaadsContractUnsigned.occupiedList()
