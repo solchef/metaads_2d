@@ -78,9 +78,10 @@ export const handleMint = async (
       console.log('loading transaction')
     }
   } catch (e) {
-    ErrorTransaction({
-      title: 'An Error has Occurred',
-      description: 'mm error',
-    })
+    console.log(e)
+    // ErrorTransaction({
+    //   title: 'An Error has Occurred',
+    //   description: 'mm error',
+    // })
   }
 }

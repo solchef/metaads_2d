@@ -19,8 +19,8 @@ const FormOne = (props) => {
             type="number"
             min="1"
             max="1000000"
-            aria-label="x"
-            placeholder="X"
+            // aria-label="x"
+            // placeholder="X"
             onChange={(e) => setWidth(e.target.value)}
             className="form-control "
             defaultValue={getLandDefSize().w}
@@ -29,11 +29,11 @@ const FormOne = (props) => {
             type="number"
             min="1"
             max="1000000"
-            aria-label="y"
+            // aria-label="y"
             onChange={(e) => setHeight(e.target.value)}
             defaultValue={getLandDefSize().h}
-            placeholder="Y"
-            className="form-control value="
+            // placeholder="Y"
+            className="form-control"
           />
         </div>
       </form>

@@ -1,6 +1,5 @@
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 
-
 export const SuccessfulTransaction = ({ title, description }) => {
   Swal.fire({
     title: title,
@@ -69,21 +68,15 @@ export const MiningTransaction = ({ title, description }) => {
   })
 }
 
-export  const  ConnectedWallet = (address)=> {
-  
-    return(
-
-        `${Swal.fire({
-            title: 'Connected',
-            icon: 'info',
-            showCloseButton: true,
-            // showCancelButton: true,
-            // focusConfirm: false,
-            // confirmButtonText:  'Disconnect',
-            confirmButtonAriaLabel: 'Thumbs up, great!',
-            html:
-              `You are connected to quadSpace as <br/>  ${address}` 
-        })}`
-    )
-   
-  }
+export const ConnectedWallet = (address) => {
+  return `${Swal.fire({
+    title: 'Connected',
+    icon: 'info',
+    showCloseButton: true,
+    // showCancelButton: true,
+    // focusConfirm: false,
+    // confirmButtonText:  'Disconnect',
+    confirmButtonAriaLabel: 'Thumbs up, great!',
+    html: `You are connected to quadSpace as <br/> <br/>  ${address} `,
+  })}`
+}

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useWeb3Context } from '../context/'
+import { ConnectedWallet } from '../utils/notifications'
 import truncateEthAddress from '../utils/truncate'
 
 interface ConnectProps {
@@ -46,12 +47,21 @@ interface DisconnectProps {
 const DisconnectButton = ({ disconnect, address }: DisconnectProps) => {
   return disconnect ? (
     <>
-      <a className="btn-primary hoverable btn-md hide-mobile" href="#">
+      <a
+        className="btn-primary hoverable btn-md hide-mobile"
+        onClick={() => ConnectedWallet(address)}
+        href="#"
+      >
         <i className="bi-wallet me-2" />
         {truncateEthAddress(address)}
       </a>
-      <a className="btn-primary hoverable btn-md show-mobile" href="#">
+      <a
+        className="btn-primary hoverable btn-md show-mobile"
+        onClick={() => ConnectedWallet(address)}
+        href="#"
+      >
         <i className="bi-wallet" />
+        {/* <span className="fs-7">{truncateEthAddress(address)}</span> */}
       </a>
     </>
   ) : (
