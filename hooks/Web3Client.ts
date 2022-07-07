@@ -40,12 +40,12 @@ if (typeof window !== 'undefined') {
     cacheProvider: true,
     providerOptions, // required
     theme: {
-      background: "rgb(39, 49, 56)",
-      main: "rgb(199, 199, 199)",
-      secondary: "rgb(136, 136, 136)",
-      border: "rgba(195, 195, 195, 0.14)",
-      hover: "rgb(16, 26, 32)"
-    }
+      background: 'rgb(39, 49, 56)',
+      main: 'rgb(199, 199, 199)',
+      secondary: 'rgb(136, 136, 136)',
+      border: 'rgba(195, 195, 195, 0.14)',
+      hover: 'rgb(16, 26, 32)',
+    },
   })
 }
 
@@ -68,8 +68,16 @@ export const useWeb3 = () => {
           metaadsabi,
           signer
         )
+
+        const metaadscontract_unsigned = new ethers.Contract(
+          QuadSpaceContract,
+          metaadsabi,
+          signer
+        )
+
         const contracts = []
         contracts['metaads'] = metaadscontract
+        contracts['metaads_unsigned'] = metaadscontract_unsigned
 
         // console.log(contracts)
 

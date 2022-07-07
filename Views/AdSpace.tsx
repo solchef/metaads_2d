@@ -33,22 +33,32 @@ const AdSpace: React.FunctionComponent = () => {
     getMintImage,
   } = useCanvas()
   const adscontract = contracts['metaads']
+  const adsunsignedcontract = contracts['metaads_unsigned']
 
   const loadMintingData = async () => {
-    let walletNfts = await adscontract.getTokenIdsOfWallet(address)
-    let allMintedIds = await adscontract.occupiedList()
-    setMintingData({ walletQuads: walletNfts, otherQuads: allMintedIds })
-    if (allMintedIds.length > 0) {
-      // console.log(allMintedIds)
-      loadGrid({ walletQuads: walletNfts, otherQuads: allMintedIds })
+    if (address) {
+      let walletNfts = await adsunsignedcontract.getTokenIdsOfWallet(address)
+      let allMintedIds = await adsunsignedcontract.occupiedList()
+      setMintingData({
+        walletQuads: walletNfts,
+        otherQuads: allMintedIds,
+      })
+      if (allMintedIds.length > 0) {
+        // console.log(allMintedIds)
+        loadGrid({ walletQuads: walletNfts, otherQuads: allMintedIds })
+      }
+    } else {
+      loadGrid({ walletQuads: [], otherQuads: [] })
     }
   }
 
   useEffect(() => {
     if (adscontract) {
-      if (mintingData.walletQuads) {
+      if (mintingData.otherQuads) {
         loadMintingData()
       }
+    } else {
+      loadMintingData()
     }
   }, [squreInfo, adscontract])
 

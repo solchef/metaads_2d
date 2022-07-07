@@ -126,6 +126,26 @@ export const loadGrid = (mintingData) => {
     rects.push(rect2)
   })
 
+  owned.forEach((purchase) => {
+    const rect2 = new fabric.Rect({
+      top: purchase[0] * 1,
+      left: purchase[1] * 1,
+      height: 100,
+      width: 100,
+      fill: '#7b0000',
+      selection: false,
+      lockMovementX: true,
+      lockMovementY: true,
+      lockRotation: true,
+      hasControls: false,
+      lockUniScaling: true,
+      lockScalingY: false,
+      lockScalingX: false,
+    })
+    rects.push(rect2)
+    // c.add(rect2)
+  })
+
   adGroup = new fabric.Group([...lineList, ...rects], {
     objectCaching: false,
     hasControls: false,
