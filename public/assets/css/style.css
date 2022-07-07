@@ -680,15 +680,13 @@ section#marketplace-section {
 }
 
 .minimap {
-    background-image: repeating-linear-gradient(0deg, transparent, transparent 9px, #ccc 9px, #ccc 10px), repeating-linear-gradient(-90deg, transparent, transparent 9px, #ccc 9px, #ccc 10px);
     margin-right: 50px;
     border: 3px #fa0070 solid !important;
     overflow: hidden !important;
     position: absolute !important;
-}
-
-.g-main .minimap {
-    right: 100px!important;
+    width: 100px;
+    height: 100px;
+    bottom: 10px;
 }
 
 .container-map {
@@ -775,10 +773,81 @@ input:checked+.slider:before {
 }
 
 .bo {
-    border: 2px #fa0070 solid;
     padding: 0;
+    border-radius: 7px;
 }
 
 .bo .btn {
-    border-radius: 0;
+    border-radius: 0px;
+    padding: 0 10px !important;
+    margin: 0 1px 0 0 !important;
+}
+
+.bo .btn:first-of-type:not(.joy) {
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+}
+
+.bo .btn:last-of-type:not(.joy) {
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+.bo .btn:focus {
+    box-shadow: none;
+}
+
+.bo .btn span,
+.bo .btn.x {
+    font-size: 20px;
+}
+
+.bo .btn.x {
+    cursor: auto;
+}
+
+.bo .btn.active {
+    opacity: 0.5;
+    margin-top: 0;
+}
+
+@media (max-width:1300px) {
+    .controls .btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px !important;
+    }
+    .bo .btn span,
+    .bo .btn.x {
+        font-size: 14px;
+    }
+}
+
+.faq-title {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    text-shadow: 0px 0px 0px #ff00cc, 0 0 25px #ff00cc, 0 0 5px #ff00cc;
+}
+
+@media(max-width:768px) {
+    .joy:first-of-type {
+        border-top-left-radius: 7px !important;
+        border-top-right-radius: 7px !important;
+        margin-bottom: 0.5px !important;
+    }
+    .joy:last-of-type {
+        border-bottom-left-radius: 7px !important;
+        border-bottom-right-radius: 7px !important;
+        margin-top: 0.5px !important;
+    }
+    .controls .btn {
+        width: 35px !important;
+        height: 35px !important;
+        font-size: 15px !important;
+    }
+    .bo .btn span,
+    .bo .btn.x {
+        font-size: 13px;
+    }
 }
