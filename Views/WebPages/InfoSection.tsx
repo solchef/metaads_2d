@@ -105,7 +105,59 @@ export const InfoSection = () => {
                   BUY QUADS FOR $1
                 </a>
               </Link>
+            
             </div>
+            <div className="faq mt-5 w-100">
+
+<h2>Frequenty Asked Question (FAQ)</h2>
+
+<div className='faq-title '>  What is Quadspace?</div>
+<p>
+  QuadSpace is a meta commercial Ad board NFT in the Metaverse.
+  Owners of the Parcel can rent, sell and build on their Parcel.
+</p>
+<div className='faq-title '>        What is a Parcel?</div>
+<p>
+  A Parcel is a 10 x 10 pixel, one-of-a-kind digital NFT that can be bought and sold like any other piece of personal property but created on a digital ledger known as a blockchain.
+
+</p>
+<div className='faq-title '>      What can you do with your Parcel?</div>
+<p>
+  AD-VERSE
+  Promote brands/products on your Parcel in the Metaverse. A selective number of ads can be placed within the Metaverse recreating digital billboards.
+
+  META-REAL STATE
+  A launchpad for Meta real estate developers and agents to build, design, and develop their land.
+
+  EVENTS & SHOWS
+  Users and brands can host their events on Quadspace parcels, from concerts to fashion shows.
+
+  RESALE
+  Resell your Parcel anytime on the secondary market.
+
+  What are the secondary markets?
+
+  Opensea will be the secondary market.
+</p>
+
+
+<div className='faq-title '>         What Chain is the Quade space on?</div>
+<p>
+  Ethereum / ERC20
+</p>
+<div className='faq-title '>          How can I view my QuadSpace Adboard?</div>
+<p>
+  Your Parcel/Ad space is viewable on the board to everyone
+</p>
+<div className='faq-title '>         What can I do with the Adboard?</div>
+<p>
+  You can Rent, Build, and Advertise on QuadSpace
+
+  In which Metaverse will Quadspace be?
+
+  Quadspace will be available on multi Metaverses.
+</p>
+</div>
           </div>
           {/*PARTNERS ROW ============================ */}
           <div className="partners">
