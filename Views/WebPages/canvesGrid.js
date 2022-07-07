@@ -3,7 +3,7 @@ import { setLand, setLandData } from '../../components/reducers/Settings'
 import { store } from '../../components/store'
 let h = 10,
   w = 10
-let x = 0,
+let x = 900,
   y = 0
 let c
 let mouseIsDown = false
@@ -26,27 +26,34 @@ const rect = new fabric.Rect({
   width: w,
   top: -10,
   left: -10,
-  centeredRotation: false,
   name: 'defaultSelector',
   fill: '#00707b',
   borderColor: ' #000',
   cornerColor: '#a301b9',
-  objectCaching: false,
   lockRotation: true,
   hasControls: false,
 })
 
+const loadEvents = () => {
+  c.on('mouse:wheel', onWheel, { passive: true })
+  c.on('object:moving', onObjectMoving, { passive: true })
+  c.on('mouse:down', onMouseDown, { passive: true })
+  c.on('mouse:up', onMouseUp, { passive: true })
+  c.on('object:modified', onObjectModified, { passive: true })
+  c.on('mouse:move', onMouseMove, { passive: true })
+}
+
 export const loadGrid = () => {
   const size = document.getElementById('container').getBoundingClientRect()
   c = new fabric.Canvas('adcanvass', {
-    selection: false,
+    // selection: false,
     height: size.width,
     width: size.width,
   })
   var options = {
     distance: 1,
-    height: 1050,
-    width: 1050,
+    height: 1000,
+    width: 1000,
     param: {
       type: 'line',
       stroke: '#a301b9',
@@ -55,210 +62,7 @@ export const loadGrid = () => {
       objectCaching: false,
     },
   }
-  c.on(
-    'mouse:wheel',
-    function (opt) {
-      const delta = opt.e.wheelDelta / 20
-      let zoom = c.getZoom()
-      //   console.log(zoom)
-      zoom *= 0.999 ** delta
-      if (zoom > 60) zoom = 20
-      if (zoom < 0.01) zoom = 0.01
-      if (zoom > 2.35 && zoom < 15) c.zoomToPoint({ x: 0, y: 0 }, zoom)
-      opt.e.preventDefault()
-      opt.e.stopPropagation()
 
-      c.renderAll()
-    },
-    { passive: true }
-  )
-  c.on('object:moving', function (options) {
-    // console.log(adGroup.oCoords)
-    let offsetNumberX = 0
-    let offsetNumberY = 0
-    if (!w % 2 == 0) {
-      offsetNumberX = 0.5
-    }
-    if (!h % 2 == 0) {
-      offsetNumberY = 0.5
-    }
-    x = Math.round(options.target.left / 1) * 1 - offsetNumberX
-    y = Math.round(options.target.top / 1) * 1 - offsetNumberY
-    if (options.target.name === undefined) {
-      const maxNumberX = c.vptCoords.br.x - 1001
-      const maxNumberY = c.vptCoords.br.y - 1001
-
-      if (options.target.left >= maxNumberX) {
-        if (Math.sign(options.target.left) !== 1) {
-          options.target.set({
-            left: x,
-          })
-        } else {
-          options.target.set({
-            left: 0,
-          })
-        }
-      } else {
-        options.target.set({
-          left: maxNumberX,
-        })
-      }
-      if (options.target.top >= maxNumberY) {
-        if (Math.sign(options.target.top) !== 1) {
-          options.target.set({
-            top: y,
-          })
-        } else
-          options.target.set({
-            top: 0,
-          })
-      } else {
-        options.target.set({
-          top: maxNumberY,
-        })
-      }
-    } else {
-      options.target.set({
-        top: y,
-        left: x,
-      })
-    }
-    c.renderAll()
-  })
-  c.on(
-    'mouse:down',
-    function (o) {
-      if (buyStatuse) {
-        mouseIsMoved = false
-        mouseIsDown = true
-        c.selection = true
-        console.log(o)
-        const pointer = c.getPointer(o.e)
-        let offsetNumberX = 0.5
-        let offsetNumberY = 0.5
-        if (h % 2 != 0) {
-          offsetNumberX = 0
-        }
-        if (w % 2 != 0) {
-          offsetNumberY = 0
-        }
-        x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberY
-        y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberX
-        if (o.target.name === 'defaultSelector' && !mobile) {
-          console.log(x)
-          c.remove(rect)
-          c.remove(adGroup)
-          adGroup.add(rect)
-          c.add(adGroup)
-          rect.set({
-            left: rect.left - 500,
-            top: rect.top - 500,
-          })
-          c.renderAll()
-        }
-
-        if (mouseIsMoved) {
-          //   setSqureInfo(squreInfoDefault)
-          // updateSelector(y, x)
-        } else {
-        }
-
-        updateData()
-      }
-    },
-    { passive: true }
-  )
-  c.on('mouse:up', function (o) {
-    mouseIsDown = false
-    recMove = false
-    c.bringToFront(rect)
-    c.setActiveObject(rect)
-    if (!mouseIsMoved && buyStatuse) {
-      const squreInfoDefault = {
-        x: x,
-        y: y,
-        Price: 1,
-        Status: 'Available',
-        owner: 'For Sale',
-        link: 'quadspace.io',
-        area: h + ' X ' + w,
-        qty: 1,
-      }
-      if (mobile) {
-        const pointer = c.getPointer(o.e)
-        let offsetNumberX = 0.5
-        let offsetNumberY = 0.5
-        if (h % 2 != 0) {
-          offsetNumberX = 0
-        }
-        if (w % 2 != 0) {
-          offsetNumberY = 0
-        }
-        x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberY
-        y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberX
-        console.log(x, y)
-        c.remove(rect)
-        c.remove(adGroup)
-        rect.set({
-          left: x - 500,
-          top: y - 500,
-        })
-        adGroup.add(rect)
-        c.add(adGroup)
-        c.renderAll()
-      }
-      rectlist.push(squreInfoDefault)
-    }
-    updateData()
-  })
-  c.on('object:modified', function (options) {
-    if (options.target.name === 'defaultSelector')
-      options.target.set({
-        width: w,
-        height: h,
-      })
-    else {
-      //   x: opt.e.offsetX, y: opt.e.offsetY
-    }
-    updateData()
-  })
-  c.on('mouse:move', function (e) {
-    mouseIsMoved = true
-    e.e.preventDefault()
-    const pointer = c.getPointer(e.e)
-    let offsetNumberX = 0.5
-    let offsetNumberY = 0.5
-    if (h % 2 != 0) {
-      offsetNumberX = 0
-    }
-    if (w % 2 != 0) {
-      offsetNumberY = 0
-    }
-    x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberX
-    y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberY
-    if (rectlist.length === 0 && buyStatuse) {
-      rect.set({
-        left: x,
-        top: y,
-      })
-      updateData()
-      rect.setCoords()
-      c.renderAll()
-    } else {
-      //   const elem = c.getItemByName('defaultSelector')
-      //   elem.bringToFront()
-
-      if (mouseIsDown) {
-        if (recMove) {
-          const elem = c.getItemByName('defaultSelector')
-          elem.set({
-            left: x - 500,
-            top: y - 500,
-          })
-        }
-      }
-    }
-  })
   const lineList = []
   for (var i = 0; i < 1000; i++) {
     var distance = i * options.distance,
@@ -319,27 +123,236 @@ export const loadGrid = () => {
   adGroup = new fabric.Group([...lineList, ...rects], {
     objectCaching: false,
     hasControls: false,
-    preserveObjectStacking: true,
+    // preserveObjectStacking: true,
     // height: 1000,
     // width: 1000,
   })
 
   c.add(adGroup)
 
-  const updateSelector = (x, y) => {
-    const elem = c.getItemByName('defaultSelector')
-    elem.set({
-      left: 1 * y,
-      top: 1 * x,
-    })
-
-    c.renderAll()
-  }
   c.zoomToPoint({ x: 0, y: 0 }, c.getZoom() * 2.35)
+  loadEvents()
 }
+
+/////////////////    update location
 const updateData = () => {
   store.dispatch(setLand({ x: x, y: y, w: w, h: h }))
 }
+
+const updateSelector = (x, y) => {
+  const elem = c.getItemByName('defaultSelector')
+  elem.set({
+    left: 1 * y,
+    top: 1 * x,
+  })
+
+  c.renderAll()
+}
+
+/////////////////    events
+const onMouseMove = (e) => {
+  mouseIsMoved = true
+  e.e.preventDefault()
+  const pointer = c.getPointer(e.e)
+  let offsetNumberX = 0.5
+  let offsetNumberY = 0.5
+  if (h % 2 != 0) {
+    offsetNumberX = 0
+  }
+  if (w % 2 != 0) {
+    offsetNumberY = 0
+  }
+  x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberX
+  y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberY
+  if (rectlist.length === 0 && buyStatuse) {
+    rect.set({
+      left: x,
+      top: y,
+    })
+    updateData()
+    rect.setCoords()
+    c.renderAll()
+  } else {
+    if (mouseIsDown) {
+      if (recMove) {
+        const elem = c.getItemByName('defaultSelector')
+        console.log(x - 500)
+        elem.set({
+          left: x - 500,
+          top: y - 500,
+        })
+      }
+    }
+  }
+}
+
+const onObjectModified = (options) => {
+  if (options.target.name === 'defaultSelector')
+    options.target.set({
+      width: w,
+      height: h,
+    })
+  else {
+    //   x: opt.e.offsetX, y: opt.e.offsetY
+  }
+  updateData()
+}
+
+const onMouseUp = (o) => {
+  mouseIsDown = false
+  recMove = false
+  c.bringToFront(rect)
+  c.setActiveObject(rect)
+  if (!mouseIsMoved && buyStatuse) {
+    const squreInfoDefault = {
+      x: x,
+      y: y,
+      Price: 1,
+      Status: 'Available',
+      owner: 'For Sale',
+      link: 'quadspace.io',
+      area: h + ' X ' + w,
+      qty: 1,
+    }
+    if (mobile) {
+      const pointer = c.getPointer(o.e)
+      let offsetNumberX = 0.5
+      let offsetNumberY = 0.5
+      if (h % 2 != 0) {
+        offsetNumberX = 0
+      }
+      if (w % 2 != 0) {
+        offsetNumberY = 0
+      }
+      x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberY
+      y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberX
+      console.log(x, y)
+      c.remove(rect)
+      c.remove(adGroup)
+      rect.set({
+        left: x - 500,
+        top: y - 500,
+      })
+      adGroup.add(rect)
+      c.add(adGroup)
+      c.renderAll()
+    }
+    rectlist.push(squreInfoDefault)
+  }
+  updateData()
+}
+
+const onMouseDown = (o) => {
+  console.log(adGroup)
+  if (buyStatuse) {
+    mouseIsMoved = false
+    mouseIsDown = true
+    c.selection = true
+    console.log(o)
+    const pointer = c.getPointer(o.e)
+    let offsetNumberX = 0.5
+    let offsetNumberY = 0.5
+    if (h % 2 != 0) {
+      offsetNumberX = 0
+    }
+    if (w % 2 != 0) {
+      offsetNumberY = 0
+    }
+    x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberY
+    y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberX
+    if (o.target.name === 'defaultSelector' && !mobile) {
+      console.log(x)
+      c.remove(rect)
+      c.remove(adGroup)
+      adGroup.add(rect)
+      c.add(adGroup)
+      rect.set({
+        left: rect.left - 500,
+        top: rect.top - 500,
+      })
+      c.renderAll()
+    }
+
+    if (mouseIsMoved) {
+      //   setSqureInfo(squreInfoDefault)
+      updateSelector(y, x)
+    } else {
+    }
+
+    updateData()
+  }
+}
+
+const onWheel = (opt) => {
+  const delta = opt.e.wheelDelta / 20
+  let zoom = c.getZoom()
+  //   console.log(zoom)
+  zoom *= 0.999 ** delta
+  if (zoom > 60) zoom = 20
+  if (zoom < 0.01) zoom = 0.01
+  if (zoom > 2.35 && zoom < 15) c.zoomToPoint({ x: 0, y: 0 }, zoom)
+  opt.e.preventDefault()
+  opt.e.stopPropagation()
+
+  c.renderAll()
+}
+
+const onObjectMoving = (options) => {
+  // console.log(adGroup.oCoords)
+  let offsetNumberX = 0
+  let offsetNumberY = 0
+  if (!w % 2 == 0) {
+    offsetNumberX = 0.5
+  }
+  if (!h % 2 == 0) {
+    offsetNumberY = 0.5
+  }
+  x = Math.round(options.target.left / 1) * 1 - offsetNumberX
+  y = Math.round(options.target.top / 1) * 1 - offsetNumberY
+  if (options.target.name === undefined) {
+    const maxNumberX = c.vptCoords.br.x - 1001
+    const maxNumberY = c.vptCoords.br.y - 1001
+
+    if (options.target.left >= maxNumberX) {
+      if (Math.sign(options.target.left) !== 1) {
+        options.target.set({
+          left: x,
+        })
+      } else {
+        options.target.set({
+          left: 0,
+        })
+      }
+    } else {
+      options.target.set({
+        left: maxNumberX,
+      })
+    }
+    if (options.target.top >= maxNumberY) {
+      if (Math.sign(options.target.top) !== 1) {
+        options.target.set({
+          top: y,
+        })
+      } else
+        options.target.set({
+          top: 0,
+        })
+    } else {
+      options.target.set({
+        top: maxNumberY,
+      })
+    }
+  } else {
+    console.log(x)
+    options.target.set({
+      top: y,
+      left: x,
+    })
+  }
+  c.renderAll()
+}
+
+/////////////////
 export const setBuyStateModal = (value) => {
   buyStatuse = value
   if (value) {
@@ -349,6 +362,7 @@ export const setBuyStateModal = (value) => {
   }
 }
 
+///////////
 export const setWidth = (size) => {
   w = parseInt(size)
   const elem = c.getItemByName('defaultSelector')
@@ -360,28 +374,34 @@ export const setWidth = (size) => {
   c.renderAll()
 }
 
+////////////
 export const fitScrean = () => {
   //   c.clear()
   loadGrid()
 }
 
+///////////////
 export const zoomIn = () => {
   if (c.getZoom() * 0.9 >= 2.35) c.setZoom(c.getZoom() * 0.9)
   else c.setZoom(2.35)
 }
 
+///////////////
 export const zoomOut = () => {
   c.setZoom(c.getZoom() * 1.1)
 }
 
+////////////////
 export const getLandDefSize = () => {
   return { w, h, x, y }
 }
 
+///////////////////
 export const getLands = () => {
   return rectlist
 }
 
+//////////////////////
 export const setHeight = (size) => {
   h = parseInt(size)
   const elem = c.getItemByName('defaultSelector')
