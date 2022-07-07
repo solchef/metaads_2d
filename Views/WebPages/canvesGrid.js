@@ -1,6 +1,7 @@
 import { fabric } from 'fabric'
 import { setLand, setLandData } from '../../components/reducers/Settings'
 import { store } from '../../components/store'
+
 let h = 10,
   w = 10
 let x = 0,
@@ -12,7 +13,7 @@ let mouseIsMoved = false
 let recMove = false
 let adGroup
 const rectlist = []
-const owned = [
+const SoldOut = [
   [0, 0],
   [900, 900],
   [900, 0],
@@ -35,12 +36,13 @@ const rect = new fabric.Rect({
   objectCaching: false,
   lockRotation: true,
   hasControls: false,
+  id: 'rekt',
   lockUniScaling: true,
   lockScalingY: true,
   lockScalingX: true,
 })
 
-export const loadGrid = () => {
+export const loadGrid = (mintingData) => {
   const size = document.getElementById('container').getBoundingClientRect()
   c = new fabric.Canvas('adcanvass', {
     selection: false,
@@ -49,8 +51,8 @@ export const loadGrid = () => {
   })
   var options = {
       distance: 1,
-      height: 1000,
-      width: 1000,
+      height: c.width,
+      width: c.height,
       param: {
         stroke: '#a301b9',
         selectable: false,
@@ -80,16 +82,23 @@ export const loadGrid = () => {
     let offsetNumberX = 0
     let offsetNumberY = 0
     if (!w % 2 == 0) {
-      offsetNumberX = 0.5
+      offsetNumberX = 1
     }
     if (!h % 2 == 0) {
-      offsetNumberY = 0.5
+      offsetNumberY = 1
     }
     x = Math.round(options.target.left / 1) * 1 - offsetNumberX
     y = Math.round(options.target.top / 1) * 1 - offsetNumberY
     if (options.target.name === undefined) {
       const maxNumberX = c.vptCoords.br.x - 1001
       const maxNumberY = c.vptCoords.br.y - 1001
+
+      c.getObjects().forEach(function (o) {
+        if (o.id == 'rekt') {
+          c.setActiveObject(o)
+          // console.log(o.id)
+        }
+      })
 
       // console.log(options.target.ownMatrixCache.value)
       // console.log(options.target.left)
@@ -143,7 +152,6 @@ export const loadGrid = () => {
       //   console.log(o.target)
       //   var activegroup = o.target.getActiveGroup()
       //   console.log(adGroup.getObjects())
-
       if (o.target.name === 'defaultSelector') {
         c.remove(rect)
         c.remove(adGroup)
@@ -160,8 +168,8 @@ export const loadGrid = () => {
       mouseIsDown = true
       c.selection = true
       const pointer = c.getPointer(o.e)
-      let offsetNumberX = 0.5
-      let offsetNumberY = 0.5
+      let offsetNumberX = 1
+      let offsetNumberY = 1
       if (h % 2 != 0) {
         offsetNumberX = 0
       }
@@ -170,9 +178,9 @@ export const loadGrid = () => {
       }
       x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberY
       y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberX
-      console.log(x)
+      // console.log(x)
       const elem = c.getItemByName('defaultSelector')
-      console.log(elem)
+      // console.log(elem)
       if (elem !== null)
         if (x - 500 >= elem.left && x - 500 <= elem.left + elem.height) {
           if (y - 500 >= elem.top && y - 500 <= elem.top + elem.width) {
@@ -222,8 +230,8 @@ export const loadGrid = () => {
     mouseIsMoved = true
     e.e.preventDefault()
     const pointer = c.getPointer(e)
-    let offsetNumberX = 0.5
-    let offsetNumberY = 0.5
+    let offsetNumberX = 1
+    let offsetNumberY = 1
     if (h % 2 != 0) {
       offsetNumberX = 0
     }
@@ -244,7 +252,7 @@ export const loadGrid = () => {
       //   const elem = c.getItemByName('defaultSelector')
       //   elem.bringToFront()
 
-      console.log(x - 500)
+      // console.log(x - 500)
       if (mouseIsDown) {
         if (recMove) {
           const elem = c.getItemByName('defaultSelector')
@@ -275,13 +283,36 @@ export const loadGrid = () => {
     // c.add(horizontal)
   }
   const rects = []
-  const purchased = []
-  purchased.forEach((purchase) => {
+  mintingData.otherQuads.forEach((all) => {
+    let x = Math.ceil(Number(all) / 1000)
+    let y = Number(all) % 1000
+
     const rect2 = new fabric.Rect({
-      top: purchase[0] * grid,
-      left: purchase[1] * grid,
-      height: grid,
-      width: grid,
+      top: x * options.distance,
+      left: y * options.distance,
+      height: options.distance,
+      width: options.distance,
+      fill: '#7b0000',
+      selection: false,
+      lockMovementX: true,
+      lockMovementY: true,
+      lockRotation: true,
+      lockUniScaling: true,
+      lockScalingY: false,
+      lockScalingX: false,
+    })
+    rects.push(rect2)
+  })
+
+  mintingData.walletQuads.forEach((own) => {
+    let x = Math.ceil(Number(own) / 1000)
+    let y = Number(own) % 1000
+
+    const rect2 = new fabric.Rect({
+      top: x * options.distance,
+      left: y * options.distance,
+      height: options.distance,
+      width: options.distance,
       fill: '#f0ad4e',
       selection: false,
       lockMovementX: true,
@@ -294,7 +325,7 @@ export const loadGrid = () => {
     rects.push(rect2)
   })
 
-  owned.forEach((purchase) => {
+  SoldOut.forEach((purchase) => {
     const rect2 = new fabric.Rect({
       top: purchase[0] * 1,
       left: purchase[1] * 1,
@@ -319,6 +350,7 @@ export const loadGrid = () => {
   })
 
   c.add(adGroup)
+  c.setActi
   const updateSelector = (x, y) => {
     const elem = c.getItemByName('defaultSelector')
     elem.set({
@@ -353,9 +385,9 @@ export const setWidth = (size) => {
   c.renderAll()
 }
 
-export const fitScrean = () => {
+export const fitScrean = (mintingData) => {
   //   c.clear()
-  loadGrid()
+  loadGrid(mintingData)
 }
 
 export const zoomIn = () => {

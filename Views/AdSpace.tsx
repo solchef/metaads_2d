@@ -19,6 +19,10 @@ const AdSpace: React.FunctionComponent = () => {
   const landData = useAppSelector(selectLand)
 
   const { cAreaRef, squreInfo, setEnableBuy } = useCanvas()
+  const [mintingData, setMintingData] = useState({
+    walletQuads: [],
+    otherQuads: [],
+  })
 
   const {
     setSelectorHeight,
@@ -27,10 +31,26 @@ const AdSpace: React.FunctionComponent = () => {
     selectorWidth,
     getMintImage,
   } = useCanvas()
+  const adscontract = contracts['metaads']
+
+  const loadMintingData = async () => {
+    let walletNfts = await adscontract.getTokenIdsOfWallet(address)
+    let allMintedIds = await adscontract.occupiedList()
+    setMintingData({ walletQuads: walletNfts, otherQuads: allMintedIds })
+    if (allMintedIds.length > 0) {
+      // console.log(allMintedIds)
+      loadGrid({ walletQuads: walletNfts, otherQuads: allMintedIds })
+    }
+  }
 
   useEffect(() => {
-    loadGrid()
-  }, [squreInfo])
+    if (adscontract) {
+      if (mintingData.walletQuads) {
+        loadMintingData()
+      }
+    }
+  }, [squreInfo, adscontract])
+
   const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [show, setShow] = useState(false)
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
@@ -43,7 +63,6 @@ const AdSpace: React.FunctionComponent = () => {
     setIsCanvasRight(false)
     setIsCanvasBottem(false)
     setBuyStateModal(!buyState)
-    // console.log(buyState)
   }
   const offcanvasBottem = () => {
     setIsCanvasBottem(!isCanvasBottem)
@@ -66,7 +85,10 @@ const AdSpace: React.FunctionComponent = () => {
 
         <section id="grid-section" className="hide-mobile">
           <div className="container-fluid">
-            <div className="controls align-items-center pl-3 pr-3" id="buy-quads">
+            <div
+              className="controls align-items-center pl-3 pr-3"
+              id="buy-quads"
+            >
               <div className="d-flex flex-row-inverse justify-content-between align-items-center wrap-flow">
                 <div className="row">
                   <div className="col-xl-10 col-12 pe-5">
@@ -172,7 +194,7 @@ const AdSpace: React.FunctionComponent = () => {
                     BUY QUADS LOT
                   </button>
                   <button
-                    onClick={() => fitScrean()}
+                    onClick={() => fitScrean(mintingData)}
                     className="btn hoverable btn-primary btn-lg "
                   >
                     <i className="bi-arrow-clockwise " />
@@ -200,7 +222,7 @@ const AdSpace: React.FunctionComponent = () => {
             </div>
 
             <div className="canvas-box  hoverable">
-              <div ref={cAreaRef}  id="container">
+              <div ref={cAreaRef} id="container">
                 <canvas id="adcanvass"></canvas>
               </div>
             </div>
