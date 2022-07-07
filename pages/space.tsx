@@ -200,7 +200,7 @@ const Space = () => {
               </button>
 
               <button
-                onClick={() => setIsCanvasLeft(false)}
+                onClick={() => offcanvasLeft()}
                 className={`btn btn-bi d-flex flex-nowrap  ${
                   isCanvasLeft && 'active'
                 } align-items-center accordion w-100 position-relative  btn-primary `}

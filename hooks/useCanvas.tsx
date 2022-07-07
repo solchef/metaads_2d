@@ -48,8 +48,8 @@ export default function useCanvas() {
   const rect = new fabric.Rect({
     height: selectorWidth,
     width: selectorHeight,
-    top: 500 - 0.5,
-    left: 500 - 0.5,
+    top: 500 - 1,
+    left: 500 - 1,
     centeredRotation: false,
     hasRotatingPoint: false,
     name: 'defaultSelector',
@@ -134,8 +134,8 @@ export default function useCanvas() {
 
       purchased.forEach((purchase) => {
         const rect2 = new fabric.Rect({
-          top: purchase[0] * grid - 0.5,
-          left: purchase[1] * grid - 0.5,
+          top: purchase[0] * grid - 1,
+          left: purchase[1] * grid - 1,
           height: grid,
           width: grid,
           fill: '#f0ad4e',
@@ -152,8 +152,8 @@ export default function useCanvas() {
 
       owned.forEach((purchase) => {
         const rect2 = new fabric.Rect({
-          top: purchase[0] * grid - 0.5,
-          left: purchase[1] * grid - 0.5,
+          top: purchase[0] * grid - 1,
+          left: purchase[1] * grid - 1,
           height: 100,
           width: 100,
           fill: '#7b0000',
@@ -305,8 +305,8 @@ export default function useCanvas() {
           setSqureInfo(squreInfoDefault)
           console.log(enableBuy)
           updateSelector(
-            Math.round(pointer.y / grid) - 0.5 * grid,
-            Math.round(pointer.x / grid) * grid - 0.5
+            Math.round(pointer.y / grid) - 1 * grid,
+            Math.round(pointer.x / grid) * grid - 1
           )
         },
         { passive: true }
@@ -315,8 +315,8 @@ export default function useCanvas() {
       adCanvas.on('object:moving', function (options) {
         // console.log(adCanvas.getObjects())
         options.target.set({
-          left: Math.round(options.target.left / grid - 0.5) * grid,
-          top: Math.round(options.target.top / grid - 0.5) * grid,
+          left: Math.round(options.target.left / grid - 1) * grid,
+          top: Math.round(options.target.top / grid - 1) * grid,
         })
       })
     }
