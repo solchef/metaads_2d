@@ -1,3 +1,4 @@
+import { getLands } from '../Views/WebPages/canvesGrid'
 import { QuadDescription } from './constants'
 import {
   ErrorTransaction,
@@ -11,32 +12,12 @@ export const handleMint = async (
   address,
   adscontract,
   getMintImage,
-  squreInfo,
+  land,
   uploadMetadata,
   uploadImage
 ) => {
   const image = await uploadImage(await getMintImage())
 
-  const metadata = await uploadMetadata(
-    name,
-    QuadDescription,
-    image,
-    squreInfo.x,
-    squreInfo.y
-  )
-
-  InfoMessage({
-    title: 'QUAD purchase',
-    description: 'Public minting of the quads has not began.',
-  })
-
-  if (!metadata) {
-    ErrorTransaction({
-      title: 'Metadata Error ',
-      description: 'Metatadata could not be uploaded. Please try again later',
-    })
-    return
-  }
   if (!name) {
     ErrorTransaction({
       title: 'Upload Error ',
@@ -44,31 +25,62 @@ export const handleMint = async (
     })
     return
   }
+  let squrePos = land.y * 1000 + land.x
 
-  let squrePos = (squreInfo.y - 1) * 1000 + squreInfo.x
+  let mintableids = []
+  console.log('minting')
 
-  // try {
-  await adscontract
-    .create(address, 1, squrePos, metadata, '0x00')
-    .on('transactionHash', (hash) => {
-      MiningTransaction({ title: 'Mining', description: hash })
-      return 'Minted'
+  for (let quad = squrePos; quad < squrePos + land.w; quad++) {
+    for (let i = 0; i < land.h; i++) {
+      mintableids.push(quad + i * 1000)
+    }
+  }
+
+  console.log(mintableids)
+  // update the metadata fields
+  //  await mintableids.forEach(id => {
+  //      const metadata = uploadMetadata(
+  //        name,
+  //        QuadDescription,
+  //        image,
+  //        land.x,
+  //        land.y
+  //      )
+  //  })
+  // if (!metadata) {
+  //   ErrorTransaction({
+  //     title: 'Metadata Error ',
+  //     description: 'Metatadata could not be uploaded. Please try again later',
+  //   })
+  //   return
+  // }
+  // return mintableids
+  try {
+    if (adscontract) {
+      let mintcost = 0.0 * mintableids.length
+      await adscontract
+        .mint(address, mintableids, { value: (mintcost * 10 ** 18).toString() })
+        .on('transactionHash', (hash) => {
+          console.log(hash)
+          MiningTransaction({ title: 'Mining', description: hash })
+          return 'Minted'
+        })
+        .on('confirmation', (hash) => {
+          console.log(hash)
+          SuccessfulTransaction({ title: 'Confirmed', description: hash })
+          return 'Success'
+        })
+        .on('error', (e) => {
+          ErrorTransaction({ title: 'Error Occurred', description: e })
+          return 'An Error Occurred'
+        })
+    } else {
+      console.log('loading transaction')
+    }
+  } catch (e) {
+    ErrorTransaction({
+      title: 'An Error has Occurred',
+      description: 'mm error',
     })
-    .on('confirmation', (hash) => {
-      SuccessfulTransaction({ title: 'Confirmed', description: hash })
-      return 'Success'
-    })
-    .on('error', (e) => {
-      ErrorTransaction({ title: 'Error Occurred', description: e })
-      return 'An Error Occurred'
-    })
+  }
 }
-// catch (e) {
-//   ErrorTransaction({
-//     title: 'Error Occurred',
-//     description: 'Transaction could not be processed',
-//   })
-//   // console.log(e)
-//   return 'An Error Occurred'
-// }
-// }

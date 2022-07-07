@@ -43,7 +43,7 @@ const loadEvents = () => {
   c.on('mouse:move', onMouseMove, { passive: true })
 }
 
-export const loadGrid = () => {
+export const loadGrid = (mintingData) => {
   const size = document.getElementById('container').getBoundingClientRect()
   c = new fabric.Canvas('adcanvass', {
     // selection: false,
@@ -83,12 +83,37 @@ export const loadGrid = () => {
   }
   const rects = []
   const purchased = []
-  purchased.forEach((purchase) => {
+
+  mintingData.otherQuads.forEach((all) => {
+    let x = Math.ceil(Number(all) / 1000)
+    let y = Number(all) % 1000
+
     const rect2 = new fabric.Rect({
-      top: purchase[0] * grid,
-      left: purchase[1] * grid,
-      height: grid,
-      width: grid,
+      top: x * options.distance,
+      left: y * options.distance,
+      height: options.distance,
+      width: options.distance,
+      fill: '#7b0000',
+      selection: false,
+      lockMovementX: true,
+      lockMovementY: true,
+      lockRotation: true,
+      lockUniScaling: true,
+      lockScalingY: false,
+      lockScalingX: false,
+    })
+    rects.push(rect2)
+  })
+
+  mintingData.walletQuads.forEach((own) => {
+    let x = Math.ceil(Number(own) / 1000)
+    let y = Number(own) % 1000
+
+    const rect2 = new fabric.Rect({
+      top: x * options.distance,
+      left: y * options.distance,
+      height: options.distance,
+      width: options.distance,
       fill: '#f0ad4e',
       selection: false,
       lockMovementX: true,
@@ -101,25 +126,6 @@ export const loadGrid = () => {
     rects.push(rect2)
   })
 
-  owned.forEach((purchase) => {
-    const rect2 = new fabric.Rect({
-      top: purchase[0] * 1,
-      left: purchase[1] * 1,
-      height: 100,
-      width: 100,
-      fill: '#7b0000',
-      selection: false,
-      lockMovementX: true,
-      lockMovementY: true,
-      lockRotation: true,
-      hasControls: false,
-      lockUniScaling: true,
-      lockScalingY: false,
-      lockScalingX: false,
-    })
-    rects.push(rect2)
-    // c.add(rect2)
-  })
   adGroup = new fabric.Group([...lineList, ...rects], {
     objectCaching: false,
     hasControls: false,
@@ -382,9 +388,9 @@ export const setWidth = (size) => {
 }
 
 ////////////
-export const fitScrean = () => {
+export const fitScrean = (mintingData) => {
   //   c.clear()
-  loadGrid()
+  loadGrid(mintingData)
 }
 
 ///////////////
