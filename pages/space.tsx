@@ -210,7 +210,7 @@ const Space = () => {
               </button>
             </div>
 
-            <div className="buttons  d-flex align-items-center  bo me-1 flex-nowrap">
+            {/* <div className="buttons  d-flex align-items-center  bo me-1 flex-nowrap">
               <button
                 onClick={() => zoomIn()}
                 className="btn btn-bi position-relative m-0 btn-primary btn-lg "
@@ -238,7 +238,8 @@ const Space = () => {
               >
                 <i className="bi bi-caret-right-fill"></i>
               </button>
-            </div>
+            </div> */}
+
             <div className="buttons bo  flex-nowrap">
               <button
                 onClick={() => zoomIn()}
