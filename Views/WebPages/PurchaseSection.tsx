@@ -44,9 +44,11 @@ function PurchaseSection({
     })
   }, [landData])
 
+  let squreInfo = land
+
   const handleSubmit = async () => {
-    console.log(getLands()[0])
-    const land = getLands()[0]
+    // console.log(getLands()[0])
+    // const land = getLands()[0]
     const result = await handleMint(
       name,
       address,
@@ -56,7 +58,9 @@ function PurchaseSection({
       uploadMetadata,
       uploadImage
     )
-    setMintStatus(result)
+
+    console.log(result)
+    // setMintStatus(minted)
   }
 
   return (

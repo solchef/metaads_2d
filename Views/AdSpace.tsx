@@ -13,13 +13,17 @@ import { useWeb3Context } from '../context'
 import { QuadSpaceContract } from '../utils/constants'
 import { selectLand } from '../components/reducers/Settings'
 import { useAppSelector } from '../components/store/hooks'
-import Minimap, { Child as ChildComponent } from "react-minimap";
-import "react-minimap/dist/react-minimap.css";
+import Minimap, { Child as ChildComponent } from 'react-minimap'
+import 'react-minimap/dist/react-minimap.css'
 const AdSpace: React.FunctionComponent = () => {
   const { address, contracts } = useWeb3Context()
   const landData = useAppSelector(selectLand)
 
   const { cAreaRef, squreInfo, setEnableBuy } = useCanvas()
+  const [mintingData, setMintingData] = useState({
+    walletQuads: [],
+    otherQuads: [],
+  })
 
   const {
     setSelectorHeight,
@@ -28,10 +32,26 @@ const AdSpace: React.FunctionComponent = () => {
     selectorWidth,
     getMintImage,
   } = useCanvas()
+  const adscontract = contracts['metaads']
+
+  const loadMintingData = async () => {
+    let walletNfts = await adscontract.getTokenIdsOfWallet(address)
+    let allMintedIds = await adscontract.occupiedList()
+    setMintingData({ walletQuads: walletNfts, otherQuads: allMintedIds })
+    if (allMintedIds.length > 0) {
+      // console.log(allMintedIds)
+      loadGrid({ walletQuads: walletNfts, otherQuads: allMintedIds })
+    }
+  }
 
   useEffect(() => {
-    loadGrid()
-  }, [squreInfo])
+    if (adscontract) {
+      if (mintingData.walletQuads) {
+        loadMintingData()
+      }
+    }
+  }, [squreInfo, adscontract])
+
   const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [show, setShow] = useState(false)
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
@@ -44,7 +64,6 @@ const AdSpace: React.FunctionComponent = () => {
     setIsCanvasRight(false)
     setIsCanvasBottem(false)
     setBuyStateModal(!buyState)
-    // console.log(buyState)
   }
   const offcanvasBottem = () => {
     setIsCanvasBottem(!isCanvasBottem)
@@ -67,6 +86,7 @@ const AdSpace: React.FunctionComponent = () => {
         </section>
 
         <section id="grid-section" className="hide-mobile">
+
         <div className="controls pt-0 pe-2">
           <div className="d-flex gap-g flex-row-inverse justify-content-end align-items-center wrap-flow">
             <div className="d-flex flex-column hide-mobile">
@@ -160,6 +180,7 @@ const AdSpace: React.FunctionComponent = () => {
                     0.000942 ( $ 1 )
                   </span>
                 </span>
+
               </div>
             </div>
 
@@ -250,6 +271,7 @@ const AdSpace: React.FunctionComponent = () => {
 
             </div>
           </div>
+
         </div>
         
 
@@ -258,6 +280,7 @@ const AdSpace: React.FunctionComponent = () => {
               selector=".box"
               keepAspectRatio={checked}
             > */}
+
               <div
                 ref={cAreaRef}
                 className="canvas-box  hoverable"
