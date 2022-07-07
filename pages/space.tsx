@@ -21,13 +21,15 @@ import { selectLand } from '../components/reducers/Settings'
 import { useAppSelector } from '../components/store/hooks'
 import Minimap, { Child as ChildComponent } from 'react-minimap'
 import 'react-minimap/dist/react-minimap.css'
-import AdSpace from '../Views/adspaceminter'
-import dynamic from 'next/dynamic'
 const Space = () => {
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
   const [isCanvasBottem, setIsCanvasBottem] = useState(false)
   const [userLandName, setUserLandName] = useState('')
   const { address, contracts } = useWeb3Context()
+  const [mintingData, setMintingData] = useState({
+    walletQuads: [],
+    otherQuads: [],
+  })
   const landData = useAppSelector(selectLand)
   const {
     cAreaRef,
@@ -50,10 +52,35 @@ const Space = () => {
   const offcanvasBottem = () => {
     setIsCanvasBottem(!isCanvasBottem)
   }
+  const adscontract = contracts['metaads']
+  const adsunsignedcontract = contracts['metaads_unsigned']
 
-  // useEffect(() => {
-  //   loadGrid()
-  // }, [squreInfo])
+  const loadMintingData = async () => {
+    if (address) {
+      let walletNfts = await adsunsignedcontract.getTokenIdsOfWallet(address)
+      let allMintedIds = await adsunsignedcontract.occupiedList()
+      setMintingData({
+        walletQuads: walletNfts,
+        otherQuads: allMintedIds,
+      })
+      if (allMintedIds.length > 0) {
+        // console.log(allMintedIds)
+        loadGrid({ walletQuads: walletNfts, otherQuads: allMintedIds })
+      }
+    } else {
+      loadGrid({ walletQuads: [], otherQuads: [] })
+    }
+  }
+
+  useEffect(() => {
+    if (adscontract) {
+      if (mintingData.otherQuads) {
+        loadMintingData()
+      }
+    } else {
+      loadMintingData()
+    }
+  }, [squreInfo, adscontract])
   const [twoFeeTypes, setTwoFeeTypes] = useState(1)
 
   const addFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes + 1)
@@ -68,20 +95,14 @@ const Space = () => {
   }
 `
 
-  const AdSpace = dynamic(() => import('../Views/AdSpace'), {
-    ssr: false,
-  })
-
   return (
     <>
-      {/* <section className="mt-0 position-fixed grid-section" id="grid-section"> */}
-      {/* <div className="controls pt-0 pe-2">
+      <section className="mt-0 position-fixed grid-section" id="grid-section">
+        <div className="controls pt-0 pe-2">
           <div className="d-flex gap-g flex-row-inverse justify-content-end align-items-center wrap-flow">
             <div className="d-flex flex-column hide-mobile">
               <span style={{ color: '#ff006f' }} className="text-nowrap">
-
                 <b>
-
                   X{landData.x}Y{landData.y}
                 </b>
               </span>
@@ -100,17 +121,13 @@ const Space = () => {
               </div>
             </div>
             <div className="d-flex flex-column hide-mobile me-2">
-
               <span style={{ color: '#ff006f' }} className="text-nowrap">
-
                 <b>FOR SALE</b>
               </span>
 
               <div className="mt-2">
                 <span className="text-nowrap">
-
                   <span className="text-nowrap">
-
                     <b>
                       <i className="bi bi-tag"></i> :
                     </b>
@@ -171,23 +188,26 @@ const Space = () => {
               </div>
             </div>
 
-
             <div className="buttons w-auto bo me-1 flex-nowrap">
               <button
-                onClick={() => setIsCanvasLeft(true)}
-
-                className={`btn btn-bi d-flex   ${!isCanvasLeft && 'active'} align-items-center w-100 position-relative m-0 btn-primary btn-lg `}
+                onClick={() => offcanvasLeft()}
+                className={`btn btn-bi d-flex   ${
+                  !isCanvasLeft && 'active'
+                } align-items-center w-100 position-relative m-0 btn-primary btn-lg `}
               >
-
-                <i className="bi bi-cart-fill me-2"></i> <span className='text-nowrap hide-mobile'> Buy Mode</span> </button>
+                <i className="bi bi-cart-fill me-2"></i>{' '}
+                <span className="text-nowrap hide-mobile"> Buy Mode</span>{' '}
+              </button>
 
               <button
                 onClick={() => setIsCanvasLeft(false)}
-
-                className={`btn btn-bi d-flex flex-nowrap  ${isCanvasLeft && 'active'} align-items-center accordion w-100 position-relative  btn-primary `}
+                className={`btn btn-bi d-flex flex-nowrap  ${
+                  isCanvasLeft && 'active'
+                } align-items-center accordion w-100 position-relative  btn-primary `}
               >
-                <i className="bi bi-arrows-move  me-2"></i><span className='text-nowrap hide-mobile'>View Mode</span> </button>
-
+                <i className="bi bi-arrows-move  me-2"></i>
+                <span className="text-nowrap hide-mobile">View Mode</span>{' '}
+              </button>
             </div>
 
             <div className="buttons  d-flex align-items-center  bo me-1 flex-nowrap">
@@ -195,41 +215,41 @@ const Space = () => {
                 onClick={() => zoomIn()}
                 className="btn btn-bi position-relative m-0 btn-primary btn-lg "
               >
-
-                <i className="bi bi-caret-left-fill"></i></button>
+                <i className="bi bi-caret-left-fill"></i>
+              </button>
 
               <div className="d-flex flex-md-row  flex-column">
                 <button
                   onClick={() => zoomOut()}
                   className="btn btn-bi joy position-relative  btn-primary btn-lg "
                 >
-                  <i className="bi bi-caret-up-fill"></i></button>
+                  <i className="bi bi-caret-up-fill"></i>
+                </button>
                 <button
                   onClick={() => zoomOut()}
                   className="btn btn-bi position-relative joy btn-primary btn-lg "
                 >
-                  <i className="bi bi-caret-down-fill"></i></button>
+                  <i className="bi bi-caret-down-fill"></i>
+                </button>
               </div>
               <button
                 onClick={() => zoomOut()}
                 className="btn btn-bi position-relative  btn-primary btn-lg "
               >
-                <i className="bi bi-caret-right-fill"></i></button>
+                <i className="bi bi-caret-right-fill"></i>
+              </button>
             </div>
             <div className="buttons bo  flex-nowrap">
               <button
                 onClick={() => zoomIn()}
                 className="btn btn-bi btn-primary m-0 btn-lg "
               >
-
                 <i className="bi-zoom-out " />
               </button>
-
-              <button
-                className="btn btn-bi btn-primary x m-0 btn-lg "
-              >
+              <button className="btn btn-bi btn-primary x m-0 btn-lg ">
                 X3
-              </button>              <button
+              </button>{' '}
+              <button
                 onClick={() => zoomOut()}
                 className="btn btn-bi btn-primary btn-lg "
               >
@@ -237,44 +257,31 @@ const Space = () => {
               </button>
             </div>
             <div className="buttons flex-nowrap ">
-
-
-
-
-
               <button
-                onClick={() => fitScrean()}
+                onClick={() => fitScrean(mintingData)}
                 className="btn hoverable btn-primary btn-lg "
               >
                 <i className="bi-arrow-clockwise " />
               </button>
-
-
-
-
             </div>
           </div>
-        </div> */}
+        </div>
 
-      {/* 
         <div className="g-space g-s">
-
-          <div
-            ref={cAreaRef}
-
-            className="canvas-box hoverable"
-            id="container"
-          >
+          {/* <style>
+            {checked ? css : ''}
+          </style> */}
+          {/* <Minimap
+            selector=".box"
+            keepAspectRatio={true}
+          > */}
+          <div ref={cAreaRef} className="canvas-box hoverable" id="container">
             <canvas id="adcanvass"></canvas>
           </div>
-
-
-        </div> */}
-
-      {/* </section> */}
-
-      <AdSpace />
-
+          {/* 
+          </Minimap> */}
+        </div>
+      </section>
       <PurchaseSection
         setSelectorHeight={setSelectorHeight}
         setSelectorWidth={setSelectorWidth}
