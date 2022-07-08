@@ -151,9 +151,14 @@ export const loadGrid = (mintingData) => {
     // width: 1000,
   })
 
+  adGroup.set({
+    left: -103,
+    top: -90,
+  })
   c.add(adGroup)
 
-  c.zoomToPoint({ x: 0, y: 0 }, c.getZoom() * 2.35)
+  c.zoomToPoint({ x: 0, y: 0 }, c.getZoom() * 11.5)
+
   loadEvents()
 }
 
@@ -429,8 +434,8 @@ export const zoomIn = () => {
 export const zoomOut = () => {
   c.setZoom(c.getZoom() * 1.1)
 
-  if (c.getZoom() * 1.1 < 8.35) c.setZoom(c.getZoom() * 1.1)
-  else c.setZoom(8.35)
+  if (c.getZoom() * 1.1 < 15) c.setZoom(c.getZoom() * 1.1)
+  else c.setZoom(15)
 }
 
 ////////////////
