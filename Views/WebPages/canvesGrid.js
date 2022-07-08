@@ -50,12 +50,12 @@ export const loadGrid = (mintingData) => {
   const size = document.getElementById('container').getBoundingClientRect()
   c = new fabric.Canvas('adcanvass', {
     // selection: false,
-    height: size.width,
+    height: size.height,
     width: size.width,
   })
   var options = {
     distance: 1,
-    height: 1000,
+    height: c.height,
     width: 1000,
     param: {
       type: 'line',
@@ -403,6 +403,9 @@ export const zoomIn = () => {
 ///////////////
 export const zoomOut = () => {
   c.setZoom(c.getZoom() * 1.1)
+
+  if (c.getZoom() * 1.1 < 8.35) c.setZoom(c.getZoom() * 1.1)
+  else c.setZoom(8.35)
 }
 
 ////////////////
@@ -425,4 +428,22 @@ export const setHeight = (size) => {
   })
   updateData()
   c.renderAll()
+}
+
+//////////////////////
+export const getZoomLevel = () => {
+  if (c) {
+    return c.getZoom().toFixed(1)
+  } else {
+    return 1
+  }
+}
+
+export const getImage = () => {
+  var transform = c.viewportTransform.slice()
+  c.viewportTransform = [1, 0, 0, 1, 0, 0]
+  var dataurl = c.toDataURL('png')
+  var w = window.open('')
+  w.document.write(dataurl)
+  // c.viewportTransform = transform;
 }

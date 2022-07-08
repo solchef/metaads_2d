@@ -4,6 +4,7 @@ import PurchaseSection from './WebPages/PurchaseSection'
 import Link from 'next/link'
 import {
   fitScrean,
+  getZoomLevel,
   loadGrid,
   setBuyStateModal,
   zoomIn,
@@ -19,7 +20,7 @@ import { MetaadsContractUnsigned } from '../utils/readOnly'
 const AdSpace: React.FunctionComponent = () => {
   const { address, contracts } = useWeb3Context()
   const landData = useAppSelector(selectLand)
-
+  const zoomlevel = getZoomLevel()
   const { cAreaRef, squreInfo, setEnableBuy } = useCanvas()
   const [mintingData, setMintingData] = useState({
     walletQuads: [],
@@ -243,7 +244,7 @@ const AdSpace: React.FunctionComponent = () => {
                   <i className="bi-zoom-out " />
                 </button>
                 <button className="btn btn-bi btn-primary x m-0 btn-lg ">
-                  X3
+                  {zoomlevel}
                 </button>{' '}
                 <button
                   onClick={() => zoomOut()}
