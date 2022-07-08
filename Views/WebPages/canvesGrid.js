@@ -65,6 +65,7 @@ export const loadGrid = (mintingData) => {
     // selection: false,
     height: size.height,
     width: size.width,
+    hoverCursor: 'grab',
     moveCursor: 'grabbing',
   })
   var options = {
@@ -262,15 +263,15 @@ const onMouseUp = (o) => {
     }
     if (mobile) {
       // console.log(x, y)
-      c.remove(rect)
-      c.remove(adGroup)
-      rect.set({
-        left: x - 500,
-        top: y - 500,
-      })
-      adGroup.add(rect)
-      c.add(adGroup)
-      c.renderAll()
+      // c.remove(rect)
+      // c.remove(adGroup)
+      // rect.set({
+      //   left: x - 500,
+      //   top: y - 500,
+      // })
+      // adGroup.add(rect)
+      // c.add(adGroup)
+      // c.renderAll()
     }
     rectlist.push(squreInfoDefault)
   }
@@ -315,19 +316,19 @@ const onMouseDown = async (o) => {
     mouseIsDown = true
     c.selection = true
 
-    locationPointer.set({
-      left: Math.round(-100 / 1),
-      top: Math.round(-100 / 1),
-    })
+    // locationPointer.set({
+    //   left: Math.round(-100 / 1),
+    //   top: Math.round(-100 / 1),
+    // })
     await c.renderAll()
 
     // if (o.target.name === 'defaultSelector' && !mobile) {
     // c.remove(rect)
-    c.remove(adGroup)
-    adGroup.add(rect)
+    // c.remove(adGroup)
+    // adGroup.add(rect)
 
-    c.remove(locationPointer)
-    c.add(adGroup)
+    // c.remove(locationPointer)
+    // c.add(adGroup)
     rect.set({
       left: x - 0.5,
       top: y - 0.5,
@@ -422,7 +423,7 @@ const onObjectMoving = (options) => {
 export const setBuyStateModal = (value) => {
   buyStatuse = value
   if (value) {
-    // c.set({ hoverCursor: 'move' })
+    c.set({ hoverCursor: 'move' })
     c.setCursor('move')
     c.add(rect)
     adGroup.set({
@@ -430,10 +431,11 @@ export const setBuyStateModal = (value) => {
       lockMovementY: true,
     })
     rect.set({
-      left: 158,
-      top: 88,
+      left: locationPointer.left,
+      top: locationPointer.top,
     })
     rect.setCoords()
+    c.remove(locationPointer)
     c.renderAll()
   } else {
     adGroup.set({
@@ -441,7 +443,6 @@ export const setBuyStateModal = (value) => {
       lockMovementY: false,
     })
 
-    c.setCursor('grab')
     c.add(locationPointer)
 
     rect.set({
