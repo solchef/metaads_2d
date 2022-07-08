@@ -312,14 +312,13 @@ const onMouseDown = (o) => {
 
     updateData()
   } else {
-    c.remove(locationPointer)
     c.add(locationPointer)
     locationPointer.set({
-      left: x + 502,
-      top: y + 502,
+      left: Math.round(pointer.x / 1) - 0.5,
+      top: Math.round(pointer.y / 1) - 0.5,
     })
-    locationPointer.setCoords()
-    c.renderAll()
+    // locationPointer.setCoords()
+    // c.renderAll()
   }
 }
 
@@ -465,17 +464,18 @@ export const getZoomLevel = () => {
   }
 }
 
-export const getImage = () => {
-  var transform = canvas.viewportTransform.slice()
-  canvas.viewportTransform = [1, 0, 0, 1, 0, 0]
-  var dataurl = canvas.toDataURL('svg')
-  canvas.viewportTransform = transform
-}
-
 export const getViewLocation = () => {
-  let viewGrid = {
-    x: locationPointer.left,
-    y: locationPointer.top,
+  let viewGrid
+  if (adGroup) {
+    viewGrid = {
+      x: locationPointer.left - adGroup.left,
+      y: locationPointer.top - adGroup.left,
+    }
+  } else {
+    viewGrid = {
+      x: locationPointer.left,
+      y: locationPointer.top,
+    }
   }
 
   return viewGrid

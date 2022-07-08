@@ -392,7 +392,7 @@ const Space: React.FunctionComponent = () => {
             </div>
           </div>
 
-          <div className="minimap"></div>
+          {/* <div className="minimap"></div> */}
         </div>
       </div>
 
