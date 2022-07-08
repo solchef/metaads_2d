@@ -58,30 +58,34 @@ export const handleMint = async (
   try {
     if (adscontract) {
       let mintcost = 0.0 * mintableids.length
-      await adscontract
-        .mint(address, mintableids, { value: (mintcost * 10 ** 18).toString() })
-        .on('transactionHash', (hash) => {
-          console.log(hash)
-          MiningTransaction({ title: 'Mining', description: hash })
-          return 'Minted'
+      let txn = await adscontract.mint(address, mintableids, {
+        value: (mintcost * 10 ** 18).toString(),
+      })
+
+      if (txn.hash) {
+        MiningTransaction({
+          title: 'MiniProcessing Transaction',
+          description: txn.hash,
         })
-        .on('confirmation', (hash) => {
-          console.log(hash)
-          SuccessfulTransaction({ title: 'Confirmed', description: hash })
-          return 'Success'
+      }
+
+      let receipt = await txn.wait()
+
+      if (receipt) {
+        console.log(receipt)
+        SuccessfulTransaction({
+          title: 'Confirmed',
+          description: 'Quads have been successfully minted',
         })
-        .on('error', (e) => {
-          ErrorTransaction({ title: 'Error Occurred', description: e })
-          return 'An Error Occurred'
-        })
+      }
     } else {
       console.log('loading transaction')
     }
   } catch (e) {
     console.log(e)
-    // ErrorTransaction({
-    //   title: 'An Error has Occurred',
-    //   description: 'mm error',
-    // })
+    ErrorTransaction({
+      title: 'An Error has Occurred',
+      description: 'An error has occured and minting could not be processed',
+    })
   }
 }

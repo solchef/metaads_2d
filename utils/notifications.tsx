@@ -38,9 +38,9 @@ export const ErrorTransaction = ({ title, description }) => {
     confirmButtonColor: '#b401ab',
     confirmButtonText: 'Close',
   }).then((result) => {
-    // if (result.isConfirmed) {
-    //   Swal.fire('Please check!', 'And then try again.', 'error')
-    // }
+    if (result.isConfirmed) {
+      Swal.fire('Please check!', 'And then try again.', 'error')
+    }
   })
 }
 
@@ -55,16 +55,14 @@ export const MiningTransaction = ({ title, description }) => {
     didOpen: () => {
       // `Swal` is a subclass of `Swal` with all the same instance & static methods
       Swal.showLoading()
-      const b = Swal.getHtmlContainer().querySelector('b')
-      timerInterval = setInterval(() => {
-        b.textContent = Swal.getTimerLeft()
-      }, 100)
+      // const b = Swal.getHtmlContainer().querySelector('adcanvass')
+      // timerInterval = setInterval(() => {
+      //   // b.textContent = Swal.getTimerLeft()
+      // }, 50000)
     },
     willClose: () => {
       clearInterval(timerInterval)
     },
-  }).then(() => {
-    return Swal.fire(<p>{description}</p>)
   })
 }
 

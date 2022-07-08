@@ -222,7 +222,8 @@ function PurchaseSection({
                       </g>
                     </g>
                   </svg>{' '}
-                  &nbsp;{0.000942 * land.w * land.h} ( $ {land.w * land.h} )
+                  &nbsp;{(0.000942 * land.w * land.h).toFixed(4)} ( ${' '}
+                  {land.w * land.h} )
                 </span>
               </div>
             </div>

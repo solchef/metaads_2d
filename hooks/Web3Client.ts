@@ -76,13 +76,9 @@ export const useWeb3 = () => {
             'https://rinkeby.infura.io/v3/7c716361d1734288bbc5cf519570c08f'
           )
         )
-        console.log('fff')
-        console.log(metaadscontract_unsigned)
         const contracts = []
         contracts['metaads'] = metaadscontract
         contracts['metaads_unsigned'] = metaadscontract_unsigned
-
-        // console.log(contracts)
 
         dispatch({
           type: 'SET_WEB3_PROVIDER',
