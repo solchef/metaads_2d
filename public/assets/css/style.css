@@ -844,3 +844,9 @@ input:checked + .slider:before {
 input[type='number']::-webkit-inner-spin-button {
   opacity: 1;
 }
+
+.buy-mode-state {
+}
+
+.view-mode-state {
+}

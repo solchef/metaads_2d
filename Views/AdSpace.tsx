@@ -76,6 +76,7 @@ const AdSpace: React.FunctionComponent = () => {
     setIsCanvasRight(false)
     setIsCanvasBottem(false)
     setBuyStateModal(!buyState)
+    // loadGrid(mintingData)
   }
 
   const offcanvasBottem = () => {
@@ -265,7 +266,7 @@ const AdSpace: React.FunctionComponent = () => {
               </div>
               <div className="buttons flex-nowrap ">
                 <button
-                  onClick={() => fitScrean()}
+                  onClick={() => fitScrean(mintingData)}
                   className="btn hoverable btn-primary btn-lg "
                 >
                   <i className="bi-arrow-clockwise " />

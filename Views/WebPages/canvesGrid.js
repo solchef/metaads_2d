@@ -65,6 +65,7 @@ export const loadGrid = (mintingData) => {
     // selection: false,
     height: size.height,
     width: size.width,
+    hoverCursor: 'grab',
   })
   var options = {
     distance: 1,
@@ -74,8 +75,9 @@ export const loadGrid = (mintingData) => {
       type: 'line',
       stroke: '#a301b9',
       selectable: false,
-      strokeWidth: 0.05,
+      strokeWidth: 0.03,
       objectCaching: false,
+      opacity: 1,
     },
   }
 
@@ -276,7 +278,7 @@ const onMouseUp = (o) => {
   updateData()
 }
 
-const onMouseDown = (o) => {
+const onMouseDown = async (o) => {
   const pointer = c.getPointer(o.e)
   let offsetNumberX = 0
   let offsetNumberY = 0
@@ -304,10 +306,13 @@ const onMouseDown = (o) => {
       left: Math.round(-100 / 1),
       top: Math.round(-100 / 1),
     })
+    await c.renderAll()
+
     // if (o.target.name === 'defaultSelector' && !mobile) {
     // c.remove(rect)
     c.remove(adGroup)
     adGroup.add(rect)
+
     c.remove(locationPointer)
     c.add(adGroup)
     rect.set({
@@ -325,14 +330,7 @@ const onMouseDown = (o) => {
 
     updateData()
   } else {
-    rect.set({
-      left: -10 - 0.5,
-      top: -10 - 0.5,
-    })
-    // rect.setCoords()
-    adGroup.remove(rect)
-    c.remove(adGroup)
-    c.add(adGroup)
+    c.set({ hoverCursor: 'grab' })
     c.add(locationPointer)
     locationPointer.set({
       left: Math.round(pointer.x / 1),
@@ -418,9 +416,37 @@ const onObjectMoving = (options) => {
 export const setBuyStateModal = (value) => {
   buyStatuse = value
   if (value) {
+    c.set({ hoverCursor: 'move' })
     c.add(rect)
+    adGroup.set({
+      lockMovementX: true,
+      lockMovementY: true,
+    })
+    rect.set({
+      left: 158,
+      top: 88,
+    })
+    rect.setCoords()
+    c.renderAll()
   } else {
+    adGroup.set({
+      lockMovementX: false,
+      lockMovementY: false,
+    })
+
+    c.set({ hoverCursor: 'grab' })
+
+    rect.set({
+      left: -500,
+      top: -500,
+    })
+    rect.setCoords()
     c.remove(rect)
+    adGroup.remove(rect)
+    c.remove(adGroup)
+    c.add(adGroup)
+
+    c.renderAll()
   }
 }
 
@@ -483,7 +509,7 @@ export const getZoomLevel = () => {
   if (c) {
     return c.getZoom().toFixed(1)
   } else {
-    return 1
+    return 15
   }
 }
 
