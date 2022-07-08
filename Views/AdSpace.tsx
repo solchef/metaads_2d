@@ -147,9 +147,9 @@ const AdSpace: React.FunctionComponent = () => {
                 <div className="buttons w-auto bo me-2 flex-nowrap">
                   <button
                     onClick={() => offcanvasLeft()}
-                    disabled={!isCanvasLeft}
+                    disabled={isCanvasLeft}
                     className={`btn btn-bi d-flex toggle-mode align-items-center w-100 position-relative m-0 btn-primary btn-lg  ${
-                      !isCanvasLeft && 'active'
+                      isCanvasLeft && 'active'
                     }  `}
                     style={{}}
                   >
@@ -162,7 +162,7 @@ const AdSpace: React.FunctionComponent = () => {
                   <button
                     onClick={() => offcanvasLeft()}
                     disabled={!isCanvasLeft}
-                    className={`btn btn-bi d-flex flex-nowrap toggle-mode false  ${
+                    className={`btn btn-bi d-flex flex-nowrap toggle-mode  ${
                       !isCanvasLeft && 'active'
                     } align-items-center accordion w-100 position-relative btn-primary `}
                     style={{}}

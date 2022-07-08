@@ -65,7 +65,7 @@ export const loadGrid = (mintingData) => {
     // selection: false,
     height: size.height,
     width: size.width,
-    hoverCursor: 'grab',
+    moveCursor: 'grabbing',
   })
   var options = {
     distance: 1,
@@ -236,6 +236,19 @@ const onMouseUp = (o) => {
   recMove = false
   c.bringToFront(rect)
   c.setActiveObject(rect)
+
+  const pointer = c.getPointer(o.e)
+  let offsetNumberX = 0
+  let offsetNumberY = 0
+  if (h % 2 != 0) {
+    offsetNumberX = 0
+  }
+  if (w % 2 != 0) {
+    offsetNumberY = 0
+  }
+  x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberY
+  y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberX
+
   if (!mouseIsMoved && buyStatuse) {
     const squreInfoDefault = {
       x: x,
@@ -248,17 +261,6 @@ const onMouseUp = (o) => {
       qty: 1,
     }
     if (mobile) {
-      const pointer = c.getPointer(o.e)
-      let offsetNumberX = 0
-      let offsetNumberY = 0
-      if (h % 2 != 0) {
-        offsetNumberX = 0
-      }
-      if (w % 2 != 0) {
-        offsetNumberY = 0
-      }
-      x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberY
-      y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberX
       // console.log(x, y)
       c.remove(rect)
       c.remove(adGroup)
@@ -272,6 +274,17 @@ const onMouseUp = (o) => {
     }
     rectlist.push(squreInfoDefault)
   }
+
+  if (!buyStatuse) {
+    c.add(locationPointer)
+
+    locationPointer.set({
+      left: Math.round(pointer.x / 1),
+      top: Math.round(pointer.y / 1),
+    })
+    locationPointer.setCoords()
+  }
+
   //x: x, y: y
   x = rect.left
   y = rect.top
@@ -329,15 +342,6 @@ const onMouseDown = async (o) => {
     }
 
     updateData()
-  } else {
-    c.set({ hoverCursor: 'grab' })
-    c.add(locationPointer)
-    locationPointer.set({
-      left: Math.round(pointer.x / 1),
-      top: Math.round(pointer.y / 1),
-    })
-    locationPointer.setCoords()
-    c.renderAll()
   }
 }
 
@@ -359,6 +363,8 @@ const onWheel = (opt) => {
 
 const onObjectMoving = (options) => {
   // console.log(adGroup.oCoords)
+  c.setCursor('grabbing')
+
   let offsetNumberX = 0.5
   let offsetNumberY = 0.5
   if (!w % 2 == 0) {
@@ -416,7 +422,8 @@ const onObjectMoving = (options) => {
 export const setBuyStateModal = (value) => {
   buyStatuse = value
   if (value) {
-    c.set({ hoverCursor: 'move' })
+    // c.set({ hoverCursor: 'move' })
+    c.setCursor('move')
     c.add(rect)
     adGroup.set({
       lockMovementX: true,
@@ -434,7 +441,8 @@ export const setBuyStateModal = (value) => {
       lockMovementY: false,
     })
 
-    c.set({ hoverCursor: 'grab' })
+    c.setCursor('grab')
+    c.add(locationPointer)
 
     rect.set({
       left: -500,
