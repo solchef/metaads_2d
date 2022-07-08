@@ -22,12 +22,25 @@ const owned = [
 ]
 
 const rect = new fabric.Rect({
-  height: h,
-  width: w,
+  height: 1,
+  width: 1,
   top: -10 - 0.5,
   left: -10 - 0.5,
   name: 'defaultSelector',
   fill: '#00707b',
+  borderColor: ' #000',
+  cornerColor: '#a301b9',
+  lockRotation: true,
+  hasControls: false,
+})
+
+const pointLocation = new fabric.Rect({
+  height: h,
+  width: w,
+  top: -1 - 0.5,
+  left: -1 - 0.5,
+  name: 'pointselector',
+  fill: '#a301b9',
   borderColor: ' #000',
   cornerColor: '#a301b9',
   lockRotation: true,
@@ -41,9 +54,6 @@ const loadEvents = () => {
   c.on('mouse:up', onMouseUp, { passive: true })
   c.on('object:modified', onObjectModified, { passive: true })
   c.on('mouse:move', onMouseMove, { passive: true })
-  c.on('after:render', function () {
-    c.calcOffset()
-  })
 }
 
 export const loadGrid = (mintingData) => {
@@ -137,7 +147,7 @@ export const loadGrid = (mintingData) => {
     // height: 1000,
     // width: 1000,
   })
-
+  c.add(pointLocation)
   c.add(adGroup)
 
   c.zoomToPoint({ x: 0, y: 0 }, c.getZoom() * 2.35)
@@ -156,6 +166,17 @@ const updateSelector = (x, y) => {
     top: 1 * x,
   })
 
+  c.renderAll()
+}
+
+const updatePoint = (x, y) => {
+  const elem = c.getItemByName('pointselector')
+  elem.set({
+    left: 1 * y,
+    top: 1 * x,
+  })
+  // console.log(c.getObjects())
+  // c.setActiveObject(elem)
   c.renderAll()
 }
 
@@ -259,25 +280,25 @@ const onMouseUp = (o) => {
 }
 
 const onMouseDown = (o) => {
+  mouseIsMoved = false
+  mouseIsDown = true
+  c.selection = true
+  const pointer = c.getPointer(o.e)
+  let offsetNumberX = 0
+  let offsetNumberY = 0
+  if (h % 2 != 0) {
+    offsetNumberX = 0
+  }
+  if (w % 2 != 0) {
+    offsetNumberY = 0
+  }
+  x = Math.round(
+    (pointer.x / 1) * 1 - w / 2 - offsetNumberY - 500 - adGroup.left
+  )
+  y = Math.round(
+    pointer.y / 1 - (h / 2) * 1 - offsetNumberX - 500 - adGroup.top
+  )
   if (buyStatuse) {
-    mouseIsMoved = false
-    mouseIsDown = true
-    c.selection = true
-    const pointer = c.getPointer(o.e)
-    let offsetNumberX = 0
-    let offsetNumberY = 0
-    if (h % 2 != 0) {
-      offsetNumberX = 0
-    }
-    if (w % 2 != 0) {
-      offsetNumberY = 0
-    }
-    x = Math.round(
-      (pointer.x / 1) * 1 - w / 2 - offsetNumberY - 500 - adGroup.left
-    )
-    y = Math.round(
-      pointer.y / 1 - (h / 2) * 1 - offsetNumberX - 500 - adGroup.top
-    )
     if (o.target.name === 'defaultSelector' && !mobile) {
       c.remove(rect)
       c.remove(adGroup)
@@ -296,6 +317,8 @@ const onMouseDown = (o) => {
 
     updateData()
   }
+
+  updatePoint(y - 0.5, x - 0.5)
 }
 
 const onWheel = (opt) => {

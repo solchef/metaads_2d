@@ -59,7 +59,7 @@ function PurchaseSection({
       uploadImage
     )
 
-    console.log(result)
+    // console.log(result)
     // setMintStatus(minted)
   }
 
@@ -163,7 +163,7 @@ function PurchaseSection({
               <div className="d-flex flex-wrap flex-column">
                 <span className="mb-2">
                   <img src="assets/images/square_icon.png" width="16px" /> :{' '}
-                  {selectorHeight * selectorWidth} Quads
+                  {land.w * land.h} Quads
                 </span>
 
                 <span className="text-nowrap mb-2">
@@ -222,7 +222,7 @@ function PurchaseSection({
                       </g>
                     </g>
                   </svg>{' '}
-                  &nbsp;0.000942 ( $ {selectorHeight * selectorWidth} )
+                  &nbsp;{0.000942 * land.w * land.h} ( $ {land.w * land.h} )
                 </span>
               </div>
             </div>

@@ -1,17 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useWeb3Context } from '../context'
 import { useIPFS } from '../hooks/useIPFS'
 import { handleMint } from '../utils/handleMint'
+import { selectLand } from './reducers/Settings'
+import { useAppSelector } from './store/hooks'
 
 const FormFour = (props) => {
   const { contracts, address } = useWeb3Context()
   const adscontract = contracts['metaads']
   const { uploadMetadata, uploadImage }: any = useIPFS()
+  const landData = useAppSelector(selectLand)
+  const [land, setLand] = useState<any>({})
+
+  useEffect(() => {
+    setLand({
+      x: landData.x,
+      y: landData.y,
+      w: landData.w,
+      h: landData.h,
+    })
+  }, [landData])
 
   const handleSubmint = async () => {
-    console.log(props.landName)
-    console.log(squreInfo)
-    console.log(adscontract)
     const result = await handleMint(
       props.landName,
       address,
@@ -26,7 +36,7 @@ const FormFour = (props) => {
     <>
       <button
         className="btn-primary btn-lg w-100 buy-lot hoverable mt-1"
-        onClick={handleSubmint}
+        onClick={() => handleSubmint()}
       >
         <i className="bi-cart me-2 " />
         BUY LOT{' '}
@@ -34,7 +44,8 @@ const FormFour = (props) => {
 
       <div className="btn-slide text-nowrap mt-3">
         <span className=" pe-2">
-          <img src="assets/images/square_icon.png" width="16px" /> : 1{' '}
+          <img src="assets/images/square_icon.png" width="16px" /> :{' '}
+          {land.w * land.h}{' '}
         </span>
         <span className="text-nowrap pe-2">
           {' '}
@@ -92,14 +103,14 @@ const FormFour = (props) => {
               </g>
             </g>
           </svg>{' '}
-          0.000942 ( $ 1 )
+          {0.000942 * land.w * land.h} ($ {1 * land.w * land.h} )
         </span>
 
         <span className=" pe-2">
-          <i className="bi bi-border "></i> : ( 1 x 1 )
+          <i className="bi bi-border "></i> : ( {land.w} x {land.h} )
         </span>
         <span className="pe-2">
-          <i className="bi bi-geo-alt"></i> 1X , 1Y{' '}
+          <i className="bi bi-geo-alt"></i> {land.x}X , {land.y}Y{' '}
         </span>
       </div>
 

@@ -12,6 +12,7 @@ import { useWeb3Context } from '../context'
 import { QuadSpaceContract } from '../utils/constants'
 import {
   fitScrean,
+  getLands,
   loadGrid,
   setBuyStateModal,
   zoomIn,
@@ -28,6 +29,8 @@ const Space: React.FunctionComponent = () => {
   const [isCanvasBottem, setIsCanvasBottem] = useState(false)
   const [userLandName, setUserLandName] = useState('')
   const { address, contracts } = useWeb3Context()
+  const [lan, setLan] = useState({ x: 0, y: 0 })
+
   const [mintingData, setMintingData] = useState({
     walletQuads: [],
     otherQuads: [],
@@ -75,10 +78,17 @@ const Space: React.FunctionComponent = () => {
       loadGrid({ walletQuads: walletNfts, otherQuads: allMintedIds })
     }
   }
-
   useEffect(() => {
     loadMintingData()
-  }, [squreInfo])
+  }, [])
+  const land = getLands()
+
+  useEffect(() => {
+    console.log(land[0])
+    if (land.length > 0) {
+      setLan({ x: land[0].x, y: land[0].y })
+    }
+  }, [land])
 
   const [twoFeeTypes, setTwoFeeTypes] = useState(1)
 
@@ -102,14 +112,14 @@ const Space: React.FunctionComponent = () => {
             <div className="d-flex flex-column hide-mobile">
               <span style={{ color: '#ff006f' }} className="text-nowrap">
                 <b>
-                  X{landData.x}Y{landData.y}
+                  X{lan.x}Y{lan.y}
                 </b>
               </span>
 
               <div className="mt-2">
                 <span className="text-nowrap me-5">
-                  <i className="bi bi-geo-alt"></i> {landData.x}X,
-                  {landData.y}Y
+                  <i className="bi bi-geo-alt"></i> {lan.x}X,
+                  {lan.y}Y
                 </span>
                 <span className="text-nowrap me-5">
                   <i className="bi bi-person"></i>
