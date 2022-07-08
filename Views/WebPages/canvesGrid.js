@@ -152,12 +152,12 @@ export const loadGrid = (mintingData) => {
   })
 
   adGroup.set({
-    left: -103,
-    top: -90,
+    left: -109,
+    top: -70,
   })
   c.add(adGroup)
 
-  c.zoomToPoint({ x: 0, y: 0 }, c.getZoom() * 11.5)
+  c.zoomToPoint({ x: 0, y: 0 }, c.getZoom() * 15.0)
 
   loadEvents()
 }
@@ -293,14 +293,23 @@ const onMouseDown = (o) => {
   y = Math.round(
     pointer.y / 1 - (h / 2) * 1 - offsetNumberX - 500 - adGroup.top
   )
+
+  // console.log(buyStatuse)
+
   if (buyStatuse) {
     mouseIsMoved = false
     mouseIsDown = true
     c.selection = true
+
+    locationPointer.set({
+      left: Math.round(-100 / 1),
+      top: Math.round(-100 / 1),
+    })
     if (o.target.name === 'defaultSelector' && !mobile) {
       c.remove(rect)
       c.remove(adGroup)
       adGroup.add(rect)
+      c.remove(locationPointer)
       c.add(adGroup)
       rect.set({
         left: x - 0.5,
@@ -317,13 +326,21 @@ const onMouseDown = (o) => {
 
     updateData()
   } else {
+    rect.set({
+      left: -10 - 0.5,
+      top: -10 - 0.5,
+    })
+
+    adGroup.remove(rect)
+    c.remove(adGroup)
+    c.add(adGroup)
     c.add(locationPointer)
     locationPointer.set({
-      left: Math.round(pointer.x / 1) - 0.5,
-      top: Math.round(pointer.y / 1) - 0.5,
+      left: Math.round(pointer.x / 1),
+      top: Math.round(pointer.y / 1),
     })
-    // locationPointer.setCoords()
-    // c.renderAll()
+    locationPointer.setCoords()
+    c.renderAll()
   }
 }
 
