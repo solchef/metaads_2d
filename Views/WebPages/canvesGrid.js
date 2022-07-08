@@ -198,7 +198,6 @@ const onMouseMove = (e) => {
       left: x,
       top: y,
     })
-
     rect.setCoords()
     c.renderAll()
   } else {
@@ -305,18 +304,18 @@ const onMouseDown = (o) => {
       left: Math.round(-100 / 1),
       top: Math.round(-100 / 1),
     })
-    if (o.target.name === 'defaultSelector' && !mobile) {
-      c.remove(rect)
-      c.remove(adGroup)
-      adGroup.add(rect)
-      c.remove(locationPointer)
-      c.add(adGroup)
-      rect.set({
-        left: x - 0.5,
-        top: y - 0.5,
-      })
-      c.renderAll()
-    }
+    // if (o.target.name === 'defaultSelector' && !mobile) {
+    // c.remove(rect)
+    c.remove(adGroup)
+    adGroup.add(rect)
+    c.remove(locationPointer)
+    c.add(adGroup)
+    rect.set({
+      left: x - 0.5,
+      top: y - 0.5,
+    })
+    c.renderAll()
+    // }
 
     if (mouseIsMoved) {
       //   setSqureInfo(squreInfoDefault)
@@ -330,7 +329,7 @@ const onMouseDown = (o) => {
       left: -10 - 0.5,
       top: -10 - 0.5,
     })
-
+    // rect.setCoords()
     adGroup.remove(rect)
     c.remove(adGroup)
     c.add(adGroup)
@@ -345,17 +344,19 @@ const onMouseDown = (o) => {
 }
 
 const onWheel = (opt) => {
-  const delta = opt.e.wheelDelta / 20
-  let zoom = c.getZoom()
-  //   console.log(zoom)
-  zoom *= 0.999 ** delta
-  if (zoom > 60) zoom = 20
-  if (zoom < 0.01) zoom = 0.01
-  if (zoom > 2.35 && zoom < 15) c.zoomToPoint({ x: 0, y: 0 }, zoom)
-  opt.e.preventDefault()
-  opt.e.stopPropagation()
+  if (!buyStatuse) {
+    const delta = opt.e.wheelDelta / 20
+    let zoom = c.getZoom()
+    //   console.log(zoom)
+    zoom *= 0.999 ** delta
+    if (zoom > 60) zoom = 20
+    if (zoom < 0.01) zoom = 0.01
+    if (zoom > 2.35 && zoom < 15) c.zoomToPoint({ x: 0, y: 0 }, zoom)
+    opt.e.preventDefault()
+    opt.e.stopPropagation()
 
-  c.renderAll()
+    c.renderAll()
+  }
 }
 
 const onObjectMoving = (options) => {
