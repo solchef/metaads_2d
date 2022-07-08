@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import { store } from '../components/store'
 import 'sweetalert2/src/sweetalert2.scss'
 import '@sweetalert2/themes/dark/dark.scss'
+// import { ApolloProvider } from '@apollo/client'
 
 import './space.css'
 

@@ -146,7 +146,7 @@ export const loadGrid = (mintingData) => {
 
 /////////////////    update location
 const updateData = () => {
-  store.dispatch(setLand({ x: x - 0.5 + 500, y: y - 0.5 + 500, w: w, h: h }))
+  store.dispatch(setLand({ x: x - 0.5 + 502, y: y - 0.5 + 502, w: w, h: h }))
 }
 
 const updateSelector = (x, y) => {

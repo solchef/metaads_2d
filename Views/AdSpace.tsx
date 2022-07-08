@@ -17,7 +17,7 @@ import Minimap, { Child as ChildComponent } from 'react-minimap'
 import 'react-minimap/dist/react-minimap.css'
 import { MetaadsContractUnsigned } from '../utils/readOnly'
 const AdSpace: React.FunctionComponent = () => {
-  const { address } = useWeb3Context()
+  const { address, contracts } = useWeb3Context()
   const landData = useAppSelector(selectLand)
 
   const { cAreaRef, squreInfo, setEnableBuy } = useCanvas()
