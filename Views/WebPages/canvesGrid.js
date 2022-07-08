@@ -204,16 +204,16 @@ const onMouseMove = (e) => {
     rect.setCoords()
     c.renderAll()
   } else {
-    if (mouseIsDown) {
-      if (recMove) {
-        const elem = c.getItemByName('defaultSelector')
-        console.log(x - 500)
-        elem.set({
-          left: x - 500,
-          top: y - 500,
-        })
-      }
-    }
+    // if (mouseIsDown) {
+    //   if (recMove) {
+    //     const elem = c.getItemByName('defaultSelector')
+    //     console.log(x - 500)
+    //     elem.set({
+    //       left: x - 500,
+    //       top: y - 500,
+    //     })
+    //   }
+    // }
   }
   x = rect.left
   y = rect.top
@@ -276,8 +276,17 @@ const onMouseUp = (o) => {
     rectlist.push(squreInfoDefault)
   }
 
+  if (buyStatuse) {
+    // c.add(locationPointer)
+    rect.set({
+      left: Math.round(pointer.x / 1),
+      top: Math.round(pointer.y / 1),
+    })
+    rect.setCoords()
+  }
+
   if (!buyStatuse) {
-    c.add(locationPointer)
+    // c.add(locationPointer)
 
     locationPointer.set({
       left: Math.round(pointer.x / 1),
@@ -286,7 +295,6 @@ const onMouseUp = (o) => {
     locationPointer.setCoords()
   }
 
-  //x: x, y: y
   x = rect.left
   y = rect.top
   updateData()
@@ -329,10 +337,14 @@ const onMouseDown = async (o) => {
 
     // c.remove(locationPointer)
     // c.add(adGroup)
+    // c.add(locationPointer)
     rect.set({
-      left: x - 0.5,
-      top: y - 0.5,
+      left: Math.round(pointer.x / 1),
+      top: Math.round(pointer.y / 1),
     })
+    rect.setCoords()
+
+    rect.setCoords()
     c.renderAll()
     // }
 
@@ -340,6 +352,13 @@ const onMouseDown = async (o) => {
       //   setSqureInfo(squreInfoDefault)
       updateSelector(y, x)
     } else {
+      c.add(locationPointer)
+
+      locationPointer.set({
+        left: Math.round(pointer.x / 1),
+        top: Math.round(pointer.y / 1),
+      })
+      locationPointer.setCoords()
     }
 
     updateData()
@@ -420,11 +439,11 @@ const onObjectMoving = (options) => {
 }
 
 /////////////////
-export const setBuyStateModal = (value) => {
+export const setBuyStateModal = async (value) => {
   buyStatuse = value
   if (value) {
+    await animateTransition(locationPointer.left, locationPointer.top)
     c.set({ hoverCursor: 'move' })
-    c.setCursor('move')
     c.add(rect)
     adGroup.set({
       lockMovementX: true,
@@ -438,6 +457,7 @@ export const setBuyStateModal = (value) => {
     c.remove(locationPointer)
     c.renderAll()
   } else {
+    c.set({ hoverCursor: 'grab' })
     adGroup.set({
       lockMovementX: false,
       lockMovementY: false,
@@ -456,6 +476,41 @@ export const setBuyStateModal = (value) => {
     c.add(adGroup)
 
     c.renderAll()
+  }
+}
+
+const animateTransition = (left, top) => {
+  for (var i = 1; i < 10; i++) {
+    var clickedPulse = new fabric.Circle({
+      radius: 5,
+      fill: 'rgba(0,0,0,0)',
+      stroke: 'rgba(0,0,0,' + (1 - i / 4) + ')',
+      strokeWidth: 5,
+      left: left,
+      top: top,
+      selectable: false,
+      hasBorders: false,
+      hasControls: false,
+      originX: 'center',
+      originY: 'center',
+    })
+    c.add(clickedPulse)
+    clickedPulse.animate(
+      {
+        radius: 1000 - i * 15,
+        opacity: 0,
+      },
+      {
+        onChange: c.renderAll.bind(c),
+        duration: 600 + i * 200,
+
+        onComplete: function () {
+          c.remove(locationPointer)
+          c.remove(clickedPulse)
+          c.renderAll()
+        },
+      }
+    )
   }
 }
 

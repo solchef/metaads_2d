@@ -2,7 +2,7 @@ export const resolvers = {
   Query: {
     getAllMinted: async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/info')
+        const res = await fetch('https://quadspace.io/api/graphql')
         const minted = await res.json()
         // console.log(minted)
         return minted.meta.map(({ name, description, image }) => ({
