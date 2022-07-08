@@ -38,9 +38,9 @@ export const ErrorTransaction = ({ title, description }) => {
     confirmButtonColor: '#b401ab',
     confirmButtonText: 'Close',
   }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire('Please check!', 'And then try again.', 'error')
-    }
+    // if (result.isConfirmed) {
+    //   Swal.fire('Please check!', 'And then try again.', 'error')
+    // }
   })
 }
 

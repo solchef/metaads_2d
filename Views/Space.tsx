@@ -13,6 +13,8 @@ import { QuadSpaceContract } from '../utils/constants'
 import {
   fitScrean,
   getLands,
+  getViewLocation,
+  getZoomLevel,
   loadGrid,
   setBuyStateModal,
   zoomIn,
@@ -30,6 +32,8 @@ const Space: React.FunctionComponent = () => {
   const [userLandName, setUserLandName] = useState('')
   const { address, contracts } = useWeb3Context()
   const [lan, setLan] = useState({ x: 0, y: 0 })
+  const zoomlevel = getZoomLevel()
+  const viewPoint = getViewLocation()
 
   const [mintingData, setMintingData] = useState({
     walletQuads: [],
@@ -82,9 +86,9 @@ const Space: React.FunctionComponent = () => {
     loadMintingData()
   }, [])
   const land = getLands()
-
+  //   console.log(viewPoint)
   useEffect(() => {
-    console.log(land[0])
+    // console.log(land[0])
     if (land.length > 0) {
       setLan({ x: land[0].x, y: land[0].y })
     }
@@ -112,14 +116,14 @@ const Space: React.FunctionComponent = () => {
             <div className="d-flex flex-column hide-mobile">
               <span style={{ color: '#ff006f' }} className="text-nowrap">
                 <b>
-                  X{lan.x}Y{lan.y}
+                  X{viewPoint.x}Y{viewPoint.y}
                 </b>
               </span>
 
               <div className="mt-2">
                 <span className="text-nowrap me-5">
-                  <i className="bi bi-geo-alt"></i> {lan.x}X,
-                  {lan.y}Y
+                  <i className="bi bi-geo-alt"></i> {viewPoint.x}X,
+                  {viewPoint.y}Y
                 </span>
                 <span className="text-nowrap me-5">
                   <i className="bi bi-person"></i>
@@ -257,7 +261,7 @@ const Space: React.FunctionComponent = () => {
                 <i className="bi-zoom-out " />
               </button>
               <button className="btn btn-bi btn-primary x m-0 btn-lg ">
-                X3
+                {zoomlevel}
               </button>{' '}
               <button
                 onClick={() => zoomOut()}
@@ -308,7 +312,7 @@ const Space: React.FunctionComponent = () => {
       <div className="space-details show-mobile p-3">
         <span className="text-nowrap ">
           <b>
-            Y{squreInfo.y}x{squreInfo.x}
+            Y{viewPoint.y}x{viewPoint.x}
           </b>
           <span style={{ color: '#ff006f' }} className="text-nowrap mx-2">
             <b>FOR SALE</b>
@@ -375,7 +379,7 @@ const Space: React.FunctionComponent = () => {
           <div className="">
             <div className="">
               <span className="text-nowrap me-5">
-                <i className="bi bi-geo-alt"></i> {squreInfo.x}X, {squreInfo.y}Y
+                <i className="bi bi-geo-alt"></i> {viewPoint.x}X, {viewPoint.y}Y
               </span>
               <div className="mt-3">
                 <span className="text-nowrap me-5">

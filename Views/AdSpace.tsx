@@ -4,6 +4,7 @@ import PurchaseSection from './WebPages/PurchaseSection'
 import Link from 'next/link'
 import {
   fitScrean,
+  getViewLocation,
   getZoomLevel,
   loadGrid,
   setBuyStateModal,
@@ -21,6 +22,7 @@ const AdSpace: React.FunctionComponent = () => {
   const { address, contracts } = useWeb3Context()
   const landData = useAppSelector(selectLand)
   const zoomlevel = getZoomLevel()
+  const viewPoint = getViewLocation()
   const { cAreaRef, squreInfo, setEnableBuy } = useCanvas()
   const [mintingData, setMintingData] = useState({
     walletQuads: [],
@@ -57,6 +59,10 @@ const AdSpace: React.FunctionComponent = () => {
   useEffect(() => {
     loadMintingData()
   }, [squreInfo])
+
+  useEffect(() => {
+    // console.log(viewPoint)
+  }, [viewPoint])
 
   const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [show, setShow] = useState(false)
@@ -98,14 +104,14 @@ const AdSpace: React.FunctionComponent = () => {
               <div className="d-flex flex-column hide-mobile">
                 <span style={{ color: '#ff006f' }} className="text-nowrap">
                   <b>
-                    X{landData.x}Y{landData.y}
+                    X{viewPoint.x}Y{viewPoint.y}
                   </b>
                 </span>
 
                 <div className="mt-2">
                   <span className="text-nowrap me-5">
-                    <i className="bi bi-geo-alt"></i> {landData.x}X,
-                    {landData.y}Y
+                    <i className="bi bi-geo-alt"></i> {viewPoint.x}X,
+                    {viewPoint.y}Y
                   </span>
                   <span className="text-nowrap me-5">
                     <i className="bi bi-person"></i>
@@ -247,7 +253,9 @@ const AdSpace: React.FunctionComponent = () => {
                   {zoomlevel}
                 </button>{' '}
                 <button
-                  onClick={() => zoomOut()}
+                  onClick={() => {
+                    zoomOut()
+                  }}
                   className="btn btn-bi btn-primary btn-lg "
                 >
                   <i className="bi-zoom-in " />

@@ -34,6 +34,19 @@ const rect = new fabric.Rect({
   hasControls: false,
 })
 
+const locationPointer = new fabric.Rect({
+  height: 1,
+  width: 1,
+  top: 1,
+  left: 1,
+  name: 'pointerselector',
+  fill: '#a301b9',
+  borderColor: ' #000',
+  cornerColor: '#a301b9',
+  lockRotation: true,
+  hasControls: false,
+})
+
 const loadEvents = () => {
   c.on('mouse:wheel', onWheel, { passive: true })
   c.on('object:moving', onObjectMoving, { passive: true })
@@ -164,8 +177,8 @@ const onMouseMove = (e) => {
   mouseIsMoved = true
   e.e.preventDefault()
   const pointer = c.getPointer(e.e)
-  let offsetNumberX = 0
-  let offsetNumberY = 0
+  let offsetNumberX = 0.5
+  let offsetNumberY = 0.5
   if (h % 2 != 0) {
     offsetNumberX = 0
   }
@@ -174,6 +187,7 @@ const onMouseMove = (e) => {
   }
   x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberX
   y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberY
+
   if (rectlist.length === 0 && buyStatuse) {
     rect.set({
       left: x,
@@ -259,25 +273,25 @@ const onMouseUp = (o) => {
 }
 
 const onMouseDown = (o) => {
+  const pointer = c.getPointer(o.e)
+  let offsetNumberX = 0
+  let offsetNumberY = 0
+  if (h % 2 != 0) {
+    offsetNumberX = 0
+  }
+  if (w % 2 != 0) {
+    offsetNumberY = 0
+  }
+  x = Math.round(
+    (pointer.x / 1) * 1 - w / 2 - offsetNumberY - 500 - adGroup.left
+  )
+  y = Math.round(
+    pointer.y / 1 - (h / 2) * 1 - offsetNumberX - 500 - adGroup.top
+  )
   if (buyStatuse) {
     mouseIsMoved = false
     mouseIsDown = true
     c.selection = true
-    const pointer = c.getPointer(o.e)
-    let offsetNumberX = 0
-    let offsetNumberY = 0
-    if (h % 2 != 0) {
-      offsetNumberX = 0
-    }
-    if (w % 2 != 0) {
-      offsetNumberY = 0
-    }
-    x = Math.round(
-      (pointer.x / 1) * 1 - w / 2 - offsetNumberY - 500 - adGroup.left
-    )
-    y = Math.round(
-      pointer.y / 1 - (h / 2) * 1 - offsetNumberX - 500 - adGroup.top
-    )
     if (o.target.name === 'defaultSelector' && !mobile) {
       c.remove(rect)
       c.remove(adGroup)
@@ -291,10 +305,19 @@ const onMouseDown = (o) => {
     }
 
     if (mouseIsMoved) {
-      updateSelector(y - 0.5, x - 0.5)
+      //   setSqureInfo(squreInfoDefault)
+      updateSelector(y, x)
+    } else {
     }
 
     updateData()
+  } else {
+    c.remove(locationPointer)
+    c.add(locationPointer)
+    locationPointer.set({
+      left: x + 502,
+      top: y + 502,
+    })
   }
 }
 
@@ -324,6 +347,7 @@ const onObjectMoving = (options) => {
   }
   x = Math.round(options.target.left / 1) * 1
   y = Math.round(options.target.top / 1) * 1
+
   if (options.target.name === undefined) {
     const maxNumberX = c.vptCoords.br.x - 1001
     const maxNumberY = c.vptCoords.br.y - 1001
@@ -440,10 +464,17 @@ export const getZoomLevel = () => {
 }
 
 export const getImage = () => {
-  var transform = c.viewportTransform.slice()
-  c.viewportTransform = [1, 0, 0, 1, 0, 0]
-  var dataurl = c.toDataURL('png')
-  var w = window.open('')
-  w.document.write(dataurl)
-  // c.viewportTransform = transform;
+  var transform = canvas.viewportTransform.slice()
+  canvas.viewportTransform = [1, 0, 0, 1, 0, 0]
+  var dataurl = canvas.toDataURL('svg')
+  canvas.viewportTransform = transform
+}
+
+export const getViewLocation = () => {
+  let viewGrid = {
+    x: locationPointer.left,
+    y: locationPointer.top,
+  }
+
+  return viewGrid
 }
