@@ -310,6 +310,7 @@ const AdSpace: React.FunctionComponent = () => {
         enableBuy={buyState}
         setEnableBuy={setEnableBuy}
         getMintImage={getMintImage}
+        offcanvasLeft={offcanvasLeft}
       />
       {/* )} */}
     </>

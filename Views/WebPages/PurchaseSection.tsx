@@ -19,6 +19,7 @@ function PurchaseSection({
   enableBuy,
   setEnableBuy,
   getMintImage,
+  offcanvasLeft,
 }) {
   const { uploadMetadata, uploadImage } = useIPFS()
   const [mintStatus, setMintStatus] = useState('PURCHASE PLOT')
@@ -75,7 +76,7 @@ function PurchaseSection({
         <div className="offcanvas-header">
           <button
             type="button"
-            onClick={() => setIsCanvasLeft(false)}
+            onClick={() => offcanvasLeft()}
             className="btn-close text-reset"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
