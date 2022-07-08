@@ -318,6 +318,8 @@ const onMouseDown = (o) => {
       left: x + 502,
       top: y + 502,
     })
+    locationPointer.setCoords()
+    c.renderAll()
   }
 }
 
