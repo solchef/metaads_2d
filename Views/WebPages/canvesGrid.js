@@ -13,6 +13,8 @@ let mouseIsMoved = false
 let mobile = false
 let recMove = false
 let adGroup
+var imageLoaded = false;
+
 const rectlist = []
 
 const owned = [
@@ -97,6 +99,42 @@ const lineList = (params) => {
     return lines;
 }
 
+let map;
+fabric.Image.fromURL('/adspace.svg', function(myImg) {
+    const size = document.getElementById('container').getBoundingClientRect()
+
+    var img1 = myImg.set({
+        left: 0,
+        top: 0,
+        scaleX: 1000 / 10000,
+        scaleY: 1000 / 10000
+    });
+    // c.add(img1);
+    map = img1
+        // return map;
+    imageLoaded = true;
+});
+
+function addGroup(rects) {
+    if (!imageLoaded) {
+        // Image not loaded yet, need to wait
+        setTimeout(function() { addGroup() }, 100);
+        return;
+    }
+    // Ok we have the image, can add to group/canvas
+    adGroup = new fabric.Group([map, ...rects], {
+        objectCaching: false,
+        hasControls: false,
+
+    })
+
+    adGroup.set({
+        left: -109,
+        top: -70,
+    })
+    c.add(adGroup)
+}
+
 export const loadGrid = (mintingData) => {
     const size = document.getElementById('container').getBoundingClientRect()
 
@@ -158,17 +196,10 @@ export const loadGrid = (mintingData) => {
     })
 
 
-    adGroup = new fabric.Group([...lineList(options.param), ...rects], {
-        objectCaching: false,
-        hasControls: false,
 
-    })
 
-    adGroup.set({
-        left: -109,
-        top: -70,
-    })
-    c.add(adGroup)
+    addGroup(rects)
+
 
     c.zoomToPoint({ x: 0, y: 0 }, c.getZoom() * 15.0)
     c.add(locationPointer)

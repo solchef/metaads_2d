@@ -167,7 +167,7 @@ const AdSpace: React.FunctionComponent = () => {
                     className={`btn btn-bi d-flex flex-nowrap toggle-mode  ${
                       !isCanvasLeft && 'active'
                     } align-items-center accordion w-100 position-relative btn-primary `}
-                    style={{opacity:!isCanvasLeft ? .5 : 1}}
+                    style={{opacity:isCanvasLeft ? .5 : 1}}
                   >
                     <i className="bi bi-arrows-move me-2" />
                     <span className="text-nowrap hide-mobile">View Mode</span>
