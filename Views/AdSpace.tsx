@@ -21,7 +21,7 @@ import { MetaadsContractUnsigned } from '../utils/readOnly'
 const AdSpace: React.FunctionComponent = () => {
   const { address, contracts } = useWeb3Context()
   const landData = useAppSelector(selectLand)
-  const zoomlevel = getZoomLevel()
+  const [zoomLevel, setZoomLevel] = useState();
   const viewPoint = getViewLocation()
   const { cAreaRef, squreInfo, setEnableBuy } = useCanvas()
   const [mintingData, setMintingData] = useState({
@@ -61,8 +61,10 @@ const AdSpace: React.FunctionComponent = () => {
   }, [squreInfo])
 
   useEffect(() => {
+
+    setZoomLevel(getZoomLevel())
     // console.log(viewPoint)
-  }, [viewPoint])
+  }, [getZoomLevel()])
 
   const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [show, setShow] = useState(false)
@@ -174,7 +176,9 @@ const AdSpace: React.FunctionComponent = () => {
                 <div className="buttons bo flex-nowrap">
                   <button
                     className="btn btn-bi hoverable btn-primary m-0 btn-lg "
-                    onClick={() => zoomIn()}
+                    onClick={() => 
+                      setZoomLevel(zoomIn())
+                    }
                   >
                     <i className="bi-zoom-out" />
                   </button>
@@ -182,12 +186,12 @@ const AdSpace: React.FunctionComponent = () => {
                     className="btn btn-bi  m-0 btn-lg "
                     style={{ color: '#fff' }}
                   >
-                    {zoomlevel}
+                    {zoomLevel}
                   </button>
                   <button
                     className="btn btn-bi btn-primary hoverable btn-lg "
                     onClick={() => {
-                      zoomOut()
+                      setZoomLevel(zoomOut())
                     }}
                   >
                     <i className="bi-zoom-in " />

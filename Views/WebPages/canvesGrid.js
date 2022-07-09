@@ -518,6 +518,8 @@ export const fitScrean = (mintingData) => {
 export const zoomIn = () => {
     if (c.getZoom() * 0.9 >= 2.35) c.setZoom(c.getZoom() * 0.9)
     else c.setZoom(2.35)
+
+    return c.getZoom().toFixed(1)
 }
 
 ///////////////
@@ -526,6 +528,8 @@ export const zoomOut = () => {
 
     if (c.getZoom() * 1.1 < 15) c.setZoom(c.getZoom() * 1.1)
     else c.setZoom(15)
+
+    return c.getZoom().toFixed(1)
 }
 
 ////////////////
