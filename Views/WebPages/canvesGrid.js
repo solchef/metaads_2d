@@ -196,10 +196,7 @@ export const loadGrid = (mintingData) => {
     })
 
 
-
-
     addGroup(rects)
-
 
     c.zoomToPoint({ x: 0, y: 0 }, c.getZoom() * 15.0)
     c.add(locationPointer)
@@ -208,14 +205,15 @@ export const loadGrid = (mintingData) => {
 
 /////////////////    update location
 const updateData = () => {
-    store.dispatch(setLand({ x: x - 0.5 + 502, y: y - 0.5 + 502, w: w, h: h }))
+    // store.dispatch(setLand({ x: x - 0.5 + 502, y: y - 0.5 + 502, w: w, h: h }))
+    store.dispatch(setLand({ x: Math.round(rect.left - adGroup.left), y: Math.round(rect.top - adGroup.top), w: w, h: h }))
 }
 
 const updateSelector = (x, y) => {
     const elem = c.getItemByName('defaultSelector')
     elem.set({
-        left: 1 * y,
-        top: 1 * x,
+        left: 1 * Math.round(x / 1) + elem.width / 2,
+        top: 1 * Math.round(y / 1) + elem.width / 2,
     })
 
     c.renderAll()
@@ -234,8 +232,11 @@ const onMouseMove = (e) => {
     if (w % 2 != 0) {
         offsetNumberY = 0
     }
-    x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberX
-    y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberY
+    // x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberX
+    // y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberY
+
+    x = Math.round(pointer.x / 1);
+    y = Math.round(pointer.y / 1);
 
     if (rectlist.length === 0 && buyStatuse) {
         // rect.set({
@@ -248,7 +249,7 @@ const onMouseMove = (e) => {
         if (mouseIsDown) {
             if (recMove) {
                 const elem = c.getItemByName('defaultSelector')
-                console.log(x - 500)
+                    // console.log(x - 500)
                 elem.set({
                     left: x - 500,
                     top: y - 500,
@@ -288,8 +289,11 @@ const onMouseUp = (o) => {
     if (w % 2 != 0) {
         offsetNumberY = 0
     }
-    x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberY
-    y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberX
+    // x = Math.round(pointer.x / 1) * 1 - w / 2 - offsetNumberY
+    // y = Math.round(pointer.y / 1) - (h / 2) * 1 - offsetNumberX
+
+    x = Math.round(pointer.x / 1);
+    y = Math.round(pointer.y / 1);
 
     if (!mouseIsMoved && buyStatuse) {
         const squreInfoDefault = {
@@ -321,16 +325,15 @@ const onMouseUp = (o) => {
     }
 
     if (buyStatuse) {
-        rect.set({
-            left: Math.round(pointer.x / 1) - rect.width / 2,
-            top: Math.round(pointer.y / 1) - rect.height / 2,
-        })
-        rect.setCoords()
+        // rect.set({
+        //     left: Math.round(pointer.x / 1),
+        //     top: Math.round(pointer.y / 1),
+        // })
+        // rect.setCoords()
     }
 
     if (!buyStatuse) {
         // c.add(locationPointer)
-
         locationPointer.set({
             left: Math.round(pointer.x / 1),
             top: Math.round(pointer.y / 1),
@@ -353,12 +356,15 @@ const onMouseDown = async(o) => {
     if (w % 2 != 0) {
         offsetNumberY = 0
     }
-    x = Math.round(
-        (pointer.x / 1) * 1 - w / 2 - offsetNumberY - 500 - adGroup.left
-    )
-    y = Math.round(
-        pointer.y / 1 - (h / 2) * 1 - offsetNumberX - 500 - adGroup.top
-    )
+    // x = Math.round(
+    //     (pointer.x / 1) * 1 - w / 2 - offsetNumberY - 500 - adGroup.left
+    // )
+    // y = Math.round(
+    //     pointer.y / 1 - (h / 2) * 1 - offsetNumberX - 500 - adGroup.top
+    // )
+
+    x = Math.round(pointer.x / 1);
+    y = Math.round(pointer.y / 1);
 
     if (buyStatuse) {
         mouseIsMoved = false
@@ -374,7 +380,7 @@ const onMouseDown = async(o) => {
         }
 
         if (mouseIsMoved) {
-            updateSelector(y, x)
+            updateSelector(x, y)
         }
     } else {
         // c.add(locationPointer)
@@ -455,8 +461,8 @@ const onObjectMoving = (options) => {
         }
     } else {
         options.target.set({
-            top: y - 0.5,
-            left: x - 0.5,
+            top: y,
+            left: x,
         })
     }
     c.renderAll()
@@ -611,7 +617,7 @@ export const getViewLocation = () => {
     if (adGroup) {
         viewGrid = {
             x: locationPointer.left - adGroup.left,
-            y: locationPointer.top - adGroup.left,
+            y: locationPointer.top - adGroup.top,
         }
     } else {
         viewGrid = {
