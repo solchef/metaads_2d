@@ -14,6 +14,7 @@ let mobile = false
 let recMove = false
 let adGroup
 var imageLoaded = false;
+let allowPositioning = true;
 
 const rectlist = []
 
@@ -247,14 +248,14 @@ const onMouseMove = (e) => {
         // c.renderAll()
     } else {
         if (mouseIsDown) {
-            if (recMove) {
-                const elem = c.getItemByName('defaultSelector')
-                    // console.log(x - 500)
-                elem.set({
-                    left: x - 500,
-                    top: y - 500,
-                })
-            }
+            // if (recMove) {
+            //     const elem = c.getItemByName('defaultSelector')
+            //         // console.log(x - 500)
+            //     elem.set({
+            //         left: x,
+            //         top: y,
+            //     })
+            // }
         }
     }
     x = rect.left
@@ -370,13 +371,15 @@ const onMouseDown = async(o) => {
         mouseIsMoved = false
         mouseIsDown = true
         c.selection = true
-        if (mobile) {
+        if (mobile || allowPositioning === true) {
             rect.set({
                 left: Math.round(pointer.x / 1),
                 top: Math.round(pointer.y / 1),
             })
             rect.setCoords()
             c.renderAll()
+
+            allowPositioning = false;
         }
 
         if (mouseIsMoved) {
@@ -472,6 +475,7 @@ const onObjectMoving = (options) => {
 export const setBuyStateModal = async(value) => {
     buyStatuse = value
     if (value) {
+        allowPositioning = true;
         c.set({ hoverCursor: 'move' })
         animateTransition(locationPointer.left, locationPointer.top + rect.height + 1, 'buy')
         c.add(rect)
@@ -485,8 +489,8 @@ export const setBuyStateModal = async(value) => {
             top: locationPointer.top,
         })
         rect.setCoords()
-
         c.renderAll()
+
     } else {
 
         animateTransition(rect.left, rect.top + 1, 'view')
