@@ -161,7 +161,7 @@ export const loadGrid = (mintingData) => {
     c.add(adGroup)
 
     c.zoomToPoint({ x: 0, y: 0 }, c.getZoom() * 15.0)
-
+    c.add(locationPointer)
     loadEvents()
 }
 
@@ -317,8 +317,6 @@ const onMouseDown = async(o) => {
         pointer.y / 1 - (h / 2) * 1 - offsetNumberX - 500 - adGroup.top
     )
 
-    // console.log(buyStatuse)
-
     if (buyStatuse) {
         mouseIsMoved = false
         mouseIsDown = true
@@ -337,8 +335,8 @@ const onMouseDown = async(o) => {
             updateSelector(y, x)
         }
     } else {
-        c.add(locationPointer)
 
+        // c.add(locationPointer)
         locationPointer.set({
             left: Math.round(pointer.x / 1),
             top: Math.round(pointer.y / 1),
@@ -367,7 +365,7 @@ const onWheel = (opt) => {
 }
 
 const onObjectMoving = (options) => {
-    // console.log(adGroup.oCoords)
+
     c.setCursor('grabbing')
 
     let offsetNumberX = 0.5
@@ -447,7 +445,6 @@ export const setBuyStateModal = async(value) => {
             lockMovementX: false,
             lockMovementY: false,
         })
-
         c.add(locationPointer)
 
         rect.set({
