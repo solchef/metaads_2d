@@ -56,11 +56,12 @@ export const handleMint = async (
   // }
   // return mintableids
 
-  // InfoMessage({
-  //   title: 'Public Minting',
-  //   description: 'Public Minting is about to begin. ',
-  // })
+  InfoMessage({
+    title: 'Public Minting',
+    description: 'Public Minting is about to begin. ',
+  })
 
+  return
   try {
     if (adscontract) {
       let mintcost = 0.0 * mintableids.length
