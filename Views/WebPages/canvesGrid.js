@@ -13,6 +13,7 @@ let mobile = false
 let recMove = false
 let adGroup
 const rectlist = []
+
 const owned = [
     [0, 0],
     [900, 900],
@@ -155,6 +156,7 @@ export const loadGrid = (mintingData) => {
             // c.add(rect2)
     })
 
+
     adGroup = new fabric.Group([...lineList(options.param), ...rects], {
         objectCaching: false,
         hasControls: false,
@@ -268,6 +270,9 @@ const onMouseUp = (o) => {
             area: h + ' X ' + w,
             qty: 1,
         }
+
+
+        locationPointer.setCoords()
         if (mobile) {
             // console.log(x, y)
             // c.remove(rect)
@@ -281,6 +286,14 @@ const onMouseUp = (o) => {
             // c.renderAll()
         }
         rectlist.push(squreInfoDefault)
+    }
+
+    if (buyStatuse) {
+        rect.set({
+            left: Math.round(pointer.x / 1) - rect.width / 2,
+            top: Math.round(pointer.y / 1) - rect.height / 2,
+        })
+        rect.setCoords()
     }
 
     if (!buyStatuse) {
@@ -458,12 +471,12 @@ export const setBuyStateModal = async(value) => {
 }
 
 const animateTransition = (left, top) => {
-    for (var i = 1; i < 10; i++) {
+    for (var i = 1; i < 5; i++) {
         var clickedPulse = new fabric.Circle({
             radius: 5,
             fill: 'rgba(0,0,0,0)',
             stroke: 'rgba(0,0,0,' + (1 - i / 4) + ')',
-            strokeWidth: 5,
+            strokeWidth: 2,
             left: left,
             top: top,
             selectable: false,
@@ -472,9 +485,10 @@ const animateTransition = (left, top) => {
             originX: 'center',
             originY: 'center',
         })
+
         c.add(clickedPulse)
         clickedPulse.animate({
-            radius: 11 - i,
+            radius: 10 - i,
             opacity: 0,
         }, {
             onChange: c.renderAll.bind(c),

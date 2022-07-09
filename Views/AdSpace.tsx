@@ -226,10 +226,35 @@ const AdSpace: React.FunctionComponent = () => {
               id="container"
             >
               <canvas id="adcanvass"></canvas>
-            </div>
+              {/* <div style={{ width: "10000px", height: "10000px"}}> */}
+
+                  {/* <svg width="10000px" height="10000px" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <pattern
+                        id="smallGrid"
+                        width={10}
+                        height={10}
+                        patternUnits="userSpaceOnUse"
+                      >
+                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" strokeWidth="0.5" />
+                      </pattern>
+                      <pattern id="grid" width={100} height={100} patternUnits="userSpaceOnUse">
+                        <rect width={100} height={100} fill="url(#smallGrid)" />
+                        <path d="M 100 0 L 0 0 0 100" fill="none" stroke="gray" strokeWidth={2} />
+                      </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)" />
+                  </svg> */}
+
+                </div>
+
+            {/* </div> */}
 
             {/* </Minimap> */}
           </div>
+
+
+   
         </section>
       </Fragment>
       {/* {show && ( */}
