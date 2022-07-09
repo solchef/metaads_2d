@@ -21,6 +21,22 @@ const owned = [
     [450, 450],
 ]
 
+
+var options = {
+    distance: 1,
+    height: 1000,
+    width: 1000,
+    param: {
+        type: 'line',
+        stroke: '#a301b9',
+        selectable: false,
+        strokeWidth: 0.03,
+        objectCaching: false,
+        opacity: 1,
+    },
+}
+
+
 const rect = new fabric.Rect({
     height: h,
     width: w,
@@ -59,8 +75,29 @@ const loadEvents = () => {
     })
 }
 
+
+const lineList = (params) => {
+    const lines = []
+    for (var i = 0; i < 1000; i++) {
+        var distance = i * options.distance,
+            horizontal = new fabric.Line(
+                [distance, 0, distance, options.width],
+                params
+            ),
+            vertical = new fabric.Line(
+                [0, distance, options.width, distance],
+                params
+            )
+        lines.push(horizontal)
+        lines.push(vertical)
+    }
+
+    return lines;
+}
+
 export const loadGrid = (mintingData) => {
     const size = document.getElementById('container').getBoundingClientRect()
+
     c = new fabric.Canvas('adcanvass', {
         // selection: false,
         height: size.height,
@@ -68,38 +105,10 @@ export const loadGrid = (mintingData) => {
         hoverCursor: 'grab',
         moveCursor: 'grabbing',
     })
-    var options = {
-        distance: 1,
-        height: c.height,
-        width: 1000,
-        param: {
-            type: 'line',
-            stroke: '#a301b9',
-            selectable: false,
-            strokeWidth: 0.03,
-            objectCaching: false,
-            opacity: 1,
-        },
-    }
 
-    const lineList = []
-    for (var i = 0; i < 1000; i++) {
-        var distance = i * options.distance,
-            // var distance = i * options.width/1000,
-            horizontal = new fabric.Line(
-                [distance, 0, distance, options.width],
-                options.param
-            ),
-            vertical = new fabric.Line(
-                [0, distance, options.width, distance],
-                options.param
-            )
-        lineList.push(horizontal)
-        lineList.push(vertical)
 
-        // c.add(vertical)
-        // c.add(horizontal)
-    }
+    // console.log(lineList)
+
     const rects = []
     const purchased = []
 
@@ -146,12 +155,10 @@ export const loadGrid = (mintingData) => {
             // c.add(rect2)
     })
 
-    adGroup = new fabric.Group([...lineList, ...rects], {
+    adGroup = new fabric.Group([...lineList(options.param), ...rects], {
         objectCaching: false,
         hasControls: false,
-        // preserveObjectStacking: true,
-        // height: 1000,
-        // width: 1000,
+
     })
 
     adGroup.set({
@@ -204,16 +211,16 @@ const onMouseMove = (e) => {
         // rect.setCoords()
         // c.renderAll()
     } else {
-        // if (mouseIsDown) {
-        //   if (recMove) {
-        //     const elem = c.getItemByName('defaultSelector')
-        //     console.log(x - 500)
-        //     elem.set({
-        //       left: x - 500,
-        //       top: y - 500,
-        //     })
-        //   }
-        // }
+        if (mouseIsDown) {
+            if (recMove) {
+                const elem = c.getItemByName('defaultSelector')
+                console.log(x - 500)
+                elem.set({
+                    left: x - 500,
+                    top: y - 500,
+                })
+            }
+        }
     }
     x = rect.left
     y = rect.top
@@ -276,15 +283,6 @@ const onMouseUp = (o) => {
         rectlist.push(squreInfoDefault)
     }
 
-    if (buyStatuse) {
-        // c.add(locationPointer)
-        // rect.set({
-        //     left: Math.round(pointer.x / 1),
-        //     top: Math.round(pointer.y / 1),
-        // })
-        // rect.setCoords()
-    }
-
     if (!buyStatuse) {
         // c.add(locationPointer)
 
@@ -321,21 +319,17 @@ const onMouseDown = async(o) => {
         mouseIsMoved = false
         mouseIsDown = true
         c.selection = true
-        await c.renderAll()
-        rect.set({
-            left: Math.round(pointer.x / 1),
-            top: Math.round(pointer.y / 1),
-        })
-        rect.setCoords()
-
-        rect.setCoords()
-        c.renderAll()
+            // rect.set({
+            //     left: Math.round(pointer.x / 1),
+            //     top: Math.round(pointer.y / 1),
+            // })
+            // rect.setCoords()
+            // c.renderAll()
 
         if (mouseIsMoved) {
             updateSelector(y, x)
         }
     } else {
-
         // c.add(locationPointer)
         locationPointer.set({
             left: Math.round(pointer.x / 1),
