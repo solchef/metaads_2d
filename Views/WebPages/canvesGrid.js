@@ -319,12 +319,14 @@ const onMouseDown = async(o) => {
         mouseIsMoved = false
         mouseIsDown = true
         c.selection = true
-            // rect.set({
-            //     left: Math.round(pointer.x / 1),
-            //     top: Math.round(pointer.y / 1),
-            // })
-            // rect.setCoords()
-            // c.renderAll()
+        if (mobile) {
+            rect.set({
+                left: Math.round(pointer.x / 1),
+                top: Math.round(pointer.y / 1),
+            })
+            rect.setCoords()
+            c.renderAll()
+        }
 
         if (mouseIsMoved) {
             updateSelector(y, x)
