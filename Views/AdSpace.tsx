@@ -153,7 +153,7 @@ const AdSpace: React.FunctionComponent = () => {
                     className={`btn btn-bi d-flex toggle-mode align-items-center w-100 position-relative m-0 btn-primary btn-lg  ${
                       isCanvasLeft && 'active'
                     }  `}
-                    style={{}}
+                    style={{opacity:isCanvasLeft ? .5 : 1}}
                   >
                     <i
                       className="bi bi-cart-fill me-2"
@@ -167,7 +167,7 @@ const AdSpace: React.FunctionComponent = () => {
                     className={`btn btn-bi d-flex flex-nowrap toggle-mode  ${
                       !isCanvasLeft && 'active'
                     } align-items-center accordion w-100 position-relative btn-primary `}
-                    style={{}}
+                    style={{opacity:!isCanvasLeft ? .5 : 1}}
                   >
                     <i className="bi bi-arrows-move me-2" />
                     <span className="text-nowrap hide-mobile">View Mode</span>
@@ -215,42 +215,13 @@ const AdSpace: React.FunctionComponent = () => {
           </div>
 
           <div className="g-main g-s">
-            {/* <Minimap
-              selector=".box"
-              keepAspectRatio={checked}
-            > */}
-
             <div
               ref={cAreaRef}
               className="canvas-box  hoverable"
               id="container"
             >
               <canvas id="adcanvass"></canvas>
-              {/* <div style={{ width: "10000px", height: "10000px"}}> */}
-
-                  {/* <svg width="10000px" height="10000px" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <pattern
-                        id="smallGrid"
-                        width={10}
-                        height={10}
-                        patternUnits="userSpaceOnUse"
-                      >
-                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" strokeWidth="0.5" />
-                      </pattern>
-                      <pattern id="grid" width={100} height={100} patternUnits="userSpaceOnUse">
-                        <rect width={100} height={100} fill="url(#smallGrid)" />
-                        <path d="M 100 0 L 0 0 0 100" fill="none" stroke="gray" strokeWidth={2} />
-                      </pattern>
-                    </defs>
-                    <rect width="100%" height="100%" fill="url(#grid)" />
-                  </svg> */}
-
                 </div>
-
-            {/* </div> */}
-
-            {/* </Minimap> */}
           </div>
 
 

@@ -1,4 +1,5 @@
 import { fabric } from 'fabric'
+import { withRouter } from 'next/router'
 import { setLand, setLandData } from '../../components/reducers/Settings'
 import { store } from '../../components/store'
 let h = 10,
@@ -434,9 +435,10 @@ const onObjectMoving = (options) => {
 export const setBuyStateModal = async(value) => {
     buyStatuse = value
     if (value) {
-        await animateTransition(locationPointer.left, locationPointer.top)
         c.set({ hoverCursor: 'move' })
+        animateTransition(locationPointer.left, locationPointer.top + rect.height + 1, 'buy')
         c.add(rect)
+
         adGroup.set({
             lockMovementX: true,
             lockMovementY: true,
@@ -446,14 +448,17 @@ export const setBuyStateModal = async(value) => {
             top: locationPointer.top,
         })
         rect.setCoords()
-        c.remove(locationPointer)
+
         c.renderAll()
     } else {
-        c.set({ hoverCursor: 'grab' })
+
+        animateTransition(rect.left, rect.top + 1, 'view')
+
         adGroup.set({
             lockMovementX: false,
             lockMovementY: false,
         })
+        c.set({ hoverCursor: 'grab' })
         c.add(locationPointer)
 
         rect.set({
@@ -461,8 +466,6 @@ export const setBuyStateModal = async(value) => {
             top: -500,
         })
         rect.setCoords()
-        c.remove(rect)
-        adGroup.remove(rect)
         c.remove(adGroup)
         c.add(adGroup)
 
@@ -470,32 +473,34 @@ export const setBuyStateModal = async(value) => {
     }
 }
 
-const animateTransition = (left, top) => {
+const animateTransition = (left, top, type) => {
     for (var i = 1; i < 5; i++) {
-        var clickedPulse = new fabric.Circle({
-            radius: 5,
-            fill: 'rgba(0,0,0,0)',
-            stroke: 'rgba(0,0,0,' + (1 - i / 4) + ')',
-            strokeWidth: 2,
-            left: left,
+
+        let stringMessage = `You are on ${type} Mode`;
+
+        var clickedPulse = new fabric.Text(stringMessage, {
+            fontWeight: 'bold',
+            fill: '#a301b9',
             top: top,
-            selectable: false,
-            hasBorders: false,
-            hasControls: false,
-            originX: 'center',
-            originY: 'center',
-        })
+            left: left,
+            fontSize: 4
+
+        });
 
         c.add(clickedPulse)
+
         clickedPulse.animate({
-            radius: 10 - i,
+            // radius: 10 - i,
             opacity: 0,
         }, {
-            onChange: c.renderAll.bind(c),
+            // onChange: c.renderAll.bind(c),
             duration: 600 + i * 200,
-
             onComplete: function() {
-                c.remove(locationPointer)
+                if (type == 'buy') {
+                    c.remove(locationPointer)
+                } else {
+                    c.remove(rect)
+                }
                 c.remove(clickedPulse)
                 c.renderAll()
             },
