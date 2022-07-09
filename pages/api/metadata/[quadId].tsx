@@ -12,7 +12,7 @@ export default function handler(req, res) {
     attributes: [
       { trait_type: 'Row', value: x.toString() },
       { trait_type: 'Column', value: y.toString() },
-      { trait_type: 'QuadSpace', value: req.query.quadId },
+      { trait_type: 'QuadSpace', value: req.query.quadId }
     ],
   })
 }
