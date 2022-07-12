@@ -341,7 +341,7 @@ const onWheel = (opt) => {
     zoom *= 0.999 ** delta
     if (zoom > 60) zoom = 20
     if (zoom < 0.01) zoom = 0.01
-    if (zoom > 0 && zoom < 15) c.zoomToPoint({ x: 0, y: 0 }, zoom)
+    if (zoom > 1.2 && zoom < 15) c.zoomToPoint({ x: 0, y: 0 }, zoom)
     opt.e.preventDefault()
     opt.e.stopPropagation()
 
