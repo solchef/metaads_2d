@@ -103,39 +103,6 @@ export const loadGrid = (mintingData) => {
         moveCursor: 'grabbing',
     })
 
-    fabric.Image.fromURL('/adspace.svg', function(myImg) {
-        const size = document.getElementById('container').getBoundingClientRect()
-        let scaleX = 1600 / myImg.width;
-        let scaleY = 625 / myImg.height;
-
-
-        var img1 = myImg.set({
-            left: 0,
-            top: 0,
-            scaleX: scaleX,
-            scaleY: scaleY
-        });
-        if (c) {
-            // c.add(img1);
-
-        }
-        // map = img1
-        // return map;
-        adGroup = new fabric.Group([img1, ...rects], {
-            objectCaching: false,
-            hasControls: false,
-            name: "adboard"
-
-        })
-
-        c.add(adGroup);
-
-        // imageLoaded = true;
-    });
-
-
-    // console.log(lineList)
-
     const rects = []
     const purchased = []
 
@@ -150,7 +117,7 @@ export const loadGrid = (mintingData) => {
     mintingData.walletQuads.forEach((own) => {
         let x = Math.ceil(Number(own) / 1000)
         let y = Number(own) % 1000
-        const quad = drawRect({ fill: '#f0ad4e' })
+        const quad = drawRect({ fill: '#f0ad4e', top: own[0] * 1, left: own[0] * 1 })
         rects.push(quad)
     })
 
@@ -165,6 +132,26 @@ export const loadGrid = (mintingData) => {
         })
         rects.push(rect2)
     })
+
+    fabric.Image.fromURL('/adspace.svg', function(myImg) {
+        const size = document.getElementById('container').getBoundingClientRect()
+        let scaleX = 1600 / myImg.width;
+        let scaleY = 625 / myImg.height;
+
+        var img1 = myImg.set({
+            left: 0,
+            top: 0,
+            scaleX: scaleX,
+            scaleY: scaleY
+        });
+
+        adGroup = new fabric.Group([img1, ...rects], {
+            objectCaching: false,
+            hasControls: false,
+            name: "adboard"
+        })
+        c.add(adGroup);
+    });
 
     c.zoomToPoint({ x: 0, y: 0 }, c.getZoom() * 1.2)
     c.add(locationPointer)
