@@ -246,6 +246,7 @@ const onMouseUp = (o) => {
     }
 
     locationPointer.setCoords()
+
     if (mobile) {
       // console.log(x, y)
       // c.remove(rect)

@@ -93,13 +93,32 @@ export default async function handler(req, res) {
   owned.forEach(async (nft) => {
     let x = Number(nft) % 16000
     let y = Math.ceil(Number(nft) / 6250)
-    const quad = await new fabric.Rect({
-      top: nft[0] * scaler,
-      left: nft[1] * scaler,
-      height: 2000,
-      width: 2500,
-      fill: '#7b0000',
-      selection: false,
+    // const quad = await new fabric.Rect({
+    //   top: nft[0] * scaler,
+    //   left: nft[1] * scaler,
+    //   height: 2000,
+    //   width: 2500,
+    //   fill: '#7b0000',
+    //   selection: false,
+    // })
+
+    await fabric.Image.fromURL('public/soldout.svg', async function (oImg) {
+      let scaleX = 2500 / oImg.width
+      let scaleY = 2000 / oImg.height
+      oImg.set({
+        left: nft[0],
+        top: nft[1],
+        scaleX: scaleX,
+        scaleY: scaleY,
+      })
+      //   console.log(oImg)
+      await c.add(oImg)
+      // await c.renderAll()
+
+      // finalImage = c.toSVG()
+
+      // let pathToWriteImage = 'public/adspace.svg'
+      // await fs.writeFileSync(pathToWriteImage, finalImage)
     })
 
     // let splitters = await splitLand(quad.width, quad.height, x, y)
@@ -117,8 +136,8 @@ export default async function handler(req, res) {
     // pieces.push(quad)
 
     // console.log(pieces)
-    console.log(quad)
-    c.add(quad)
+    // console.log(quad)
+    // c.add(quad)
   })
 
   let finalImage
