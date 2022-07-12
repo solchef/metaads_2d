@@ -111,19 +111,17 @@ export const loadGrid = (mintingData) => {
     rects.push(quad)
   })
 
-  fabric.Image.fromURL('https://quadspace.io/adspace.svg', function (myImg) {
-    const size = document.getElementById('container').getBoundingClientRect()
-    let scaleX = 1600 / myImg.width
-    let scaleY = 625 / myImg.height
-
-    var img1 = myImg.set({
+  fabric.loadSVGFromURL('/adspace.svg', function (objects) {
+    var shapeObject = fabric.util.groupSVGElements(objects)
+    shapeObject.set({
       left: 0,
       top: 0,
-      scaleX: scaleX,
-      scaleY: scaleY,
+      scaleX: 1600 / 16000,
+      scaleY: 625 / 6250,
+      objectCaching: false,
     })
 
-    adGroup = new fabric.Group([img1, ...rects], {
+    adGroup = new fabric.Group([shapeObject, ...rects], {
       objectCaching: false,
       hasControls: false,
       name: 'adboard',
