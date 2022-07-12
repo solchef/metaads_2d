@@ -90,55 +90,17 @@ export default async function handler(req, res) {
   //quadmints
   let pieces = []
 
-  owned.forEach(async (nft) => {
-    let x = Number(nft) % 16000
-    let y = Math.ceil(Number(nft) / 6250)
-    // const quad = await new fabric.Rect({
-    //   top: nft[0] * scaler,
-    //   left: nft[1] * scaler,
-    //   height: 2000,
-    //   width: 2500,
-    //   fill: '#7b0000',
-    //   selection: false,
-    // })
-
-    await fabric.Image.fromURL('public/soldout.svg', async function (oImg) {
-      let scaleX = 2500 / oImg.width
-      let scaleY = 2000 / oImg.height
-      oImg.set({
-        left: nft[0],
-        top: nft[1],
-        scaleX: scaleX,
-        scaleY: scaleY,
-      })
-      //   console.log(oImg)
-      await c.add(oImg)
-      // await c.renderAll()
-
-      // finalImage = c.toSVG()
-
-      // let pathToWriteImage = 'public/adspace.svg'
-      // await fs.writeFileSync(pathToWriteImage, finalImage)
-    })
-
-    // let splitters = await splitLand(quad.width, quad.height, x, y)
-
-    // const splittedLand = new fabric.Group([[...splitters], quad], {
-    //   objectCaching: false,
-    //   hasControls: false,
-    //   name: 'adboard',
-    // })
-    // //   console.log(quad)
-    // console.log(splitters)
-    // c.add(splittedLand)
-
-    // c.renderAll()
-    // pieces.push(quad)
-
-    // console.log(pieces)
-    // console.log(quad)
-    // c.add(quad)
-  })
+  // owned.forEach(async (nft) => {
+  //   let x = Number(nft) % 16000
+  //   let y = Math.ceil(Number(nft) / 6250)
+  // const quad = await new fabric.Rect({
+  //   top: nft[0] * scaler,
+  //   left: nft[1] * scaler,
+  //   height: 2000,
+  //   width: 2500,
+  //   fill: '#7b0000',
+  //   selection: false,
+  // })
 
   let finalImage
   await fabric.Image.fromURL(
@@ -153,6 +115,21 @@ export default async function handler(req, res) {
         scaleY: scaleY,
       })
       //   console.log(oImg)
+      await fabric.Image.fromURL(
+        'https://quadspace.io/soldout.svg',
+        async function (oImg) {
+          let imgs = []
+          await owned.forEach((own) => {
+            let img = new oImg.set({
+              left: own[0],
+              top: own[1],
+            })
+            imgs.push(img)
+          })
+          c.add([...imgs])
+        }
+      )
+
       await c.add(oImg)
       await c.renderAll()
 
@@ -164,6 +141,7 @@ export default async function handler(req, res) {
   )
 
   console.log(finalImage)
+
   //   c.add(img)
   //   console.log(await c.getObjects())
 
