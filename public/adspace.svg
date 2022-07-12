@@ -838,6 +838,7 @@
 <g transform="matrix(1 0 0 1 8000.5 3120.5)"  >
 <rect style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(123,0,0); fill-rule: nonzero; opacity: 1;"  x="-1250" y="-1000" rx="0" ry="0" width="2500" height="2000" />
 </g>
-<g transform="matrix(Infinity NaN NaN Infinity 0 0)"  >
+<g transform="matrix(1 0 0 1 8000 3125)"  >
+	<image style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"  xlink:href="https://quadspace.io/blank.svg" x="-8000" y="-3125" width="16000" height="6250"></image>
 </g>
 </svg>

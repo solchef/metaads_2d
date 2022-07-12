@@ -123,7 +123,7 @@ export default async function handler(req, res) {
 
   let finalImage
   await fabric.Image.fromURL(
-    'https://raw.githubusercontent.com/FaniTrade-Investment-L-L-C/metaads_2d/develop/public/adspace.svg?token=GHSAT0AAAAAABSEFLIXZCKXZHQ5ZR6XYLBMYWNSVTA',
+    'https://quadspace.io/blank.svg',
     async function (oImg) {
       let scaleX = 16000 / oImg.width
       let scaleY = 6250 / oImg.height
