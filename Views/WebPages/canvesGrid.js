@@ -1,5 +1,4 @@
 import { fabric } from 'fabric'
-import { withRouter } from 'next/router'
 import { setLand, setLandData } from '../../components/reducers/Settings'
 import { store } from '../../components/store'
 let h = 10,
@@ -13,19 +12,17 @@ let mouseIsMoved = false
 let mobile = false
 let recMove = false
 let adGroup
-var imageLoaded = false;
 let allowPositioning = true;
 
 const rectlist = []
 
 const owned = [
     [0, 0],
-    [900, 900],
-    [900, 0],
-    [0, 900],
-    [450, 450],
+    [0, 1350],
+    [425, 0],
+    [425, 1350],
+    [212, 675]
 ]
-
 
 var options = {
     distance: 1,
@@ -41,7 +38,6 @@ var options = {
     },
 }
 
-
 const rect = new fabric.Rect({
     height: h,
     width: w,
@@ -54,6 +50,7 @@ const rect = new fabric.Rect({
     lockRotation: true,
     hasControls: false,
 })
+
 
 const locationPointer = new fabric.Rect({
     height: 1,
@@ -68,6 +65,22 @@ const locationPointer = new fabric.Rect({
     hasControls: false,
 })
 
+const drawRect = (params) => {
+    const quad = new fabric.Rect({
+        top: x * options.distance - 0.5,
+        left: y * options.distance - 0.5,
+        height: options.distance,
+        width: options.distance,
+        fill: params.fill,
+        selection: false,
+    })
+
+    return quad;
+}
+
+
+
+
 const loadEvents = () => {
     c.on('mouse:wheel', onWheel, { passive: true })
     c.on('object:moving', onObjectMoving, { passive: true })
@@ -75,66 +88,9 @@ const loadEvents = () => {
     c.on('mouse:up', onMouseUp, { passive: true })
     c.on('object:modified', onObjectModified, { passive: true })
     c.on('mouse:move', onMouseMove, { passive: true })
-    c.on('after:render', function() {
-        c.calcOffset()
-    })
+
 }
 
-
-const lineList = (params) => {
-    const lines = []
-    for (var i = 0; i < 1000; i++) {
-        var distance = i * options.distance,
-            horizontal = new fabric.Line(
-                [distance, 0, distance, options.width],
-                params
-            ),
-            vertical = new fabric.Line(
-                [0, distance, options.width, distance],
-                params
-            )
-        lines.push(horizontal)
-        lines.push(vertical)
-    }
-
-    return lines;
-}
-
-let map;
-fabric.Image.fromURL('/adspace.svg', function(myImg) {
-    const size = document.getElementById('container').getBoundingClientRect()
-
-    var img1 = myImg.set({
-        left: 0,
-        top: 0,
-        scaleX: 1000 / 10000,
-        scaleY: 1000 / 10000
-    });
-    // c.add(img1);
-    map = img1
-        // return map;
-    imageLoaded = true;
-});
-
-function addGroup(rects) {
-    if (!imageLoaded) {
-        // Image not loaded yet, need to wait
-        setTimeout(function() { addGroup() }, 100);
-        return;
-    }
-    // Ok we have the image, can add to group/canvas
-    adGroup = new fabric.Group([map, ...rects], {
-        objectCaching: false,
-        hasControls: false,
-
-    })
-
-    adGroup.set({
-        left: -109,
-        top: -70,
-    })
-    c.add(adGroup)
-}
 
 export const loadGrid = (mintingData) => {
     const size = document.getElementById('container').getBoundingClientRect()
@@ -147,6 +103,36 @@ export const loadGrid = (mintingData) => {
         moveCursor: 'grabbing',
     })
 
+    fabric.Image.fromURL('/adspace.svg', function(myImg) {
+        const size = document.getElementById('container').getBoundingClientRect()
+        let scaleX = 1600 / myImg.width;
+        let scaleY = 625 / myImg.height;
+
+
+        var img1 = myImg.set({
+            left: 0,
+            top: 0,
+            scaleX: scaleX,
+            scaleY: scaleY
+        });
+        if (c) {
+            // c.add(img1);
+
+        }
+        // map = img1
+        // return map;
+        adGroup = new fabric.Group([img1, ...rects], {
+            objectCaching: false,
+            hasControls: false,
+            name: "adboard"
+
+        })
+
+        c.add(adGroup);
+
+        // imageLoaded = true;
+    });
+
 
     // console.log(lineList)
 
@@ -156,50 +142,31 @@ export const loadGrid = (mintingData) => {
     mintingData.otherQuads.forEach((all) => {
         let x = Math.ceil(Number(all) / 1000)
         let y = Number(all) % 1000
-
-        const rect2 = new fabric.Rect({
-            top: x * options.distance - 0.5,
-            left: y * options.distance - 0.5,
-            height: options.distance,
-            width: options.distance,
-            fill: '#7b0000',
-            selection: false,
-        })
-        rects.push(rect2)
+        const quad = drawRect({ fill: '#7b0000' })
+        rects.push(quad)
     })
+
 
     mintingData.walletQuads.forEach((own) => {
         let x = Math.ceil(Number(own) / 1000)
         let y = Number(own) % 1000
-
-        const rect2 = new fabric.Rect({
-            top: x * options.distance - 0.5,
-            left: y * options.distance - 0.5,
-            height: options.distance,
-            width: options.distance,
-            fill: '#f0ad4e',
-            selection: false,
-        })
-        rects.push(rect2)
+        const quad = drawRect({ fill: '#f0ad4e' })
+        rects.push(quad)
     })
 
     owned.forEach((purchase) => {
         const rect2 = new fabric.Rect({
             top: purchase[0] * 1 - 0.5,
             left: purchase[1] * 1 - 0.5,
-            height: 100,
-            width: 100,
+            height: 200,
+            width: 250,
             fill: '#7b0000',
             selection: false,
         })
         rects.push(rect2)
-            // c.add(rect2)
     })
 
-
-    addGroup(rects)
-
-    c.zoomToPoint({ x: 0, y: 0 }, c.getZoom() * 15.0)
+    c.zoomToPoint({ x: 0, y: 0 }, c.getZoom() * 1.2)
     c.add(locationPointer)
     loadEvents()
 }
@@ -240,22 +207,22 @@ const onMouseMove = (e) => {
     y = Math.round(pointer.y / 1);
 
     if (rectlist.length === 0 && buyStatuse) {
-        // rect.set({
-        //     left: x,
-        //     top: y,
-        // })
-        // rect.setCoords()
-        // c.renderAll()
+        rect.set({
+            left: x,
+            top: y,
+        })
+        rect.setCoords()
+        c.renderAll()
     } else {
         if (mouseIsDown) {
-            // if (recMove) {
-            //     const elem = c.getItemByName('defaultSelector')
-            //         // console.log(x - 500)
-            //     elem.set({
-            //         left: x,
-            //         top: y,
-            //     })
-            // }
+            if (recMove) {
+                const elem = c.getItemByName('defaultSelector')
+                    // console.log(x - 500)
+                elem.set({
+                    left: x,
+                    top: y,
+                })
+            }
         }
     }
     x = rect.left
@@ -406,7 +373,7 @@ const onWheel = (opt) => {
         zoom *= 0.999 ** delta
         if (zoom > 60) zoom = 20
         if (zoom < 0.01) zoom = 0.01
-        if (zoom > 2.35 && zoom < 15) c.zoomToPoint({ x: 0, y: 0 }, zoom)
+        if (zoom > 0 && zoom < 15) c.zoomToPoint({ x: 0, y: 0 }, zoom)
         opt.e.preventDefault()
         opt.e.stopPropagation()
 
@@ -428,10 +395,10 @@ const onObjectMoving = (options) => {
     }
     x = Math.round(options.target.left / 1) * 1
     y = Math.round(options.target.top / 1) * 1
+    if (options.target.name === "adboard") {
 
-    if (options.target.name === undefined) {
-        const maxNumberX = c.vptCoords.br.x - 1001
-        const maxNumberY = c.vptCoords.br.y - 1001
+        const maxNumberX = c.vptCoords.br.x - 1600
+        const maxNumberY = c.vptCoords.br.y - 625
 
         if (options.target.left >= maxNumberX) {
             if (Math.sign(options.target.left) !== 1) {
