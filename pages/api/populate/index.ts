@@ -18,30 +18,26 @@ export default async function handler(req, res) {
 
   let scaler = 10
 
-  const splitLand = (width, height, x, y) => {
-    const landSplitter = []
-
-    for (var i = 0; i < height; i++) {
-      var distance = i * options.distance,
-        horizontal = new fabric.Line(
-          [distance, 0, distance, width],
-          options.param
-        ),
-        vertical = new fabric.Line(
-          [0, distance, height, distance],
-          options.param
-        )
-      landSplitter.push(horizontal)
-      landSplitter.push(vertical)
-    }
-
-    return landSplitter
-  }
+  // const splitLand = () => {
+  //   for (var i = 0; i < 200; i++) {
+  //     for (var j = 0; j < 250; j++) {
+  //       let horizontal = new fabric.Rect({
+  //         top: i * 10,
+  //         left: j * 10,
+  //         height: 1 * scaler,
+  //         width: 1 * scaler,
+  //         fill: '#7b0000',
+  //         selection: false,
+  //       })
+  //       c.add(horizontal)
+  //     }
+  //   }
+  // }
 
   let minted = await MetaadsContractUnsigned.occupiedList()
+
   let rects = []
-  let quadmints = []
-  const owned = [
+  const quadmints = [
     [0, 0],
     [0, 1350],
     [425, 0],
@@ -49,25 +45,7 @@ export default async function handler(req, res) {
     [212, 675],
   ]
 
-  let soldOutHeight = 200
-
-  let soldOutWidth = 250
-
   let c = new fabric.StaticCanvas(null, { width: 16000, height: 6250 })
-
-  // await owned.forEach((own) => {
-  //   let squrePos = own[0] * 1000 + own[1]
-
-  //   for (
-  //     let ownedquad = squrePos;
-  //     ownedquad < squrePos + soldOutWidth;
-  //     ownedquad++
-  //   ) {
-  //     for (let i = 0; i < soldOutHeight; i++) {
-  //       quadmints.push(ownedquad + i * 1000)
-  //     }
-  //   }
-  // })
 
   //   contractmints
   minted.forEach(async (nft) => {
@@ -82,27 +60,32 @@ export default async function handler(req, res) {
       fill: '#7b0000',
       selection: false,
     })
-    //   console.log(quad)
     c.add(quad)
-    // rects.push(quad)
   })
 
   //quadmints
   let pieces = []
 
-  // owned.forEach(async (nft) => {
-  //   let x = Number(nft) % 16000
-  //   let y = Math.ceil(Number(nft) / 6250)
-  // const quad = await new fabric.Rect({
-  //   top: nft[0] * scaler,
-  //   left: nft[1] * scaler,
-  //   height: 2000,
-  //   width: 2500,
-  //   fill: '#7b0000',
-  //   selection: false,
-  // })
+  let finalImage: any
+  let soldoutland: any
 
-  let finalImage
+  quadmints.forEach((q) => {
+    console.log(q)
+
+    fabric.Image.fromURL(
+      'https://faniasets.s3.us-east-2.amazonaws.com/assets/images/soldoutrep.png',
+      function (myImg) {
+        var img1 = myImg.set({
+          left: q[1] * scaler - scaler,
+          top: q[0] * scaler - scaler,
+          width: 2500,
+          height: 2000,
+        })
+        c.add(img1)
+      }
+    )
+  })
+
   await fabric.Image.fromURL(
     'https://quadspace.io/blank.svg',
     async function (oImg) {
@@ -114,21 +97,6 @@ export default async function handler(req, res) {
         scaleX: scaleX,
         scaleY: scaleY,
       })
-      //   console.log(oImg)
-      await fabric.Image.fromURL(
-        'https://quadspace.io/soldout.svg',
-        async function (oImg) {
-          let imgs = []
-          await owned.forEach((own) => {
-            let img = new oImg.set({
-              left: own[0],
-              top: own[1],
-            })
-            imgs.push(img)
-          })
-          c.add([...imgs])
-        }
-      )
 
       await c.add(oImg)
       await c.renderAll()
@@ -137,31 +105,8 @@ export default async function handler(req, res) {
 
       let pathToWriteImage = 'public/adspace.svg'
       await fs.writeFileSync(pathToWriteImage, finalImage)
+
+      res.end(c.toSVG())
     }
   )
-
-  console.log(finalImage)
-
-  //   c.add(img)
-  //   console.log(await c.getObjects())
-
-  //   fabric.log('Normal SVG output: ', c.toSVG())
-
-  //   let finalImage = await c.toSVG()
-  //   const finalImage = await c.toBuffer('image/svg')
-
-  //   await fs.writeFile(pathToWriteImage, finalImage, (err) => {
-  //     // console.log(finalImage)
-  //     if (err) console.log(err)
-  //     else {
-  //       //   console.log('File written successfully\n')
-  //       //   console.log('The written has the following contents:')
-  //       //   console.log(fs.readFileSync(pathToWriteImage, 'utf8'))
-  //     }
-  //   })
-
-  //   res.status(200).json({ response: true, message: 'gg' })
-  //   return finalImage
-
-  res.end(c.toSVG())
 }
