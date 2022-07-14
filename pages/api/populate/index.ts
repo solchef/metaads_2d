@@ -76,8 +76,8 @@ export default async function handler(req, res) {
       'https://faniasets.s3.us-east-2.amazonaws.com/assets/images/soldoutrep.png',
       function (myImg) {
         var img1 = myImg.set({
-          left: q[1] * scaler - scaler,
-          top: q[0] * scaler - scaler,
+          left: q[1] * scaler,
+          top: q[0] * scaler,
           width: 2500,
           height: 2000,
         })
