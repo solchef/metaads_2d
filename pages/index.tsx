@@ -10,9 +10,9 @@ const AdSpace = dynamic(() => import('../Views/AdSpace'), {
 const Home = () => {
   return (
     <>
-      <SliderSection />
+      {/* <SliderSection /> */}
       <AdSpace />
-      <InfoSection />
+      {/* <InfoSection /> */}
     </>
   )
 }
