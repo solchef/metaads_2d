@@ -44,8 +44,9 @@ export const handleMint = async (
       mintableids.push(quad + i * 1000)
     }
   }
-  console.log(mintImage)
+  // console.log(mintImage)
 
+  // update image to ipfs storage and get the CID
   const img = await uploadImage(mintImage)
   // update the metadata fields
   const metadata = await uploadMetadata(
@@ -55,9 +56,7 @@ export const handleMint = async (
     land.x,
     land.y
   )
-
-  console.log(metadata)
-
+  // console.log(metadata)
   if (!metadata) {
     ErrorTransaction({
       title: 'Metadata Error ',
@@ -65,11 +64,41 @@ export const handleMint = async (
     })
     return
   }
+  //create parcel
+  const parcel = {
+    name: name,
+    QuadDescription: QuadDescription,
+    image: img,
+    coordX: land.x,
+    coordY: land.y,
+    parcelWidth: land.w,
+    parcelHeight: land.h,
+    parcelIds: mintableids,
+  }
+
+  let response = await fetch('/api/metadata/parcels', {
+    method: 'POST',
+    body: JSON.stringify(parcel),
+  })
+
+  console.log(response)
+
+  if (!response) {
+    ErrorTransaction({
+      title: 'Parcel creation error ',
+      description:
+        'Proceeding would result to a not well minted parce. Try again after some time.',
+    })
+
+    return
+  }
 
   InfoMessage({
     title: 'Public Minting',
     description: 'Public Minting is about to begin. ',
   })
+
+  // update database storage
 
   return
 
