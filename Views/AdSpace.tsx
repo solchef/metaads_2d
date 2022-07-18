@@ -2,20 +2,23 @@ import { Fragment, useEffect, useState } from 'react'
 import useCanvas from '../hooks/useCanvas'
 import PurchaseSection from './WebPages/PurchaseSection'
 import Link from 'next/link'
+
+// import {
+//   fitScrean,
+//   // getViewLocation,
+//   // getZoomLevel,
+//   // loadGrid,
+//   // setBuyStateModal,
+//   zoomIn,
+//   zoomOut,
+// } from './WebPages/canvesGrid'
+
 import StepWizard from 'react-step-wizard'
 import FormOne from '../components/FormOne'
 import FormTwo from '../components/FormTwo'
 import FormThree from '../components/FormThree'
 import FormFour from '../components/FormFour'
-import {
-  fitScrean,
-  getViewLocation,
-  getZoomLevel,
-  loadGrid,
-  setBuyStateModal,
-  zoomIn,
-  zoomOut,
-} from './WebPages/canvesGrid'
+
 import { useWeb3Context } from '../context'
 import { QuadSpaceContract } from '../utils/constants'
 import { selectLand } from '../components/reducers/Settings'
@@ -23,11 +26,12 @@ import { useAppSelector } from '../components/store/hooks'
 import Minimap, { Child as ChildComponent } from 'react-minimap'
 import 'react-minimap/dist/react-minimap.css'
 import { MetaadsContractUnsigned } from '../utils/readOnly'
+import { MapView } from './WebPages/Map'
 const AdSpace: React.FunctionComponent = () => {
   const { address, contracts } = useWeb3Context()
   const landData = useAppSelector(selectLand)
-  const [zoomLevel, setZoomLevel] = useState();
-  const viewPoint = getViewLocation()
+  const [zoomLevel, setZoomLevel] = useState()
+  // const viewPoint = getViewLocation()
   const { cAreaRef, squreInfo, setEnableBuy } = useCanvas()
   const [mintingData, setMintingData] = useState({
     walletQuads: [],
@@ -57,19 +61,18 @@ const AdSpace: React.FunctionComponent = () => {
       otherQuads: allMintedIds,
     })
     if (allMintedIds.length > 0) {
-      loadGrid({ walletQuads: walletNfts, otherQuads: allMintedIds })
+      // loadGrid({ walletQuads: walletNfts, otherQuads: allMintedIds })
     }
   }
 
   useEffect(() => {
-    loadMintingData()
+    // loadMintingData()
   }, [squreInfo])
 
-  useEffect(() => {
-
-    setZoomLevel(getZoomLevel())
-    // console.log(viewPoint)
-  }, [getZoomLevel()])
+  // useEffect(() => {
+  //   setZoomLevel(getZoomLevel())
+  //   // console.log(viewPoint)
+  // }, [getZoomLevel()])
 
   const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [show, setShow] = useState(false)
@@ -78,11 +81,11 @@ const AdSpace: React.FunctionComponent = () => {
   const [buyState, setBuyState] = useState(false)
 
   const offcanvasLeft = () => {
-    setBuyState(!buyState)
+    // setBuyState(!buyState)
     setIsCanvasLeft(!isCanvasLeft)
     setIsCanvasRight(false)
     setIsCanvasBottem(false)
-    setBuyStateModal(!buyState)
+    // setBuyStateModal(!buyState)
     // loadGrid(mintingData)
   }
 
@@ -230,19 +233,16 @@ const AdSpace: React.FunctionComponent = () => {
               className="canvas-box  hoverable"
               id="container"
             >
-              <canvas id="adcanvass"></canvas>
+              {/* <canvas id="adcanvass"></canvas> */}
+              <MapView />
             </div>
           </div>
-
-
-
         </section>
         <div className="space-details   show-mobile p-4 px-5">
           <div className="controls controls-mobile">
             <div className="d-flex gap-g flex-row-inverse justify-content-between align-items-center wrap-flow">
-
               <div className="right-controls d-flex">
-                <div className='me-2'>
+                <div className="me-2">
                   <Link href="/space">
                     <button className="btn btn-primary btn-lg hoverable">
                       <i className="px-2 bi bi-info-circle"></i>
@@ -251,66 +251,51 @@ const AdSpace: React.FunctionComponent = () => {
                 </div>
                 <div className="buttons w-auto bo me-2 flex-nowrap">
                   <button
-
-
                     className={`btn btn-bi d-flex toggle-mode align-items-center w-100 position-relative m-0 btn-primary btn-lg 
                       `}
-
                   >
                     <i
                       className="bi bi-cart-fill px-2"
-                    // style={{ marginTop: '-5px' }}
+                      // style={{ marginTop: '-5px' }}
                     />{' '}
                     <span className="text-nowrap  hide-mobile"> Buy Mode</span>
                   </button>
                   <button
-
-
                     className={`btn btn-bi d-flex flex-nowrap toggle-mode  
                     } align-items-center accordion w-100 position-relative btn-primary `}
-
                   >
                     <i className="px-2 bi bi-arrows-move " />
                     <span className="text-nowrap hide-mobile">View Mode</span>
                   </button>
                 </div>
                 <div className="buttons bo flex-nowrap">
-                  <button
-                    className="btn btn-bi hoverable btn-primary m-0 btn-lg "
-
-                  >
+                  <button className="btn btn-bi hoverable btn-primary m-0 btn-lg ">
                     <i className="px-1 bi-zoom-out" />
                   </button>
                   <button
                     className="btn btn-bi  m-0 btn-lg "
                     style={{ color: '#fff' }}
                   >
-                    <span className='px-1'>
-                      1X
-                    </span>
+                    <span className="px-1">1X</span>
                   </button>
-                  <button
-                    className="btn btn-bi btn-primary hoverable btn-lg "
-
-                  >
+                  <button className="btn btn-bi btn-primary hoverable btn-lg ">
                     <i className="px-1 bi-zoom-in " />
                   </button>
                 </div>
                 <div className="buttons flex-nowrap ">
-                  <button
-                    className="btn hoverable btn-primary btn-lg "
-                  >
+                  <button className="btn hoverable btn-primary btn-lg ">
                     <i className="px-2 bi-arrow-clockwise " />
                   </button>
                   <Link href="/space">
                     <button className="btn btn-primary btn-lg hoverable">
-                      <span className='px-2'>3D</span>
+                      <span className="px-2">3D</span>
                     </button>
                   </Link>
                 </div>
               </div>
             </div>
           </div>
+
 
           
 {/* add here the content */}
@@ -361,11 +346,6 @@ const AdSpace: React.FunctionComponent = () => {
                     
                 }
 
-
-
-
-
-
         {/* forimage info 
 
               <div className="d-flex flex-wrap image-info  flex-column">
@@ -412,7 +392,6 @@ const AdSpace: React.FunctionComponent = () => {
 
 
 
-
        {/* this for sale
 
 
@@ -435,12 +414,8 @@ const AdSpace: React.FunctionComponent = () => {
             
             }
 
-
-
-
-
-
         {/* this for about
+
 
             <h3 >ABOUT MDW </h3>
                       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. At natus assumenda dolore provident ad eaque dolorem magni quod praesentium, accusantium ipsa sit, quaerat nulla qui ipsam voluptatum tenetur dicta aspernatur?</p>
