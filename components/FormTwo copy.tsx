@@ -5,19 +5,12 @@ const FormTwo = (props) => {
     <>
       <h3 className="text-white mb-4">STEP 2 - PICK LOT LOCATION</h3>
 
-      <form className="btn-slide">
-                <div className="input-group hoverable mb-4">
-                    <span className="input-group-text ">
-                        <i className="bi bi-geo-alt"></i>
-                    </span>
-                    <input
-                        type="text"
-                        placeholder="Sq. NFT Name"
-
-                        className="form-control"
-                    />
-                </div>
-      </form>
+      <div className="btn-slide">
+        <p>
+          You can <i className=" bi-arrows-move " /> drag your plot to the
+          desired location.
+        </p>
+      </div>
 
       <div className="d-flex justify-content-between mt-2">
         <div className="d-flex cir">
