@@ -24,7 +24,8 @@ export const handleMint = async (
       yProp: any
     ): Promise<string>
     (arg0: any, arg1: string, arg2: any, arg3: any, arg4: any): any
-  }
+  },
+  uploadImage
 ) => {
   if (!name) {
     ErrorTransaction({
@@ -43,17 +44,19 @@ export const handleMint = async (
       mintableids.push(quad + i * 1000)
     }
   }
+  console.log(mintImage)
 
+  const img = await uploadImage(mintImage)
   // update the metadata fields
   const metadata = await uploadMetadata(
     name,
     QuadDescription,
-    mintImage,
+    img,
     land.x,
     land.y
   )
 
-  // console.log(metadata)
+  console.log(metadata)
 
   if (!metadata) {
     ErrorTransaction({
@@ -67,6 +70,8 @@ export const handleMint = async (
     title: 'Public Minting',
     description: 'Public Minting is about to begin. ',
   })
+
+  return
 
   try {
     if (adscontract) {

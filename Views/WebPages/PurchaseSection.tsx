@@ -9,10 +9,10 @@ import { handleMint } from '../../utils/handleMint'
 import { setWidth, setHeight, getLandDefSize, getLands } from './canvesGrid'
 import { About } from './About'
 import { ImageInfo } from './ImageInfo'
- import { ImageInfoButton } from './ImageInfoButton'
-  import { Sellsection } from './Sellsection'
-  import { Editsection } from './Editsection'
-  import { Section } from './Section'
+import { ImageInfoButton } from './ImageInfoButton'
+// import { Sellsection } from './Sellsection'
+// import { Editsection } from './Editsection'
+import { Section } from './Section'
 
 function PurchaseSection({
   isCanvasLeft,
@@ -38,8 +38,6 @@ function PurchaseSection({
   const [MintImage, setMintImage] = useState(null)
   const [land, setLand] = useState<any>({})
   useEffect(() => {
-    // setEnableBuy(enableBuy)
-    // console.log(enableBuy)
     setInfo(activeItem)
   }, [activeItem, enableBuy])
 
@@ -54,8 +52,6 @@ function PurchaseSection({
 
   let squreInfo = land
   const handleSubmit = async () => {
-    // console.log(getLands()[0])
-    // const land = getLands()[0]
     const result = await handleMint(
       name,
       address,
@@ -66,7 +62,7 @@ function PurchaseSection({
       uploadImage
     )
 
-    // console.log(result)
+    console.log(result)
     // setMintStatus(minted)
   }
 
@@ -77,35 +73,36 @@ function PurchaseSection({
         data-bs-backdrop="false"
         style={{ visibility: 'visible' }}
       >
-
-        <div
-
-          className="offcanvas-title hide-mobile hoverable"
-        >
+        <div className="offcanvas-title hide-mobile hoverable">
           <div className="d-flex justify-content-between align-items-center">
             <i className="bi-flag w-50" />
             <h3 className="mb-0 text-left">THE MILLION DOLLAR WEBSITE</h3>
           </div>
 
           <hr />
-          <p>Worlds largest cooperative NFT grid where
-            you c be Square lots as low of a dollar,
-            upload your creative (image, ad, whatever
-            you want) and linked it to an URL.</p>
+          <p>
+            Worlds largest cooperative NFT grid where you c be Square lots as
+            low of a dollar, upload your creative (image, ad, whatever you want)
+            and linked it to an URL.
+          </p>
           <div className="d-flex justify-content-center">
             <i className="bi-flag" />
             <i className="bi-flag mx-2" />
             <i className="bi-flag" />
-
           </div>
         </div>
 
-      {/* <About/> */}
-      {/* <ImageInfo/> */}
-      {/* <ImageInfoButton/> */}
-{/* <Sellsection/> */}
-{/* <Editsection/> */}
- <Section/>
+        {/* <About/> */}
+        {/* <ImageInfo/> */}
+        {/* <ImageInfoButton/> */}
+        {/* <Sellsection/> */}
+        {/* <Editsection/> */}
+        <Section
+          setUrl={setUrl}
+          setName={setName}
+          setMintImage={setMintImage}
+          handleSubmit={handleSubmit}
+        />
         {/* <div className="offcanvas-body pt-5">
           <h3>SELECT LOT SIZE</h3>
 
