@@ -8,16 +8,24 @@ import {
 } from './notifications'
 
 export const handleMint = async (
-  name,
-  address,
-  adscontract,
-  getMintImage,
-  land,
-  uploadMetadata,
-  uploadImage
+  name: string,
+  address: string,
+  adscontract: {
+    mint: (arg0: any, arg1: any[], arg2: { value: string }) => any
+  },
+  mintImage: any,
+  land: { y: number; x: number; w: any; h: number },
+  uploadMetadata: {
+    (
+      name: any,
+      description: any,
+      imageURL: any,
+      xProp: any,
+      yProp: any
+    ): Promise<string>
+    (arg0: any, arg1: string, arg2: any, arg3: any, arg4: any): any
+  }
 ) => {
-  const image = await uploadImage(await getMintImage())
-
   if (!name) {
     ErrorTransaction({
       title: 'Upload Error ',
@@ -36,32 +44,30 @@ export const handleMint = async (
     }
   }
 
-  console.log(mintableids)
   // update the metadata fields
-  //  await mintableids.forEach(id => {
-  //      const metadata = uploadMetadata(
-  //        name,
-  //        QuadDescription,
-  //        image,
-  //        land.x,
-  //        land.y
-  //      )
-  //  })
-  // if (!metadata) {
-  //   ErrorTransaction({
-  //     title: 'Metadata Error ',
-  //     description: 'Metatadata could not be uploaded. Please try again later',
-  //   })
-  //   return
-  // }
-  // return mintableids
+  const metadata = await uploadMetadata(
+    name,
+    QuadDescription,
+    mintImage,
+    land.x,
+    land.y
+  )
+
+  // console.log(metadata)
+
+  if (!metadata) {
+    ErrorTransaction({
+      title: 'Metadata Error ',
+      description: 'Metatadata could not be uploaded. Please try again later',
+    })
+    return
+  }
 
   InfoMessage({
     title: 'Public Minting',
     description: 'Public Minting is about to begin. ',
   })
 
-  return
   try {
     if (adscontract) {
       let mintcost = 0.0 * mintableids.length
@@ -89,7 +95,7 @@ export const handleMint = async (
       console.log('loading transaction')
     }
   } catch (e) {
-    console.log(e)
+    // console.log(e)
     ErrorTransaction({
       title: 'An Error has Occurred',
       description: 'An error has occured and minting could not be processed',
