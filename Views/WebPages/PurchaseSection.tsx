@@ -7,6 +7,12 @@ import useCanvas from '../../hooks/useCanvas'
 import { useIPFS } from '../../hooks/useIPFS'
 import { handleMint } from '../../utils/handleMint'
 import { setWidth, setHeight, getLandDefSize, getLands } from './canvesGrid'
+import { About } from './About'
+import { ImageInfo } from './ImageInfo'
+ import { ImageInfoButton } from './ImageInfoButton'
+  import { Sellsection } from './Sellsection'
+  import { Editsection } from './Editsection'
+  import { Section } from './Section'
 
 function PurchaseSection({
   isCanvasLeft,
@@ -71,23 +77,36 @@ function PurchaseSection({
         data-bs-backdrop="false"
         style={{ visibility: 'visible' }}
       >
-        <div className="offcanvas-header">
-          <button
-            type="button"
-            onClick={() => offcanvasLeft()}
-            className="btn-close text-reset"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          />
-        </div>
+
         <div
-          style={{ padding: '30px' }}
+
           className="offcanvas-title hide-mobile hoverable"
         >
-          <i className="bi-flag" />
-          <h3 className="mb-0">PurCHASE LAND</h3>
+          <div className="d-flex justify-content-between align-items-center">
+            <i className="bi-flag w-50" />
+            <h3 className="mb-0 text-left">THE MILLION DOLLAR WEBSITE</h3>
+          </div>
+
+          <hr />
+          <p>Worlds largest cooperative NFT grid where
+            you c be Square lots as low of a dollar,
+            upload your creative (image, ad, whatever
+            you want) and linked it to an URL.</p>
+          <div className="d-flex justify-content-center">
+            <i className="bi-flag" />
+            <i className="bi-flag mx-2" />
+            <i className="bi-flag" />
+
+          </div>
         </div>
-        <div className="offcanvas-body pt-5">
+
+      {/* <About/> */}
+      {/* <ImageInfo/> */}
+      {/* <ImageInfoButton/> */}
+{/* <Sellsection/> */}
+{/* <Editsection/> */}
+ <Section/>
+        {/* <div className="offcanvas-body pt-5">
           <h3>SELECT LOT SIZE</h3>
 
           <form>
@@ -262,7 +281,7 @@ function PurchaseSection({
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <div
         data-bs-scroll="true"
