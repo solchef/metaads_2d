@@ -9,10 +9,13 @@ const Header = () => {
       <nav className="navbar sticky-top navbar-dark bg-dark">
         <div className="container-fluid py-2">
           <div>
-          <div className="d-flex ">
+            <div className="show-mobile">
+            <div className="d-flex ">
             <i className="bi-flag me-3" />
             <h3>THE MILLION <br /> DOLLAR WEBSITE</h3>
           </div>
+            </div>
+     
 
           <div className="controls hide-mobile">
             <div className="d-flex gap-g flex-row-inverse justify-content-between align-items-center wrap-flow">

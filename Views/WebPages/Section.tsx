@@ -8,35 +8,35 @@ export const Section = () => {
     return (
 
         <div className="offcanvas-body image-info pt-5 pb-5 p-0 ">
-            <h3> SQ.NFT SIZE</h3>
-<div>
-<form>
-  <div className="input-group hoverable mb-4">
-    <span className="input-group-text ">
-      <i className="bi-border" />
-    </span>
-    <input
-      type="number"
-      min="1"
-      max="1000000"
-      aria-label="x"
-      placeholder="X"
-      className="form-control"
-    />
-    <input
-      type="number"
-      aria-label="y"
-      min="1"
-      max="1000000"
-      placeholder="Y"
-      className="form-control value="
-    />
-  </div>
-</form>
-</div>
-<p>Select your NFI sq. Size (1 sq=10x10px)
-& Drag it where you want it.</p>
-<hr />
+                            <h3> SQ.NFT SIZE</h3>
+                <div>
+                <form>
+                <div className="input-group hoverable mb-4">
+                    <span className="input-group-text ">
+                    <i className="bi-border" />
+                    </span>
+                    <input
+                    type="number"
+                    min="1"
+                    max="1000000"
+                    aria-label="x"
+                    placeholder="X"
+                    className="form-control"
+                    />
+                    <input
+                    type="number"
+                    aria-label="y"
+                    min="1"
+                    max="1000000"
+                    placeholder="Y"
+                    className="form-control value="
+                    />
+                </div>
+                </form>
+                </div>
+                <p>Select your NFI sq. Size (1 sq=10x10px)
+                & Drag it where you want it.</p>
+                <hr />
             <h3> Sq.NFT DATA</h3>
 
             <div><form>

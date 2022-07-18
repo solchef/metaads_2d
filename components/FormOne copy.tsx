@@ -8,29 +8,34 @@ import {
 const FormOne = (props) => {
   return (
     <>
-      <h3 className="text-white mb-4">SQ.NFT SIZE</h3>
+      <h3 className="text-white mb-4">STEP 1 - SELECT LOT SIZE</h3>
+
       <form className="btn-slide">
-      <div className="input-group hoverable mb-4">
-    <span className="input-group-text ">
-      <i className="bi-border" />
-    </span>
-    <input
-      type="number"
-      min="1"
-      max="1000000"
-      aria-label="x"
-      placeholder="X"
-      className="form-control"
-    />
-    <input
-      type="number"
-      aria-label="y"
-      min="1"
-      max="1000000"
-      placeholder="Y"
-      className="form-control value="
-    />
-  </div>
+        <div className="input-group hoverable mb-2 ">
+          <span className="input-group-text ">
+            <i className="bi-border " />
+          </span>
+          <input
+            type="number"
+            min="1"
+            max="1000000"
+            // aria-label="x"
+            // placeholder="X"
+            onChange={(e) => setWidth(e.target.value)}
+            className="form-control "
+            defaultValue={getLandDefSize().w}
+          />
+          <input
+            type="number"
+            min="1"
+            max="1000000"
+            // aria-label="y"
+            onChange={(e) => setHeight(e.target.value)}
+            defaultValue={getLandDefSize().h}
+            // placeholder="Y"
+            className="form-control"
+          />
+        </div>
       </form>
 
       <div className="d-flex justify-content-between mt-2">
