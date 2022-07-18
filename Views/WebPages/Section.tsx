@@ -4,11 +4,40 @@
 
 
 
-export const Editsection = () => {
+export const Section = () => {
     return (
 
-        <div className="offcanvas-body image-info  pb-5 pt-5 p-0 ">
-            <h3> Edit my Sq.NFT</h3>
+        <div className="offcanvas-body image-info pt-5 pb-5 p-0 ">
+            <h3> SQ.NFT SIZE</h3>
+<div>
+<form>
+  <div className="input-group hoverable mb-4">
+    <span className="input-group-text ">
+      <i className="bi-border" />
+    </span>
+    <input
+      type="number"
+      min="1"
+      max="1000000"
+      aria-label="x"
+      placeholder="X"
+      className="form-control"
+    />
+    <input
+      type="number"
+      aria-label="y"
+      min="1"
+      max="1000000"
+      placeholder="Y"
+      className="form-control value="
+    />
+  </div>
+</form>
+</div>
+<p>Select your NFI sq. Size (1 sq=10x10px)
+& Drag it where you want it.</p>
+<hr />
+            <h3> Sq.NFT DATA</h3>
 
             <div><form>
                 <div className="input-group hoverable mb-4">
@@ -58,7 +87,7 @@ export const Editsection = () => {
                 <p className="p-0">MARK FOR SALE ON
                     OPENSEA.IO</p>
             </div>
-            <a className="btn-primary hoverable mx-3 btn-md hide-mobile" href="#">SAVE CHANGES</a>
+            <a className="btn-primary hoverable mx-3 btn-md hide-mobile" href="#"><i className="bi-wallet me-2"></i> PURCHASE PLOT</a>
             <div className="d-flex mt-3 flex-wrap">
                 <span className=" me-2 mt-2">
                     <img src="assets/images/square_icon.png" width="16px" /> : 100 
@@ -75,6 +104,7 @@ export const Editsection = () => {
                     &nbsp;0.0942 ( $ 100 )
                 </span>
             </div>
+            
         </div>
     )
 }
