@@ -140,6 +140,30 @@ function PurchaseSection({
                 className="form-control"
               />
             </div>
+
+            <div className="input-group hoverable mb-4">
+              <span className="input-group-text ">
+                <i className="bi bi-url-alt"></i>
+              </span>
+              <input
+                type="url"
+                placeholder="ENTER LINK URL"
+                onChange={(e) => setName(e.target.value)}
+                className="form-control"
+              />
+            </div>
+
+            <div className="input-group hoverable mb-4">
+              <span className="input-group-text ">
+                <i className="bi bi-geo-alt"></i>
+              </span>
+              <input
+                type="file"
+                placeholder="File"
+                onChange={(e) => setName(e.target.value)}
+                className="form-control"
+              />
+            </div>
           </form>
 
           <hr />
