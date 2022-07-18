@@ -4,6 +4,9 @@ import { DoubleSide, TextureLoader, Vector3 } from 'three'
 import { Html, OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { LoadingManager } from 'three'
 import { Loader } from '../../utils/loader'
+import { useAppSelector } from '../../components/store/hooks'
+import { selectLand, setLand } from '../../components/reducers/Settings'
+import { store } from '../../components/store'
 
 export const MapView = () => {
   return (
@@ -59,14 +62,15 @@ export const MapView = () => {
 // texture.
 
 function GreenSquare({ color, color2 }) {
+  const landData = store.getState().settings.land
   const [loading, setLoading] = useState(true)
-  let x = 10,
-    y = 10,
+  let x = landData.h,
+    y = landData.w,
     z = 2
   const widthMap = 1600
   const heightMap = 625
   const manager = new LoadingManager()
-  manager.onStart = function (item, loaded, total) {
+  manager.onStart = function () {
     setLoading(true)
   }
   manager.onLoad = function () {
@@ -80,8 +84,6 @@ function GreenSquare({ color, color2 }) {
   const [boxPosition, setBoxPosition] = useState(new Vector3(0, 0, 0))
   const [viewLand, setViewLand] = useState(false)
   const [viewBox, setViewBox] = useState(false)
-  // return the chosen position that the user select
-  const [landLocation, setLandLocation] = useState({ x: 0, y: 0, w: 0, h: 0 })
   const [landPosition, setLandPosition] = useState(new Vector3(0, 0, 0))
   const ref = useRef()
 
@@ -138,12 +140,14 @@ function GreenSquare({ color, color2 }) {
                   Math.floor(point.z) + offSetY
                 )
               )
-              setLandLocation({
-                x: boxPosition.x + widthMap / 2 + x / 2,
-                y: boxPosition.z + heightMap / 2 + y / 2,
-                h: x,
-                w: y,
-              })
+              store.dispatch(
+                setLand({
+                  x: boxPosition.x + widthMap / 2 + x / 2,
+                  y: boxPosition.z + heightMap / 2 + y / 2,
+                  h: x,
+                  w: y,
+                })
+              )
               // console.log({
               //   x: boxPosition.x + widthMap / 2 - x / 2,
               //   y: boxPosition.z + heightMap / 2 - y / 2,
@@ -152,7 +156,6 @@ function GreenSquare({ color, color2 }) {
               // });
             }}
             onPointerOut={() => setViewBox(false)}
-            on
             onPointerMove={({ _uv, _screenY, point }) => {
               onMove(point)
             }}
