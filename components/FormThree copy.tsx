@@ -6,17 +6,18 @@ const FormThree = (props) => {
       <h3 className="text-white mb-4">STEP 3 - NAME YOUR LOT</h3>
 
       <form className="btn-slide">
-      <div className="input-group hoverable mb-4">
-                        <span className="input-group-text ">
-                            <i className="bi bi-link"></i>
-                        </span>
-                        <input
-                            type="text"
-                            placeholder="Https://"
-
-                            className="form-control"
-                        />
-                    </div>
+        <div className="input-group hoverable  ">
+          <span className="input-group-text ">
+            <i className="bi-geo-alt " />
+          </span>
+          <input
+            type="text "
+            aria-label="x "
+            placeholder="ENTER LOT NAME "
+            onChange={(e) => props.setLandName(e.target.value)}
+            className="form-control "
+          />
+        </div>
       </form>
 
       <div className="d-flex justify-content-between mt-2">
