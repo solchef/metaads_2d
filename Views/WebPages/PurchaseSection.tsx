@@ -67,9 +67,7 @@ function PurchaseSection({
   return (
     <>
       <div
-        className={`offcanvas offcanvas-start hide-mobile ${
-          isCanvasLeft && 'show'
-        }`}
+        className={`offcanvas offcanvas-start hide-mobile ${'show'}`}
         data-bs-backdrop="false"
         style={{ visibility: 'visible' }}
       >
