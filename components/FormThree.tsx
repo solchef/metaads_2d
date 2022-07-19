@@ -3,7 +3,7 @@ import React from 'react'
 const FormThree = (props) => {
   return (
     <>
-      <h3 className="text-white mb-4">STEP 3 - NAME YOUR LOT</h3>
+      <h3 className="text-white mb-4">STEP 3 - PICK LOT LOCATION</h3>
 
       <form className="btn-slide">
       <div className="input-group hoverable mb-4">

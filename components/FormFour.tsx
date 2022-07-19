@@ -34,15 +34,9 @@ const FormFour = (props) => {
   }
   return (
     <>
-      <button
-        className="btn-primary w-100 buy-lot hoverable mt-0 "
-        onClick={() => handleSubmint()}
-      >
-        <i className="bi-cart me-2 " />
-        BUY LOT{' '}
-      </button>
+    
 
-      <form className="btn-slide">
+      <form >
 
                     <div className="input-group hoverable mb-4">
                         <span className="input-group-text ">
@@ -56,7 +50,13 @@ const FormFour = (props) => {
                         />
                     </div>
                 </form>
-
+                <button
+      className="btn-primary btn-slide w-100 buy-lot hoverable mt-0 "
+        onClick={() => handleSubmint()}
+      >
+        <i className="bi-cart me-2 " />
+        BUY LOT{' '}
+      </button>
       <div className="d-flex justify-content-between mt-2">
         <div className="d-flex cir">
           <div onClick={() => props.goToStep(1)} className="circlee "></div>

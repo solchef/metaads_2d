@@ -1,8 +1,10 @@
 
 import Link from 'next/link'
+import { useState } from 'react'
 import { Web3Button } from '../Web3Button'
 
 const Header = () => {
+  const [threeD, setThreeD] = useState(true)
 
   return (
     <>
@@ -23,7 +25,7 @@ const Header = () => {
               <div className="right-controls d-flex">
                 <div className='me-2'>
                 <Link href="/space">
-                    <button className="btn btn-primary btn-lg hoverable">
+                    <button className="btn btn-primary btn-lg hoverable active ">
                     <i className="bi bi-info-circle"></i>
                     </button>
                   </Link>
@@ -79,11 +81,11 @@ const Header = () => {
                   >
                     <i className="bi-arrow-clockwise " />
                   </button>
-                  <Link href="/space">
-                    <button className="btn btn-primary btn-lg hoverable">
-                     3D
+                 
+                    <button onClick={()=>setThreeD(!threeD)} className="btn btn-primary btn-lg hoverable">
+                   {threeD ? '3D' : '2D'}
                     </button>
-                  </Link>
+                 
                 </div>
               </div>
             </div>

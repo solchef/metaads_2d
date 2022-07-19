@@ -3,7 +3,7 @@ import React from 'react'
 const FormTwo = (props) => {
   return (
     <>
-      <h3 className="text-white mb-4">STEP 2 - PICK LOT LOCATION</h3>
+      <h3 className="text-white mb-4">STEP 2 - NAME YOUR LOT</h3>
 
       <form className="btn-slide">
                 <div className="input-group hoverable mb-4">
