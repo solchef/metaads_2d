@@ -104,11 +104,11 @@ export const Section = () => {
           </div>
         </form>
       </div>
-      <p>Recommended size (100X100px png, jpg)</p>
-      <div className="d-flex">
-        <i className="bi w-25 bi-geo-alt"></i>
+      <p className='mb-0'>Recommended size (100X100px png, jpg)</p>
+      <div className="d-flex align-items-center mb-2">
+      <input className="form-check-input w-25 pb-5 h-100 me-3 " type="checkbox" value="" id="flexCheckDefault"/>
 
-        <p className="p-0">MARK FOR SALE ON OPENSEA.IO</p>
+        <p className="p-0 mt-4">MARK FOR SALE ON OPENSEA.IO</p>
       </div>
       <a className="btn-primary hoverable mx-3 btn-md hide-mobile" href="#">
         <i className="bi-wallet me-2"></i> PURCHASE PLOT
