@@ -17,8 +17,8 @@ export default async function handler(req, res) {
       external_url: 'https://quadspace.io',
       // holder: holder,
       attributes: [
-        { trait_type: 'Row', value: x },
-        { trait_type: 'Column', value: y },
+        { trait_type: 'Row', value: y },
+        { trait_type: 'Column', value: x },
         { trait_type: 'QuadSpace', value: Number(nft) },
       ],
     }

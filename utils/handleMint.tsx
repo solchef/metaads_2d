@@ -6,6 +6,7 @@ import {
   MiningTransaction,
   SuccessfulTransaction,
 } from './notifications'
+import { fabric } from 'fabric'
 
 export const handleMint = async (
   name: string,
@@ -47,28 +48,34 @@ export const handleMint = async (
   // console.log(mintImage)
 
   // update image to ipfs storage and get the CID
-  const img = await uploadImage(mintImage)
+  // const img = await uploadImage(mintImage)
+  let imgString = await getBase64(mintImage)
+
+  console.log(imgString)
+
   // update the metadata fields
-  const metadata = await uploadMetadata(
-    name,
-    QuadDescription,
-    img,
-    land.x,
-    land.y
-  )
+  // const metadata = await uploadMetadata(
+  //   name,
+  //   QuadDescription,
+  //   img,
+  //   land.x,
+  //   land.y
+  // )
   // console.log(metadata)
-  if (!metadata) {
-    ErrorTransaction({
-      title: 'Metadata Error ',
-      description: 'Metatadata could not be uploaded. Please try again later',
-    })
-    return
-  }
+  // if (!metadata) {
+  //   ErrorTransaction({
+  //     title: 'Metadata Error ',
+  //     description: 'Metatadata could not be uploaded. Please try again later',
+  //   })
+  //   return
+  // }
   //create parcel
   const parcel = {
     name: name,
     QuadDescription: QuadDescription,
-    image: img,
+    metadata: 'metadata',
+    image: 'img',
+    image_temp: imgString,
     coordX: land.x,
     coordY: land.y,
     parcelWidth: land.w,
@@ -81,7 +88,7 @@ export const handleMint = async (
     body: JSON.stringify(parcel),
   })
 
-  console.log(response)
+  // console.log(response)
 
   if (!response) {
     ErrorTransaction({
@@ -135,4 +142,25 @@ export const handleMint = async (
       description: 'An error has occured and minting could not be processed',
     })
   }
+}
+const getBase64 = (file) => {
+  return new Promise((resolve) => {
+    let fileInfo
+    let baseURL = ''
+    let reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      let Img = reader.result
+      fabric.Image.fromURL(Img, function (myImg) {
+        var img1 = myImg.set({
+          left: 0,
+          top: 0,
+          width: 2500,
+          height: 2000,
+        })
+        baseURL = img1
+        resolve(baseURL)
+      })
+    }
+  })
 }
