@@ -1,57 +1,81 @@
-import React, { Suspense, useRef, useState } from 'react'
-import { Canvas } from '@react-three/fiber'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
+import * as THREE from 'three'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { DoubleSide, TextureLoader, Vector3 } from 'three'
 import { Html, OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { LoadingManager } from 'three'
 import { Loader } from '../../utils/loader'
 import { useAppSelector } from '../../components/store/hooks'
-import { selectLand, setLand } from '../../components/reducers/Settings'
+import {
+  selectLand,
+  select_3dMode,
+  setLand,
+} from '../../components/reducers/Settings'
 import { store } from '../../components/store'
+import useSound from 'use-sound'
+import { useControls } from 'leva'
 
 export const MapView = () => {
+  const _3dMode = useAppSelector(select_3dMode)
+  const orbit = useRef()
+
+  useEffect(() => {
+    if (orbit.current) {
+      orbit.current.enableRotate = _3dMode
+      console.log(_3dMode)
+      if (_3dMode) {
+        orbit.current.minPolarAngle = 0.5
+        orbit.current.maxPolarAngle = Math.PI / 2.25
+      } else {
+        console.log('in')
+        orbit.current.minPolarAngle = 0
+        orbit.current.maxPolarAngle = 0
+        // Math.PI / 2.25
+      }
+      console.log(orbit.current.minPolarAngle)
+    }
+  }, [_3dMode])
   return (
-    <div>
-      <Canvas
-        style={{ height: '100vh', width: '100vw', backgroundColor: '#000' }}
-      >
-        {/*
+    <Canvas style={{ height: '100vh', width: '100%', backgroundColor: '#000' }}>
+      {/*
            A group is used for grouping, kind og like
           groups in SVGs. The positioning of elements
           inside a group is relative to the group's
           position.
         */}
-        <group>
-          {/* All these are in the same group */}
-          <Suspense fallback={<></>}>
-            <GreenSquare color="#f56f42" color2="#00707b" />
-            <PerspectiveCamera position={[0, 900, 0]} makeDefault />
-            {/*
+      <group>
+        {/* All these are in the same group */}
+        <Suspense fallback={<></>}>
+          <GreenSquare color="#f56f42" color2="#00707b" />
+          <PerspectiveCamera position={[0, 1200, 0]} makeDefault />
+          {/*
           This lets you rotate the camera.
           We've associated our React ref with it
           like we would do for any React component
         */}
-            <OrbitControls
-              minPolarAngle={0}
-              maxPolarAngle={Math.PI / 2.25}
-              minAzimuthAngle={0}
-              maxAzimuthAngle={0}
-              minZoom={0}
-              maxZoom={1600}
-              minDistance={100}
-              maxDistance={900}
-            />
-          </Suspense>
-          {/* <ToolTip1 /> */}
-        </group>
-        {/* Let there be light! */}
-        <ambientLight />
-        {/*
+          <OrbitControls
+            ref={orbit}
+            minPolarAngle={0}
+            maxPolarAngle={Math.PI / 2.25}
+            minAzimuthAngle={0}
+            maxAzimuthAngle={0}
+            minZoom={0}
+            maxZoom={1600}
+            minDistance={100}
+            maxDistance={1200}
+            enableRotate={store.getState().settings._3dMode}
+          />
+        </Suspense>
+        {/* <ToolTip1 /> */}
+      </group>
+      {/* Let there be light! */}
+      <ambientLight />
+      {/*
           Use a PerspectiveCamera.
           PerspectiveCameras work like real works cameras
           and provide depth perception.
         */}
-      </Canvas>
-    </div>
+    </Canvas>
   )
 }
 
@@ -62,6 +86,8 @@ export const MapView = () => {
 // texture.
 
 function GreenSquare({ color, color2 }) {
+  const [playError] = useSound('./errorSound.mp3')
+  const [playBuild] = useSound('./build.mp3')
   const landData = store.getState().settings.land
   const [loading, setLoading] = useState(true)
   let x = landData.h,
@@ -123,37 +149,55 @@ function GreenSquare({ color, color2 }) {
             rotation={[Math.PI / 2, 0, 0]}
             scale={[1, 1, 1]}
             onClick={({ uv, screenY, point }) => {
-              setViewLand(true)
-              onMove(point)
-              let offSetX = 0.5
-              if (x % 2 == 0) {
-                offSetX = 0
+              if (!store.getState().settings.selectMode) {
+                setViewLand(true)
+                onMove(point)
+                let offSetX = 0.5
+                if (x % 2 == 0) {
+                  offSetX = 0
+                }
+                let offSetY = 0
+                if (y % 2 == 0) {
+                  offSetY = 0.5
+                }
+                if (
+                  Math.sign(boxPosition.x + widthMap / 2 - x / 2) !== -1 &&
+                  Math.sign(boxPosition.z + heightMap / 2 - y / 2) !== -1
+                ) {
+                  if (
+                    boxPosition.x + widthMap / 2 - x / 2 <= widthMap - x &&
+                    boxPosition.z + heightMap / 2 - y / 2 <= heightMap - y
+                  ) {
+                    setLandPosition(
+                      new Vector3(
+                        Math.floor(point.x) + offSetX,
+                        0.8,
+                        Math.floor(point.z) + offSetY
+                      )
+                    )
+                    store.dispatch(
+                      setLand({
+                        x: boxPosition.x + widthMap / 2 - x / 2,
+                        y: boxPosition.z + heightMap / 2 - y / 2,
+                        h: x,
+                        w: y,
+                      })
+                    )
+                    playBuild()
+                  } else {
+                    playError()
+                  }
+                } else {
+                  playError()
+                }
+
+                // console.log({
+                //   x: boxPosition.x + widthMap / 2 - x / 2,
+                //   y: boxPosition.z + heightMap / 2 - y / 2,
+                //   h: x,
+                //   w: y,
+                // });
               }
-              let offSetY = 0
-              if (y % 2 == 0) {
-                offSetY = 0.5
-              }
-              setLandPosition(
-                new Vector3(
-                  Math.floor(point.x) + offSetX,
-                  0.8,
-                  Math.floor(point.z) + offSetY
-                )
-              )
-              store.dispatch(
-                setLand({
-                  x: boxPosition.x + widthMap / 2 + x / 2,
-                  y: boxPosition.z + heightMap / 2 + y / 2,
-                  h: x,
-                  w: y,
-                })
-              )
-              // console.log({
-              //   x: boxPosition.x + widthMap / 2 - x / 2,
-              //   y: boxPosition.z + heightMap / 2 - y / 2,
-              //   h: x,
-              //   w: y,
-              // });
             }}
             onPointerOut={() => setViewBox(false)}
             onPointerMove={({ _uv, _screenY, point }) => {
@@ -177,7 +221,7 @@ function GreenSquare({ color, color2 }) {
               side={DoubleSide}
             />
           </mesh>
-          {viewBox ? (
+          {viewBox && !store.getState().settings.selectMode ? (
             <mesh position={boxPosition} ref={ref}>
               <boxBufferGeometry args={[x, z, y]} attach="geometry" />
               <meshPhongMaterial color={color2} attach="material" />

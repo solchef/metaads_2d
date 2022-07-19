@@ -2,10 +2,13 @@
 /* eslint-disable react/no-unescaped-entities */
 // import Image from 'next/image'
 
-import { setLand } from '../../components/reducers/Settings'
+import { selectLand, setLand } from '../../components/reducers/Settings'
 import { store } from '../../components/store'
+import { useAppSelector } from '../../components/store/hooks'
 
 export const Section = () => {
+  const landData = useAppSelector(selectLand)
+
   return (
     <div className="offcanvas-body image-info pt-5 pb-5 p-0 ">
       <h3> SQ.NFT SIZE</h3>
@@ -115,14 +118,16 @@ export const Section = () => {
       </a>
       <div className="d-flex mt-3 flex-wrap">
         <span className=" me-2 mt-2">
-          <img src="assets/images/square_icon.png" width="16px" /> : 100
+          <img src="assets/images/square_icon.png" width="16px" /> :{' '}
+          {landData.h * landData.w}
         </span>
         <span className=" me-2 mt-2">
           <i className="bi bi-border " />
-          &nbsp;: ( 10 x 10 )
+          &nbsp;: ( {landData.h + ' X ' + landData.w} )
         </span>
         <span className="me-2 mt-2">
-          <i className="bi bi-geo-alt" /> : 287X , 485Y
+          <i className="bi bi-geo-alt" /> :
+          {landData.x + 'X, ' + landData.y + 'Y'}
         </span>
         <span className="me-2 mt-2 text-nowrap">
           {' '}

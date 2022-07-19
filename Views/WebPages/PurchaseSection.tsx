@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Web3Button } from '../../components'
-import { selectLand } from '../../components/reducers/Settings'
+import { selectLand, selectViewState } from '../../components/reducers/Settings'
 import { useAppSelector } from '../../components/store/hooks'
 import { useWeb3Context } from '../../context'
 import useCanvas from '../../hooks/useCanvas'
@@ -41,6 +41,7 @@ function PurchaseSection({
     // console.log(enableBuy)
     setInfo(activeItem)
   }, [activeItem, enableBuy])
+  const viewState = useAppSelector(selectViewState)
 
   useEffect(() => {
     setLand({
@@ -52,7 +53,26 @@ function PurchaseSection({
   }, [landData])
 
   let squreInfo = land
-
+  const getVisibilityMode = () => {
+    if (viewState === 0) return <About />
+    if (viewState === 1) return <Section />
+    if (viewState === 2) return <Sellsection />
+    {
+      /* <ImageInfo /> */
+    }
+    {
+      /* <ImageInfoButton /> */
+    }
+    {
+      /* <Sellsection /> */
+    }
+    {
+      /* <Editsection /> */
+    }
+    {
+      /* <Section /> */
+    }
+  }
   const handleSubmit = async () => {
     // console.log(getLands()[0])
     // const land = getLands()[0]
@@ -90,19 +110,13 @@ function PurchaseSection({
             and linked it to an URL.
           </p>
           <div className="d-flex justify-content-center">
-          <i className="bi bi-twitter"></i>
-          <i className="bi bi-reddit mx-2" />
-          <i className="bi bi-instagram"></i>
+            <i className="bi bi-twitter"></i>
+            <i className="bi bi-reddit mx-2" />
+            <i className="bi bi-instagram"></i>
           </div>
         </div>
+        {getVisibilityMode()}
 
-        {/* <About /> */}
-        {/* <ImageInfo /> */}
-        {/* <ImageInfoButton /> */}
-        <Sellsection />
-        {/* <Editsection /> */}
-        {/* <Section /> */}
-        
         {/* <div className="offcanvas-body pt-5">
           <h3>SELECT LOT SIZE</h3>
 
