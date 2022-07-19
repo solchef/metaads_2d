@@ -90,18 +90,19 @@ function PurchaseSection({
             and linked it to an URL.
           </p>
           <div className="d-flex justify-content-center">
-            <i className="bi-flag" />
-            <i className="bi-flag mx-2" />
-            <i className="bi-flag" />
+          <i className="bi bi-twitter"></i>
+          <i className="bi bi-reddit mx-2" />
+          <i className="bi bi-instagram"></i>
           </div>
         </div>
 
         {/* <About /> */}
         {/* <ImageInfo /> */}
         {/* <ImageInfoButton /> */}
-        {/* <Sellsection /> */}
+        <Sellsection />
         {/* <Editsection /> */}
-        <Section />
+        {/* <Section /> */}
+        
         {/* <div className="offcanvas-body pt-5">
           <h3>SELECT LOT SIZE</h3>
 
