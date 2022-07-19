@@ -200,16 +200,15 @@ btn:active {
 
 .controls .btn-primary:hover,
 .controls .btn-primary.active {
-    color: #fff;
-    text-align: center;
-    border: none;
-    background: linear-gradient(to right, #f50074, #aa01b3);
-    -moz-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    -webkit-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-    box-shadow: none;
+    text-align: center !important;
+    border: none !important;
+    background: linear-gradient(to right, #f50074, #aa01b3) !important;
+    -moz-transition: all 0.3s ease !important;
+    -o-transition: all 0.3s ease !important;
+    -webkit-transition: all 0.3s ease !important;
+    -ms-transition: all 0.3s ease !important;
+    transition: all 0.3s ease !important;
+    box-shadow: none !important;
     background: #690779 !important;
     box-shadow: inset 1px 1px 2px 1px rgb(0 0 0 / 50%) !important;
     color: #b74aca !important;
@@ -883,15 +882,6 @@ input:checked+.slider:before {
 
 .bo .btn.x {
     cursor: auto;
-}
-
-.bo .btn.active {
-    opacity: 1;
-    margin-top: 0;
-    background: #f90171 !important;
-    /* border: 1px solid #ffffff; */
-    color: #fff !important;
-    box-shadow: 0px 9px 10px -6px rgb(0 0 0 / 73%) !important;
 }
 
 @media (max-width: 1300px) {

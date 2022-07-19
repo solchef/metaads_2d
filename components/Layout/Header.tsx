@@ -5,6 +5,7 @@ import { Web3Button } from '../Web3Button'
 
 const Header = () => {
   const [threeD, setThreeD] = useState(true)
+  const [stateBtn, setStateBtn] = useState('info')
 
   return (
     <>
@@ -24,17 +25,17 @@ const Header = () => {
             
               <div className="right-controls d-flex">
                 <div className='me-2'>
-                <Link href="/space">
-                    <button className="btn btn-primary btn-lg hoverable active ">
+       
+                    <button onClick={()=>setStateBtn('info')} className={`btn btn-primary btn-lg hoverable ${stateBtn == 'info'?'active':'' }  `}>
                     <i className="bi bi-info-circle"></i>
                     </button>
-                  </Link>
+          
                 </div>
                 <div className="buttons w-auto bo me-2 flex-nowrap">
                   <button
              
-             
-                    className={`btn btn-bi d-flex toggle-mode align-items-center w-100 position-relative m-0 btn-primary btn-lg 
+             onClick={()=>setStateBtn('Buy')}
+                    className={`btn btn-bi d-flex ${stateBtn == 'Buy'?'active':'' } toggle-mode align-items-center w-100 position-relative m-0 btn-primary btn-lg 
                       `}
                 
                   >
@@ -45,9 +46,9 @@ const Header = () => {
                     <span className="text-nowrap hide-mobile"> Buy Mode</span>
                   </button>
                   <button
-                   
+                      onClick={()=>setStateBtn('View')}
                 
-                    className={`btn btn-bi d-flex flex-nowrap toggle-mode  
+                    className={`btn btn-bi d-flex ${stateBtn == 'View'?'active':'' } flex-nowrap toggle-mode  
                     } align-items-center accordion w-100 position-relative btn-primary `}
                   
                   >
