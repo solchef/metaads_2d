@@ -13,8 +13,9 @@ const Header = () => {
         <div className="container-fluid py-2">
           <div>
             <div className="show-mobile">
-            <div className="d-flex ">
-            <i className="bi-flag me-3" />
+            <div className="d-flex align-items-center ">
+            <img className='me-3' src="assets/images/million-dollar-logo.svg" width='50px'/>
+
             <h3>THE MILLION <br /> DOLLAR WEBSITE</h3>
           </div>
             </div>

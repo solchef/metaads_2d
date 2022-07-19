@@ -51,17 +51,16 @@ export const Editsection = () => {
                         />
                     </div>
                 </form></div>
-            <p>Recommended size (100X100px png, jpg)</p>
-            <div className="d-flex">
-                <i className="bi w-25 bi-geo-alt"></i>
+            <p className='mb-0'>Recommended size (100X100px png, jpg)</p>
+            <div className="d-flex align-items-center mb-2">
+                <input className="form-check-input w-25 pb-5 h-100 me-3 " type="checkbox" value="" id="flexCheckDefault" />
 
-                <p className="p-0">MARK FOR SALE ON
-                    OPENSEA.IO</p>
+                <p className="p-0 mt-4">MARK FOR SALE ON OPENSEA.IO</p>
             </div>
             <a className="btn-primary hoverable mx-3 btn-md hide-mobile" href="#">SAVE CHANGES</a>
             <div className="d-flex mt-3 flex-wrap">
                 <span className=" me-2 mt-2">
-                    <img src="assets/images/square_icon.png" width="16px" /> : 100 
+                    <img src="assets/images/square_icon.png" width="16px" /> : 100
                 </span>
                 <span className=" me-2 mt-2">
                     <i className="bi bi-border " />&nbsp;: ( 10 x 10 )
