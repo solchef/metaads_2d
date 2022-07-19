@@ -7,7 +7,9 @@ import {
 
 const FormOne = (props) => {
   return (
-    <>
+  <div >
+
+
       <h3 className="text-white mb-4">STEP 1 - SQ.NFT SIZE</h3>
       <form className="btn-slide">
       <div className="input-group hoverable mb-4">
@@ -50,7 +52,7 @@ const FormOne = (props) => {
           Next
         </button>
       </div>
-    </>
+      </div>
   )
 }
 
