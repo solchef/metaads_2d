@@ -899,6 +899,21 @@ input:checked + .slider:before {
 }
 
 @media (max-width: 992px) {
+  .g-main {
+    width: 100vw !important;
+    height: calc(100vh - 55px - 30vh - 87px) !important;
+  }
+
+  section#grid-section {
+    margin-left: 0px !important;
+    height: calc(100vh - 55px - 30vh - 87px) !important;
+  }
+  .canvas-box {
+    height: calc(100vh - 55px - 30vh - 87px) !important;
+  }
+  .canvas-box div {
+    height: calc(100vh - 55px - 30vh - 87px) !important;
+  }
   nav.navbar {
     margin-left: 0;
     background-image: linear-gradient(to right, #fa0070, #5a0167);

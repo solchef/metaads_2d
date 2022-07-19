@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 import useCanvas from '../hooks/useCanvas'
 import PurchaseSection from './WebPages/PurchaseSection'
 import Link from 'next/link'
-
+import axios from 'axios'
 // import {
 //   fitScrean,
 //   // getViewLocation,
@@ -21,8 +21,12 @@ import FormFour from '../components/FormFour'
 
 import { useWeb3Context } from '../context'
 import { QuadSpaceContract } from '../utils/constants'
-import { selectLand } from '../components/reducers/Settings'
-import { useAppSelector } from '../components/store/hooks'
+import {
+  selectLand,
+  setBoughtedLandList,
+  setSelectMode,
+} from '../components/reducers/Settings'
+import { useAppDispatch, useAppSelector } from '../components/store/hooks'
 import Minimap, { Child as ChildComponent } from 'react-minimap'
 import 'react-minimap/dist/react-minimap.css'
 import { MetaadsContractUnsigned } from '../utils/readOnly'
@@ -34,6 +38,7 @@ const AdSpace: React.FunctionComponent = () => {
   const [zoomLevel, setZoomLevel] = useState()
   // const viewPoint = getViewLocation()
   const { cAreaRef, squreInfo, setEnableBuy } = useCanvas()
+  const dispatch = useAppDispatch()
   const [mintingData, setMintingData] = useState({
     walletQuads: [],
     otherQuads: [],
@@ -46,6 +51,13 @@ const AdSpace: React.FunctionComponent = () => {
     selectorWidth,
     getMintImage,
   } = useCanvas()
+
+  useEffect(() => {
+    //   http://localhost:3000/api/info
+    axios.get('http://localhost:3000/api/info').then((data) => {
+      dispatch(setBoughtedLandList(data.data.meta))
+    })
+  }, [])
 
   const loadMintingData = async () => {
     let walletNfts = []
@@ -116,7 +128,7 @@ const AdSpace: React.FunctionComponent = () => {
           </div>
         </section> */}
 
-        <section id="grid-section" className="hide-mobile">
+        <section id="grid-section">
           {/* <div className="controls">
             <div className="d-flex gap-g flex-row-inverse justify-content-between align-items-center wrap-flow">
               <div className="left-controls d-flex">
@@ -245,28 +257,37 @@ const AdSpace: React.FunctionComponent = () => {
             <div className="d-flex gap-g flex-row-inverse justify-content-between align-items-center wrap-flow">
               <div className="right-controls d-flex">
                 <div className="me-2">
-
-                  <button onClick={() => setStateBtn('info')} className={`btn btn-primary btn-lg hoverable ${stateBtn == 'info' ? 'active' : ''}  `}>
+                  <button
+                    onClick={() => setStateBtn('info')}
+                    className={`btn btn-primary btn-lg hoverable ${
+                      stateBtn == 'info' ? 'active' : ''
+                    }  `}
+                  >
                     <i className="px-2 bi bi-info-circle"></i>
                   </button>
-
                 </div>
                 <div className="buttons w-auto bo me-2 flex-nowrap">
                   <button
-                    onClick={() => setStateBtn('Buy')}
-                    className={`btn btn-bi d-flex ${stateBtn == 'Buy' ? 'active' : ''} toggle-mode align-items-center w-100 position-relative m-0 btn-primary btn-lg 
+                    onClick={() => {
+                      setStateBtn('Buy')
+                      dispatch(setSelectMode(false))
+                    }}
+                    className={`btn btn-bi d-flex ${
+                      stateBtn == 'Buy' ? 'active' : ''
+                    } toggle-mode align-items-center w-100 position-relative m-0 btn-primary btn-lg 
                         `}
                   >
                     <i
                       className="bi bi-cart-fill px-2"
-                    // style={{ marginTop: '-5px' }}
+                      // style={{ marginTop: '-5px' }}
                     />{' '}
                     <span className="text-nowrap  hide-mobile"> Buy Mode</span>
                   </button>
                   <button
                     onClick={() => setStateBtn('View')}
-
-                    className={`btn btn-bi d-flex ${stateBtn == 'View' ? 'active' : ''} flex-nowrap toggle-mode  
+                    className={`btn btn-bi d-flex ${
+                      stateBtn == 'View' ? 'active' : ''
+                    } flex-nowrap toggle-mode  
                 } align-items-center accordion w-100 position-relative btn-primary `}
                   >
                     <i className="px-2 bi bi-arrows-move " />
@@ -291,126 +312,245 @@ const AdSpace: React.FunctionComponent = () => {
                   <button className="btn hoverable btn-primary btn-lg ">
                     <i className="px-2 bi-arrow-clockwise " />
                   </button>
-                  <button onClick={() => setThreeD(!threeD)} className="btn btn-primary btn-lg hoverable">
-                    <span className="px-2">                   {threeD ? '3D' : '2D'}
-                    </span>
+                  <button
+                    onClick={() => setThreeD(!threeD)}
+                    className="btn btn-primary btn-lg hoverable"
+                  >
+                    <span className="px-2"> {threeD ? '3D' : '2D'}</span>
                   </button>
                 </div>
               </div>
             </div>
           </div>
 
-          {
-            stateBtn == 'info' ?
-              <div className='h-100 scrollable pe-2 pb-5 mb-5'>
+          {stateBtn == 'info' ? (
+            <div className="h-100 scrollable pe-2 pb-5 mb-5">
+              <h3>ABOUT MDW </h3>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. At
+                natus assumenda dolore provident ad eaque dolorem magni quod
+                praesentium, accusantium ipsa sit, quaerat nulla qui ipsam
+                voluptatum tenetur dicta aspernatur?
+              </p>
 
-                <h3 >ABOUT MDW </h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. At natus assumenda dolore provident ad eaque dolorem magni quod praesentium, accusantium ipsa sit, quaerat nulla qui ipsam voluptatum tenetur dicta aspernatur?</p>
+              <h3 className="mt-5">HOW-IT WORKS</h3>
+              <div className="d-flex">
+                <span>1</span>
+                <p className="ps-2">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. At
+                  natus assumenda dolore provident ad eaque dolorem magni quod
+                  praesentium, accusantium ipsa sit, quaerat nulla qui ipsam
+                  voluptatum tenetur dicta aspernatur?
+                </p>
+              </div>
+              <div className="d-flex">
+                <span>2</span>
+                <p className="ps-2">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. At
+                  natus assumenda dolore provident ad eaque dolorem magni quod
+                  praesentium, accusantium ipsa sit, quaerat nulla qui ipsam
+                  voluptatum tenetur dicta aspernatur?
+                </p>
+              </div>
+              <div className="d-flex">
+                <span>3</span>
+                <p className="ps-2">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. At
+                  natus assumenda dolore provident ad eaque dolorem magni quod
+                  praesentium, accusantium ipsa sit, quaerat nulla qui ipsam
+                  voluptatum tenetur dicta aspernatur?
+                </p>
+              </div>
+            </div>
+          ) : stateBtn == 'View' ? (
+            <div className="d-flex flex-wrap image-info  flex-column">
+              <h3>NAME HERE</h3>
+              <span className=" link">
+                <i className="bi bi-link"></i> :&nbsp;
+                <a href="" className="text-success">
+                  https://quadspace.io
+                </a>
+              </span>
+              <div className="d-flex mt-1">
+                <span className="mb-1 me-2">
+                  <img src="assets/images/square_icon.png" width="16px" /> : 100
+                  Quads
+                </span>
 
-                <h3 className='mt-5'>HOW-IT WORKS</h3>
-                <div className="d-flex">
-                  <span>1</span>
-                  <p className="ps-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. At natus assumenda dolore provident ad eaque dolorem magni quod praesentium, accusantium ipsa sit, quaerat nulla qui ipsam voluptatum tenetur dicta aspernatur?</p>
-                </div>
-                <div className="d-flex">
-                  <span>2</span>
-                  <p className="ps-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. At natus assumenda dolore provident ad eaque dolorem magni quod praesentium, accusantium ipsa sit, quaerat nulla qui ipsam voluptatum tenetur dicta aspernatur?</p>
-                </div>
-                <div className="d-flex">
-                  <span>3</span>
-                  <p className="ps-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. At natus assumenda dolore provident ad eaque dolorem magni quod praesentium, accusantium ipsa sit, quaerat nulla qui ipsam voluptatum tenetur dicta aspernatur?</p>
-                </div>
-
+                <span className="mb-1">
+                  <i className="bi bi-border " />
+                  &nbsp;: ( 10 x 10 )
+                </span>
               </div>
 
-              :
-              stateBtn == 'View' ?
-                <div className="d-flex flex-wrap image-info  flex-column">
-                  <h3>NAME HERE</h3>
-                  <span className=" link">
-                    <i className="bi bi-link"></i> :&nbsp;<a href="" className="text-success">https://quadspace.io</a>
-                  </span>
-                  <div className="d-flex mt-1">
-                    <span className="mb-1 me-2">
-                      <img src="assets/images/square_icon.png" width="16px" /> : 100 Quads
-                    </span>
+              <div className="d-flex mt-1">
+                <span className="me-2">
+                  <i className="bi bi-geo-alt" /> : 287X , 485Y
+                </span>
 
+                <span className="text-nowrap mb-1">
+                  {' '}
+                  <b>
+                    <i className="bi bi-tag" /> :{' '}
+                  </b>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    xmlSpace="preserve"
+                    width="12px"
+                    version="1.1"
+                    shapeRendering="geometricPrecision"
+                    textRendering="geometricPrecision"
+                    imageRendering="optimizeQuality"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    viewBox="0 0 784.37 1277.39"
+                  >
+                    <g id="Layer_x0020_1">
+                      <metadata id="CorelCorpID_0Corel-Layer" />
+                      <g id="_1421394342400">
+                        <g>
+                          <polygon
+                            fill="#343434"
+                            fillRule="nonzero"
+                            points="392.07,0 383.5,29.11 383.5,873.74 392.07,882.29 784.13,650.54 "
+                          />
+                          <polygon
+                            fill="#8C8C8C"
+                            fillRule="nonzero"
+                            points="392.07,0 -0,650.54 392.07,882.29 392.07,472.33 "
+                          />
+                          <polygon
+                            fill="#3C3C3B"
+                            fillRule="nonzero"
+                            points="392.07,956.52 387.24,962.41 387.24,1263.28 392.07,1277.38 784.37,724.89 "
+                          />
+                          <polygon
+                            fill="#8C8C8C"
+                            fillRule="nonzero"
+                            points="392.07,1277.38 392.07,956.52 -0,724.89 "
+                          />
+                          <polygon
+                            fill="#141414"
+                            fillRule="nonzero"
+                            points="392.07,882.29 784.13,650.54 392.07,472.33 "
+                          />
+                          <polygon
+                            fill="#393939"
+                            fillRule="nonzero"
+                            points="0,650.54 392.07,882.29 392.07,472.33 "
+                          />
+                        </g>
+                      </g>
+                    </g>
+                  </svg>
+                  &nbsp;0.0942 ( $ 100 )
+                </span>
+              </div>
+              <span>
+                <i className="bi bi-person"></i> : User Wallet
+              </span>
+              <span className="pt-1">
+                <i className="bi bi-clipboard"></i> : Nft
+              </span>
+            </div>
+          ) : stateBtn == 'Buy' ? (
+            <div className="accordion-body">
+              <StepWizard>
+                <FormOne
+                  addFormTwoHandler={addFormTwoHandler}
+                  setSelectorWidth={setSelectorWidth}
+                  setSelectorHeight={setSelectorHeight}
+                  selectorWidth={selectorWidth}
+                  selectorHeight={selectorHeight}
+                />
+                <FormTwo removeFormTwoHandler={removeFormTwoHandler} />
+                <FormThree removeFormTwoHandler={removeFormTwoHandler} />
+                <FormFour
+                  removeFormTwoHandler={removeFormTwoHandler}
+                  squreInfo={squreInfo}
+                  getMintImage={getMintImage}
+                />
+              </StepWizard>
+            </div>
+          ) : (
+            <>
+              <h3>IT'S FOR SALE</h3>
 
+              <div className="d-flex flex-wrap flex-column">
+                <span>
+                  <i className="bi bi-geo-alt" /> : 287X , 485Y
+                </span>
 
-                    <span className="mb-1">
-                      <i className="bi bi-border " />&nbsp;: ( 10 x 10 )</span>
-                  </div>
-
-
-                  <div className="d-flex mt-1">
-                    <span className='me-2'>
-                      <i className="bi bi-geo-alt" /> : 287X , 485Y
-                    </span>
-
-
-                    <span className="text-nowrap mb-1"> <b>
-                      <i className="bi bi-tag" /> : </b>
-                      <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" xmlSpace="preserve" width="12px" version="1.1" shapeRendering="geometricPrecision" textRendering="geometricPrecision" imageRendering="optimizeQuality" fillRule="evenodd" clipRule="evenodd" viewBox="0 0 784.37 1277.39"><g id="Layer_x0020_1"><metadata id="CorelCorpID_0Corel-Layer" /><g id="_1421394342400"><g><polygon fill="#343434" fillRule="nonzero" points="392.07,0 383.5,29.11 383.5,873.74 392.07,882.29 784.13,650.54 " /><polygon fill="#8C8C8C" fillRule="nonzero" points="392.07,0 -0,650.54 392.07,882.29 392.07,472.33 " /><polygon fill="#3C3C3B" fillRule="nonzero" points="392.07,956.52 387.24,962.41 387.24,1263.28 392.07,1277.38 784.37,724.89 " /><polygon fill="#8C8C8C" fillRule="nonzero" points="392.07,1277.38 392.07,956.52 -0,724.89 " /><polygon fill="#141414" fillRule="nonzero" points="392.07,882.29 784.13,650.54 392.07,472.33 " /><polygon fill="#393939" fillRule="nonzero" points="0,650.54 392.07,882.29 392.07,472.33 " /></g></g></g></svg>
-                      &nbsp;0.0942 ( $ 100 )</span>
-                  </div>
-                  <span>
-
-                    <i className="bi bi-person"></i> : User Wallet
-                  </span>
-                  <span className="pt-1">
-                    <i className="bi bi-clipboard"></i> : Nft
-                  </span>
-                </div>
-                :
-
-                stateBtn == 'Buy' ?
-                  <div className="accordion-body">
-                    <StepWizard>
-                      <FormOne
-                        addFormTwoHandler={addFormTwoHandler}
-                        setSelectorWidth={setSelectorWidth}
-                        setSelectorHeight={setSelectorHeight}
-                        selectorWidth={selectorWidth}
-                        selectorHeight={selectorHeight}
-                      />
-                      <FormTwo removeFormTwoHandler={removeFormTwoHandler} />
-                      <FormThree
-                        removeFormTwoHandler={removeFormTwoHandler}
-                      />
-                      <FormFour
-                        removeFormTwoHandler={removeFormTwoHandler}
-                        squreInfo={squreInfo}
-                        getMintImage={getMintImage}
-                      />
-                    </StepWizard>
-                  </div>
-                  :
-
-                 
-                      <>
-                      <h3 >IT'S FOR SALE</h3>
-        
-                      <div className="d-flex flex-wrap flex-column">
-        
-                        <span>
-                          <i className="bi bi-geo-alt" /> : 287X , 485Y
-                        </span>
-        
-        
-                        <span className="text-nowrap  pt-1"> <b>
-                          <i className="bi bi-tag" /> : </b>
-                          <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" xmlSpace="preserve" width="12px" version="1.1" shapeRendering="geometricPrecision" textRendering="geometricPrecision" imageRendering="optimizeQuality" fillRule="evenodd" clipRule="evenodd" viewBox="0 0 784.37 1277.39"><g id="Layer_x0020_1"><metadata id="CorelCorpID_0Corel-Layer" /><g id="_1421394342400"><g><polygon fill="#343434" fillRule="nonzero" points="392.07,0 383.5,29.11 383.5,873.74 392.07,882.29 784.13,650.54 " /><polygon fill="#8C8C8C" fillRule="nonzero" points="392.07,0 -0,650.54 392.07,882.29 392.07,472.33 " /><polygon fill="#3C3C3B" fillRule="nonzero" points="392.07,956.52 387.24,962.41 387.24,1263.28 392.07,1277.38 784.37,724.89 " /><polygon fill="#8C8C8C" fillRule="nonzero" points="392.07,1277.38 392.07,956.52 -0,724.89 " /><polygon fill="#141414" fillRule="nonzero" points="392.07,882.29 784.13,650.54 392.07,472.33 " /><polygon fill="#393939" fillRule="nonzero" points="0,650.54 392.07,882.29 392.07,472.33 " /></g></g></g></svg>
-                          &nbsp;0.0942 ( $ 100 )</span>
-                        <a className="btn-primary text-nowrap w-75 btn-mob mx-3 mt-5 hoverable btn-md " href="#"><i className="bi-wallet me-2"></i>PURCHASE PLOT</a>
-        
-                      </div>
-                    </>
-        
-
-          }
-
+                <span className="text-nowrap  pt-1">
+                  {' '}
+                  <b>
+                    <i className="bi bi-tag" /> :{' '}
+                  </b>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    xmlSpace="preserve"
+                    width="12px"
+                    version="1.1"
+                    shapeRendering="geometricPrecision"
+                    textRendering="geometricPrecision"
+                    imageRendering="optimizeQuality"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    viewBox="0 0 784.37 1277.39"
+                  >
+                    <g id="Layer_x0020_1">
+                      <metadata id="CorelCorpID_0Corel-Layer" />
+                      <g id="_1421394342400">
+                        <g>
+                          <polygon
+                            fill="#343434"
+                            fillRule="nonzero"
+                            points="392.07,0 383.5,29.11 383.5,873.74 392.07,882.29 784.13,650.54 "
+                          />
+                          <polygon
+                            fill="#8C8C8C"
+                            fillRule="nonzero"
+                            points="392.07,0 -0,650.54 392.07,882.29 392.07,472.33 "
+                          />
+                          <polygon
+                            fill="#3C3C3B"
+                            fillRule="nonzero"
+                            points="392.07,956.52 387.24,962.41 387.24,1263.28 392.07,1277.38 784.37,724.89 "
+                          />
+                          <polygon
+                            fill="#8C8C8C"
+                            fillRule="nonzero"
+                            points="392.07,1277.38 392.07,956.52 -0,724.89 "
+                          />
+                          <polygon
+                            fill="#141414"
+                            fillRule="nonzero"
+                            points="392.07,882.29 784.13,650.54 392.07,472.33 "
+                          />
+                          <polygon
+                            fill="#393939"
+                            fillRule="nonzero"
+                            points="0,650.54 392.07,882.29 392.07,472.33 "
+                          />
+                        </g>
+                      </g>
+                    </g>
+                  </svg>
+                  &nbsp;0.0942 ( $ 100 )
+                </span>
+                <a
+                  className="btn-primary text-nowrap w-75 btn-mob mx-3 mt-5 hoverable btn-md "
+                  href="#"
+                >
+                  <i className="bi-wallet me-2"></i>PURCHASE PLOT
+                </a>
+              </div>
+            </>
+          )}
         </div>
-    
+
         {/* this for ImageInfoButten Companent */}
         {/* //////////////////////////////////////////// */}
         {/* 
@@ -453,13 +593,6 @@ const AdSpace: React.FunctionComponent = () => {
 
                   </div>
         */}
-
-
-
-
-
-
-
       </Fragment>
       {/* {show && ( */}
       <PurchaseSection

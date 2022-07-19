@@ -6,6 +6,7 @@ export interface Settings {
   _3dMode: boolean
   viewState: number
   selectMode: boolean
+  boughtedLandList: []
 }
 
 const initialState: Settings = {
@@ -13,6 +14,7 @@ const initialState: Settings = {
   _3dMode: false,
   viewState: 0,
   selectMode: true,
+  boughtedLandList: [],
 }
 
 export const counterSlice = createSlice({
@@ -32,21 +34,36 @@ export const counterSlice = createSlice({
     setSelectMode: (state, action: PayloadAction<boolean>) => {
       state.selectMode = action.payload
     },
+    setBoughtedLandList: (state, action: PayloadAction<[]>) => {
+      state.boughtedLandList = action.payload
+    },
   },
 })
 
-export const { setLand, set_3dMode, setViewState, setSelectMode } =
-  counterSlice.actions
+export const {
+  setLand,
+  set_3dMode,
+  setViewState,
+  setSelectMode,
+  setBoughtedLandList,
+} = counterSlice.actions
 
 export const selectLand = (state: RootState) => state.settings.land
 export const select_3dMode = (state: RootState) => state.settings._3dMode
 export const selectViewState = (state: RootState) => state.settings.viewState
 export const selectSelectMode = (state: RootState) => state.settings.selectMode
+export const selectBoughtedLandList = (state: RootState) =>
+  state.settings.boughtedLandList
 
 export const setLandData =
   (view: any): AppThunk =>
   (dispatch) => {
     dispatch(setLand(view))
+  }
+export const setBoughtedLandListData =
+  (view: []): AppThunk =>
+  (dispatch) => {
+    dispatch(setBoughtedLandList(view))
   }
 
 export const set_3dModeData =

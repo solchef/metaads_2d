@@ -5,7 +5,7 @@ import { DoubleSide, TextureLoader, Vector3 } from 'three'
 import { Html, OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { LoadingManager } from 'three'
 import { Loader } from '../../utils/loader'
-import { useAppSelector } from '../../components/store/hooks'
+import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 import {
   selectLand,
   select_3dMode,
@@ -22,17 +22,14 @@ export const MapView = () => {
   useEffect(() => {
     if (orbit.current) {
       orbit.current.enableRotate = _3dMode
-      console.log(_3dMode)
       if (_3dMode) {
         orbit.current.minPolarAngle = 0.5
         orbit.current.maxPolarAngle = Math.PI / 2.25
       } else {
-        console.log('in')
         orbit.current.minPolarAngle = 0
         orbit.current.maxPolarAngle = 0
         // Math.PI / 2.25
       }
-      console.log(orbit.current.minPolarAngle)
     }
   }, [_3dMode])
   return (
@@ -89,6 +86,8 @@ function GreenSquare({ color, color2 }) {
   const [playError] = useSound('./errorSound.mp3')
   const [playBuild] = useSound('./build.mp3')
   const landData = store.getState().settings.land
+  const boughtedLandListData = store.getState().settings.boughtedLandList
+
   const [loading, setLoading] = useState(true)
   let x = landData.h,
     y = landData.w,
@@ -168,22 +167,46 @@ function GreenSquare({ color, color2 }) {
                     boxPosition.x + widthMap / 2 - x / 2 <= widthMap - x &&
                     boxPosition.z + heightMap / 2 - y / 2 <= heightMap - y
                   ) {
-                    setLandPosition(
-                      new Vector3(
-                        Math.floor(point.x) + offSetX,
-                        0.8,
-                        Math.floor(point.z) + offSetY
+                    // console.log(boughtedLandListData)
+                    // for (let x = 0; x < boughtedLandListData.length; x++) {
+                    //   const element = boughtedLandListData[x]
+                    //   console.log(boxPosition.x + widthMap / 2 - x / 2)
+                    //   console.log(element.attributes[1].value)
+                    // }
+                    console.log(boughtedLandListData)
+                    const result = boughtedLandListData.find(
+                      (data) =>
+                        data.attributes[0].value ===
+                          Math.floor(point.x) +
+                            offSetX +
+                            widthMap / 2 -
+                            x / 2 &&
+                        data.attributes[1].value ===
+                          boxPosition.z + heightMap / 2 - y / 2
+                    )
+                    console.log(boxPosition.x + widthMap / 2 - x / 2)
+                    console.log(boxPosition.z + heightMap / 2 - y / 2)
+                    console.log(result)
+                    if (result === undefined) {
+                      setLandPosition(
+                        new Vector3(
+                          Math.floor(point.x) + offSetX,
+                          0.8,
+                          Math.floor(point.z) + offSetY
+                        )
                       )
-                    )
-                    store.dispatch(
-                      setLand({
-                        x: boxPosition.x + widthMap / 2 - x / 2,
-                        y: boxPosition.z + heightMap / 2 - y / 2,
-                        h: x,
-                        w: y,
-                      })
-                    )
-                    playBuild()
+                      store.dispatch(
+                        setLand({
+                          x: boxPosition.x + widthMap / 2 - x / 2,
+                          y: boxPosition.z + heightMap / 2 - y / 2,
+                          h: x,
+                          w: y,
+                        })
+                      )
+                      playBuild()
+                    } else {
+                      playError()
+                    }
                   } else {
                     playError()
                   }
