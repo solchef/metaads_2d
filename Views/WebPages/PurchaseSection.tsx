@@ -98,9 +98,16 @@ function PurchaseSection({
         style={{ visibility: 'visible' }}
       >
         <div className="offcanvas-title hide-mobile hoverable">
-          <div className="d-flex justify-content-between align-items-center">
-            <i className="bi-flag w-50" />
-            <h3 className="mb-0 text-left">THE MILLION DOLLAR WEBSITE</h3>
+          <div className="d-flex  align-items-center">
+            <img
+              className="me-3"
+              src="assets/images/million-dollar-logo.svg"
+              width="20%"
+            />
+
+            <h3 className="mb-0 text-left">
+              THE MILLION <br /> DOLLAR WEBSITE
+            </h3>
           </div>
 
           <hr />
