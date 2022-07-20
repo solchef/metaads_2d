@@ -90,13 +90,10 @@ export const Section = () => {
               type="text"
               placeholder="Https://"
               className="form-control"
-<<<<<<< HEAD
-              onChange={(event) => {
-                console.log(event.target.value)
-                setUrl(event.target.value)
-              }}
-=======
->>>>>>> develop
+              // onChange={(event) => {
+              //   console.log(event.target.value)
+              //   setUrl(event.target.value)
+              // }}
             />
           </div>
         </form>
@@ -114,9 +111,14 @@ export const Section = () => {
           </div>
         </form>
       </div>
-      <p className='mb-0'>Recommended size (100X100px png, jpg)</p>
+      <p className="mb-0">Recommended size (100X100px png, jpg)</p>
       <div className="d-flex align-items-center mb-2">
-      <input className="form-check-input w-25 pb-5 h-100 me-3 " type="checkbox" value="" id="flexCheckDefault"/>
+        <input
+          className="form-check-input w-25 pb-5 h-100 me-3 "
+          type="checkbox"
+          value=""
+          id="flexCheckDefault"
+        />
 
         <p className="p-0 mt-4">MARK FOR SALE ON OPENSEA.IO</p>
       </div>

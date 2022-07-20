@@ -51,7 +51,7 @@ export const handleMint = async (
   // const img = await uploadImage(mintImage)
   let imgString = await getBase64(mintImage)
 
-  console.log(imgString)
+  // console.log(imgString)
 
   // update the metadata fields
   // const metadata = await uploadMetadata(
