@@ -92,8 +92,8 @@ function GreenSquare({ color, color2 }) {
   let x = landData.h,
     y = landData.w,
     z = 2
-  const widthMap = 1600
-  const heightMap = 625
+  const widthMap = 1000
+  const heightMap = 1000
   const manager = new LoadingManager()
   manager.onStart = function () {
     setLoading(true)
@@ -102,7 +102,7 @@ function GreenSquare({ color, color2 }) {
     setLoading(false)
   }
   const texture = React.useMemo(
-    () => new TextureLoader(manager).load('./test.png'),
+    () => new TextureLoader(manager).load('./adspace.png'),
     []
   )
 
