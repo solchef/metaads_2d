@@ -79,7 +79,7 @@ export default async function handler(req, res) {
       let scaleY = 10000 / oImg.height
       oImg.set({
         left: 0 + variant,
-        top: 0 + variant,
+        top: 0 + 0.5,
         scaleX: scaleX,
         scaleY: scaleY,
       })
