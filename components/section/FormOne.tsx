@@ -1,40 +1,60 @@
 import React from 'react'
-import {
-  getLandDefSize,
-  setHeight,
-  setWidth,
-} from '../../Views/WebPages/canvesGrid'
+import { updateX, updateY } from '../../Views/WebPages/Map'
+import { selectLand, setLand } from '../reducers/Settings'
+import { store } from '../store'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
 
 const FormOne = (props) => {
+  const landData = useAppSelector(selectLand)
+  const dispatch = useAppDispatch()
+
   return (
-  <div >
-
-
+    <div>
       <h3 className="text-white mb-2"> SQ.NFT SIZE</h3>
       <form className="btn-slide mb-0 pb-0">
-      <div className="input-group hoverable mb-2">
-    <span className="input-group-text ">
-      <i className="bi-border" />
-    </span>
-    <input
-      type="number"
-      min="1"
-      max="1000000"
-      aria-label="x"
-      placeholder="X"
-      className="form-control"
-    />
-    <input
-      type="number"
-      aria-label="y"
-      min="1"
-      max="1000000"
-      placeholder="Y"
-      className="form-control value="
-    />
-  </div>
+        <div className="input-group hoverable mb-2">
+          <span className="input-group-text ">
+            <i className="bi-border" />
+          </span>
+          <input
+            type="number"
+            min="1"
+            max="1000000"
+            onChange={(e) => {
+              dispatch(
+                setLand({
+                  x: landData.x,
+                  y: landData.y,
+                  w: landData.w,
+                  h: parseInt(e.target.value),
+                })
+              )
+            }}
+            className="form-control "
+            defaultValue={10}
+          />
+          <input
+            type="number"
+            min="1"
+            max="1000000"
+            onChange={(e) => {
+              dispatch(
+                setLand({
+                  x: landData.x,
+                  y: landData.y,
+                  w: parseInt(e.target.value),
+                  h: landData.h,
+                })
+              )
+            }}
+            defaultValue={10}
+            className="form-control"
+          />
+        </div>
       </form>
-<p className='mt-0 pt-0'>Select your NFI sq. Size (1 sq=10x10px) & Drag it where you want it.</p>
+      <p className="mt-0 pt-0">
+        Select your NFI sq. Size (1 sq=10x10px) & Drag it where you want it.
+      </p>
       <div className="d-flex justify-content-between mt-2">
         <div className="d-flex cir">
           <div
@@ -53,7 +73,7 @@ const FormOne = (props) => {
           Next
         </button>
       </div>
-      </div>
+    </div>
   )
 }
 

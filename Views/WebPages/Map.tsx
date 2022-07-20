@@ -5,7 +5,7 @@ import { DoubleSide, TextureLoader, Vector3 } from 'three'
 import { Html, OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { LoadingManager } from 'three'
 import { Loader } from '../../utils/loader'
-import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
+import { useAppSelector } from '../../components/store/hooks'
 import {
   selectLand,
   selectZoomIn,
@@ -15,10 +15,12 @@ import {
 } from '../../components/reducers/Settings'
 import { store } from '../../components/store'
 import useSound from 'use-sound'
-import { useControls } from 'leva'
+
+let oldx, oldy
 
 export const MapView = () => {
   const _3dMode = useAppSelector(select_3dMode)
+  const land = useAppSelector(selectLand)
   const orbit = useRef()
   const zoomIn = useAppSelector(selectZoomIn)
   const zoomOut = useAppSelector(selectZoomOut)
@@ -62,7 +64,7 @@ export const MapView = () => {
       <group>
         {/* All these are in the same group */}
         <Suspense fallback={<></>}>
-          <GreenSquare color="#f56f42" color2="#00707b" />
+          <GreenSquare color="#f56f42" color2="#00707b" x={land.h} y={land.w} />
           <PerspectiveCamera position={[0, 1200, 0]} makeDefault />
           {/*
           This lets you rotate the camera.
@@ -100,15 +102,12 @@ export const MapView = () => {
 // Meshes are objects that can have a shape and
 // texture.
 
-function GreenSquare({ color, color2 }) {
+function GreenSquare({ color, color2, x, y }) {
   const [playError] = useSound('./errorSound.mp3')
   const [playBuild] = useSound('./build.mp3')
-  const landData = store.getState().settings.land
   const boughtedLandListData = store.getState().settings.boughtedLandList
   const [loading, setLoading] = useState(true)
-  let x = landData.h,
-    y = landData.w,
-    z = 2
+  const z = 2
   const widthMap = 1000
   const heightMap = 1000
   const manager = new LoadingManager()
@@ -118,6 +117,7 @@ function GreenSquare({ color, color2 }) {
   manager.onLoad = function () {
     setLoading(false)
   }
+
   const texture = React.useMemo(
     () => new TextureLoader(manager).load('./adspace.png'),
     []
@@ -131,35 +131,42 @@ function GreenSquare({ color, color2 }) {
 
   const onMove = (point) => {
     if (!viewLand) setViewBox(true)
-    let offSetX = 0.5
-    if (x % 2 == 0) {
-      offSetX = 0
-    }
-    let offSetY = 0
-    if (y % 2 == 0) {
-      offSetY = 0.5
-    }
-    setBoxPosition(
-      new Vector3(
-        Math.floor(point.x) + offSetX,
-        0.5,
-        Math.floor(point.z) + offSetY
-      )
-    )
+
+    setBoxPosition(new Vector3(Math.floor(point.x), 0.5, Math.floor(point.z)))
   }
+
+  useEffect(() => {
+    //oldx,oldy;
+    let result = 0
+    if (oldx !== undefined) result = oldx - x
+    setLandPosition(
+      new Vector3(landPosition.x - result / 2, landPosition.y, landPosition.z)
+    )
+    oldx = x
+  }, [x])
+
+  useEffect(() => {
+    //oldx,oldy;
+    let result = 0
+    if (oldy !== undefined) result = oldy - y
+    setLandPosition(
+      new Vector3(landPosition.x, landPosition.y, landPosition.z - result / 2)
+    )
+    oldy = y
+  }, [y])
 
   const onPointUp = (point) => {
     if (!store.getState().settings.selectMode) {
       setViewLand(true)
       onMove(point)
-      let offSetX = 0.5
-      if (x % 2 == 0) {
-        offSetX = 0
-      }
-      let offSetY = 0
-      if (y % 2 == 0) {
-        offSetY = 0.5
-      }
+      //   let offSetX = 0.5
+      //   if (x % 2 == 0) {
+      //     offSetX = 0
+      //   }
+      //   let offSetY = 0
+      //   if (y % 2 == 0) {
+      //     offSetY = 0.5
+      //   }
       if (
         Math.sign(boxPosition.x + widthMap / 2 - x / 2) !== -1 &&
         Math.sign(boxPosition.z + heightMap / 2 - y / 2) !== -1
@@ -178,7 +185,7 @@ function GreenSquare({ color, color2 }) {
           const result = boughtedLandListData.find(
             (data) =>
               data.attributes[0].value ===
-                Math.floor(point.x) + offSetX + widthMap / 2 - x / 2 &&
+                Math.floor(point.x) + widthMap / 2 - x / 2 &&
               data.attributes[1].value === boxPosition.z + heightMap / 2 - y / 2
           )
           //   console.log(boxPosition.x + widthMap / 2 - x / 2)
@@ -186,11 +193,7 @@ function GreenSquare({ color, color2 }) {
           //   console.log(result)
           if (result === undefined) {
             setLandPosition(
-              new Vector3(
-                Math.floor(point.x) + offSetX,
-                0.8,
-                Math.floor(point.z) + offSetY
-              )
+              new Vector3(Math.floor(point.x), 0.8, Math.floor(point.z))
             )
             store.dispatch(
               setLand({
@@ -235,13 +238,13 @@ function GreenSquare({ color, color2 }) {
         <>
           <mesh
             position={[0, 0, 0]}
-            rotation={[Math.PI / 2, 0, 0]}
+            rotation={[-Math.PI / 2, 0, 0]}
             scale={[1, 1, 1]}
-            onPointerUp={({ uv, screenY, point }) => {
-              onPointUp(point)
+            onPointerUp={({ uv, screenY, point, nativeEvent }) => {
+              if (nativeEvent.which !== 3) onPointUp(point)
             }}
             onPointerDown={(e) => {
-              console.log(e)
+              if (e.buttons === 1) setViewBox(true)
             }}
             onPointerOut={() => setViewBox(false)}
             onPointerMove={({ _uv, _screenY, point }) => {
@@ -260,7 +263,7 @@ function GreenSquare({ color, color2 }) {
             <meshBasicMaterial
               attach="material"
               // color={color}
-              //displacementMap={texture}
+              //   displacementMap={texture}
               map={texture}
               side={DoubleSide}
             />

@@ -2,12 +2,16 @@
 /* eslint-disable react/no-unescaped-entities */
 // import Image from 'next/image'
 
+import { useEffect } from 'react'
 import { selectLand, setLand } from '../../components/reducers/Settings'
-import { store } from '../../components/store'
-import { useAppSelector } from '../../components/store/hooks'
+import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
+import { updateX, updateY } from './Map'
 
 export const Section = () => {
   const landData = useAppSelector(selectLand)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {}, [])
 
   return (
     <div className="offcanvas-body image-info pt-5 pb-5 p-0 ">
@@ -27,8 +31,7 @@ export const Section = () => {
               placeholder="Width"
               className="form-control"
               onChange={(e) => {
-                const landData = store.getState().settings.land
-                store.dispatch(
+                dispatch(
                   setLand({
                     x: landData.x,
                     y: landData.y,
@@ -47,8 +50,7 @@ export const Section = () => {
               placeholder="Hight"
               className="form-control value="
               onChange={(e) => {
-                const landData = store.getState().settings.land
-                store.dispatch(
+                dispatch(
                   setLand({
                     x: landData.x,
                     y: landData.y,
