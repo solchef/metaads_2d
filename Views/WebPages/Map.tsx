@@ -8,6 +8,8 @@ import { Loader } from '../../utils/loader'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 import {
   selectLand,
+  selectZoomIn,
+  selectZoomOut,
   select_3dMode,
   setLand,
 } from '../../components/reducers/Settings'
@@ -18,6 +20,8 @@ import { useControls } from 'leva'
 export const MapView = () => {
   const _3dMode = useAppSelector(select_3dMode)
   const orbit = useRef()
+  const zoomIn = useAppSelector(selectZoomIn)
+  const zoomOut = useAppSelector(selectZoomOut)
 
   useEffect(() => {
     if (orbit.current) {
@@ -32,6 +36,23 @@ export const MapView = () => {
       }
     }
   }, [_3dMode])
+
+  useEffect(() => {
+    if (orbit.current) {
+      console.log(orbit.current)
+      orbit.current.object.position.y -= 100
+      orbit.current.object.updateProjectionMatrix()
+    }
+  }, [zoomIn])
+
+  useEffect(() => {
+    if (orbit.current) {
+      console.log(orbit.current)
+      orbit.current.object.position.y += 100
+      orbit.current.object.updateProjectionMatrix()
+    }
+  }, [zoomOut])
+
   return (
     <Canvas style={{ height: '100vh', width: '100%', backgroundColor: '#000' }}>
       {/*
@@ -74,6 +95,25 @@ export const MapView = () => {
         */}
     </Canvas>
   )
+}
+function dollyOut(dollyScale) {}
+
+function dollyIn(dollyScale) {
+  if (scope.object.isPerspectiveCamera) {
+    scale *= dollyScale
+  } else if (scope.object.isOrthographicCamera) {
+    scope.object.zoom = Math.max(
+      scope.minZoom,
+      Math.min(scope.maxZoom, scope.object.zoom / dollyScale)
+    )
+    scope.object.updateProjectionMatrix()
+    zoomChanged = true
+  } else {
+    console.warn(
+      'WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.'
+    )
+    scope.enableZoom = false
+  }
 }
 
 // const onMouseMove =  useCallback(e => console.log(e))

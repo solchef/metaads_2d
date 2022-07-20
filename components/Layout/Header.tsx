@@ -5,6 +5,8 @@ import {
   setReloadPage,
   setSelectMode,
   setViewState,
+  setZoomIn,
+  setZoomOut,
   set_3dMode,
   set_3dModeData,
 } from '../reducers/Settings'
@@ -15,6 +17,7 @@ import { Web3Button } from '../Web3Button'
 const Header = () => {
   const [threeD, setThreeD] = useState(true)
   const [stateBtn, setStateBtn] = useState('info')
+  const [zoomLevel, setZoomLevel] = useState(1)
   const dispatch = useAppDispatch()
   return (
     <>
@@ -86,16 +89,28 @@ const Header = () => {
                     </button>
                   </div>
                   <div className="buttons bo flex-nowrap">
-                    <button className="btn btn-bi hoverable btn-primary m-0 btn-lg ">
+                    <button
+                      className="btn btn-bi hoverable btn-primary m-0 btn-lg "
+                      onClick={() => {
+                        dispatch(setZoomOut(zoomLevel - 1))
+                        setZoomLevel(zoomLevel + 1)
+                      }}
+                    >
                       <i className="bi-zoom-out" />
                     </button>
                     <button
                       className="btn btn-bi  m-0 btn-lg "
                       style={{ color: '#fff' }}
                     >
-                      1X
+                      {zoomLevel}X
                     </button>
-                    <button className="btn btn-bi btn-primary hoverable btn-lg ">
+                    <button
+                      className="btn btn-bi btn-primary hoverable btn-lg "
+                      onClick={() => {
+                        dispatch(setZoomIn(zoomLevel + 1))
+                        setZoomLevel(zoomLevel + 1)
+                      }}
+                    >
                       <i className="bi-zoom-in " />
                     </button>
                   </div>
