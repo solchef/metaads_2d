@@ -207,7 +207,8 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
               </g>
             </g>
           </svg>
-          &nbsp;0.0942 ( $ 100 )
+          &nbsp;{landData.h * landData.w * 0.0942} ( $ {landData.h * landData.w}{' '}
+          )
         </span>
       </div>
     </div>
