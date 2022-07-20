@@ -10,8 +10,6 @@ import { setWidth, setHeight, getLandDefSize, getLands } from './canvesGrid'
 import { About } from './About'
 import { ImageInfo } from './ImageInfo'
 import { ImageInfoButton } from './ImageInfoButton'
-import { Sellsection } from './Sellsection'
-import { Editsection } from './Editsection'
 import { Section } from './Section'
 
 function PurchaseSection({
