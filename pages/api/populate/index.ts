@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   }
 
   let scaler = 10
-  let variant = -100
+  let variant = 0
 
   let minted = await MetaadsContractUnsigned.occupiedList()
 
@@ -73,7 +73,7 @@ export default async function handler(req, res) {
   })
 
   await fabric.Image.fromURL(
-    'https://quadspace.io/blank.svg',
+    'https://million.quadspace.io/blank.svg',
     async function (oImg) {
       let scaleX = 10000 / oImg.width
       let scaleY = 10000 / oImg.height
