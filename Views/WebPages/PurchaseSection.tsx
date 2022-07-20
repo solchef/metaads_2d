@@ -13,7 +13,6 @@ import { ImageInfoButton } from './ImageInfoButton'
 import { Sellsection } from './sellsection'
 // import { Editsection } from './Editsection'
 import { Section } from './Section'
-import { Sellsection } from './sellsection'
 
 function PurchaseSection({
   isCanvasLeft,
