@@ -911,6 +911,11 @@ input:checked+.slider:before {
 }
 
 @media (max-width: 992px) {
+    .num-border {
+        padding: 0px 8px;
+        border: 1px white solid;
+        height: fit-content;
+    }
     .g-main {
         width: 100vw !important;
         height: calc(100vh - 55px - 30vh - 87px) !important;
