@@ -563,7 +563,7 @@ section#marketplace-section {
 
 /* ======| RESPONSIVE |================================*/
 
-@media (min-width: 992px) {
+@media (min-width: 1033px) {
     .controls .btn-primary:hover {
         text-align: center !important;
         border: none !important;
@@ -580,7 +580,7 @@ section#marketplace-section {
     }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1033px) {
     p {
         font-size: 13px;
         line-height: 20px;
@@ -925,7 +925,7 @@ input:checked+.slider:before {
     text-shadow: 0px 0px 0px #ff00cc, 0 0 25px #ff00cc, 0 0 5px #ff00cc;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1033px) {
     .num-border {
         padding: 0px 8px;
         border: 1px white solid;
