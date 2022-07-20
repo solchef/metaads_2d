@@ -147,7 +147,7 @@ function GreenSquare({ color, color2 }) {
             position={[0, 0, 0]}
             rotation={[Math.PI / 2, 0, 0]}
             scale={[1, 1, 1]}
-            onClick={({ uv, screenY, point }) => {
+            onPointerUp={({ uv, screenY, point }) => {
               if (!store.getState().settings.selectMode) {
                 setViewLand(true)
                 onMove(point)

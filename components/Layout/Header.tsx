@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {
+  setReloadPage,
   setSelectMode,
   setViewState,
   set_3dMode,
@@ -99,7 +100,13 @@ const Header = () => {
                     </button>
                   </div>
                   <div className="buttons flex-nowrap ">
-                    <button className="btn hoverable btn-primary btn-lg ">
+                    <button
+                      className="btn hoverable btn-primary btn-lg "
+                      onClick={async () => {
+                        await dispatch(setReloadPage(false))
+                        await dispatch(setReloadPage(true))
+                      }}
+                    >
                       <i className="bi-arrow-clockwise " />
                     </button>
 

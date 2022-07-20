@@ -20,22 +20,23 @@ import FormThree from '../components/FormThree'
 import FormFour from '../components/FormFour'
 
 import { useWeb3Context } from '../context'
-import { QuadSpaceContract } from '../utils/constants'
 import {
-  selectLand,
+  selectReloadPage,
   setBoughtedLandList,
+  setReloadPage,
   setSelectMode,
+  set_3dMode,
 } from '../components/reducers/Settings'
 import { useAppDispatch, useAppSelector } from '../components/store/hooks'
-import Minimap, { Child as ChildComponent } from 'react-minimap'
 import 'react-minimap/dist/react-minimap.css'
 import { MetaadsContractUnsigned } from '../utils/readOnly'
 import { MapView } from './WebPages/Map'
 
 const AdSpace: React.FunctionComponent = () => {
   const { address, contracts } = useWeb3Context()
-  const landData = useAppSelector(selectLand)
   const [zoomLevel, setZoomLevel] = useState()
+  const reload = useAppSelector(selectReloadPage)
+
   // const viewPoint = getViewLocation()
   const { cAreaRef, squreInfo, setEnableBuy } = useCanvas()
   const dispatch = useAppDispatch()
@@ -53,7 +54,6 @@ const AdSpace: React.FunctionComponent = () => {
   } = useCanvas()
 
   useEffect(() => {
-    //   http://localhost:3000/api/info
     axios.get('http://localhost:3000/api/info').then((data) => {
       dispatch(setBoughtedLandList(data.data.meta))
     })
@@ -248,7 +248,7 @@ const AdSpace: React.FunctionComponent = () => {
               id="container"
             >
               {/* <canvas id="adcanvass"></canvas> */}
-              <MapView />
+              {reload ? <MapView /> : ''}
             </div>
           </div>
         </section>
@@ -258,7 +258,10 @@ const AdSpace: React.FunctionComponent = () => {
               <div className="right-controls d-flex">
                 <div className="me-2">
                   <button
-                    onClick={() => setStateBtn('info')}
+                    onClick={() => {
+                      setStateBtn('info')
+                      dispatch(setSelectMode(true))
+                    }}
                     className={`btn btn-primary btn-lg hoverable ${
                       stateBtn == 'info' ? 'active' : ''
                     }  `}
@@ -284,7 +287,10 @@ const AdSpace: React.FunctionComponent = () => {
                     <span className="text-nowrap  hide-mobile"> Buy Mode</span>
                   </button>
                   <button
-                    onClick={() => setStateBtn('View')}
+                    onClick={() => {
+                      setStateBtn('View')
+                      dispatch(setSelectMode(true))
+                    }}
                     className={`btn btn-bi d-flex ${
                       stateBtn == 'View' ? 'active' : ''
                     } flex-nowrap toggle-mode  
@@ -309,11 +315,20 @@ const AdSpace: React.FunctionComponent = () => {
                   </button>
                 </div>
                 <div className="buttons flex-nowrap ">
-                  <button className="btn hoverable btn-primary btn-lg ">
+                  <button
+                    className="btn hoverable btn-primary btn-lg "
+                    onClick={async () => {
+                      await dispatch(setReloadPage(false))
+                      await dispatch(setReloadPage(true))
+                    }}
+                  >
                     <i className="px-2 bi-arrow-clockwise " />
                   </button>
                   <button
-                    onClick={() => setThreeD(!threeD)}
+                    onClick={() => {
+                      setThreeD(!threeD)
+                      dispatch(set_3dMode(threeD))
+                    }}
                     className="btn btn-primary btn-lg hoverable"
                   >
                     <span className="px-2"> {threeD ? '3D' : '2D'}</span>

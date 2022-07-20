@@ -7,6 +7,7 @@ export interface Settings {
   viewState: number
   selectMode: boolean
   boughtedLandList: []
+  reloadPage: boolean
 }
 
 const initialState: Settings = {
@@ -15,6 +16,7 @@ const initialState: Settings = {
   viewState: 0,
   selectMode: true,
   boughtedLandList: [],
+  reloadPage: true,
 }
 
 export const counterSlice = createSlice({
@@ -37,6 +39,9 @@ export const counterSlice = createSlice({
     setBoughtedLandList: (state, action: PayloadAction<[]>) => {
       state.boughtedLandList = action.payload
     },
+    setReloadPage: (state, action: PayloadAction<boolean>) => {
+      state.reloadPage = action.payload
+    },
   },
 })
 
@@ -46,6 +51,7 @@ export const {
   setViewState,
   setSelectMode,
   setBoughtedLandList,
+  setReloadPage,
 } = counterSlice.actions
 
 export const selectLand = (state: RootState) => state.settings.land
@@ -54,6 +60,7 @@ export const selectViewState = (state: RootState) => state.settings.viewState
 export const selectSelectMode = (state: RootState) => state.settings.selectMode
 export const selectBoughtedLandList = (state: RootState) =>
   state.settings.boughtedLandList
+export const selectReloadPage = (state: RootState) => state.settings.reloadPage
 
 export const setLandData =
   (view: any): AppThunk =>
@@ -83,4 +90,11 @@ export const setViewStateData =
   (dispatch) => {
     dispatch(setViewState(view))
   }
+
+export const setReloadPageData =
+  (view: boolean): AppThunk =>
+  (dispatch) => {
+    dispatch(setReloadPage(view))
+  }
+
 export default counterSlice.reducer
