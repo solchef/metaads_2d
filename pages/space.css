@@ -58,15 +58,15 @@
 
 .cir {
     position: absolute;
-    bottom: 10px;
-    left: 50%;
+    bottom: 20px;
+    left: 52%;
     transform: translate(-50%);
 }
 
 .Next,
 .Back {
     position: absolute;
-    bottom: 0px;
+    bottom: 10px;
 }
 
 .Back {

@@ -77,7 +77,7 @@ export const MapView = () => {
             maxAzimuthAngle={0}
             minZoom={0}
             maxZoom={1600}
-            minDistance={100}
+            minDistance={10}
             maxDistance={1200}
             enableRotate={store.getState().settings._3dMode}
           />
@@ -109,8 +109,8 @@ function GreenSquare({ color, color2 }) {
   let x = landData.h,
     y = landData.w,
     z = 2
-  const widthMap = 1600
-  const heightMap = 625
+  const widthMap = 1000
+  const heightMap = 1000
   const manager = new LoadingManager()
   manager.onStart = function () {
     setLoading(true)
@@ -119,7 +119,7 @@ function GreenSquare({ color, color2 }) {
     setLoading(false)
   }
   const texture = React.useMemo(
-    () => new TextureLoader(manager).load('./test.png'),
+    () => new TextureLoader(manager).load('./adspace.png'),
     []
   )
 
