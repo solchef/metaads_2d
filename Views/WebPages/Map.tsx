@@ -58,7 +58,7 @@ export const MapView = () => {
             maxAzimuthAngle={0}
             minZoom={0}
             maxZoom={1600}
-            minDistance={100}
+            minDistance={10}
             maxDistance={1200}
             enableRotate={store.getState().settings._3dMode}
           />
