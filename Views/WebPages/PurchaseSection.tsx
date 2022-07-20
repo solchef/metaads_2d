@@ -11,6 +11,7 @@ import { About } from './About'
 import { ImageInfo } from './ImageInfo'
 import { ImageInfoButton } from './ImageInfoButton'
 import { Section } from './Section'
+import { Sellsection } from './sellsection'
 
 function PurchaseSection({
   isCanvasLeft,
