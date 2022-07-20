@@ -18,12 +18,12 @@ export const resolvers = {
     // getSingleMinted: async (_, args) => {
     //   try {
     //     const user = await axios.get(
-    //       `https://api.github.com/users/${args.name}`
+    //       `https://quadspace.io/api/graphql`
     //     )
     //     return {
-    //       id: user.data.id,
-    //       login: user.data.login,
-    //       avatar_url: user.data.avatar_url,
+    //      name,
+    // description,
+    // image,
     //     }
     //   } catch (error) {
     //     throw error

@@ -5,8 +5,9 @@ export default async function handler(req, res) {
 
   const metalist = []
   minted.forEach(async (nft) => {
-    let x = Number(nft) % 1000
-    let y = Math.ceil(Number(nft) / 1000)
+    let y = Number(nft) % 1000
+    let x = Math.ceil(Number(nft) / 1000)
+
     // let holder = await MetaadsContractUnsigned.ownerOf(Number(nft))
     let itemMeta = {
       name: 'Quad #' + Number(nft),

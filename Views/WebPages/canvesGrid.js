@@ -116,8 +116,8 @@ export const loadGrid = (mintingData) => {
     shapeObject.set({
       left: 0,
       top: 0,
-      scaleX: 1600 / 16000,
-      scaleY: 625 / 6250,
+      scaleX: 1000 / 10000,
+      scaleY: 1000 / 10000,
       objectCaching: false,
     })
 
@@ -366,8 +366,8 @@ const onObjectMoving = (options) => {
   x = Math.round(options.target.left / 1) * 1
   y = Math.round(options.target.top / 1) * 1
   if (options.target.name === 'adboard') {
-    const maxNumberX = c.vptCoords.br.x - 1600
-    const maxNumberY = c.vptCoords.br.y - 625
+    const maxNumberX = c.vptCoords.br.x - 1000
+    const maxNumberY = c.vptCoords.br.y - 1000
 
     if (options.target.left >= maxNumberX) {
       if (Math.sign(options.target.left) !== 1) {

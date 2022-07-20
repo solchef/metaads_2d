@@ -14,11 +14,16 @@ import axios from 'axios'
 // } from './WebPages/canvesGrid'
 
 import StepWizard from 'react-step-wizard'
-import FormOne from '../components/FormOne'
-import FormTwo from '../components/FormTwo'
-import FormThree from '../components/FormThree'
-import FormFour from '../components/FormFour'
-
+import FormOne from '../components/section/FormOne'
+import FormTwo from '../components/section/FormTwo'
+import FormThree from '../components/section/FormThree'
+import FormFour from '../components/section/FormFour'
+import FormFive from '../components/section/FormFive'
+import FormEditOne from '../components/edit-section/FormEditOne'
+import FormEditTwo from '../components/edit-section/FormEditTwo'
+import FormEditThree from '../components/edit-section/FormEditThree'
+import FormEditFour from '../components/edit-section/FormEditFour'
+import FormEditFive from '../components/edit-section/FormEditFive'
 import { useWeb3Context } from '../context'
 import {
   selectReloadPage,
@@ -464,6 +469,7 @@ const AdSpace: React.FunctionComponent = () => {
               </div>
             </>
           ) : stateBtn == 'Buy' ? (
+
             <div className="accordion-body">
               <StepWizard>
                 <FormOne
@@ -475,13 +481,35 @@ const AdSpace: React.FunctionComponent = () => {
                 />
                 <FormTwo removeFormTwoHandler={removeFormTwoHandler} />
                 <FormThree removeFormTwoHandler={removeFormTwoHandler} />
-                <FormFour
+                <FormFour removeFormTwoHandler={removeFormTwoHandler} />
+                <FormFive
                   removeFormTwoHandler={removeFormTwoHandler}
                   squreInfo={squreInfo}
                   getMintImage={getMintImage}
                 />
               </StepWizard>
             </div>
+
+// This For Edit
+          //   <div className="accordion-body">
+          //   <StepWizard>
+          //     <FormEditOne
+          //       addFormTwoHandler={addFormTwoHandler}
+          //       setSelectorWidth={setSelectorWidth}
+          //       setSelectorHeight={setSelectorHeight}
+          //       selectorWidth={selectorWidth}
+          //       selectorHeight={selectorHeight}
+          //     />
+          //     <FormEditTwo removeFormTwoHandler={removeFormTwoHandler} />
+          //     <FormEditThree removeFormTwoHandler={removeFormTwoHandler} />
+          //     <FormEditFour removeFormTwoHandler={removeFormTwoHandler} />
+          //     <FormEditFive
+          //       removeFormTwoHandler={removeFormTwoHandler}
+          //       squreInfo={squreInfo}
+          //       getMintImage={getMintImage}
+          //     />
+          //   </StepWizard>
+          // </div>
           ) : (
             <div className="d-flex flex-wrap image-info  flex-column">
               <h3>NAME HERE</h3>

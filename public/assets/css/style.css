@@ -197,7 +197,6 @@ btn:active {
     box-shadow: 0 0 0 0.25rem rgb(49 132 253 / 0%);
 }
 
-.controls .btn-primary:hover,
 .controls .btn-primary.active {
     text-align: center !important;
     border: none !important;
@@ -564,6 +563,23 @@ section#marketplace-section {
 
 /* ======| RESPONSIVE |================================*/
 
+@media (min-width: 992px) {
+    .controls .btn-primary:hover {
+        text-align: center !important;
+        border: none !important;
+        background: linear-gradient(to right, #f50074, #aa01b3) !important;
+        -moz-transition: all 0.3s ease !important;
+        -o-transition: all 0.3s ease !important;
+        -webkit-transition: all 0.3s ease !important;
+        -ms-transition: all 0.3s ease !important;
+        transition: all 0.3s ease !important;
+        box-shadow: none !important;
+        background: #690779 !important;
+        box-shadow: inset 1px 1px 2px 1px rgb(0 0 0 / 50%) !important;
+        color: #b74aca !important;
+    }
+}
+
 @media (max-width: 992px) {
     p {
         font-size: 13px;
@@ -852,7 +868,6 @@ input:checked+.slider:before {
 }
 
 .g-main {
-    border: 2px solid #f90070;
     width: calc(100vw - 300px) !important;
     height: calc(100vh - 92px);
 }
