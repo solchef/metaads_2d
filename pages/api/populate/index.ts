@@ -18,39 +18,23 @@ export default async function handler(req, res) {
 
   let scaler = 10
 
-  // const splitLand = () => {
-  //   for (var i = 0; i < 200; i++) {
-  //     for (var j = 0; j < 250; j++) {
-  //       let horizontal = new fabric.Rect({
-  //         top: i * 10,
-  //         left: j * 10,
-  //         height: 1 * scaler,
-  //         width: 1 * scaler,
-  //         fill: '#7b0000',
-  //         selection: false,
-  //       })
-  //       c.add(horizontal)
-  //     }
-  //   }
-  // }
-
   let minted = await MetaadsContractUnsigned.occupiedList()
 
   let rects = []
   const quadmints = [
     [0, 0],
-    [0, 1350],
-    [425, 0],
-    [425, 1350],
-    [212, 675],
+    [0, 750],
+    [750, 0],
+    [750, 750],
+    [375, 400],
   ]
 
-  let c = new fabric.StaticCanvas(null, { width: 16000, height: 6250 })
+  let c = new fabric.StaticCanvas(null, { width: 10000, height: 10000 })
 
   //   contractmints
   minted.forEach(async (nft) => {
-    let x = Number(nft) % 1000
-    let y = Math.ceil(Number(nft) / 1000)
+    let y = Number(nft) % 1000
+    let x = Math.ceil(Number(nft) / 1000)
 
     const quad = await new fabric.Rect({
       top: x * scaler,
@@ -89,8 +73,8 @@ export default async function handler(req, res) {
   await fabric.Image.fromURL(
     'https://quadspace.io/blank.svg',
     async function (oImg) {
-      let scaleX = 16000 / oImg.width
-      let scaleY = 6250 / oImg.height
+      let scaleX = 10000 / oImg.width
+      let scaleY = 10000 / oImg.height
       oImg.set({
         left: 0,
         top: 0,
@@ -98,9 +82,32 @@ export default async function handler(req, res) {
         scaleY: scaleY,
       })
 
+      // console.log(pResponse)
+
       await c.add(oImg)
       await c.renderAll()
+      let loadingimages = await populateImages()
+      // console.log(loadingimages)
+      // c.add([...loadingimages])
+      // console.log(loadingimages[0])
+      loadingimages.forEach((img) => {
+        // console.log(img.type)
+        // c.add(JSON.parse(img))
 
+        fabric.util.enlivenObjects([img], function (objects) {
+          var origRenderOnAddRemove = c.renderOnAddRemove
+          c.renderOnAddRemove = false
+
+          objects.forEach(function (o) {
+            o.top = 2
+            o.left = 2600
+            c.add(o)
+          })
+
+          c.renderOnAddRemove = origRenderOnAddRemove
+          c.renderAll()
+        })
+      })
       finalImage = c.toSVG()
 
       let pathToWriteImage = 'public/adspace.svg'
@@ -109,4 +116,31 @@ export default async function handler(req, res) {
       res.end(c.toSVG())
     }
   )
+}
+
+const populateImages = async () => {
+  let parcels = await fetch('http://localhost:3000/api/metadata/parcels', {
+    method: 'GET',
+  })
+
+  let imagesArr = []
+
+  let pResponse = await parcels.json()
+  pResponse = pResponse.message
+
+  await pResponse.forEach((parc) => {
+    if (parc.image_temp) {
+      // fabric.Image.fromURL(parc.image_temp, function (myImg) {
+      //   var img1 = myImg.set({
+      //     left: 0,
+      //     top: 0,
+      //     width: parc.parcelwidth,
+      //     height: parc.parcelHeight,
+      //   })
+      // })
+
+      imagesArr.push(parc.image_temp)
+    }
+  })
+  return imagesArr
 }

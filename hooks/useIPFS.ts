@@ -1,9 +1,9 @@
 import { create } from 'ipfs-http-client'
 
 const ipfs = create({
-  host: 'ipfs.infura.io',
+  host: '127.0.0.1',
   port: 5001,
-  protocol: 'https',
+  protocol: 'http',
 })
 export const useIPFS = () => {
   // Format the IPFS url
@@ -20,7 +20,7 @@ export const useIPFS = () => {
       console.error('Something went wrong when updloading the file')
       return
     }
-
+    console.log('added')
     return fileAdded
   }
 
@@ -39,13 +39,13 @@ export const useIPFS = () => {
         {
           trait_type: 'Space X',
           value: xProp,
-          max_value: 408,
+          max_value: 1000,
           display_type: 'number',
         },
         {
           trait_type: 'Space Y',
           value: yProp,
-          max_value: 408,
+          max_value: 1000,
           display_type: 'number',
         },
         {
@@ -68,5 +68,40 @@ export const useIPFS = () => {
     return metadataAdded.path
   }
 
-  return { resolveLink, uploadImage, uploadMetadata }
+  // Upload image to IPFS
+  /** Uses `URL.createObjectURL` free returned ObjectURL with `URL.RevokeObjectURL` when done with it.
+   *
+   * @param {string} cid CID you want to retrieve
+   * @param {string} mime mimetype of image (optional, but useful)
+   * @param {number} limit size limit of image in bytes
+   * @returns ObjectURL
+   */
+  const loadImgURL = async (cid, mime, limit) => {
+    if (cid == '' || cid == null || cid == undefined) {
+      return
+    }
+    // for await (const file of ipfs.get(cid)) {
+    //   if (file.size > limit) {
+    //     return
+    //   }
+    //   const content = []
+    //   if (file.content) {
+    //     for await (const chunk of file.content) {
+    //       content.push(chunk)
+    //     }
+    //     return URL.createObjectURL(new Blob(content, { type: mime }))
+    //   }
+    // }
+    let res = await ipfs.get(cid)
+    console.log(res)
+    // const files = await res.files()
+
+    // for (const file of files) {
+    //   console.log(`${file.cid} -- ${file.path} -- ${file.size}`)
+    // }
+
+    return res
+  }
+
+  return { resolveLink, uploadImage, uploadMetadata, loadImgURL }
 }

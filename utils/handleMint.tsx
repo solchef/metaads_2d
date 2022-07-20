@@ -6,18 +6,28 @@ import {
   MiningTransaction,
   SuccessfulTransaction,
 } from './notifications'
+import { fabric } from 'fabric'
 
 export const handleMint = async (
-  name,
-  address,
-  adscontract,
-  getMintImage,
-  land,
-  uploadMetadata,
+  name: string,
+  address: string,
+  adscontract: {
+    mint: (arg0: any, arg1: any[], arg2: { value: string }) => any
+  },
+  mintImage: any,
+  land: { y: number; x: number; w: any; h: number },
+  uploadMetadata: {
+    (
+      name: any,
+      description: any,
+      imageURL: any,
+      xProp: any,
+      yProp: any
+    ): Promise<string>
+    (arg0: any, arg1: string, arg2: any, arg3: any, arg4: any): any
+  },
   uploadImage
 ) => {
-  const image = await uploadImage(await getMintImage())
-
   if (!name) {
     ErrorTransaction({
       title: 'Upload Error ',
@@ -35,18 +45,23 @@ export const handleMint = async (
       mintableids.push(quad + i * 1000)
     }
   }
+  // console.log(mintImage)
 
-  console.log(mintableids)
+  // update image to ipfs storage and get the CID
+  // const img = await uploadImage(mintImage)
+  let imgString = await getBase64(mintImage)
+
+  console.log(imgString)
+
   // update the metadata fields
-  //  await mintableids.forEach(id => {
-  //      const metadata = uploadMetadata(
-  //        name,
-  //        QuadDescription,
-  //        image,
-  //        land.x,
-  //        land.y
-  //      )
-  //  })
+  // const metadata = await uploadMetadata(
+  //   name,
+  //   QuadDescription,
+  //   img,
+  //   land.x,
+  //   land.y
+  // )
+  // console.log(metadata)
   // if (!metadata) {
   //   ErrorTransaction({
   //     title: 'Metadata Error ',
@@ -54,14 +69,46 @@ export const handleMint = async (
   //   })
   //   return
   // }
-  // return mintableids
+  //create parcel
+  const parcel = {
+    name: name,
+    QuadDescription: QuadDescription,
+    metadata: 'metadata',
+    image: 'img',
+    image_temp: imgString,
+    coordX: land.x,
+    coordY: land.y,
+    parcelWidth: land.w,
+    parcelHeight: land.h,
+    parcelIds: mintableids,
+  }
+
+  let response = await fetch('/api/metadata/parcels', {
+    method: 'POST',
+    body: JSON.stringify(parcel),
+  })
+
+  // console.log(response)
+
+  if (!response) {
+    ErrorTransaction({
+      title: 'Parcel creation error ',
+      description:
+        'Proceeding would result to a not well minted parce. Try again after some time.',
+    })
+
+    return
+  }
 
   InfoMessage({
     title: 'Public Minting',
     description: 'Public Minting is about to begin. ',
   })
 
+  // update database storage
+
   return
+
   try {
     if (adscontract) {
       let mintcost = 0.0 * mintableids.length
@@ -89,10 +136,31 @@ export const handleMint = async (
       console.log('loading transaction')
     }
   } catch (e) {
-    console.log(e)
+    // console.log(e)
     ErrorTransaction({
       title: 'An Error has Occurred',
       description: 'An error has occured and minting could not be processed',
     })
   }
+}
+const getBase64 = (file) => {
+  return new Promise((resolve) => {
+    let fileInfo
+    let baseURL = ''
+    let reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      let Img = reader.result
+      fabric.Image.fromURL(Img, function (myImg) {
+        var img1 = myImg.set({
+          left: 0,
+          top: 0,
+          width: 2500,
+          height: 2000,
+        })
+        baseURL = img1
+        resolve(baseURL)
+      })
+    }
+  })
 }

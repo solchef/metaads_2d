@@ -24,7 +24,6 @@ function PurchaseSection({
   selectorWidth,
   enableBuy,
   setEnableBuy,
-  getMintImage,
   offcanvasLeft,
 }) {
   const { uploadMetadata, uploadImage } = useIPFS()
@@ -32,13 +31,13 @@ function PurchaseSection({
   const landData = useAppSelector(selectLand)
   const { contracts, address, web3Provider } = useWeb3Context()
   const [name, setName] = useState('')
+  const [url, setUrl] = useState('')
   const [buyState, setBuyState] = useState(activeItem)
   const adscontract = contracts['metaads']
   const [info, setInfo] = useState(activeItem)
+  const [MintImage, setMintImage] = useState(null)
   const [land, setLand] = useState<any>({})
   useEffect(() => {
-    // setEnableBuy(enableBuy)
-    // console.log(enableBuy)
     setInfo(activeItem)
   }, [activeItem, enableBuy])
   const viewState = useAppSelector(selectViewState)
@@ -74,19 +73,17 @@ function PurchaseSection({
     }
   }
   const handleSubmit = async () => {
-    // console.log(getLands()[0])
-    // const land = getLands()[0]
     const result = await handleMint(
       name,
       address,
       adscontract,
-      getMintImage,
+      MintImage,
       land,
       uploadMetadata,
       uploadImage
     )
 
-    // console.log(result)
+    console.log(result)
     // setMintStatus(minted)
   }
 
@@ -197,7 +194,10 @@ function PurchaseSection({
               <input
                 type="file"
                 placeholder="File"
-                onChange={(e) => setName(e.target.value)}
+                onChange={(event) => {
+                  console.log(event.target.files[0])
+                  setMintImage(event.target.files[0])
+                }}
                 className="form-control"
               />
             </div>

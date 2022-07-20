@@ -1,4 +1,4 @@
-<svg width="16000" height="6250" xmlns="http://www.w3.org/2000/svg">
+<svg width="10000" height="10000" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <pattern id="a" width="10" height="10" patternUnits="userSpaceOnUse">
       <path d="M10 0H0v10" fill="none" stroke="#a301b9" stroke-width=".5"/>

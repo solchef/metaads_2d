@@ -90,6 +90,13 @@ export const Section = () => {
               type="text"
               placeholder="Https://"
               className="form-control"
+<<<<<<< HEAD
+              onChange={(event) => {
+                console.log(event.target.value)
+                setUrl(event.target.value)
+              }}
+=======
+>>>>>>> develop
             />
           </div>
         </form>
