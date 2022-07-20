@@ -1,6 +1,7 @@
 import { fabric } from 'fabric'
 import { MetaadsContractUnsigned } from '../../../utils/readOnly'
 const fs = require('fs')
+const sharp = require('sharp')
 
 export default async function handler(req, res) {
   var options = {
@@ -108,12 +109,27 @@ export default async function handler(req, res) {
       //     c.renderAll()
       //   })
       // })
-      finalImage = c.toSVG()
+      finalImage = c.toDataURL('image/png')
+      let pathToWriteImage = 'public/adspace.png'
 
-      let pathToWriteImage = 'public/adspace.svg'
+      const base64Data = finalImage.replace(/^data:([A-Za-z-+/]+);base64,/, '')
+      fs.writeFile(pathToWriteImage, base64Data, 'base64', (err) => {
+        console.log(err)
+      })
+
       await fs.writeFileSync(pathToWriteImage, finalImage)
 
-      res.end(c.toSVG())
+      // sharp('public/adspace.svg')
+      //   .png()
+      //   .toFile('public/adspace.svg')
+      //   .then(function (info) {
+      //     console.log(info)
+      //   })
+      //   .catch(function (err) {
+      //     console.log(err)
+      //   })
+
+      res.end(c.toSvg)
     }
   )
 }
