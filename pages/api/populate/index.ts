@@ -24,8 +24,8 @@ export default async function handler(req, res) {
   const quadmints = [
     [0, 0],
     [0, 750],
-    [750, 0],
-    [750, 750],
+    [800, 0],
+    [800, 750],
     [375, 400],
   ]
 
