@@ -1,7 +1,7 @@
-<svg width="10000" height="10000" xmlns="http://www.w3.org/2000/svg">
+<svg width="10001" height="10001" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <pattern id="a" width="10" height="10" patternUnits="userSpaceOnUse">
-      <path d="M10 0H0v10" fill="none" stroke="#a301b9" stroke-width=".5"/>
+      <path d="M10 0H0v10" fill="none" stroke="#a301b9" stroke-width=".5/>
     </pattern>
     <pattern id="b" width="100" height="100" patternUnits="userSpaceOnUse">
       <path fill="url(#a)" d="M0 0h100v100H0z"/>

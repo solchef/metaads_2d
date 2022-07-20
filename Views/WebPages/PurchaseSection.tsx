@@ -52,9 +52,31 @@ function PurchaseSection({
   }, [landData])
 
   let squreInfo = land
+  const handleSubmit = async () => {
+    const result = await handleMint(
+      name,
+      address,
+      adscontract,
+      MintImage,
+      land,
+      uploadMetadata,
+      uploadImage
+    )
+
+    // console.log(result)
+    // setMintStatus(minted)
+  }
   const getVisibilityMode = () => {
     if (viewState === 0) return <About />
-    if (viewState === 1) return <Section />
+    if (viewState === 1)
+      return (
+        <Section
+          setUrl={setUrl}
+          setName={setName}
+          setMintImage={setMintImage}
+          handleSubmit={handleSubmit}
+        />
+      )
     if (viewState === 2) return <Sellsection />
     {
       /* <ImageInfo /> */
@@ -71,20 +93,6 @@ function PurchaseSection({
     {
       /* <Section /> */
     }
-  }
-  const handleSubmit = async () => {
-    const result = await handleMint(
-      name,
-      address,
-      adscontract,
-      MintImage,
-      land,
-      uploadMetadata,
-      uploadImage
-    )
-
-    console.log(result)
-    // setMintStatus(minted)
   }
 
   return (

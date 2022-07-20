@@ -18,6 +18,7 @@ export default async function handler(req, res) {
   }
 
   let scaler = 10
+  let variant = 0
 
   let minted = await MetaadsContractUnsigned.occupiedList()
 
@@ -38,8 +39,8 @@ export default async function handler(req, res) {
     let x = Math.ceil(Number(nft) / 1000)
 
     const quad = await new fabric.Rect({
-      top: x * scaler,
-      left: y * scaler,
+      top: x * scaler + 0 + variant,
+      left: y * scaler + 0 + variant,
       height: 1 * scaler,
       width: 1 * scaler,
       fill: '#7b0000',
@@ -61,8 +62,8 @@ export default async function handler(req, res) {
       'https://faniasets.s3.us-east-2.amazonaws.com/assets/images/soldoutrep.png',
       function (myImg) {
         var img1 = myImg.set({
-          left: q[1] * scaler,
-          top: q[0] * scaler,
+          left: q[1] * scaler + 0 + variant,
+          top: q[0] * scaler + 0 + variant,
           width: 2500,
           height: 2000,
         })
@@ -72,13 +73,13 @@ export default async function handler(req, res) {
   })
 
   await fabric.Image.fromURL(
-    'https://quadspace.io/blank.svg',
+    'https://million.quadspace.io/blank.svg',
     async function (oImg) {
       let scaleX = 10000 / oImg.width
       let scaleY = 10000 / oImg.height
       oImg.set({
-        left: 0,
-        top: 0,
+        left: 0 + variant,
+        top: 0 + 0.5,
         scaleX: scaleX,
         scaleY: scaleY,
       })

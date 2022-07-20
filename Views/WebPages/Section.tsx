@@ -7,7 +7,7 @@ import { selectLand, setLand } from '../../components/reducers/Settings'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 import { updateX, updateY } from './Map'
 
-export const Section = () => {
+export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
   const landData = useAppSelector(selectLand)
   const dispatch = useAppDispatch()
 
@@ -79,6 +79,10 @@ export const Section = () => {
               type="text"
               placeholder="Sq. NFT Name"
               className="form-control"
+              onChange={(event) => {
+                console.log(event.target.value)
+                setName(event.target.value)
+              }}
             />
           </div>
         </form>
@@ -89,13 +93,13 @@ export const Section = () => {
               <i className="bi bi-link"></i>
             </span>
             <input
-              type="text"
-              placeholder="Https://"
+              type="url"
+              placeholder="https://"
               className="form-control"
-              // onChange={(event) => {
-              //   console.log(event.target.value)
-              //   setUrl(event.target.value)
-              // }}
+              onChange={(event) => {
+                // console.log(event.target.value)
+                setUrl(event.target.value)
+              }}
             />
           </div>
         </form>
@@ -106,9 +110,14 @@ export const Section = () => {
               <i className="bi bi-upload"></i>
             </span>
             <input
-              type="text"
+              type="file"
               placeholder="Upload Image"
+              accept="image/png, image/jpeg"
               className="form-control"
+              onChange={(event) => {
+                // console.log(event.target.value)
+                setMintImage(event.target.files)
+              }}
             />
           </div>
         </form>
@@ -124,7 +133,11 @@ export const Section = () => {
 
         <p className="p-0 mt-4">MARK FOR SALE ON OPENSEA.IO</p>
       </div>
-      <a className="btn-primary hoverable mx-3 btn-md hide-mobile" href="#">
+      <a
+        className="btn-primary hoverable mx-3 btn-md hide-mobile"
+        onClick={handleSubmit}
+        href="#"
+      >
         <i className="bi-wallet me-2"></i> PURCHASE PLOT
       </a>
       <div className="d-flex mt-3 flex-wrap">
@@ -196,7 +209,8 @@ export const Section = () => {
               </g>
             </g>
           </svg>
-          &nbsp;0.0942 ( $ 100 )
+          &nbsp;{landData.h * landData.w * 0.0942} ( $ {landData.h * landData.w}{' '}
+          )
         </span>
       </div>
     </div>
