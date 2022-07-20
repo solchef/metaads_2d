@@ -92,8 +92,10 @@ const Header = () => {
                     <button
                       className="btn btn-bi hoverable btn-primary m-0 btn-lg "
                       onClick={() => {
-                        dispatch(setZoomOut(zoomLevel - 1))
-                        setZoomLevel(zoomLevel + 1)
+                        if (zoomLevel > 1) {
+                          dispatch(setZoomOut(zoomLevel - 1))
+                          setZoomLevel(zoomLevel - 1)
+                        }
                       }}
                     >
                       <i className="bi-zoom-out" />
@@ -107,8 +109,10 @@ const Header = () => {
                     <button
                       className="btn btn-bi btn-primary hoverable btn-lg "
                       onClick={() => {
-                        dispatch(setZoomIn(zoomLevel + 1))
-                        setZoomLevel(zoomLevel + 1)
+                        if (zoomLevel < 12) {
+                          dispatch(setZoomIn(zoomLevel + 1))
+                          setZoomLevel(zoomLevel + 1)
+                        }
                       }}
                     >
                       <i className="bi-zoom-in " />

@@ -88,11 +88,6 @@ const AdSpace: React.FunctionComponent = () => {
     // loadMintingData()
   }, [squreInfo])
 
-  // useEffect(() => {
-  //   setZoomLevel(getZoomLevel())
-  //   // console.log(viewPoint)
-  // }, [getZoomLevel()])
-
   const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [show, setShow] = useState(false)
   const [isCanvasLeft, setIsCanvasLeft] = useState(false)
@@ -310,23 +305,29 @@ const AdSpace: React.FunctionComponent = () => {
                   <button
                     className="btn btn-bi hoverable btn-primary m-0 btn-lg "
                     onClick={() => {
-                      dispatch(setZoomOut(zoomLevel - 1))
-                      setZoomLevel(zoomLevel - 1)
+                      if (zoomLevel > 1) {
+                        dispatch(setZoomOut(zoomLevel - 1))
+                        setZoomLevel(zoomLevel - 1)
+                      }
                     }}
                   >
                     <i className="px-1 bi-zoom-out" />
                   </button>
                   <button
                     className="btn btn-bi  m-0 btn-lg "
-                    onClick={() => {
-                      dispatch(setZoomIn(zoomLevel + 1))
-                      setZoomLevel(zoomLevel + 1)
-                    }}
                     style={{ color: '#fff' }}
                   >
                     <span className="px-1">{zoomLevel}X</span>
                   </button>
-                  <button className="btn btn-bi btn-primary hoverable btn-lg ">
+                  <button
+                    className="btn btn-bi btn-primary hoverable btn-lg "
+                    onClick={() => {
+                      if (zoomLevel < 12) {
+                        dispatch(setZoomIn(zoomLevel + 1))
+                        setZoomLevel(zoomLevel + 1)
+                      }
+                    }}
+                  >
                     <i className="px-1 bi-zoom-in " />
                   </button>
                 </div>
@@ -469,7 +470,6 @@ const AdSpace: React.FunctionComponent = () => {
               </div>
             </>
           ) : stateBtn == 'Buy' ? (
-
             <div className="accordion-body">
               <StepWizard>
                 <FormOne
@@ -489,28 +489,27 @@ const AdSpace: React.FunctionComponent = () => {
                 />
               </StepWizard>
             </div>
-
-// This For Edit
-          //   <div className="accordion-body">
-          //   <StepWizard>
-          //     <FormEditOne
-          //       addFormTwoHandler={addFormTwoHandler}
-          //       setSelectorWidth={setSelectorWidth}
-          //       setSelectorHeight={setSelectorHeight}
-          //       selectorWidth={selectorWidth}
-          //       selectorHeight={selectorHeight}
-          //     />
-          //     <FormEditTwo removeFormTwoHandler={removeFormTwoHandler} />
-          //     <FormEditThree removeFormTwoHandler={removeFormTwoHandler} />
-          //     <FormEditFour removeFormTwoHandler={removeFormTwoHandler} />
-          //     <FormEditFive
-          //       removeFormTwoHandler={removeFormTwoHandler}
-          //       squreInfo={squreInfo}
-          //       getMintImage={getMintImage}
-          //     />
-          //   </StepWizard>
-          // </div>
           ) : (
+            // This For Edit
+            //   <div className="accordion-body">
+            //   <StepWizard>
+            //     <FormEditOne
+            //       addFormTwoHandler={addFormTwoHandler}
+            //       setSelectorWidth={setSelectorWidth}
+            //       setSelectorHeight={setSelectorHeight}
+            //       selectorWidth={selectorWidth}
+            //       selectorHeight={selectorHeight}
+            //     />
+            //     <FormEditTwo removeFormTwoHandler={removeFormTwoHandler} />
+            //     <FormEditThree removeFormTwoHandler={removeFormTwoHandler} />
+            //     <FormEditFour removeFormTwoHandler={removeFormTwoHandler} />
+            //     <FormEditFive
+            //       removeFormTwoHandler={removeFormTwoHandler}
+            //       squreInfo={squreInfo}
+            //       getMintImage={getMintImage}
+            //     />
+            //   </StepWizard>
+            // </div>
             <div className="d-flex flex-wrap image-info  flex-column">
               <h3>NAME HERE</h3>
               <span className=" link">
