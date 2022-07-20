@@ -5,8 +5,9 @@ export default async function handler(req, res) {
 
   const metalist = []
   minted.forEach(async (nft) => {
-    let x = Number(nft) % 1000
-    let y = Math.ceil(Number(nft) / 1000)
+    let y = Number(nft) % 1000
+    let x = Math.ceil(Number(nft) / 1000)
+
     // let holder = await MetaadsContractUnsigned.ownerOf(Number(nft))
     let itemMeta = {
       name: 'Quad #' + Number(nft),
@@ -17,8 +18,8 @@ export default async function handler(req, res) {
       external_url: 'https://quadspace.io',
       // holder: holder,
       attributes: [
-        { trait_type: 'Row', value: y },
-        { trait_type: 'Column', value: x },
+        { trait_type: 'Row', value: x },
+        { trait_type: 'Column', value: y },
         { trait_type: 'QuadSpace', value: Number(nft) },
       ],
     }
