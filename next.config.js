@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const compose = require('next-compose')
+
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
@@ -15,6 +17,15 @@ const nextConfig = {
     rules: {
       '@next/next/no-page-custom-font': 'off',
     },
+  },
+  webpack(config, options) {
+    config.module.rules.push({
+      test: /\.mp3$/,
+      use: {
+        loader: 'file-loader',
+      },
+    })
+    return config
   },
 }
 

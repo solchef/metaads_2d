@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Web3Button } from '../../components'
-import { selectLand } from '../../components/reducers/Settings'
+import { selectLand, selectViewState } from '../../components/reducers/Settings'
 import { useAppSelector } from '../../components/store/hooks'
 import { useWeb3Context } from '../../context'
 import useCanvas from '../../hooks/useCanvas'
@@ -10,8 +10,8 @@ import { setWidth, setHeight, getLandDefSize, getLands } from './canvesGrid'
 import { About } from './About'
 import { ImageInfo } from './ImageInfo'
 import { ImageInfoButton } from './ImageInfoButton'
-// import { Sellsection } from './Sellsection'
-// import { Editsection } from './Editsection'
+import { Sellsection } from './Sellsection'
+import { Editsection } from './Editsection'
 import { Section } from './Section'
 
 function PurchaseSection({
@@ -40,6 +40,7 @@ function PurchaseSection({
   useEffect(() => {
     setInfo(activeItem)
   }, [activeItem, enableBuy])
+  const viewState = useAppSelector(selectViewState)
 
   useEffect(() => {
     setLand({
@@ -51,6 +52,26 @@ function PurchaseSection({
   }, [landData])
 
   let squreInfo = land
+  const getVisibilityMode = () => {
+    if (viewState === 0) return <About />
+    if (viewState === 1) return <Section />
+    if (viewState === 2) return <Sellsection />
+    {
+      /* <ImageInfo /> */
+    }
+    {
+      /* <ImageInfoButton /> */
+    }
+    {
+      /* <Sellsection /> */
+    }
+    {
+      /* <Editsection /> */
+    }
+    {
+      /* <Section /> */
+    }
+  }
   const handleSubmit = async () => {
     const result = await handleMint(
       name,
@@ -74,9 +95,16 @@ function PurchaseSection({
         style={{ visibility: 'visible' }}
       >
         <div className="offcanvas-title hide-mobile hoverable">
-          <div className="d-flex justify-content-between align-items-center">
-            <i className="bi-flag w-50" />
-            <h3 className="mb-0 text-left">THE MILLION DOLLAR WEBSITE</h3>
+          <div className="d-flex  align-items-center">
+            <img
+              className="me-3"
+              src="assets/images/million-dollar-logo.svg"
+              width="20%"
+            />
+
+            <h3 className="mb-0 text-left">
+              THE MILLION <br /> DOLLAR WEBSITE
+            </h3>
           </div>
 
           <hr />
@@ -86,23 +114,13 @@ function PurchaseSection({
             and linked it to an URL.
           </p>
           <div className="d-flex justify-content-center">
-            <i className="bi-flag" />
-            <i className="bi-flag mx-2" />
-            <i className="bi-flag" />
+            <i className="bi bi-twitter"></i>
+            <i className="bi bi-reddit mx-2" />
+            <i className="bi bi-instagram"></i>
           </div>
         </div>
+        {getVisibilityMode()}
 
-        {/* <About/> */}
-        {/* <ImageInfo/> */}
-        {/* <ImageInfoButton/> */}
-        {/* <Sellsection/> */}
-        {/* <Editsection/> */}
-        <Section
-          setUrl={setUrl}
-          setName={setName}
-          setMintImage={setMintImage}
-          handleSubmit={handleSubmit}
-        />
         {/* <div className="offcanvas-body pt-5">
           <h3>SELECT LOT SIZE</h3>
 

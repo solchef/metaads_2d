@@ -2,7 +2,13 @@
 /* eslint-disable react/no-unescaped-entities */
 // import Image from 'next/image'
 
-export const Section = ({ setUrl, setMintImage, handleSubmit, setName }) => {
+import { selectLand, setLand } from '../../components/reducers/Settings'
+import { store } from '../../components/store'
+import { useAppSelector } from '../../components/store/hooks'
+
+export const Section = () => {
+  const landData = useAppSelector(selectLand)
+
   return (
     <div className="offcanvas-body image-info pt-5 pb-5 p-0 ">
       <h3> SQ.NFT SIZE</h3>
@@ -16,17 +22,41 @@ export const Section = ({ setUrl, setMintImage, handleSubmit, setName }) => {
               type="number"
               min="1"
               max="1000000"
-              aria-label="x"
-              placeholder="X"
+              defaultValue={10}
+              aria-label="W"
+              placeholder="Width"
               className="form-control"
+              onChange={(e) => {
+                const landData = store.getState().settings.land
+                store.dispatch(
+                  setLand({
+                    x: landData.x,
+                    y: landData.y,
+                    w: landData.w,
+                    h: parseInt(e.target.value),
+                  })
+                )
+              }}
             />
             <input
               type="number"
-              aria-label="y"
+              aria-label="H"
               min="1"
               max="1000000"
-              placeholder="Y"
+              defaultValue={10}
+              placeholder="Hight"
               className="form-control value="
+              onChange={(e) => {
+                const landData = store.getState().settings.land
+                store.dispatch(
+                  setLand({
+                    x: landData.x,
+                    y: landData.y,
+                    w: parseInt(e.target.value),
+                    h: landData.h,
+                  })
+                )
+              }}
             />
           </div>
         </form>
@@ -47,10 +77,6 @@ export const Section = ({ setUrl, setMintImage, handleSubmit, setName }) => {
               type="text"
               placeholder="Sq. NFT Name"
               className="form-control"
-              onChange={(event) => {
-                console.log(event.target.value)
-                setName(event.target.value)
-              }}
             />
           </div>
         </form>
@@ -64,10 +90,13 @@ export const Section = ({ setUrl, setMintImage, handleSubmit, setName }) => {
               type="text"
               placeholder="Https://"
               className="form-control"
+<<<<<<< HEAD
               onChange={(event) => {
                 console.log(event.target.value)
                 setUrl(event.target.value)
               }}
+=======
+>>>>>>> develop
             />
           </div>
         </form>
@@ -78,40 +107,34 @@ export const Section = ({ setUrl, setMintImage, handleSubmit, setName }) => {
               <i className="bi bi-upload"></i>
             </span>
             <input
-              type="file"
+              type="text"
               placeholder="Upload Image"
               className="form-control"
-              onChange={(event) => {
-                // console.log(event.target.files[0])
-                setMintImage(event.target.files[0])
-              }}
             />
           </div>
         </form>
       </div>
-      <p>Recommended size (100X100px png, jpg)</p>
-      <div className="d-flex">
-        <i className="bi w-25 bi-geo-alt"></i>
+      <p className='mb-0'>Recommended size (100X100px png, jpg)</p>
+      <div className="d-flex align-items-center mb-2">
+      <input className="form-check-input w-25 pb-5 h-100 me-3 " type="checkbox" value="" id="flexCheckDefault"/>
 
-        <p className="p-0">MARK FOR SALE ON OPENSEA.IO</p>
+        <p className="p-0 mt-4">MARK FOR SALE ON OPENSEA.IO</p>
       </div>
-      <a
-        className="btn-primary hoverable mx-3 btn-md hide-mobile"
-        onClick={handleSubmit}
-        href="#"
-      >
+      <a className="btn-primary hoverable mx-3 btn-md hide-mobile" href="#">
         <i className="bi-wallet me-2"></i> PURCHASE PLOT
       </a>
       <div className="d-flex mt-3 flex-wrap">
         <span className=" me-2 mt-2">
-          <img src="assets/images/square_icon.png" width="16px" /> : 100
+          <img src="assets/images/square_icon.png" width="16px" /> :{' '}
+          {landData.h * landData.w}
         </span>
         <span className=" me-2 mt-2">
           <i className="bi bi-border " />
-          &nbsp;: ( 10 x 10 )
+          &nbsp;: ( {landData.h + ' X ' + landData.w} )
         </span>
         <span className="me-2 mt-2">
-          <i className="bi bi-geo-alt" /> : 287X , 485Y
+          <i className="bi bi-geo-alt" /> :
+          {landData.x + 'X, ' + landData.y + 'Y'}
         </span>
         <span className="me-2 mt-2 text-nowrap">
           {' '}
