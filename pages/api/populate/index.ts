@@ -24,8 +24,8 @@ export default async function handler(req, res) {
   const quadmints = [
     [0, 0],
     [0, 750],
-    [750, 0],
-    [750, 750],
+    [800, 0],
+    [800, 750],
     [375, 400],
   ]
 
@@ -86,28 +86,28 @@ export default async function handler(req, res) {
 
       await c.add(oImg)
       await c.renderAll()
-      let loadingimages = await populateImages()
-      // console.log(loadingimages)
-      // c.add([...loadingimages])
-      // console.log(loadingimages[0])
-      loadingimages.forEach((img) => {
-        // console.log(img.type)
-        // c.add(JSON.parse(img))
+      // let loadingimages = await populateImages()
+      // // console.log(loadingimages)
+      // // c.add([...loadingimages])
+      // // console.log(loadingimages[0])
+      // loadingimages.forEach((img) => {
+      //   // console.log(img.type)
+      //   // c.add(JSON.parse(img))
 
-        fabric.util.enlivenObjects([img], function (objects) {
-          var origRenderOnAddRemove = c.renderOnAddRemove
-          c.renderOnAddRemove = false
+      //   fabric.util.enlivenObjects([img], function (objects) {
+      //     var origRenderOnAddRemove = c.renderOnAddRemove
+      //     c.renderOnAddRemove = false
 
-          objects.forEach(function (o) {
-            o.top = 2
-            o.left = 2600
-            c.add(o)
-          })
+      //     objects.forEach(function (o) {
+      //       o.top = 2
+      //       o.left = 2600
+      //       c.add(o)
+      //     })
 
-          c.renderOnAddRemove = origRenderOnAddRemove
-          c.renderAll()
-        })
-      })
+      //     c.renderOnAddRemove = origRenderOnAddRemove
+      //     c.renderAll()
+      //   })
+      // })
       finalImage = c.toSVG()
 
       let pathToWriteImage = 'public/adspace.svg'
