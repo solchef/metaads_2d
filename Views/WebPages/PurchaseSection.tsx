@@ -78,6 +78,7 @@ function PurchaseSection({
         />
       )
     if (viewState === 2) return <Sellsection />
+    if (viewState === 3) return <ImageInfo />
     {
       /* <ImageInfo /> */
     }

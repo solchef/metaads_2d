@@ -26,10 +26,13 @@ import FormEditFour from '../components/edit-section/FormEditFour'
 import FormEditFive from '../components/edit-section/FormEditFive'
 import { useWeb3Context } from '../context'
 import {
+  selectLand,
   selectReloadPage,
   setBoughtedLandList,
   setReloadPage,
+  setSelectedLand,
   setSelectMode,
+  setViewState,
   setZoomIn,
   setZoomOut,
   set_3dMode,
@@ -42,6 +45,8 @@ import { MapView } from './WebPages/Map'
 const AdSpace: React.FunctionComponent = () => {
   const { address, contracts } = useWeb3Context()
   const reload = useAppSelector(selectReloadPage)
+  const [boughtedLandListData, setBoughtedLandListData] = useState([])
+  const land = useAppSelector(selectLand)
   const [zoomLevel, setZoomLevel] = useState(1)
   // const viewPoint = getViewLocation()
   const { cAreaRef, squreInfo, setEnableBuy } = useCanvas()
@@ -60,8 +65,24 @@ const AdSpace: React.FunctionComponent = () => {
   } = useCanvas()
 
   useEffect(() => {
+    console.log(land)
+    const result = boughtedLandListData.find(
+      (data) =>
+        data.attributes[1].value === land.x + land.h / 2 &&
+        data.attributes[0].value === land.y + land.w / 2
+    )
+    if (result === undefined) dispatch(setViewState(2))
+    else {
+      dispatch(setSelectedLand(result))
+      dispatch(setViewState(3))
+    }
+    console.log(result)
+  }, [land])
+  useEffect(() => {
     axios.get('http://localhost:3000/api/info').then((data) => {
       dispatch(setBoughtedLandList(data.data.meta))
+      setBoughtedLandListData(data.data.meta)
+      console.log(data.data.meta)
     })
   }, [])
 
@@ -87,6 +108,11 @@ const AdSpace: React.FunctionComponent = () => {
   useEffect(() => {
     // loadMintingData()
   }, [squreInfo])
+
+  // useEffect(() => {
+  //   setZoomLevel(getZoomLevel())
+  //   // console.log(viewPoint)
+  // }, [getZoomLevel()])
 
   const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [show, setShow] = useState(false)
@@ -305,29 +331,23 @@ const AdSpace: React.FunctionComponent = () => {
                   <button
                     className="btn btn-bi hoverable btn-primary m-0 btn-lg "
                     onClick={() => {
-                      if (zoomLevel > 1) {
-                        dispatch(setZoomOut(zoomLevel - 1))
-                        setZoomLevel(zoomLevel - 1)
-                      }
+                      dispatch(setZoomOut(zoomLevel - 1))
+                      setZoomLevel(zoomLevel - 1)
                     }}
                   >
                     <i className="px-1 bi-zoom-out" />
                   </button>
                   <button
                     className="btn btn-bi  m-0 btn-lg "
+                    onClick={() => {
+                      dispatch(setZoomIn(zoomLevel + 1))
+                      setZoomLevel(zoomLevel + 1)
+                    }}
                     style={{ color: '#fff' }}
                   >
                     <span className="px-1">{zoomLevel}X</span>
                   </button>
-                  <button
-                    className="btn btn-bi btn-primary hoverable btn-lg "
-                    onClick={() => {
-                      if (zoomLevel < 12) {
-                        dispatch(setZoomIn(zoomLevel + 1))
-                        setZoomLevel(zoomLevel + 1)
-                      }
-                    }}
-                  >
+                  <button className="btn btn-bi btn-primary hoverable btn-lg ">
                     <i className="px-1 bi-zoom-in " />
                   </button>
                 </div>

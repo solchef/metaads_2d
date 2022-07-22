@@ -2,7 +2,12 @@ import React, { Suspense, useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { DoubleSide, TextureLoader, Vector3 } from 'three'
-import { Html, OrbitControls, PerspectiveCamera } from '@react-three/drei'
+import {
+  Bounds,
+  Html,
+  OrbitControls,
+  PerspectiveCamera,
+} from '@react-three/drei'
 import { LoadingManager } from 'three'
 import { Loader } from '../../utils/loader'
 import { useAppSelector } from '../../components/store/hooks'
@@ -79,7 +84,7 @@ export const MapView = () => {
             maxAzimuthAngle={0}
             minZoom={0}
             maxZoom={1600}
-            minDistance={10}
+            minDistance={90}
             maxDistance={1200}
             enableRotate={store.getState().settings._3dMode}
           />
@@ -131,12 +136,10 @@ function GreenSquare({ color, color2, x, y }) {
 
   const onMove = (point) => {
     if (!viewLand) setViewBox(true)
-
     setBoxPosition(new Vector3(Math.floor(point.x), 0.5, Math.floor(point.z)))
   }
 
   useEffect(() => {
-    //oldx,oldy;
     let result = 0
     if (oldx !== undefined) result = oldx - x
     setLandPosition(
@@ -146,7 +149,6 @@ function GreenSquare({ color, color2, x, y }) {
   }, [x])
 
   useEffect(() => {
-    //oldx,oldy;
     let result = 0
     if (oldy !== undefined) result = oldy - y
     setLandPosition(
@@ -159,14 +161,7 @@ function GreenSquare({ color, color2, x, y }) {
     if (!store.getState().settings.selectMode) {
       setViewLand(true)
       onMove(point)
-      //   let offSetX = 0.5
-      //   if (x % 2 == 0) {
-      //     offSetX = 0
-      //   }
-      //   let offSetY = 0
-      //   if (y % 2 == 0) {
-      //     offSetY = 0.5
-      //   }
+
       if (
         Math.sign(boxPosition.x + widthMap / 2 - x / 2) !== -1 &&
         Math.sign(boxPosition.z + heightMap / 2 - y / 2) !== -1
@@ -175,22 +170,17 @@ function GreenSquare({ color, color2, x, y }) {
           boxPosition.x + widthMap / 2 - x / 2 <= widthMap - x &&
           boxPosition.z + heightMap / 2 - y / 2 <= heightMap - y
         ) {
-          // console.log(boughtedLandListData)
-          // for (let x = 0; x < boughtedLandListData.length; x++) {
-          //   const element = boughtedLandListData[x]
-          //   console.log(boxPosition.x + widthMap / 2 - x / 2)
-          //   console.log(element.attributes[1].value)
-          // }
-          //   console.log(boughtedLandListData)
           const result = boughtedLandListData.find(
             (data) =>
-              data.attributes[0].value ===
+              data.attributes[1].value >=
                 Math.floor(point.x) + widthMap / 2 - x / 2 &&
-              data.attributes[1].value === boxPosition.z + heightMap / 2 - y / 2
+              data.attributes[1].value <
+                Math.floor(point.x) + widthMap / 2 - x / 2 + x &&
+              data.attributes[0].value >=
+                boxPosition.z + heightMap / 2 - y / 2 &&
+              data.attributes[0].value <
+                boxPosition.z + heightMap / 2 - y / 2 + y
           )
-          //   console.log(boxPosition.x + widthMap / 2 - x / 2)
-          //   console.log(boxPosition.z + heightMap / 2 - y / 2)
-          //   console.log(result)
           if (result === undefined) {
             setLandPosition(
               new Vector3(Math.floor(point.x), 0.8, Math.floor(point.z))
@@ -221,6 +211,15 @@ function GreenSquare({ color, color2, x, y }) {
       //   h: x,
       //   w: y,
       // });
+    } else {
+      store.dispatch(
+        setLand({
+          x: boxPosition.x + widthMap / 2 - x / 2,
+          y: boxPosition.z + heightMap / 2 - y / 2,
+          h: x,
+          w: y,
+        })
+      )
     }
   }
 

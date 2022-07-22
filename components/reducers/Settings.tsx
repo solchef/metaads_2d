@@ -10,6 +10,7 @@ export interface Settings {
   reloadPage: boolean
   zoomIn: number
   zoomOut: number
+  selectedLand: {}
 }
 
 const initialState: Settings = {
@@ -21,6 +22,7 @@ const initialState: Settings = {
   reloadPage: true,
   zoomIn: 1,
   zoomOut: 1,
+  selectedLand: {},
 }
 
 export const counterSlice = createSlice({
@@ -52,6 +54,9 @@ export const counterSlice = createSlice({
     setZoomOut: (state, action: PayloadAction<number>) => {
       state.zoomOut = action.payload
     },
+    setSelectedLand: (state, action: PayloadAction<{}>) => {
+      state.selectedLand = action.payload
+    },
   },
 })
 
@@ -64,12 +69,15 @@ export const {
   setReloadPage,
   setZoomIn,
   setZoomOut,
+  setSelectedLand,
 } = counterSlice.actions
 
 export const selectLand = (state: RootState) => state.settings.land
 export const select_3dMode = (state: RootState) => state.settings._3dMode
 export const selectViewState = (state: RootState) => state.settings.viewState
 export const selectSelectMode = (state: RootState) => state.settings.selectMode
+export const selectSelectLand = (state: RootState) =>
+  state.settings.selectedLand
 export const selectBoughtedLandList = (state: RootState) =>
   state.settings.boughtedLandList
 export const selectReloadPage = (state: RootState) => state.settings.reloadPage
@@ -91,6 +99,12 @@ export const set_3dModeData =
   (view: boolean): AppThunk =>
   (dispatch) => {
     dispatch(set_3dMode(view))
+  }
+
+export const setSelectedLandData =
+  (view: {}): AppThunk =>
+  (dispatch) => {
+    dispatch(setSelectedLand(view))
   }
 
 export const setSelectModeData =
