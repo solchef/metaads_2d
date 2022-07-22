@@ -129,7 +129,7 @@ const Header = () => {
                       <i className="bi-arrow-clockwise " />
                     </button>
 
-                    <button
+                    {/* <button
                       onClick={() => {
                         setThreeD(!threeD)
                         dispatch(set_3dMode(threeD))
@@ -137,7 +137,7 @@ const Header = () => {
                       className="btn btn-primary btn-lg hoverable"
                     >
                       {threeD ? '3D' : '2D'}
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </div>

@@ -361,7 +361,7 @@ const AdSpace: React.FunctionComponent = () => {
                   >
                     <i className="px-2 bi-arrow-clockwise " />
                   </button>
-                  <button
+                  {/* <button
                     onClick={() => {
                       setThreeD(!threeD)
                       dispatch(set_3dMode(threeD))
@@ -369,7 +369,7 @@ const AdSpace: React.FunctionComponent = () => {
                     className="btn btn-primary btn-lg hoverable"
                   >
                     <span className="px-2"> {threeD ? '3D' : '2D'}</span>
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
