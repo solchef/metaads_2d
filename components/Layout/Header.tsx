@@ -1,24 +1,25 @@
-import Link from 'next/link'
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react'
 import {
+  selectZoomLevel,
   setReloadPage,
   setSelectMode,
   setViewState,
   setZoomIn,
+  setZoomLevel,
   setZoomOut,
-  set_3dMode,
-  set_3dModeData,
 } from '../reducers/Settings'
-import { store } from '../store'
-import { useAppDispatch } from '../store/hooks'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { Web3Button } from '../Web3Button'
 
 const Header = () => {
-  const [threeD, setThreeD] = useState(true)
+  // const [threeD, setThreeD] = useState(true)
   const [stateBtn, setStateBtn] = useState('info')
-  const [zoomLevel, setZoomLevel] = useState(1)
+  const [zoomLevelState, setZoomLevelState] = useState(1)
   const dispatch = useAppDispatch()
+  const zLevel = useAppSelector(selectZoomLevel)
+  useEffect(() => {
+    setZoomLevelState(zLevel)
+  }, [zLevel])
   return (
     <>
       <nav className="navbar sticky-top navbar-dark bg-dark">
@@ -92,9 +93,10 @@ const Header = () => {
                     <button
                       className="btn btn-bi hoverable btn-primary m-0 btn-lg "
                       onClick={() => {
-                        if (zoomLevel > 1) {
-                          dispatch(setZoomOut(zoomLevel - 1))
-                          setZoomLevel(zoomLevel - 1)
+                        if (zoomLevelState > 1) {
+                          dispatch(setZoomOut(zoomLevelState - 1))
+                          setZoomLevelState(zoomLevelState - 1)
+                          dispatch(setZoomLevel(zoomLevelState - 1))
                         }
                       }}
                     >
@@ -104,14 +106,15 @@ const Header = () => {
                       className="btn btn-bi  m-0 btn-lg "
                       style={{ color: '#fff' }}
                     >
-                      {zoomLevel}X
+                      {zoomLevelState}X
                     </button>
                     <button
                       className="btn btn-bi btn-primary hoverable btn-lg "
                       onClick={() => {
-                        if (zoomLevel < 12) {
-                          dispatch(setZoomIn(zoomLevel + 1))
-                          setZoomLevel(zoomLevel + 1)
+                        if (zoomLevelState < 5) {
+                          dispatch(setZoomIn(zoomLevelState + 1))
+                          setZoomLevelState(zoomLevelState + 1)
+                          dispatch(setZoomLevel(zoomLevelState + 1))
                         }
                       }}
                     >

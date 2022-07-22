@@ -10,6 +10,7 @@ export interface Settings {
   reloadPage: boolean
   zoomIn: number
   zoomOut: number
+  zoomLevel: number
   selectedLand: {}
 }
 
@@ -22,6 +23,7 @@ const initialState: Settings = {
   reloadPage: true,
   zoomIn: 1,
   zoomOut: 1,
+  zoomLevel: 1,
   selectedLand: {},
 }
 
@@ -54,6 +56,9 @@ export const counterSlice = createSlice({
     setZoomOut: (state, action: PayloadAction<number>) => {
       state.zoomOut = action.payload
     },
+    setZoomLevel: (state, action: PayloadAction<number>) => {
+      state.zoomLevel = action.payload
+    },
     setSelectedLand: (state, action: PayloadAction<{}>) => {
       state.selectedLand = action.payload
     },
@@ -69,6 +74,7 @@ export const {
   setReloadPage,
   setZoomIn,
   setZoomOut,
+  setZoomLevel,
   setSelectedLand,
 } = counterSlice.actions
 
@@ -83,7 +89,7 @@ export const selectBoughtedLandList = (state: RootState) =>
 export const selectReloadPage = (state: RootState) => state.settings.reloadPage
 export const selectZoomIn = (state: RootState) => state.settings.zoomIn
 export const selectZoomOut = (state: RootState) => state.settings.zoomOut
-
+export const selectZoomLevel = (state: RootState) => state.settings.zoomLevel
 export const setLandData =
   (view: any): AppThunk =>
   (dispatch) => {
@@ -135,6 +141,11 @@ export const setZoomOutData =
   (view: number): AppThunk =>
   (dispatch) => {
     dispatch(setZoomOut(view))
+  }
+export const setZoomLevelData =
+  (view: number): AppThunk =>
+  (dispatch) => {
+    dispatch(setZoomLevel(view))
   }
 
 export default counterSlice.reducer

@@ -28,12 +28,14 @@ import { useWeb3Context } from '../context'
 import {
   selectLand,
   selectReloadPage,
+  selectZoomLevel,
   setBoughtedLandList,
   setReloadPage,
   setSelectedLand,
   setSelectMode,
   setViewState,
   setZoomIn,
+  setZoomLevel,
   setZoomOut,
   set_3dMode,
 } from '../components/reducers/Settings'
@@ -45,9 +47,10 @@ import { MapView } from './WebPages/Map'
 const AdSpace: React.FunctionComponent = () => {
   const { address, contracts } = useWeb3Context()
   const reload = useAppSelector(selectReloadPage)
+  const zLevel = useAppSelector(selectZoomLevel)
   const [boughtedLandListData, setBoughtedLandListData] = useState([])
   const land = useAppSelector(selectLand)
-  const [zoomLevel, setZoomLevel] = useState(1)
+  const [zoomLevelState, setZoomLevelState] = useState(1)
   // const viewPoint = getViewLocation()
   const { cAreaRef, squreInfo, setEnableBuy } = useCanvas()
   const dispatch = useAppDispatch()
@@ -106,8 +109,8 @@ const AdSpace: React.FunctionComponent = () => {
   }
 
   useEffect(() => {
-    // loadMintingData()
-  }, [squreInfo])
+    setZoomLevelState(zLevel)
+  }, [zLevel])
 
   // useEffect(() => {
   //   setZoomLevel(getZoomLevel())
@@ -331,23 +334,32 @@ const AdSpace: React.FunctionComponent = () => {
                   <button
                     className="btn btn-bi hoverable btn-primary m-0 btn-lg "
                     onClick={() => {
-                      dispatch(setZoomOut(zoomLevel - 1))
-                      setZoomLevel(zoomLevel - 1)
+                      if (zoomLevelState > 1) {
+                        dispatch(setZoomOut(zoomLevelState - 1))
+                        setZoomLevelState(zoomLevelState - 1)
+                        dispatch(setZoomLevel(zoomLevelState - 1))
+                      }
                     }}
                   >
                     <i className="px-1 bi-zoom-out" />
                   </button>
                   <button
                     className="btn btn-bi  m-0 btn-lg "
-                    onClick={() => {
-                      dispatch(setZoomIn(zoomLevel + 1))
-                      setZoomLevel(zoomLevel + 1)
-                    }}
                     style={{ color: '#fff' }}
                   >
-                    <span className="px-1">{zoomLevel}X</span>
+                    <span className="px-1">{zoomLevelState}X</span>
                   </button>
-                  <button className="btn btn-bi btn-primary hoverable btn-lg ">
+                  <button
+                    className="btn btn-bi btn-primary hoverable btn-lg "
+                    onClick={() => {
+                      console.log('in')
+                      if (zoomLevelState < 5) {
+                        dispatch(setZoomIn(zoomLevelState + 1))
+                        setZoomLevelState(zoomLevelState + 1)
+                        dispatch(setZoomLevel(zoomLevelState + 1))
+                      }
+                    }}
+                  >
                     <i className="px-1 bi-zoom-in " />
                   </button>
                 </div>

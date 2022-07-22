@@ -17,6 +17,8 @@ import {
   selectZoomOut,
   select_3dMode,
   setLand,
+  setZoomLevel,
+  setZoomLevelData,
 } from '../../components/reducers/Settings'
 import { store } from '../../components/store'
 import useSound from 'use-sound'
@@ -45,15 +47,15 @@ export const MapView = () => {
   }, [_3dMode])
 
   useEffect(() => {
-    if (orbit.current) {
-      orbit.current.object.position.y -= 100
+    if (orbit.current && store.getState().settings.zoomLevel <= 5) {
+      orbit.current.object.position.y -= 290
       orbit.current.object.updateProjectionMatrix()
     }
   }, [zoomIn])
 
   useEffect(() => {
-    if (orbit.current) {
-      orbit.current.object.position.y += 100
+    if (orbit.current && store.getState().settings.zoomLevel >= 1) {
+      orbit.current.object.position.y += 290
       orbit.current.object.updateProjectionMatrix()
     }
   }, [zoomOut])
@@ -204,13 +206,6 @@ function GreenSquare({ color, color2, x, y }) {
       } else {
         playError()
       }
-
-      // console.log({
-      //   x: boxPosition.x + widthMap / 2 - x / 2,
-      //   y: boxPosition.z + heightMap / 2 - y / 2,
-      //   h: x,
-      //   w: y,
-      // });
     } else {
       store.dispatch(
         setLand({
@@ -248,6 +243,20 @@ function GreenSquare({ color, color2, x, y }) {
             onPointerOut={() => setViewBox(false)}
             onPointerMove={({ _uv, _screenY, point }) => {
               onMove(point)
+            }}
+            onWheel={({ camera }) => {
+              if (camera.position.y < 978 && camera.position.y > 861)
+                store.dispatch(setZoomLevel(1))
+              if (camera.position.y < 861 && camera.position.y > 639)
+                store.dispatch(setZoomLevel(2))
+              if (camera.position.y < 639 && camera.position.y > 415)
+                store.dispatch(setZoomLevel(3))
+              if (camera.position.y < 415 && camera.position.y > 95)
+                store.dispatch(setZoomLevel(4))
+              if (camera.position.y <= 90) store.dispatch(setZoomLevel(5))
+
+              //   store.getState().settings.zoomLevel
+              console.log(camera.position.y)
             }}
           >
             {/*
