@@ -14,7 +14,7 @@ export const ImageInfo = () => {
   return (
     <div className="offcanvas-body image-info  pb-5 pt-5 p-0 ">
       <div className="image">
-        <source src={landInfo.image} />
+        <img src={landInfo.image} />
       </div>
       <h3 className="my-4">{landInfo.name}</h3>
       <div className="d-flex flex-wrap flex-column">
