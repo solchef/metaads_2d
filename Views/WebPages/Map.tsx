@@ -1,12 +1,20 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { DoubleSide, TextureLoader, Vector3 } from 'three'
+import {
+  DoubleSide,
+  TextureLoader,
+  Vector3,
+  BoxHelper,
+  Box3,
+  MOUSE,
+} from 'three'
 import {
   Bounds,
   Html,
   OrbitControls,
   PerspectiveCamera,
+  useHelper,
 } from '@react-three/drei'
 import { LoadingManager } from 'three'
 import { Loader } from '../../utils/loader'
@@ -88,6 +96,13 @@ export const MapView = () => {
             maxZoom={1600}
             minDistance={90}
             maxDistance={1200}
+            touches={{
+              ONE:
+                store.getState().settings.viewState !== 1
+                  ? THREE.TOUCH.PAN
+                  : THREE.TOUCH.DOLLY_PAN,
+              TWO: THREE.TOUCH.DOLLY_PAN,
+            }}
             enableRotate={store.getState().settings._3dMode}
           />
         </Suspense>
@@ -133,14 +148,21 @@ function GreenSquare({ color, color2, x, y }) {
   const [boxPosition, setBoxPosition] = useState(new Vector3(0, 0, 0))
   const [viewLand, setViewLand] = useState(false)
   const [viewBox, setViewBox] = useState(false)
+  var box3 = new Box3()
   const [landPosition, setLandPosition] = useState(new Vector3(0, 0, 0))
   const ref = useRef()
+  const cubeRef = useRef()
+  useHelper(cubeRef, BoxHelper, 'blue')
 
   const onMove = (point) => {
     if (!viewLand) setViewBox(true)
     setBoxPosition(new Vector3(Math.floor(point.x), 0.5, Math.floor(point.z)))
   }
-
+  useEffect(() => {
+    if (cubeRef.current) {
+      console.log(cubeRef)
+    }
+  }, [cubeRef.current])
   useEffect(() => {
     let result = 0
     if (oldx !== undefined) result = oldx - x
@@ -209,8 +231,8 @@ function GreenSquare({ color, color2, x, y }) {
     } else {
       store.dispatch(
         setLand({
-          x: boxPosition.x + widthMap / 2 - x / 2,
-          y: boxPosition.z + heightMap / 2 - y / 2,
+          x: boxPosition.x + widthMap / 2,
+          y: boxPosition.z + heightMap / 2,
           h: x,
           w: y,
         })
@@ -231,6 +253,7 @@ function GreenSquare({ color, color2, x, y }) {
       ) : (
         <>
           <mesh
+            ref={cubeRef}
             position={[0, 0, 0]}
             rotation={[-Math.PI / 2, 0, 0]}
             scale={[1, 1, 1]}

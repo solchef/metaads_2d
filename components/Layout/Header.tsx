@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import {
+  selectViewState,
   selectZoomLevel,
   setReloadPage,
   setSelectMode,
@@ -14,12 +15,15 @@ import { Web3Button } from '../Web3Button'
 const Header = () => {
   // const [threeD, setThreeD] = useState(true)
   const [stateBtn, setStateBtn] = useState('info')
+  const vewState = useAppSelector(selectViewState)
   const [zoomLevelState, setZoomLevelState] = useState(1)
   const dispatch = useAppDispatch()
   const zLevel = useAppSelector(selectZoomLevel)
+
   useEffect(() => {
     setZoomLevelState(zLevel)
   }, [zLevel])
+
   return (
     <>
       <nav className="navbar sticky-top navbar-dark bg-dark">
@@ -50,7 +54,7 @@ const Header = () => {
                         dispatch(setSelectMode(true))
                       }}
                       className={`btn btn-primary btn-lg hoverable ${
-                        stateBtn == 'info' ? 'active' : ''
+                        vewState == 0 ? 'active' : ''
                       }  `}
                     >
                       <i className="bi bi-info-circle"></i>
@@ -64,7 +68,7 @@ const Header = () => {
                         dispatch(setSelectMode(false))
                       }}
                       className={`btn btn-bi d-flex ${
-                        stateBtn == 'Buy' ? 'active' : ''
+                        vewState == 1 ? 'active' : ''
                       } toggle-mode align-items-center w-100 position-relative m-0 btn-primary btn-lg 
                       `}
                     >
@@ -81,7 +85,7 @@ const Header = () => {
                         dispatch(setSelectMode(true))
                       }}
                       className={`btn btn-bi d-flex ${
-                        stateBtn == 'View' ? 'active' : ''
+                        vewState == 2 || vewState === 3 ? 'active' : ''
                       } flex-nowrap toggle-mode  
                     } align-items-center accordion w-100 position-relative btn-primary `}
                     >
