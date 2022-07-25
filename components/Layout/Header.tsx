@@ -49,7 +49,6 @@ const Header = () => {
                   <div className="me-2">
                     <button
                       onClick={() => {
-                        setStateBtn('info')
                         dispatch(setViewState(0))
                         dispatch(setSelectMode(true))
                       }}
@@ -63,7 +62,6 @@ const Header = () => {
                   <div className="buttons w-auto bo me-2 flex-nowrap">
                     <button
                       onClick={() => {
-                        setStateBtn('Buy')
                         dispatch(setViewState(1))
                         dispatch(setSelectMode(false))
                       }}
@@ -80,12 +78,11 @@ const Header = () => {
                     </button>
                     <button
                       onClick={() => {
-                        setStateBtn('View')
                         dispatch(setViewState(2))
                         dispatch(setSelectMode(true))
                       }}
                       className={`btn btn-bi d-flex ${
-                        vewState == 2 || vewState === 3 ? 'active' : ''
+                        vewState == 2 ? 'active' : ''
                       } flex-nowrap toggle-mode  
                     } align-items-center accordion w-100 position-relative btn-primary `}
                     >

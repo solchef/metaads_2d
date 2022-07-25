@@ -1,32 +1,25 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { DoubleSide, TextureLoader, Vector3, BoxHelper } from 'three'
 import {
-  DoubleSide,
-  TextureLoader,
-  Vector3,
-  BoxHelper,
-  Box3,
-  MOUSE,
-} from 'three'
-import {
-  Bounds,
   Html,
   OrbitControls,
   PerspectiveCamera,
   useHelper,
 } from '@react-three/drei'
+import { EffectComposer, Outline } from '@react-three/postprocessing'
 import { LoadingManager } from 'three'
 import { Loader } from '../../utils/loader'
 import { useAppSelector } from '../../components/store/hooks'
 import {
   selectLand,
+  selectViewState,
   selectZoomIn,
   selectZoomOut,
   select_3dMode,
   setLand,
   setZoomLevel,
-  setZoomLevelData,
 } from '../../components/reducers/Settings'
 import { store } from '../../components/store'
 import useSound from 'use-sound'
@@ -39,7 +32,8 @@ export const MapView = () => {
   const orbit = useRef()
   const zoomIn = useAppSelector(selectZoomIn)
   const zoomOut = useAppSelector(selectZoomOut)
-
+  const viewState = useAppSelector(selectViewState)
+  const [buyMode, setBuyMode] = useState(false)
   useEffect(() => {
     if (orbit.current) {
       orbit.current.enableRotate = _3dMode
@@ -49,7 +43,6 @@ export const MapView = () => {
       } else {
         orbit.current.minPolarAngle = 0
         orbit.current.maxPolarAngle = 0
-        // Math.PI / 2.25
       }
     }
   }, [_3dMode])
@@ -68,6 +61,11 @@ export const MapView = () => {
     }
   }, [zoomOut])
 
+  useEffect(() => {
+    console.log(viewState)
+    if (viewState !== 1) setBuyMode(true)
+    else setBuyMode(false)
+  }, [viewState])
   return (
     <Canvas style={{ height: '100vh', width: '100%', backgroundColor: '#000' }}>
       {/*
@@ -96,14 +94,19 @@ export const MapView = () => {
             maxZoom={1600}
             minDistance={90}
             maxDistance={1200}
+            mouseButtons={{ LEFT: 2, MIDDLE: 1, RIGHT: 0 }}
+            onChange={() => {
+              // console.log(orbit.current)
+              let element = orbit.current.object.matrixWorldInverse.elements
+              if (element[12] > 500) element = 500
+              // console.log(orbit.current.object.matrixWorldInverse.elements)
+            }}
+            enablePan={buyMode}
             touches={{
-              ONE:
-                store.getState().settings.viewState !== 1
-                  ? THREE.TOUCH.PAN
-                  : THREE.TOUCH.DOLLY_PAN,
+              ONE: buyMode ? THREE.TOUCH.PAN : 2,
               TWO: THREE.TOUCH.DOLLY_PAN,
             }}
-            enableRotate={store.getState().settings._3dMode}
+            enableRotate={_3dMode}
           />
         </Suspense>
         {/* <ToolTip1 /> */}
@@ -139,30 +142,34 @@ function GreenSquare({ color, color2, x, y }) {
   manager.onLoad = function () {
     setLoading(false)
   }
-
   const texture = React.useMemo(
     () => new TextureLoader(manager).load('./adspace.png'),
     []
   )
-
   const [boxPosition, setBoxPosition] = useState(new Vector3(0, 0, 0))
   const [viewLand, setViewLand] = useState(false)
   const [viewBox, setViewBox] = useState(false)
-  var box3 = new Box3()
   const [landPosition, setLandPosition] = useState(new Vector3(0, 0, 0))
+  const [moseMoved, setMouseMoved] = useState(true)
+
   const ref = useRef()
+
   const cubeRef = useRef()
-  useHelper(cubeRef, BoxHelper, 'blue')
+  useHelper(ref, BoxHelper, 'blue')
 
   const onMove = (point) => {
     if (!viewLand) setViewBox(true)
+    console.log(new Vector3(Math.floor(point.x), 0.5, Math.floor(point.z)))
     setBoxPosition(new Vector3(Math.floor(point.x), 0.5, Math.floor(point.z)))
+    setMouseMoved(false)
   }
+
   useEffect(() => {
     if (cubeRef.current) {
       console.log(cubeRef)
     }
   }, [cubeRef.current])
+
   useEffect(() => {
     let result = 0
     if (oldx !== undefined) result = oldx - x
@@ -182,46 +189,45 @@ function GreenSquare({ color, color2, x, y }) {
   }, [y])
 
   const onPointUp = (point) => {
-    if (!store.getState().settings.selectMode) {
-      setViewLand(true)
-      onMove(point)
-
+    console.log(moseMoved)
+    // if (moseMoved) {
+    setViewLand(true)
+    onMove(point)
+    if (
+      Math.sign(boxPosition.x + widthMap / 2) !== -1 &&
+      Math.sign(boxPosition.z + heightMap / 2) !== -1
+    ) {
       if (
-        Math.sign(boxPosition.x + widthMap / 2 - x / 2) !== -1 &&
-        Math.sign(boxPosition.z + heightMap / 2 - y / 2) !== -1
+        boxPosition.x + widthMap / 2 <= widthMap - x &&
+        boxPosition.z + heightMap / 2 <= heightMap - y
       ) {
-        if (
-          boxPosition.x + widthMap / 2 - x / 2 <= widthMap - x &&
-          boxPosition.z + heightMap / 2 - y / 2 <= heightMap - y
-        ) {
-          const result = boughtedLandListData.find(
-            (data) =>
-              data.attributes[1].value >=
-                Math.floor(point.x) + widthMap / 2 - x / 2 &&
-              data.attributes[1].value <
-                Math.floor(point.x) + widthMap / 2 - x / 2 + x &&
-              data.attributes[0].value >=
-                boxPosition.z + heightMap / 2 - y / 2 &&
-              data.attributes[0].value <
-                boxPosition.z + heightMap / 2 - y / 2 + y
+        const result = boughtedLandListData.find(
+          (data) =>
+            data.attributes[1].value >= Math.floor(point.x) + widthMap / 2 &&
+            data.attributes[1].value < Math.floor(point.x) + widthMap / 2 + x &&
+            data.attributes[0].value >= boxPosition.z + heightMap / 2 &&
+            data.attributes[0].value < boxPosition.z + heightMap / 2 + y
+        )
+        if (result === undefined) {
+          setLandPosition(
+            new Vector3(
+              Math.floor(point.x) + x / 2,
+              0.01,
+              Math.floor(point.z) + y / 2
+            )
           )
-          if (result === undefined) {
-            setLandPosition(
-              new Vector3(Math.floor(point.x), 0.8, Math.floor(point.z))
-            )
-            store.dispatch(
-              setLand({
-                x: boxPosition.x + widthMap / 2 - x / 2,
-                y: boxPosition.z + heightMap / 2 - y / 2,
-                h: x,
-                w: y,
-              })
-            )
-            playBuild()
-            setViewBox(false)
-          } else {
-            playError()
-          }
+          console.log(Math.floor(point.x) + x / 2)
+          console.log(boxPosition.x + widthMap / 2)
+          store.dispatch(
+            setLand({
+              x: boxPosition.x + widthMap / 2,
+              y: boxPosition.z + heightMap / 2,
+              h: x,
+              w: y,
+            })
+          )
+          playBuild()
+          setViewBox(false)
         } else {
           playError()
         }
@@ -229,15 +235,20 @@ function GreenSquare({ color, color2, x, y }) {
         playError()
       }
     } else {
-      store.dispatch(
-        setLand({
-          x: boxPosition.x + widthMap / 2,
-          y: boxPosition.z + heightMap / 2,
-          h: x,
-          w: y,
-        })
-      )
+      playError()
+      console.log('first')
     }
+    // } else {
+    //   store.dispatch(
+    //     setLand({
+    //       x: boxPosition.x + widthMap / 2,
+    //       y: boxPosition.z + heightMap / 2,
+    //       h: x,
+    //       w: y,
+    //     })
+    //   )
+    // }
+    setMouseMoved(true)
   }
 
   return (
@@ -259,12 +270,16 @@ function GreenSquare({ color, color2, x, y }) {
             scale={[1, 1, 1]}
             onPointerUp={({ uv, screenY, point, nativeEvent }) => {
               if (nativeEvent.which !== 3) onPointUp(point)
+              setViewBox(false)
             }}
             onPointerDown={(e) => {
-              if (e.buttons === 1) setViewBox(true)
+              setMouseMoved(true)
             }}
             onPointerOut={() => setViewBox(false)}
             onPointerMove={({ _uv, _screenY, point }) => {
+              if (moseMoved) {
+                setViewBox(true)
+              }
               onMove(point)
             }}
             onWheel={({ camera }) => {
@@ -277,9 +292,6 @@ function GreenSquare({ color, color2, x, y }) {
               if (camera.position.y < 415 && camera.position.y > 95)
                 store.dispatch(setZoomLevel(4))
               if (camera.position.y <= 90) store.dispatch(setZoomLevel(5))
-
-              //   store.getState().settings.zoomLevel
-              console.log(camera.position.y)
             }}
           >
             {/*
@@ -299,18 +311,38 @@ function GreenSquare({ color, color2, x, y }) {
               side={DoubleSide}
             />
           </mesh>
-          {viewBox && !store.getState().settings.selectMode ? (
+          {/* {viewBox && !store.getState().settings.selectMode ? (
             <mesh position={boxPosition} ref={ref}>
               <boxBufferGeometry args={[x, z, y]} attach="geometry" />
               <meshPhongMaterial color={color2} attach="material" />
             </mesh>
           ) : (
             ''
-          )}
+          )} */}
           {viewLand ? (
-            <mesh position={landPosition} ref={ref}>
-              <boxBufferGeometry args={[x, z, y]} attach="geometry" />
-              <meshPhongMaterial color={color} attach="material" />
+            <mesh
+              position={landPosition}
+              ref={ref}
+              rotation={[-Math.PI / 2, 0, 0]}
+            >
+              {/* <boxBufferGeometry args={[x, z, y]} attach="geometry" /> */}
+              <planeBufferGeometry args={[x, y]} />
+              <meshPhongMaterial
+                color={'#f56fff'}
+                wireframe={false}
+                opacity={0}
+                transparent={true}
+                attach="material"
+              />
+              <EffectComposer multisampling={8} autoClear={false}>
+                <Outline
+                  selection={ref}
+                  selectionLayer={100}
+                  width={950}
+                  visibleEdgeColor="white"
+                  edgeStrength={1000}
+                />
+              </EffectComposer>
             </mesh>
           ) : (
             ''

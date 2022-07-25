@@ -13,6 +13,7 @@
     "@coinbase/wallet-sdk": "^3.3.0",
     "@react-three/drei": "^9.17.1",
     "@react-three/fiber": "^8.2.0",
+    "@react-three/postprocessing": "^2.5.4",
     "@reduxjs/toolkit": "^1.8.3",
     "@sweetalert2/themes": "^5.0.11",
     "@walletconnect/web3-provider": "^1.7.8",
