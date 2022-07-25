@@ -147,3 +147,63 @@
     bottom: 20px;
     left: 12%;
 }
+
+.offcanvas-start {
+    transform: translateX(-75%) !important;
+}
+
+.offcanvas-start.show {
+    transform: translateX(0) !important;
+}
+
+.icon {
+    width: 30px;
+    height: 23px;
+    position: relative;
+    transition: .5s ease-in-out;
+    cursor: pointer;
+    right: 7%;
+    top: 2%;
+}
+
+.icon span {
+    transform-origin: left center;
+    display: block;
+    width: 100%;
+    background: #fa0070;
+    border-radius: 9px;
+    position: absolute;
+    height: 4px;
+    opacity: 1;
+    left: 0;
+    transition: .25s ease-in-out;
+}
+
+.icon span:first-child {
+    top: 0px;
+}
+
+.icon span:nth-child(2) {
+    top: 9px;
+}
+
+.icon span:last-child {
+    top: 18px;
+}
+
+.icon.open span:nth-child(1) {
+    transform: rotate(45deg);
+    top: -3px;
+    left: 8px;
+}
+
+.icon.open span:nth-child(2) {
+    width: 0%;
+    opacity: 0;
+}
+
+.icon.open span:nth-child(3) {
+    transform: rotate(-45deg);
+    top: 20px;
+    left: 8px;
+}

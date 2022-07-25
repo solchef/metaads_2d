@@ -70,7 +70,7 @@ nav.navbar {
     z-index: 99999;
     background-color: #5a0167 !important;
     display: inherit;
-    margin-left: 300px;
+    margin-left: 75px;
 }
 
 .navbar-brand {
@@ -352,7 +352,8 @@ section#grid-section {
     background-position-y: bottom;
     padding-top: 0;
     margin-top: 0;
-    margin-left: 300px !important;
+    margin-left: 75px !important;
+    transition: 0.2s;
 }
 
 .map-box {
@@ -419,9 +420,9 @@ span.input-group-text {
 }
 
 .offcanvas-title {
-    background: #fa0070;
-    text-align: center;
     font-size: 30px;
+    margin-top: 2%;
+    margin-left: 7%;
 }
 
 .offcanvas-header {
@@ -457,7 +458,6 @@ span.input-group-text {
 
 .offcanvas-body {
     overflow-y: scroll;
-    height: calc(100vh - 260px);
 }
 
 .offcanvas-body.about span {
@@ -657,9 +657,10 @@ section#marketplace-section {
     .buttons {
         flex-wrap: nowrap;
     }
-    .offcanvas.offcanvas-start {
+    .offcanvas.offcanvas-start.hide-mobile {
         top: 72%;
         width: 100% !important;
+        transform: translateX(-75%)!important;
     }
     .offcanvas-top,
     .offcanvas-bottom {
@@ -868,8 +869,14 @@ input:checked+.slider:before {
 }
 
 .g-main {
-    width: calc(100vw - 300px) !important;
+    width: calc(100vw - 75px) !important;
     height: calc(100vh - 92px);
+    transition: 0.3s;
+}
+
+.g-main-300 {
+    width: calc(100vw - 300px) !important;
+    transition: 0.3s;
 }
 
 .bo {
@@ -1040,7 +1047,8 @@ input[type='number']::-webkit-inner-spin-button {
     }
 }
 
-.scrollable::-webkit-scrollbar,
+
+/* .scrollable::-webkit-scrollbar,
 .offcanvas-body::-webkit-scrollbar {
     width: 10px;
     height: 30px;
@@ -1056,7 +1064,7 @@ input[type='number']::-webkit-inner-spin-button {
 .offcanvas-body::-webkit-scrollbar-thumb {
     background: #fa0070 !important;
     border-radius: 10px !important;
-}
+} */
 
 .form-check-input:checked {
     background-color: #fa0070;
@@ -1067,4 +1075,18 @@ input[type='number']::-webkit-inner-spin-button {
     border-color: rgb(250, 0, 112);
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgb(250 0 112 / 25%);
+}
+
+.m-300 {
+    transition: 0.3s;
+    margin-left: 300px!important;
+}
+
+.logo {
+    transition: 0.3s;
+    margin-left: 230px!important;
+}
+
+.logo-m {
+    transition: 0.3s;
 }
