@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Web3Button } from '../../components'
-import { selectLand, selectViewState } from '../../components/reducers/Settings'
-import { useAppSelector } from '../../components/store/hooks'
+import { selectLand, selectViewState,selectShowMenu,setShowMenu } from '../../components/reducers/Settings'
+import { useAppSelector ,useAppDispatch} from '../../components/store/hooks'
 import { useWeb3Context } from '../../context'
 import useCanvas from '../../hooks/useCanvas'
 import { useIPFS } from '../../hooks/useIPFS'
@@ -13,6 +13,7 @@ import { ImageInfoButton } from './ImageInfoButton'
 import { Sellsection } from './sellsection'
 // import { Editsection } from './Editsection'
 import { Section } from './Section'
+import Main from './Main'
 
 function PurchaseSection({
   isCanvasLeft,
@@ -41,6 +42,8 @@ function PurchaseSection({
     setInfo(activeItem)
   }, [activeItem, enableBuy])
   const viewState = useAppSelector(selectViewState)
+  const dispatch = useAppDispatch()
+  const showMenu = useAppSelector(selectShowMenu)
 
   useEffect(() => {
     setLand({
@@ -67,8 +70,9 @@ function PurchaseSection({
     // setMintStatus(minted)
   }
   const getVisibilityMode = () => {
-    if (viewState === 0) return <About />
-    if (viewState === 1)
+    if (showMenu && viewState === 0) return <About />
+    if (!showMenu  ) return <Main />
+    if (showMenu && viewState === 1)
       return (
         <Section
           setUrl={setUrl}
@@ -77,8 +81,8 @@ function PurchaseSection({
           handleSubmit={handleSubmit}
         />
       )
-    if (viewState === 2) return <Sellsection />
-    if (viewState === 3) return <ImageInfo />
+    if (showMenu && viewState === 2) return <Sellsection />
+    if (showMenu && viewState === 3) return <ImageInfo />
     {
       /* <ImageInfo /> */
     }
@@ -94,30 +98,32 @@ function PurchaseSection({
     {
       /* <Section /> */
     }
+    {
+      // <About />
+    }
   }
 
   return (
     <>
       <div
-        className={`offcanvas offcanvas-start hide-mobile ${'show'}`}
+        className={`offcanvas offcanvas-start hide-mobile ${showMenu && 'show'}`}
         data-bs-backdrop="false"
         style={{ visibility: 'visible' }}
       >
-        <div className="offcanvas-title hide-mobile hoverable">
-          <div className="d-flex  align-items-center">
-            <img
-              className="me-3"
-              src="assets/images/million-dollar-logo.svg"
-              width="20%"
-            />
+        <div className="offcanvas-title ">
+          <span>Menu</span>
+          <span 
+          
+          onClick={() => {
+                dispatch(setShowMenu(!showMenu))
+              }}
+          className={`icon ${showMenu && 'open'}  position-absolute`}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
 
-            <h3 className="mb-0 text-left">
-              THE MILLION <br /> DOLLAR WEBSITE
-            </h3>
-          </div>
-
-          <hr />
-          <p>
+          {/* <p>
             Worlds largest cooperative NFT grid where you c be Square lots as
             low of a dollar, upload your creative (image, ad, whatever you want)
             and linked it to an URL.
@@ -126,7 +132,7 @@ function PurchaseSection({
             <i className="bi bi-twitter"></i>
             <i className="bi bi-reddit mx-2" />
             <i className="bi bi-instagram"></i>
-          </div>
+          </div> */}
         </div>
         {getVisibilityMode()}
 

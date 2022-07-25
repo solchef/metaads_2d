@@ -6,6 +6,7 @@ export interface Settings {
   _3dMode: boolean
   viewState: number
   selectMode: boolean
+  showMenu: boolean
   boughtedLandList: []
   reloadPage: boolean
   zoomIn: number
@@ -18,6 +19,7 @@ const initialState: Settings = {
   land: { x: -1, y: -1, w: 10, h: 10 },
   _3dMode: false,
   viewState: 0,
+  showMenu: false,
   selectMode: true,
   boughtedLandList: [],
   reloadPage: true,
@@ -50,6 +52,9 @@ export const counterSlice = createSlice({
     setReloadPage: (state, action: PayloadAction<boolean>) => {
       state.reloadPage = action.payload
     },
+    setShowMenu: (state, action: PayloadAction<boolean>) => {
+      state.showMenu = action.payload
+    },
     setZoomIn: (state, action: PayloadAction<number>) => {
       state.zoomIn = action.payload
     },
@@ -73,6 +78,7 @@ export const {
   setBoughtedLandList,
   setReloadPage,
   setZoomIn,
+  setShowMenu,
   setZoomOut,
   setZoomLevel,
   setSelectedLand,
@@ -87,6 +93,7 @@ export const selectSelectLand = (state: RootState) =>
 export const selectBoughtedLandList = (state: RootState) =>
   state.settings.boughtedLandList
 export const selectReloadPage = (state: RootState) => state.settings.reloadPage
+export const selectShowMenu = (state: RootState) => state.settings.showMenu
 export const selectZoomIn = (state: RootState) => state.settings.zoomIn
 export const selectZoomOut = (state: RootState) => state.settings.zoomOut
 export const selectZoomLevel = (state: RootState) => state.settings.zoomLevel

@@ -28,6 +28,7 @@ import { useWeb3Context } from '../context'
 import {
   selectLand,
   selectReloadPage,
+  selectShowMenu,
   selectZoomLevel,
   setBoughtedLandList,
   setReloadPage,
@@ -144,6 +145,8 @@ const AdSpace: React.FunctionComponent = () => {
   const [threeD, setThreeD] = useState(true)
   const [stateBtn, setStateBtn] = useState('')
   const removeFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes - 1)
+  const showMenu = useAppSelector(selectShowMenu)
+
   return (
     <>
       <Fragment>
@@ -158,7 +161,7 @@ const AdSpace: React.FunctionComponent = () => {
           </div>
         </section> */}
 
-        <section id="grid-section">
+        <section  id="grid-section">
           {/* <div className="controls">
             <div className="d-flex gap-g flex-row-inverse justify-content-between align-items-center wrap-flow">
               <div className="left-controls d-flex">
@@ -271,7 +274,7 @@ const AdSpace: React.FunctionComponent = () => {
             </div>
           </div> */}
 
-          <div className="g-main g-s">
+          <div className={`g-main ${showMenu && 'm-300 g-main-300 '}`}  >
             <div
               ref={cAreaRef}
               className="canvas-box  hoverable"
