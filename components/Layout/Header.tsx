@@ -45,17 +45,17 @@ const Header = () => {
                 />
 
                 <h3>
-                  {showMenu && 'm-300'}
+          
                   THE MILLION <br /> DOLLAR WEBSITE
                 </h3>
               </div>
             </div>
           </div>
           <div>
-            <div className="controls hide-mobile">
+            <div className="controls ">
               <div className="d-flex gap-g flex-row-inverse justify-content-between align-items-center wrap-flow">
                 <div className="right-controls d-flex">
-                  <div className="buttons bo me-3 flex-nowrap">
+                  <div className="buttons bo me-3 flex-nowrap hide-mobile">
                     <button
                       className="btn btn-bi hoverable btn-primary m-0 btn-lg "
                       onClick={() => {
