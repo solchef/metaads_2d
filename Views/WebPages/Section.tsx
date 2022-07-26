@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 // import Image from 'next/image'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { selectLand, setLand } from '../../components/reducers/Settings'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 import { updateX, updateY } from './Map'
@@ -10,9 +10,20 @@ import { updateX, updateY } from './Map'
 export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
   const landData = useAppSelector(selectLand)
   const dispatch = useAppDispatch()
-
+  const [selectedFile, setSelectedFile] = useState('Upload Image')
   useEffect(() => {}, [])
+  const handleChangeImage = (e) => {
+    if (e.target.files.length && e.target.files[0].size / 1024 / 1024 <= 5) {
+      setSelectedFile(e.target.files[0].name)
+      setMintImage(e.target.files)
 
+    } else if (
+      e.target.files.length &&
+      e.target.files[0].size / 1024 / 1024 > 5
+    )
+      setSelectedFile('Max Size 5 MB')
+    else setSelectedFile('Upload Image')
+  }
   return (
     <div className="offcanvas-body image-info pt-5 pb-5 p-0 ">
       <h3> SQ.NFT SIZE</h3>
@@ -104,26 +115,37 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
           </div>
         </form>
 
-        <form>
-          <div className="input-group hoverable mb-4">
+        <form
+          style={{ cursor: 'pointer' }}
+          onClick={() => document.getElementById('ghthth').click()}
+        >
+          <div className="input-group hoverable mb-3">
             <span className="input-group-text ">
               <i className="bi bi-upload"></i>
             </span>
+
+            <input
+              style={{ cursor: 'pointer', color: 'transparent' }}
+              placeholder={selectedFile}
+              className="form-control"
+            />
             <input
               type="file"
-              placeholder="Upload Image"
               accept="image/png, image/jpeg"
-              className="form-control"
-              onChange={(event) => {
-                // console.log(event.target.value)
-                setMintImage(event.target.files)
-              }}
+              onChange={handleChangeImage}
+              id="ghthth"
+              style={{ display: 'none' }}
             />
           </div>
         </form>
+
+ 
       </div>
-      <p className="mb-0">Recommended size (100X100px png, jpg)</p>
-      <div className="d-flex align-items-center mb-2">
+      <p className="mb-3">
+        Image Size ({landData.h}0 X {landData.w}0px) <br />
+        Max Size: 5MB | File Type: JPG,PNG
+      </p>  
+          {/* <div className="d-flex align-items-center mb-2">
         <input
           className="form-check-input w-25 pb-5 h-100 me-3 "
           type="checkbox"
@@ -132,7 +154,7 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
         />
 
         <p className="p-0 mt-4">MARK FOR SALE ON OPENSEA.IO</p>
-      </div>
+      </div> */}
       <a
         className="btn-primary hoverable mx-3 btn-md hide-mobile"
         onClick={handleSubmit}

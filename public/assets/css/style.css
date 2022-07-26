@@ -126,8 +126,10 @@ h3 {
 
 h4 {
     font-weight: 400;
-    font-size: 20px;
-    margin-bottom: 0px;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #f5de00;
+    margin-top: 10px;
 }
 
 h6 {
@@ -480,6 +482,11 @@ span.input-group-text {
     font-size: 16px;
 }
 
+.offcanvas-body i.icon-menu {
+    font-size: 28px;
+    cursor: pointer;
+}
+
 .image-info .link a {
     font-size: 16px;
 }
@@ -509,6 +516,10 @@ img.icon-chart {
     width: inherit;
     padding: 0px 30px !important;
     font-size: 20px;
+}
+
+.offcanvas-body {
+    max-width: 100%;
 }
 
 
@@ -1048,7 +1059,8 @@ input[type='number']::-webkit-inner-spin-button {
 }
 
 
-/* .scrollable::-webkit-scrollbar,
+/* 
+.scrollable::-webkit-scrollbar,
 .offcanvas-body::-webkit-scrollbar {
     width: 10px;
     height: 30px;
@@ -1075,6 +1087,15 @@ input[type='number']::-webkit-inner-spin-button {
     border-color: rgb(250, 0, 112);
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgb(250 0 112 / 25%);
+}
+
+.swal2-popup {
+    background: #690779 !important;
+    border-radius: 20px!important;
+}
+
+.swal2-icon.swal2-error.swal2-icon-show {
+    display: none !important;
 }
 
 .m-300 {
