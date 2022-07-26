@@ -84,7 +84,7 @@ const AdSpace: React.FunctionComponent = () => {
     // console.log(result)
   }, [land])
   useEffect(() => {
-    axios.get('http://localhost:3000/api/info').then((data) => {
+    axios.get('https://quadspace.io/api/info').then((data) => {
       dispatch(setBoughtedLandList(data.data.meta))
       setBoughtedLandListData(data.data.meta)
       console.log(data.data.meta)
