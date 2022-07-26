@@ -7,7 +7,7 @@ export default function AdSpace() {
 
   const getHashes = async () => {
     let totalSupply = await adscontract.totalSupply()
-    console.log(totalSupply)
+    // console.log(totalSupply)
 
     for (var i = 1; i <= totalSupply; i++) {
       const hash = await contract.methods.hashes(i - 1).call()
@@ -19,7 +19,7 @@ export default function AdSpace() {
 
   const handleMint = async () => {
     // console.log(contracts)
-    console.log(adscontract.address)
+    // console.log(adscontract.address)
 
     let selectedSqures = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
@@ -36,7 +36,7 @@ export default function AdSpace() {
       [nameinput, spacecoords, identityImage]
     )
 
-    console.log(mint_spaces)
+    // console.log(mint_spaces)
   }
 
   React.useEffect(() => {

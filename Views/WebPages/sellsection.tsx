@@ -91,7 +91,6 @@ MDTP Token xxxx
         className="btn-primary hoverable mx-3 d-block mt-4 btn-md "
         onClick={() => {
           dispatch(setViewState(1))
-          console.log('in')
         }}
         href="#"
       >

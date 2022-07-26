@@ -272,7 +272,7 @@ export default function useCanvas() {
       })
 
       adCanvas.on('object:modified', function (options) {
-        console.log(options)
+        // console.log(options)
         // console.log('first')
         var newWidth = Math.round(options.target.width / 1) * 1
         var newHeight = Math.round(options.target.height / 1) * 1
@@ -303,7 +303,7 @@ export default function useCanvas() {
           }
 
           setSqureInfo(squreInfoDefault)
-          console.log(enableBuy)
+          // console.log(enableBuy)
           updateSelector(
             Math.round(pointer.y / grid) - 1 * grid,
             Math.round(pointer.x / grid) * grid - 1

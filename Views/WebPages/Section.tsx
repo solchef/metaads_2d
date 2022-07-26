@@ -16,7 +16,6 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
     if (e.target.files.length && e.target.files[0].size / 1024 / 1024 <= 5) {
       setSelectedFile(e.target.files[0].name)
       setMintImage(e.target.files)
-
     } else if (
       e.target.files.length &&
       e.target.files[0].size / 1024 / 1024 > 5
@@ -91,7 +90,6 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
               placeholder="Sq. NFT Name"
               className="form-control"
               onChange={(event) => {
-                console.log(event.target.value)
                 setName(event.target.value)
               }}
             />
@@ -140,23 +138,30 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
         </form>
         <form>
           <div className="input-group hoverable mb-4">
+
           
          
             <h3 className='ps-0'>Description :</h3>
 
 <textarea placeholder="Description" className='p-2 mt-2' id="w3review" name="w3review" rows={4} cols={50}>
 
-</textarea>
+
+            <textarea
+              placeholder="Description"
+              className="p-2"
+              id="w3review"
+              name="w3review"
+              rows={4}
+              cols={50}
+            ></textarea>
           </div>
         </form>
-
- 
       </div>
       <p className="mb-3">
         Image Size ({landData.h}0 X {landData.w}0px) <br />
         Max Size: 5MB | File Type: JPG,PNG
-      </p>  
-          {/* <div className="d-flex align-items-center mb-2">
+      </p>
+      {/* <div className="d-flex align-items-center mb-2">
         <input
           className="form-check-input w-25 pb-5 h-100 me-3 "
           type="checkbox"
