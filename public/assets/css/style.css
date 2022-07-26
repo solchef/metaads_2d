@@ -423,7 +423,7 @@ span.input-group-text {
 
 .offcanvas-title {
     font-size: 26px;
-    margin-top: 3%;
+    margin-top: 5%;
     margin-left: 7%;
 }
 
@@ -460,6 +460,7 @@ span.input-group-text {
 
 .offcanvas-body {
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .offcanvas-body.about span {

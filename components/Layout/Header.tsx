@@ -9,6 +9,7 @@ import {
   setZoomLevel,
   setZoomOut,
   selectShowMenu,
+  setShowMenu,
 } from '../reducers/Settings'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { Web3Button } from '../Web3Button'
@@ -39,12 +40,23 @@ const Header = () => {
                 } align-items-center `}
               >
                 <img
-                  className="me-3"
+                  className="me-3 hide-mobile"
                   src="assets/images/million-dollar-logo.svg"
                   width="50px"
                 />
+                 <span
+            onClick={() => { 
+              dispatch(setShowMenu(!showMenu))
+              dispatch(setViewState(4))
+            }}
+            className={`icon ms-2  show-mobile ${showMenu && 'open'}  `}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
 
-                <h3>
+                <h3 className='pb-0 mb-0'>
           
                   THE MILLION <br /> DOLLAR WEBSITE
                 </h3>

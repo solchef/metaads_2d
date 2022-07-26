@@ -92,7 +92,7 @@ export const ImageInfoButton = () => {
         </span>
       </div>
       <a
-        className="btn-primary mx-3 mt-4 hoverable btn-md hide-mobile"
+        className="btn-primary mx-3 mt-4 hoverable btn-md"
         href="#"
       >
         <i className="bi-wallet me-2"></i>PURCHASE PLOT

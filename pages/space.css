@@ -8,12 +8,12 @@
 }
 
 .showw {
-    transform: translateY(78%);
+    transform: translateY(85%);
 }
 
 .accordion-item {
     background-color: #454545 !important;
-    height: 255px;
+    height: 320px;
 }
 
 .rsw_2f {
@@ -21,9 +21,13 @@
 }
 
 .accordion-header button {
-    background-color: #f50074 !important;
+    background-color: #5a0167 !important;
     color: white !important;
     font-size: 20px;
+}
+
+.accordion-header {
+    margin: -3px;
 }
 
 .accordion-header button i {
@@ -163,14 +167,14 @@
     transition: .5s ease-in-out;
     cursor: pointer;
     right: 7%;
-    top: 2%;
+    top: 4%;
 }
 
 .icon span {
     transform-origin: left center;
     display: block;
     width: 100%;
-    background: #fa0070;
+    background: white;
     border-radius: 9px;
     position: absolute;
     height: 4px;
@@ -206,4 +210,29 @@
     transform: rotate(-45deg);
     top: 20px;
     left: 8px;
+}
+
+.icon-menu {
+    position: relative;
+    transition: 0.5s;
+}
+
+.icon-menu::after {
+    position: absolute;
+    content: attr(custom-attribute);
+    top: 50%;
+    left: 186%;
+    font-size: 17px;
+    transform: translateY(-50%);
+    transition: 0.5s;
+    color: white;
+}
+
+@media (max-width: 1033px) {
+    .offcanvas-start {
+        transform: translateX(-100%)!important;
+    }
+    nav a.btn-primary.hoverable.btn-md.show-mobile {
+        padding: 10px 15px;
+    }
 }
