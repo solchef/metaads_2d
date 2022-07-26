@@ -3,38 +3,44 @@
 // import Image from 'next/image'
 
 import {
+  getParcel,
   selectLand,
   selectSelectLand,
 } from '../../components/reducers/Settings'
 import { useAppSelector } from '../../components/store/hooks'
+import { shortUrl } from '../../utils'
+import { QuadSpaceContract } from '../../utils/constants'
+import truncateEthAddress from '../../utils/truncate'
 
 export const ImageInfo = () => {
   const landInfo = useAppSelector(selectSelectLand)
-  // console.log(landInfo)
+  const parcelData = useAppSelector(getParcel)
+
+  // console.log(parcelData)
   return (
     <div className="offcanvas-body image-info  pb-5 pt-5 p-0 ">
       <div className="image">
-        <img src={landInfo.image} />
+        <img height={200} width={200} src={parcelData.image} />
       </div>
-      <h3 className="my-4">{landInfo.name}</h3>
+      <h3 className="my-4">{parcelData.name}</h3>
       <div className="d-flex flex-wrap flex-column">
         <span className=" link">
           <i className="bi bi-link"></i> :&nbsp;
-          <a href={landInfo.external_url} className="text-success">
-            {landInfo.external_url}
+          <a href={parcelData.url} target="_blank" className="text-success">
+            {shortUrl(parcelData.url, 15)}
           </a>
         </span>
         <span className="mb-1">
-          <img src="assets/images/square_icon.png" width="16px" /> : 100 Quads
+          <img src="assets/images/square_icon.png" width="16px" /> :{' '}
+          {parcelData.width * parcelData.height} Quads
         </span>
 
         <span className="mb-1">
           <i className="bi bi-border " />
-          &nbsp;: ( 10 x 10 )
+          &nbsp;: ( {parcelData.width + 'x ' + parcelData.height} )
         </span>
         <span>
-          <i className="bi bi-geo-alt" /> : {landInfo.attributes[0].value}X ,{' '}
-          {landInfo.attributes[1].value}Y
+          <i className="bi bi-geo-alt" /> : {parcelData.coords}
         </span>
 
         <span className="text-nowrap pt-1 mb-1">
@@ -96,7 +102,8 @@ export const ImageInfo = () => {
           &nbsp;0.0942 ( $ 100 )
         </span>
         <span>
-          <i className="bi bi-person"></i> : User Wallet
+          <i className="bi bi-person"></i> :{' '}
+          {truncateEthAddress(QuadSpaceContract)}
         </span>
         <span className="pt-1">
           <i className="bi bi-clipboard"></i> : Nft

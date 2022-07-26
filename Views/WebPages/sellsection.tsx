@@ -2,31 +2,29 @@
 /* eslint-disable react/no-unescaped-entities */
 // import Image from 'next/image'
 
-import { selectLand, setViewState } from '../../components/reducers/Settings'
+import {
+  getParcel,
+  selectLand,
+  setViewState,
+} from '../../components/reducers/Settings'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 
 export const Sellsection = () => {
   const landData = useAppSelector(selectLand)
+  const parcelData = useAppSelector(getParcel)
+  // console.log(parcelData)
   const dispatch = useAppDispatch()
   return (
     <div className="offcanvas-body image-info pt-5  pb-5 p-0 ">
       <h3> FOR SALE</h3>
-      <p  className='mt-2'>
-      TOKEN #xxxx
-             </p>
-            <p  className='mt-2'>
-MDTP Token xxxx
-
-             </p>
-      <p  className='mt-2'>
-      This NFT gives you full ownership of block xxxx on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!
-            </p>
+      <p className="mt-2">{parcelData.name}</p>
+      <p className="mt-2">MDTP Token xxxx</p>
+      <p className="mt-2">{parcelData.description}</p>
 
       <hr className="my-4" />
       <div className="d-flex flex-wrap flex-column">
         <span>
-          <i className="bi bi-geo-alt" /> : {landData.x + 'X'} ,{' '}
-          {landData.y + 'Y'}
+          <i className="bi bi-geo-alt" /> : {parcelData.coords}
         </span>
 
         <span className="text-nowrap pt-1">
@@ -85,21 +83,18 @@ MDTP Token xxxx
               </g>
             </g>
           </svg>
-          &nbsp;0.0942 ( $ 100 )
+          &nbsp;0.000942 ( $ 1 )
         </span>
         <a
-        className="btn-primary hoverable mx-3 d-block mt-4 btn-md "
-        onClick={() => {
-          dispatch(setViewState(1))
-        }}
-        href="#"
-      >
-        <i className="bi-wallet me-2"></i> PURCHASE PLOT
-      </a>
+          className="btn-primary hoverable mx-3 d-block mt-4 btn-md "
+          onClick={() => {
+            dispatch(setViewState(1))
+          }}
+          href="#"
+        >
+          <i className="bi-wallet me-2"></i> PURCHASE PLOT
+        </a>
       </div>
-   
-
-
     </div>
   )
 }

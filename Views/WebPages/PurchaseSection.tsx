@@ -20,6 +20,7 @@ import { Sellsection } from './sellsection'
 // import { Editsection } from './Editsection'
 import { Section } from './Section'
 import Main from './Main'
+import { RoadMap } from './RoadMap'
 
 function PurchaseSection({
   isCanvasLeft,
@@ -80,6 +81,8 @@ function PurchaseSection({
   }
   const getVisibilityMode = () => {
     if (showMenu && viewState === 0) return <About />
+    if (showMenu && viewState === 7) return <RoadMap />
+
     if (!showMenu) return <Main />
     if (showMenu && viewState === 1)
       return (

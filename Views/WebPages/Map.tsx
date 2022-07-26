@@ -19,6 +19,7 @@ import {
   selectZoomOut,
   select_3dMode,
   setLand,
+  setParcel,
   setSelectedLand,
   setShowMenu,
   setViewState,
@@ -73,7 +74,7 @@ export const MapView = () => {
 
   const getImage = async () => {
     await axios.get('https://api.quadspace.io/adspsdace.json').then((data) => {
-      console.log(data.data)
+      // console.log(data.data)
       setImage(data.data)
       setLoading(false)
     })
@@ -258,6 +259,10 @@ const GreenSquare = ({ x, y, image }) => {
               )
             )
             store.dispatch(setViewState(2))
+            returnLand(
+              boxPosition.x + widthMap / 2,
+              boxPosition.z + heightMap / 2
+            )
             store.dispatch(
               setLand({
                 x: boxPosition.x + widthMap / 2,
@@ -290,6 +295,57 @@ const GreenSquare = ({ x, y, image }) => {
     }
 
     setMouseMoved(true)
+  }
+
+  const findLand = (x1, y1, x2, y2, x, y) => {
+    if (x > x1 && x < x2 && y > y1 && y < y2) return true
+
+    return false
+  }
+
+  const returnLand = (x, y) => {
+    const initialLands = [
+      [0, 0],
+      [0, 750],
+      [800, 0],
+      [800, 750],
+      [400, 375],
+    ]
+    let landpoint = {
+      data: false,
+      name: 'quad',
+      coords: x + ',' + y,
+      width: 1,
+      height: 1,
+      image:
+        'https://bafybeibaxec4sl7cbx4ey5djtofzdahowg7mv5vmfvkx3kxcfq7koecbx4.ipfs.nftstorage.link/',
+      status: 'Available',
+      url: '#',
+      description:
+        "This NFT gives you full ownership of block xxxx on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!",
+    }
+    store.dispatch(setViewState(2))
+    initialLands.forEach((land) => {
+      if (findLand(land[1], land[0], land[1] + 250, land[0] + 200, x, y)) {
+        store.dispatch(setViewState(3))
+        landpoint = {
+          data: true,
+          name: 'QuadSpace#' + land[0] + 'X' + land[1] + 'Y',
+          coords: x + ',' + y,
+          width: 250,
+          height: 200,
+          image: 'https://api.quadspace.io/quadmint.png',
+          status: 'booked',
+          url: 'https://milliondollarwebsite.com',
+          description: '',
+        }
+        return
+      }
+    })
+
+    store.dispatch(setParcel(landpoint))
+
+    return landpoint
   }
 
   return (
