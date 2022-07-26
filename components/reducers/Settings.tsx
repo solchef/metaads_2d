@@ -13,6 +13,7 @@ export interface Settings {
   zoomOut: number
   zoomLevel: number
   selectedLand: {}
+  menuView: boolean
 }
 
 const initialState: Settings = {
@@ -27,6 +28,7 @@ const initialState: Settings = {
   zoomOut: 1,
   zoomLevel: 1,
   selectedLand: {},
+  menuView: false,
 }
 
 export const counterSlice = createSlice({
@@ -67,6 +69,9 @@ export const counterSlice = createSlice({
     setSelectedLand: (state, action: PayloadAction<{}>) => {
       state.selectedLand = action.payload
     },
+    setMenuView: (state, action: PayloadAction<boolean>) => {
+      state.menuView = action.payload
+    },
   },
 })
 
@@ -82,6 +87,7 @@ export const {
   setZoomOut,
   setZoomLevel,
   setSelectedLand,
+  setMenuView,
 } = counterSlice.actions
 
 export const selectLand = (state: RootState) => state.settings.land
@@ -97,6 +103,8 @@ export const selectShowMenu = (state: RootState) => state.settings.showMenu
 export const selectZoomIn = (state: RootState) => state.settings.zoomIn
 export const selectZoomOut = (state: RootState) => state.settings.zoomOut
 export const selectZoomLevel = (state: RootState) => state.settings.zoomLevel
+export const selectMenuView = (state: RootState) => state.settings.menuView
+
 export const setLandData =
   (view: any): AppThunk =>
   (dispatch) => {
@@ -112,6 +120,12 @@ export const set_3dModeData =
   (view: boolean): AppThunk =>
   (dispatch) => {
     dispatch(set_3dMode(view))
+  }
+
+export const setMenuViewData =
+  (view: boolean): AppThunk =>
+  (dispatch) => {
+    dispatch(setMenuView(view))
   }
 
 export const setSelectedLandData =

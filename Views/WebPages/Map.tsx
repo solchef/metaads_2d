@@ -20,6 +20,7 @@ import {
   select_3dMode,
   setLand,
   setSelectedLand,
+  setShowMenu,
   setViewState,
   setZoomLevel,
 } from '../../components/reducers/Settings'
@@ -201,7 +202,6 @@ function GreenSquare({ color, color2, x, y }) {
   }, [y])
 
   const getSelectedMap = (point) => {
-    console.log(x, y)
     return boughtedLandListData.find(
       (data) =>
         data.attributes[1].value >= Math.floor(point.x) + widthMap / 2 &&
@@ -212,7 +212,6 @@ function GreenSquare({ color, color2, x, y }) {
   }
 
   const onPointUp = async (point) => {
-    console.log(landPosition)
     if (moseMoved) {
       setViewLand(true)
       onMove(point)
@@ -271,6 +270,7 @@ function GreenSquare({ color, color2, x, y }) {
         })
       )
     }
+    store.dispatch(setShowMenu(true))
     setMouseMoved(true)
   }
 

@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Web3Button } from '../../components'
-import { selectLand, selectViewState,selectShowMenu,setShowMenu } from '../../components/reducers/Settings'
-import { useAppSelector ,useAppDispatch} from '../../components/store/hooks'
+import {
+  selectLand,
+  selectViewState,
+  selectShowMenu,
+  setShowMenu,
+} from '../../components/reducers/Settings'
+import { useAppSelector, useAppDispatch } from '../../components/store/hooks'
 import { useWeb3Context } from '../../context'
 import useCanvas from '../../hooks/useCanvas'
 import { useIPFS } from '../../hooks/useIPFS'
@@ -71,7 +76,7 @@ function PurchaseSection({
   }
   const getVisibilityMode = () => {
     if (showMenu && viewState === 0) return <About />
-    if (!showMenu  ) return <Main />
+    if (!showMenu) return <Main />
     if (showMenu && viewState === 1)
       return (
         <Section
@@ -106,18 +111,20 @@ function PurchaseSection({
   return (
     <>
       <div
-        className={`offcanvas offcanvas-start hide-mobile ${showMenu && 'show'}`}
+        className={`offcanvas offcanvas-start hide-mobile ${
+          showMenu && 'show'
+        }`}
         data-bs-backdrop="false"
         style={{ visibility: 'visible' }}
       >
         <div className="offcanvas-title ">
           <span>Menu</span>
-          <span 
-          
-          onClick={() => {
-                dispatch(setShowMenu(!showMenu))
-              }}
-          className={`icon ${showMenu && 'open'}  position-absolute`}>
+          <span
+            onClick={() => {
+              dispatch(setShowMenu(!showMenu))
+            }}
+            className={`icon ${showMenu && 'open'}  position-absolute`}
+          >
             <span></span>
             <span></span>
             <span></span>
