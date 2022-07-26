@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
 import { DoubleSide, TextureLoader, Vector3, BoxHelper } from 'three'
 import {
   Html,
@@ -26,8 +26,21 @@ import {
 } from '../../components/reducers/Settings'
 import { store } from '../../components/store'
 import useSound from 'use-sound'
+import imageJson from './image.json'
 
 let oldx, oldy
+var isMobile = false //initiate as false
+// device detection
+if (
+  /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(
+    navigator.userAgent
+  ) ||
+  /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(
+    navigator.userAgent.substr(0, 4)
+  )
+) {
+  isMobile = true
+}
 
 export const MapView = () => {
   const _3dMode = useAppSelector(select_3dMode)
@@ -37,6 +50,7 @@ export const MapView = () => {
   const zoomOut = useAppSelector(selectZoomOut)
   const viewState = useAppSelector(selectViewState)
   const [buyMode, setBuyMode] = useState(false)
+
   useEffect(() => {
     if (orbit.current) {
       orbit.current.enableRotate = _3dMode
@@ -69,22 +83,11 @@ export const MapView = () => {
   }, [])
   return (
     <Canvas style={{ height: '100vh', width: '100%', backgroundColor: '#000' }}>
-      {/*
-           A group is used for grouping, kind og like
-          groups in SVGs. The positioning of elements
-          inside a group is relative to the group's
-          position.
-        */}
       <group>
-        {/* All these are in the same group */}
         <Suspense fallback={<></>}>
           <GreenSquare color="#f56f42" color2="#00707b" x={land.h} y={land.w} />
           <PerspectiveCamera position={[0, 1200, 0]} makeDefault />
-          {/*
-          This lets you rotate the camera.
-          We've associated our React ref with it
-          like we would do for any React component
-        */}
+
           <OrbitControls
             ref={orbit}
             minPolarAngle={0}
@@ -98,8 +101,9 @@ export const MapView = () => {
             mouseButtons={{ LEFT: 2, MIDDLE: 1, RIGHT: 0 }}
             onChange={() => {
               // console.log(orbit.current)
-              let element = orbit.current.object.matrixWorldInverse.elements
-              if (element[12] > 500) element = 500
+              // let element = orbit.current.object.matrixWorldInverse.elements
+              // if (element[12] > 500) element[12] = 500
+              // orbit.current.object.matrixWorldInverse.elements = element
               // console.log(orbit.current.object.matrixWorldInverse.elements)
             }}
             enablePan={buyMode}
@@ -112,23 +116,12 @@ export const MapView = () => {
         </Suspense>
         {/* <ToolTip1 /> */}
       </group>
-      {/* Let there be light! */}
       <ambientLight />
-      {/*
-          Use a PerspectiveCamera.
-          PerspectiveCameras work like real works cameras
-          and provide depth perception.
-        */}
     </Canvas>
   )
 }
-// const onMouseMove =  useCallback(e => console.log(e))
-// This is the thing we are interested in
-// The GreenSquare component renders a mesh.
-// Meshes are objects that can have a shape and
-// texture.
 
-function GreenSquare({ color, color2, x, y }) {
+function GreenSquare({ x, y }) {
   const [playError] = useSound('./errorSound.mp3')
   const [playBuild] = useSound('./build.mp3')
   const boughtedLandListData = store.getState().settings.boughtedLandList
@@ -144,14 +137,16 @@ function GreenSquare({ color, color2, x, y }) {
     setLoading(false)
   }
   const texture = React.useMemo(
-    () => new TextureLoader(manager).load('./adspace.png'),
+    () => new TextureLoader(manager).load(imageJson.image),
     []
   )
   const [boxPosition, setBoxPosition] = useState(new Vector3(0, 0, 0))
   const [viewLand, setViewLand] = useState(false)
   const [viewBox, setViewBox] = useState(false)
   const [landPosition, setLandPosition] = useState(new Vector3(0, 0, 0))
-  const [moseMoved, setMouseMoved] = useState(true)
+  const [moseDown, setMouseDown] = useState(false)
+  const [moseUp, setMouseUp] = useState(false)
+  const [moseMoved, setMouseMoved] = useState(false)
 
   const ref = useRef()
 
@@ -223,7 +218,6 @@ function GreenSquare({ color, color2, x, y }) {
           boxPosition.x + widthMap / 2 <= widthMap - x &&
           boxPosition.z + heightMap / 2 <= heightMap - y
         ) {
-          // console.log(point)
           const result = getSelectedMap(point)
           if (result !== undefined) {
             store.dispatch(setSelectedLand(result))
@@ -270,17 +264,11 @@ function GreenSquare({ color, color2, x, y }) {
         })
       )
     }
-    store.dispatch(setShowMenu(true))
+    if (!isMobile) store.dispatch(setShowMenu(true))
     setMouseMoved(true)
   }
 
   return (
-    // The mesh is at the origin
-    // Since it is inside a group, it is at the origin
-    // of that group
-    // It's rotated by 90 degrees along the X-axis
-    // This is because, by default, planes are rendered
-    // in the X-Y plane, where Y is the up direction
     <>
       {loading ? (
         <ToolTip1 />
@@ -291,7 +279,7 @@ function GreenSquare({ color, color2, x, y }) {
             position={[0, 0, 0]}
             rotation={[-Math.PI / 2, 0, 0]}
             scale={[1, 1, 1]}
-            onPointerUp={({ uv, screenY, point, nativeEvent }) => {
+            onPointerUp={({ point, nativeEvent }) => {
               if (nativeEvent.which !== 3) onPointUp(point)
               setViewBox(false)
             }}
@@ -299,7 +287,7 @@ function GreenSquare({ color, color2, x, y }) {
               setMouseMoved(true)
             }}
             onPointerOut={() => setViewBox(false)}
-            onPointerMove={({ _uv, _screenY, point }) => {
+            onPointerMove={({ point }) => {
               if (moseMoved) {
                 setViewBox(true)
               }
@@ -317,19 +305,12 @@ function GreenSquare({ color, color2, x, y }) {
               if (camera.position.y <= 90) store.dispatch(setZoomLevel(5))
             }}
           >
-            {/*
-        The thing that gives the mesh its shape
-        In this case the shape is a flat plane
-      */}
             <planeBufferGeometry args={[widthMap, heightMap]} />
-            {/*
-        The material gives a mesh its texture or look.
-        In this case, it is just a uniform green
-      */}
+
             <meshBasicMaterial
               attach="material"
               // color={color}
-              //   displacementMap={texture}
+              // displacementMap={texture}
               map={texture}
               side={DoubleSide}
             />
@@ -351,7 +332,7 @@ function GreenSquare({ color, color2, x, y }) {
               {/* <boxBufferGeometry args={[x, z, y]} attach="geometry" /> */}
               <planeBufferGeometry args={[x, y]} />
               <meshPhongMaterial
-                color={'#f56fff'}
+                // color={'#f56fff'}
                 wireframe={false}
                 opacity={0}
                 transparent={true}
@@ -376,32 +357,10 @@ function GreenSquare({ color, color2, x, y }) {
   )
 }
 
-// The rest of the components are just tooltips
-// Drei's Html component lets you render any HTML
-// inside the 3d scene. It follows the same rules
-// as everything else when it comes to positioning,
-// but is not actually rendered inside the canvas
-
 function ToolTip1() {
   return (
     <Html center position={[-1, 1, -1]}>
       <Loader />
-    </Html>
-  )
-}
-
-function ToolTip2() {
-  return (
-    <Html center position={[1, -1, -1]}>
-      <p>Scroll to zoom in and out</p>
-    </Html>
-  )
-}
-
-function ToolTip3() {
-  return (
-    <Html center position={[-1, -1, 1]}>
-      <p>{"<== Code's on the left, with details in the comments"}</p>
     </Html>
   )
 }
