@@ -138,6 +138,17 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
             />
           </div>
         </form>
+        <form>
+          <div className="input-group hoverable mb-4">
+          
+         
+            <h3 className='ps-0'>Description :</h3>
+
+<textarea placeholder="Description" className='p-2' id="w3review" name="w3review" rows={4} cols={50}>
+
+</textarea>
+          </div>
+        </form>
 
  
       </div>
