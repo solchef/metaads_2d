@@ -26,7 +26,7 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
   return (
     <div className="offcanvas-body image-info pt-5 pb-5 p-0 ">
       <h3> SQ.NFT SIZE</h3>
-      <div className='mt-2'>
+      <div className="mt-2">
         <form>
           <div className="input-group hoverable mb-4">
             <span className="input-group-text ">
@@ -57,7 +57,7 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
               min="1"
               max="1000000"
               defaultValue={1}
-              placeholder="Hight"
+              placeholder="Height"
               className="form-control value="
               onChange={(e) => {
                 dispatch(
@@ -79,7 +79,7 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
       <hr />
       <h3> Sq.NFT DATA</h3>
 
-      <div className='mt-2'>
+      <div className="mt-2">
         <form>
           <div className="input-group hoverable mb-4">
             <span className="input-group-text ">
@@ -138,12 +138,7 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
         </form>
         <form>
           <div className="input-group hoverable mb-4">
-
-          
-         
-            <h3 className='ps-0'>Description :</h3>
-
-
+            <h3 className="ps-0">Description :</h3>
 
             <textarea
               placeholder="Description"
