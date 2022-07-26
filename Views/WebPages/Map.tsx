@@ -339,7 +339,7 @@ const GreenSquare = ({ x, y, image }) => {
           image: 'https://api.quadspace.io/quadmint.png',
           status: 'booked',
           url: 'https://milliondollarwebsite.com',
-          description: '',
+          description: `We created the Meta-Board the online version of your traditional billboard. www.TheMillionDollarWebsite.com (http://www.themilliondollarwebsite.com/) leads to the domain www.quadspace.io (http://www.quadspace.io/). Because Quadspace powers the Metaverse component of this project. Each pixel on the Meta-Board will also come with 1 parcel of land in the Quadspace metaverse as a BONUS!`,
           position: y * 1000 + x,
         }
         return

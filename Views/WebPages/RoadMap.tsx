@@ -10,28 +10,32 @@ export const RoadMap = () => {
     >
       {/* <h3 className="mb-4">ROADMAP</h3> */}
 
-      <p></p>
       <div className="d-flex">
         <p>
           <h4 className="pb-2"> Phase 1</h4>
-          $1 Pre-Sale Mint starts deploy seo optimization deploy marketing
-          budget Sell out and start the SnapShot Countdown Take a snapshot of
-          the whole MetaBoard and convert it into NFT Auction the NFT on OpenSea
-          and donate all profits to a charity Hold a community vote with all the
-          TMDW nft holders to which charity the funds will go to
+          $1 Pre-Sale Mint starts <br /> deploy seo optimization <br /> deploy
+          marketing budget <br /> Sell out and start the SnapShot Countdown{' '}
+          <br /> Take a snapshot of the whole MetaBoard and convert it into NFT{' '}
+          <br />
+          Auction the NFT on OpenSea and donate all profits to a charity <br />
+          Hold a community vote with all the TMDW nft holders to which charity
+          the funds will go to
         </p>
       </div>
       <div className="d-flex">
         <p>
           <h4 className="pb-2"> Phase 2</h4>
-          TMDW Meta Token Dao Marketplace Renting Pixel space
+          TMDW Meta Token <br />
+          Dao <br /> Marketplace <br /> Renting Pixel space
         </p>
       </div>
       <div className="d-flex">
         <p className="w-100">
           <h4 className="pb-2"> Phase 3 </h4>
-          Quadspace metaland deploys Server load testing demo run Background
-          load testing demo run Quadspace Goes officially live!
+          Quadspace metaland deploys <br />
+          Server load testing demo run <br /> Background load testing demo run{' '}
+          <br />
+          Quadspace Goes officially live!
         </p>
       </div>
     </div>

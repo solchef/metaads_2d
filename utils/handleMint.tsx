@@ -116,8 +116,8 @@ export const handleMint = async (
     image_temp: mintImage[0].name + new Date(),
     coordX: land.x,
     coordY: land.y,
-    parcelWidth: land.h,
-    parcelHeight: land.w,
+    parcelWidth: land.w,
+    parcelHeight: land.h,
     parcelIds: mintableids,
   }
 

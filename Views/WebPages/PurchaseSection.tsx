@@ -128,9 +128,9 @@ function PurchaseSection({
             {viewState === 0
               ? 'About'
               : viewState === 1
-              ? 'Buy Mode'
+              ? ''
               : viewState === 2
-              ? 'View Mode'
+              ? ''
               : viewState === 3
               ? ''
               : viewState === 7

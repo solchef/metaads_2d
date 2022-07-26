@@ -18,32 +18,37 @@ export const ImageInfo = () => {
 
   // console.log(parcelData)
   return (
-    <div className="offcanvas-body image-info  pb-5 pt-5 p-0 ">
+    <div className="offcanvas-body image-info  pb-5 pt-5 p-0 text-center">
       <div className="image">
         <img height={200} width={200} src={parcelData.image} />
       </div>
-      <h3 className="my-4">{parcelData.name}</h3>
+
+      <h4 className="mt-4">Token #{parcelData.position}</h4>
+
+      <h3 className="mb-2">{parcelData.name}</h3>
+      <span className=" link mb-2">
+        {/* <i className="bi bi-link"></i> :&nbsp; */}
+        <a href={parcelData.url} target="_blank" className="text-success mb-2">
+          <u>https://{shortUrl(parcelData.url, 15)}</u>
+        </a>
+      </span>
+
+      <p>{parcelData.description}</p>
       <div className="d-flex flex-wrap flex-column">
-        <span className=" link">
-          <i className="bi bi-link"></i> :&nbsp;
-          <a href={parcelData.url} target="_blank" className="text-success">
-            {shortUrl(parcelData.url, 15)}
-          </a>
-        </span>
-        <span className="mb-1">
+        {/* <span className="mb-1">
           <img src="assets/images/square_icon.png" width="16px" /> :{' '}
           {parcelData.width * parcelData.height} Quads
-        </span>
-
+        </span> */}
+        {/* 
         <span className="mb-1">
           <i className="bi bi-border " />
           &nbsp;: ( {parcelData.width + 'x ' + parcelData.height} )
         </span>
         <span>
           <i className="bi bi-geo-alt" /> : {parcelData.coords}
-        </span>
+        </span> */}
 
-        <span className="text-nowrap pt-1 mb-1">
+        {/* <span className="text-nowrap pt-1 mb-1">
           {' '}
           <b>
             <i className="bi bi-tag" /> :{' '}
@@ -100,14 +105,14 @@ export const ImageInfo = () => {
             </g>
           </svg>
           &nbsp;0.0942 ( $ 100 )
-        </span>
+        </span> */}
         <span>
-          <i className="bi bi-person"></i> :{' '}
-          {truncateEthAddress(QuadSpaceContract)}
+          {/* <i className="bi bi-person"></i> :{' '} */}
+          Owned By <u>{truncateEthAddress(QuadSpaceContract)}</u>
         </span>
-        <span className="pt-1">
+        {/* <span className="pt-1">
           <i className="bi bi-clipboard"></i> : Nft
-        </span>
+        </span> */}
       </div>
     </div>
   )
