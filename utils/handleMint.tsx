@@ -1,5 +1,6 @@
 import { getLands } from '../Views/WebPages/canvesGrid'
 import { QuadDescription } from './constants'
+import axios from 'axios'
 import {
   ErrorTransaction,
   InfoMessage,
@@ -11,6 +12,8 @@ import { fabric } from 'fabric'
 export const handleMint = async (
   name: string,
   address: string,
+  description: string,
+  url: string,
   adscontract: {
     mint: (arg0: any, arg1: any[], arg2: { value: string }) => any
   },
@@ -35,6 +38,14 @@ export const handleMint = async (
     })
     return
   }
+
+  if (!url) {
+    ErrorTransaction({
+      title: 'Upload Error ',
+      description: 'Please provide a url  attached to your quad',
+    })
+    return
+  }
   let squrePos = land.y * 1000 + land.x
 
   let mintableids = []
@@ -45,11 +56,12 @@ export const handleMint = async (
       mintableids.push(quad + i * 1000)
     }
   }
+
   // console.log(mintImage)
 
   // update image to ipfs storage and get the CID
   // const img = await uploadImage(mintImage)
-  let imgString = await getBase64(mintImage)
+  // let imgString = await getBase64(mintImage)
 
   // console.log(imgString)
 
@@ -70,12 +82,38 @@ export const handleMint = async (
   //   return
   // }
   //create parcel
+
+  const formData = new FormData()
+  formData.append('file', mintImage)
+  //temporary image upload for processing through backend
+
+  const urlconf = 'https://api.quadspace.io/parcels'
+
+  formData.append('file', mintImage[0])
+
+  formData.append('fileName', mintImage[0].name + new Date())
+
+  const config = {
+    headers: {
+      'content-type': 'multipart/form-data',
+    },
+  }
+
+  let imgUpload = axios.post(urlconf, formData, config).then((response) => {
+    console.log(response.data)
+  })
+
+  if (imgUpload) {
+    console.log('uploaded')
+  }
+
   const parcel = {
     name: name,
-    QuadDescription: QuadDescription,
+    QuadDescription: description,
+    url: url,
     metadata: 'metadata',
     image: 'img',
-    image_temp: imgString,
+    image_temp: mintImage[0].name + new Date(),
     coordX: land.x,
     coordY: land.y,
     parcelWidth: land.w,
@@ -83,10 +121,14 @@ export const handleMint = async (
     parcelIds: mintableids,
   }
 
+  console.log(parcel)
+
   let response = await fetch('/api/metadata/parcels', {
     method: 'POST',
     body: JSON.stringify(parcel),
   })
+
+  // console.log(JSON.stringify(parcel))
 
   // console.log(response)
 
@@ -100,14 +142,7 @@ export const handleMint = async (
     return
   }
 
-  InfoMessage({
-    title: 'Public Minting',
-    description: 'Public Minting is about to begin. ',
-  })
-
   // update database storage
-
-  return
 
   try {
     if (adscontract) {
@@ -144,11 +179,12 @@ export const handleMint = async (
   }
 }
 const getBase64 = (file) => {
+  console.log(file)
   return new Promise((resolve) => {
     let fileInfo
     let baseURL = ''
     let reader = new FileReader()
-    reader.readAsDataURL(file)
+    reader.readAsDataURL(file[0])
     reader.onload = () => {
       let Img = reader.result
       fabric.Image.fromURL(Img, function (myImg) {

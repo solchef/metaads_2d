@@ -127,8 +127,6 @@ const AdSpace: React.FunctionComponent = () => {
 
   const offcanvasLeft = () => {
     setIsCanvasLeft(!isCanvasLeft)
-
-
   }
 
   const offcanvasBottem = () => {
@@ -277,9 +275,8 @@ const AdSpace: React.FunctionComponent = () => {
               ref={cAreaRef}
               className="canvas-box  hoverable"
               id="container"
-      onClick={() => {
+              onClick={() => {
                 dispatch(setShowMenu(true))
-
               }}
             >
               {/* <canvas id="adcanvass"></canvas> */}
@@ -287,7 +284,6 @@ const AdSpace: React.FunctionComponent = () => {
             </div>
           </div>
         </section>
-      
 
         {/* this for ImageInfoButten Companent */}
         {/* //////////////////////////////////////////// */}
@@ -331,9 +327,6 @@ const AdSpace: React.FunctionComponent = () => {
 
                   </div>
         */}
-
-   
-
       </Fragment>
       {/* {show && ( */}
       <PurchaseSection

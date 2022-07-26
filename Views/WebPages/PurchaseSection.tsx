@@ -38,6 +38,7 @@ function PurchaseSection({
   const landData = useAppSelector(selectLand)
   const { contracts, address, web3Provider } = useWeb3Context()
   const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
   const [url, setUrl] = useState('')
   const [buyState, setBuyState] = useState(activeItem)
   const adscontract = contracts['metaads']
@@ -65,6 +66,8 @@ function PurchaseSection({
     const result = await handleMint(
       name,
       address,
+      description,
+      url,
       adscontract,
       MintImage,
       land,
@@ -113,9 +116,7 @@ function PurchaseSection({
   return (
     <>
       <div
-        className={`offcanvas offcanvas-start  ${
-          showMenu && 'show'
-        }`}
+        className={`offcanvas offcanvas-start  ${showMenu && 'show'}`}
         data-bs-backdrop="false"
         style={{ visibility: 'visible' }}
       >
