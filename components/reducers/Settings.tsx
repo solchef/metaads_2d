@@ -24,6 +24,7 @@ export interface Settings {
     status: string
     url: string
     description: string
+    position: number
   }
 }
 
@@ -49,8 +50,8 @@ const initialState: Settings = {
     image: '',
     status: 'Available',
     url: '#',
-    description:
-      "This NFT gives you full ownership of block xxxx on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!",
+    description: '',
+    position: 0,
   },
 }
 

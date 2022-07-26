@@ -313,7 +313,7 @@ const GreenSquare = ({ x, y, image }) => {
     ]
     let landpoint = {
       data: false,
-      name: 'quad',
+      name: 'TMDW Token',
       coords: x + ',' + y,
       width: 1,
       height: 1,
@@ -321,8 +321,10 @@ const GreenSquare = ({ x, y, image }) => {
         'https://bafybeibaxec4sl7cbx4ey5djtofzdahowg7mv5vmfvkx3kxcfq7koecbx4.ipfs.nftstorage.link/',
       status: 'Available',
       url: '#',
-      description:
-        "This NFT gives you full ownership of block xxxx on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!",
+      description: `This NFT gives you full ownership of block ${
+        y * 1000 + x
+      } on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!`,
+      position: y * 1000 + x,
     }
     store.dispatch(setViewState(2))
     initialLands.forEach((land) => {
@@ -330,7 +332,7 @@ const GreenSquare = ({ x, y, image }) => {
         store.dispatch(setViewState(3))
         landpoint = {
           data: true,
-          name: 'QuadSpace#' + land[0] + 'X' + land[1] + 'Y',
+          name: `TMDW ${y * 1000 + x}`,
           coords: x + ',' + y,
           width: 250,
           height: 200,
@@ -338,6 +340,7 @@ const GreenSquare = ({ x, y, image }) => {
           status: 'booked',
           url: 'https://milliondollarwebsite.com',
           description: '',
+          position: y * 1000 + x,
         }
         return
       }

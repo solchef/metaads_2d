@@ -18,7 +18,7 @@ export const Sellsection = () => {
     <div className="offcanvas-body image-info pt-5  pb-5 p-0 ">
       <h3> FOR SALE</h3>
       <p className="mt-2">{parcelData.name}</p>
-      <p className="mt-2">MDTP Token xxxx</p>
+      <p className="mt-2">TMDW Token {parcelData.position}</p>
       <p className="mt-2">{parcelData.description}</p>
 
       <hr className="my-4" />

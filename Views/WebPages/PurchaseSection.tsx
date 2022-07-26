@@ -133,6 +133,8 @@ function PurchaseSection({
               ? 'View Mode'
               : viewState === 3
               ? ''
+              : viewState === 7
+              ? 'RoadMap'
               : 'Menu'}
           </span>
           <span
