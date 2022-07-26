@@ -20,7 +20,7 @@ export const useIPFS = () => {
       console.error('Something went wrong when updloading the file')
       return
     }
-    console.log('added')
+    // console.log('added')
     return fileAdded
   }
 
@@ -56,7 +56,7 @@ export const useIPFS = () => {
       external_url: 'https://quadspace.io/',
     }
 
-    console.log(metadata)
+    // console.log(metadata)
 
     const metadataAdded = await ipfs.add(JSON.stringify(metadata))
 
@@ -93,7 +93,7 @@ export const useIPFS = () => {
     //   }
     // }
     let res = await ipfs.get(cid)
-    console.log(res)
+    // console.log(res)
     // const files = await res.files()
 
     // for (const file of files) {

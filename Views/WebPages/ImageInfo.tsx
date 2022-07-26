@@ -10,7 +10,7 @@ import { useAppSelector } from '../../components/store/hooks'
 
 export const ImageInfo = () => {
   const landInfo = useAppSelector(selectSelectLand)
-  console.log(landInfo)
+  // console.log(landInfo)
   return (
     <div className="offcanvas-body image-info  pb-5 pt-5 p-0 ">
       <div className="image">

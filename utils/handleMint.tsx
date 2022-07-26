@@ -126,7 +126,7 @@ export const handleMint = async (
       let receipt = await txn.wait()
 
       if (receipt) {
-        console.log(receipt)
+        // console.log(receipt)
         SuccessfulTransaction({
           title: 'Confirmed',
           description: 'Quads have been successfully minted',
