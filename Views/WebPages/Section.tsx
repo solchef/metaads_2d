@@ -27,7 +27,7 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
   return (
     <div className="offcanvas-body image-info pt-5 pb-5 p-0 ">
       <h3> SQ.NFT SIZE</h3>
-      <div>
+      <div className='mt-2'>
         <form>
           <div className="input-group hoverable mb-4">
             <span className="input-group-text ">
@@ -80,7 +80,7 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
       <hr />
       <h3> Sq.NFT DATA</h3>
 
-      <div>
+      <div className='mt-2'>
         <form>
           <div className="input-group hoverable mb-4">
             <span className="input-group-text ">
@@ -144,7 +144,7 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
          
             <h3 className='ps-0'>Description :</h3>
 
-<textarea placeholder="Description" className='p-2' id="w3review" name="w3review" rows={4} cols={50}>
+<textarea placeholder="Description" className='p-2 mt-2' id="w3review" name="w3review" rows={4} cols={50}>
 
 </textarea>
           </div>
@@ -167,7 +167,7 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
         <p className="p-0 mt-4">MARK FOR SALE ON OPENSEA.IO</p>
       </div> */}
       <a
-        className="btn-primary hoverable mx-3 btn-md hide-mobile"
+        className="btn-primary hoverable d-block mx-3 mt-3 btn-md "
         onClick={handleSubmit}
         href="#"
       >

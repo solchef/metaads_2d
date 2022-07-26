@@ -5,6 +5,7 @@ import {
   selectViewState,
   selectShowMenu,
   setShowMenu,
+  setViewState,
 } from '../../components/reducers/Settings'
 import { useAppSelector, useAppDispatch } from '../../components/store/hooks'
 import { useWeb3Context } from '../../context'
@@ -88,6 +89,7 @@ function PurchaseSection({
       )
     if (showMenu && viewState === 2) return <Sellsection />
     if (showMenu && viewState === 3) return <ImageInfo />
+    if (showMenu && viewState === 4) return <Main />
     {
       /* <ImageInfo /> */
     }
@@ -111,7 +113,7 @@ function PurchaseSection({
   return (
     <>
       <div
-        className={`offcanvas offcanvas-start hide-mobile ${
+        className={`offcanvas offcanvas-start  ${
           showMenu && 'show'
         }`}
         data-bs-backdrop="false"
@@ -127,6 +129,7 @@ function PurchaseSection({
           <span
             onClick={() => {
               dispatch(setShowMenu(!showMenu))
+              dispatch(setViewState(4))
             }}
             className={`icon ${showMenu && 'open'}  position-absolute`}
           >
