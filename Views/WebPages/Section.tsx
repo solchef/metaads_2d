@@ -143,7 +143,6 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
          
             <h3 className='ps-0'>Description :</h3>
 
-<textarea placeholder="Description" className='p-2 mt-2' id="w3review" name="w3review" rows={4} cols={50}>
 
 
             <textarea
