@@ -118,7 +118,12 @@ function PurchaseSection({
         style={{ visibility: 'visible' }}
       >
         <div className="offcanvas-title ">
-          <span>Menu</span>
+          <span>
+            
+            {
+              viewState  === 0 ? 'About': viewState  === 1 ? 'Buy Mode': viewState  === 2 ? 'View Mode' : viewState  === 3 ?'':'Menu'
+            }
+          </span>
           <span
             onClick={() => {
               dispatch(setShowMenu(!showMenu))

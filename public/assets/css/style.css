@@ -422,8 +422,8 @@ span.input-group-text {
 }
 
 .offcanvas-title {
-    font-size: 30px;
-    margin-top: 2%;
+    font-size: 26px;
+    margin-top: 3%;
     margin-left: 7%;
 }
 
@@ -944,7 +944,27 @@ input:checked+.slider:before {
     text-shadow: 0px 0px 0px #ff00cc, 0 0 25px #ff00cc, 0 0 5px #ff00cc;
 }
 
+.m-300 {
+    transition: 0.3s;
+    margin-left: 300px;
+}
+
+.logo {
+    transition: 0.3s;
+    margin-left: 230px;
+}
+
+.logo-m {
+    transition: 0.3s;
+}
+
 @media (max-width: 1033px) {
+    .logo {
+        margin-left: 0!important;
+    }
+    .m-300 {
+        margin-left: 0!important;
+    }
     .num-border {
         padding: 0px 8px;
         border: 1px white solid;
@@ -1096,16 +1116,6 @@ input[type='number']::-webkit-inner-spin-button {
 
 .swal2-icon.swal2-error.swal2-icon-show {
     display: none !important;
-}
-
-.m-300 {
-    transition: 0.3s;
-    margin-left: 300px!important;
-}
-
-.logo {
-    transition: 0.3s;
-    margin-left: 230px!important;
 }
 
 .logo-m {
