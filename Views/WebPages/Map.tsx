@@ -27,6 +27,7 @@ import {
 import { store } from '../../components/store'
 import useSound from 'use-sound'
 import imageJson from './image.json'
+import axios from 'axios'
 
 let oldx, oldy
 var isMobile = false //initiate as false
@@ -50,6 +51,8 @@ export const MapView = () => {
   const zoomOut = useAppSelector(selectZoomOut)
   const viewState = useAppSelector(selectViewState)
   const [buyMode, setBuyMode] = useState(false)
+  const [image, setImage] = useState('')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (orbit.current) {
@@ -63,6 +66,18 @@ export const MapView = () => {
       }
     }
   }, [_3dMode])
+
+  useEffect(() => {
+    getImage()
+  }, [])
+
+  const getImage = async () => {
+    await axios.get('https://api.quadspace.io/adspsdace.json').then((data) => {
+      console.log(data.data)
+      setImage(data.data)
+      setLoading(false)
+    })
+  }
 
   useEffect(() => {
     if (orbit.current && store.getState().settings.zoomLevel <= 5) {
@@ -85,7 +100,17 @@ export const MapView = () => {
     <Canvas style={{ height: '100vh', width: '100%', backgroundColor: '#000' }}>
       <group>
         <Suspense fallback={<></>}>
-          <GreenSquare color="#f56f42" color2="#00707b" x={land.h} y={land.w} />
+          {loading ? (
+            <ToolTip1 />
+          ) : (
+            <GreenSquare
+              color="#f56f42"
+              color2="#00707b"
+              x={land.h}
+              y={land.w}
+              image={image}
+            />
+          )}
           <PerspectiveCamera position={[0, 1200, 0]} makeDefault />
 
           <OrbitControls
@@ -121,14 +146,14 @@ export const MapView = () => {
   )
 }
 
-function GreenSquare({ x, y }) {
+const GreenSquare = ({ x, y, image }) => {
   const [playError] = useSound('./errorSound.mp3')
   const [playBuild] = useSound('./build.mp3')
   const boughtedLandListData = store.getState().settings.boughtedLandList
-  const [loading, setLoading] = useState(true)
   const z = 2
   const widthMap = 1000
   const heightMap = 1000
+  const [loading, setLoading] = useState(true)
   const manager = new LoadingManager()
   manager.onStart = function () {
     setLoading(true)
@@ -137,7 +162,7 @@ function GreenSquare({ x, y }) {
     setLoading(false)
   }
   const texture = React.useMemo(
-    () => new TextureLoader(manager).load(imageJson.image),
+    () => new TextureLoader(manager).load(image),
     []
   )
   const [boxPosition, setBoxPosition] = useState(new Vector3(0, 0, 0))
@@ -147,7 +172,6 @@ function GreenSquare({ x, y }) {
   const [moseDown, setMouseDown] = useState(false)
   const [moseUp, setMouseUp] = useState(false)
   const [moseMoved, setMouseMoved] = useState(false)
-
   const ref = useRef()
 
   const cubeRef = useRef()
@@ -233,7 +257,6 @@ function GreenSquare({ x, y }) {
                 Math.floor(point.z) + y / 2
               )
             )
-
             store.dispatch(setViewState(2))
             store.dispatch(
               setLand({
@@ -254,6 +277,7 @@ function GreenSquare({ x, y }) {
       } else {
         playError()
       }
+      if (!isMobile) store.dispatch(setShowMenu(true))
     } else {
       store.dispatch(
         setLand({
@@ -264,7 +288,7 @@ function GreenSquare({ x, y }) {
         })
       )
     }
-    if (!isMobile) store.dispatch(setShowMenu(true))
+
     setMouseMoved(true)
   }
 

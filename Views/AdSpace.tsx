@@ -280,10 +280,10 @@ const AdSpace: React.FunctionComponent = () => {
               ref={cAreaRef}
               className="canvas-box  hoverable"
               id="container"
-              onClick={() => {
-                dispatch(setShowMenu(true))
+              // onClick={() => {
+              //   dispatch(setShowMenu(true))
 
-                    }}
+              //       }}
             >
               {/* <canvas id="adcanvass"></canvas> */}
               {reload ? <MapView /> : ''}

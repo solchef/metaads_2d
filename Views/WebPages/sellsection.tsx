@@ -89,7 +89,6 @@ export const Sellsection = () => {
         href="#"
         onClick={() => {
           dispatch(setViewState(1))
-          console.log('in')
         }}
       >
         <i className="bi-wallet me-2"></i>
