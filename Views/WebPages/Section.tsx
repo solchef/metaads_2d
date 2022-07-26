@@ -26,7 +26,7 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
               type="number"
               min="1"
               max="1000000"
-              defaultValue={10}
+              defaultValue={1}
               aria-label="W"
               placeholder="Width"
               className="form-control"
@@ -46,7 +46,7 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
               aria-label="H"
               min="1"
               max="1000000"
-              defaultValue={10}
+              defaultValue={1}
               placeholder="Hight"
               className="form-control value="
               onChange={(e) => {

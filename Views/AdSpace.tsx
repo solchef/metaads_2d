@@ -69,18 +69,18 @@ const AdSpace: React.FunctionComponent = () => {
   } = useCanvas()
 
   useEffect(() => {
-    console.log(land)
-    const result = boughtedLandListData.find(
-      (data) =>
-        data.attributes[1].value === land.x + land.h / 2 &&
-        data.attributes[0].value === land.y + land.w / 2
-    )
-    if (result === undefined) dispatch(setViewState(2))
-    else {
-      dispatch(setSelectedLand(result))
-      dispatch(setViewState(3))
-    }
-    console.log(result)
+    // console.log(land)
+    // const result = boughtedLandListData.find(
+    //   (data) =>
+    //     data.attributes[1].value === land.x + land.h / 2 &&
+    //     data.attributes[0].value === land.y + land.w / 2
+    // )
+    // if (result === undefined) dispatch(setViewState(2))
+    // else {
+    //   dispatch(setSelectedLand(result))
+    //   dispatch(setViewState(3))
+    // }
+    // console.log(result)
   }, [land])
   useEffect(() => {
     axios.get('http://localhost:3000/api/info').then((data) => {
@@ -161,7 +161,7 @@ const AdSpace: React.FunctionComponent = () => {
           </div>
         </section> */}
 
-        <section  id="grid-section">
+        <section id="grid-section">
           {/* <div className="controls">
             <div className="d-flex gap-g flex-row-inverse justify-content-between align-items-center wrap-flow">
               <div className="left-controls d-flex">
@@ -274,7 +274,7 @@ const AdSpace: React.FunctionComponent = () => {
             </div>
           </div> */}
 
-          <div className={`g-main ${showMenu && 'm-300 g-main-300 '}`}  >
+          <div className={`g-main ${showMenu && 'm-300 g-main-300 '}`}>
             <div
               ref={cAreaRef}
               className="canvas-box  hoverable"

@@ -19,6 +19,8 @@ import {
   selectZoomOut,
   select_3dMode,
   setLand,
+  setSelectedLand,
+  setViewState,
   setZoomLevel,
 } from '../../components/reducers/Settings'
 import { store } from '../../components/store'
@@ -62,10 +64,8 @@ export const MapView = () => {
   }, [zoomOut])
 
   useEffect(() => {
-    console.log(viewState)
-    if (viewState !== 1) setBuyMode(true)
-    else setBuyMode(false)
-  }, [viewState])
+    setBuyMode(true)
+  }, [])
   return (
     <Canvas style={{ height: '100vh', width: '100%', backgroundColor: '#000' }}>
       {/*
@@ -159,75 +159,102 @@ function GreenSquare({ color, color2, x, y }) {
 
   const onMove = (point) => {
     if (!viewLand) setViewBox(true)
-    console.log(new Vector3(Math.floor(point.x), 0.5, Math.floor(point.z)))
     setBoxPosition(new Vector3(Math.floor(point.x), 0.5, Math.floor(point.z)))
     setMouseMoved(false)
   }
 
-  useEffect(() => {
-    if (cubeRef.current) {
-      console.log(cubeRef)
-    }
-  }, [cubeRef.current])
+  // useEffect(() => {
+  //   if (cubeRef.current) {
+  //     console.log(cubeRef)
+  //   }
+  // }, [cubeRef.current])
 
   useEffect(() => {
     let result = 0
     if (oldx !== undefined) result = oldx - x
-    setLandPosition(
-      new Vector3(landPosition.x - result / 2, landPosition.y, landPosition.z)
-    )
+    // console.log(result)
+    // console.log(landPosition)
+    const selectedMap = getSelectedMap(landPosition)
+    // console.log(selectedMap)
+    if (selectedMap === undefined) {
+      setLandPosition(
+        new Vector3(landPosition.x - result / 2, landPosition.y, landPosition.z)
+      )
+    } else {
+      playError()
+    }
     oldx = x
   }, [x])
 
   useEffect(() => {
     let result = 0
     if (oldy !== undefined) result = oldy - y
-    setLandPosition(
-      new Vector3(landPosition.x, landPosition.y, landPosition.z - result / 2)
-    )
+    const selectedMap = getSelectedMap(landPosition)
+    if (selectedMap === undefined)
+      setLandPosition(
+        new Vector3(landPosition.x, landPosition.y, landPosition.z - result / 2)
+      )
+    else {
+      playError()
+    }
     oldy = y
   }, [y])
 
-  const onPointUp = (point) => {
-    console.log(moseMoved)
-    // if (moseMoved) {
-    setViewLand(true)
-    onMove(point)
-    if (
-      Math.sign(boxPosition.x + widthMap / 2) !== -1 &&
-      Math.sign(boxPosition.z + heightMap / 2) !== -1
-    ) {
+  const getSelectedMap = (point) => {
+    console.log(x, y)
+    return boughtedLandListData.find(
+      (data) =>
+        data.attributes[1].value >= Math.floor(point.x) + widthMap / 2 &&
+        data.attributes[1].value < Math.floor(point.x) + widthMap / 2 + x &&
+        data.attributes[0].value >= boxPosition.z + heightMap / 2 &&
+        data.attributes[0].value < boxPosition.z + heightMap / 2 + y
+    )
+  }
+
+  const onPointUp = async (point) => {
+    console.log(landPosition)
+    if (moseMoved) {
+      setViewLand(true)
+      onMove(point)
       if (
-        boxPosition.x + widthMap / 2 <= widthMap - x &&
-        boxPosition.z + heightMap / 2 <= heightMap - y
+        Math.sign(boxPosition.x + widthMap / 2) !== -1 &&
+        Math.sign(boxPosition.z + heightMap / 2) !== -1
       ) {
-        const result = boughtedLandListData.find(
-          (data) =>
-            data.attributes[1].value >= Math.floor(point.x) + widthMap / 2 &&
-            data.attributes[1].value < Math.floor(point.x) + widthMap / 2 + x &&
-            data.attributes[0].value >= boxPosition.z + heightMap / 2 &&
-            data.attributes[0].value < boxPosition.z + heightMap / 2 + y
-        )
-        if (result === undefined) {
-          setLandPosition(
-            new Vector3(
-              Math.floor(point.x) + x / 2,
-              0.01,
-              Math.floor(point.z) + y / 2
+        if (
+          boxPosition.x + widthMap / 2 <= widthMap - x &&
+          boxPosition.z + heightMap / 2 <= heightMap - y
+        ) {
+          // console.log(point)
+          const result = getSelectedMap(point)
+          if (result !== undefined) {
+            store.dispatch(setSelectedLand(result))
+            store.dispatch(setViewState(3))
+          } else if (
+            result === undefined ||
+            store.getState().settings.viewState !== 1
+          ) {
+            setLandPosition(
+              new Vector3(
+                Math.floor(point.x) + x / 2,
+                0.01,
+                Math.floor(point.z) + y / 2
+              )
             )
-          )
-          console.log(Math.floor(point.x) + x / 2)
-          console.log(boxPosition.x + widthMap / 2)
-          store.dispatch(
-            setLand({
-              x: boxPosition.x + widthMap / 2,
-              y: boxPosition.z + heightMap / 2,
-              h: x,
-              w: y,
-            })
-          )
-          playBuild()
-          setViewBox(false)
+
+            store.dispatch(setViewState(2))
+            store.dispatch(
+              setLand({
+                x: boxPosition.x + widthMap / 2,
+                y: boxPosition.z + heightMap / 2,
+                h: 1,
+                w: 1,
+              })
+            )
+            playBuild()
+            setViewBox(false)
+          } else {
+            playError()
+          }
         } else {
           playError()
         }
@@ -235,19 +262,15 @@ function GreenSquare({ color, color2, x, y }) {
         playError()
       }
     } else {
-      playError()
-      console.log('first')
+      store.dispatch(
+        setLand({
+          x: boxPosition.x + widthMap / 2,
+          y: boxPosition.z + heightMap / 2,
+          h: 1,
+          w: 1,
+        })
+      )
     }
-    // } else {
-    //   store.dispatch(
-    //     setLand({
-    //       x: boxPosition.x + widthMap / 2,
-    //       y: boxPosition.z + heightMap / 2,
-    //       h: x,
-    //       w: y,
-    //     })
-    //   )
-    // }
     setMouseMoved(true)
   }
 

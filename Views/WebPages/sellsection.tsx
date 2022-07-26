@@ -2,12 +2,12 @@
 /* eslint-disable react/no-unescaped-entities */
 // import Image from 'next/image'
 
-import { selectLand } from '../../components/reducers/Settings'
-import { useAppSelector } from '../../components/store/hooks'
+import { selectLand, setViewState } from '../../components/reducers/Settings'
+import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 
 export const Sellsection = () => {
   const landData = useAppSelector(selectLand)
-
+  const dispatch = useAppDispatch()
   return (
     <div className="offcanvas-body image-info pt-5  pb-5 p-0 ">
       <h3>IT'S FOR SALE</h3>
@@ -87,8 +87,13 @@ export const Sellsection = () => {
       <a
         className="btn-primary mx-3 mt-4 hoverable btn-md hide-mobile"
         href="#"
+        onClick={() => {
+          dispatch(setViewState(1))
+          console.log('in')
+        }}
       >
-        <i className="bi-wallet me-2"></i>PURCHASE PLOT
+        <i className="bi-wallet me-2"></i>
+        PURCHASE PLOT
       </a>
     </div>
   )
