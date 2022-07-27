@@ -94,7 +94,7 @@ function PurchaseSection({
         />
       )
     if (showMenu && viewState === 2) return <Sellsection />
-    if (showMenu && viewState === 3) return <ImageInfo />
+    if (showMenu && viewState === 3) return <ImageInfoButton />
     if (showMenu && viewState === 4) return <Main />
     {
       /* <ImageInfo /> */
@@ -130,9 +130,9 @@ function PurchaseSection({
               : viewState === 1
               ? 'Menu'
               : viewState === 2
-              ? 'Menu'
+              ? 'FOR SALE'
               : viewState === 3
-              ? 'Menu'
+              ? 'Image Info'
               : viewState === 7
               ? 'RoadMap'
               : 'Menu'}
