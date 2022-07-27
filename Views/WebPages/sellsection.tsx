@@ -15,7 +15,7 @@ export const Sellsection = () => {
   // console.log(parcelData)
   const dispatch = useAppDispatch()
   return (
-    <div className="offcanvas-body image-info pt-5  pb-5 p-0 text-center">
+    <div className="offcanvas-body image-info pb-5 p-0 text-center">
       {/* <h3> FOR SALE</h3> */}
       <div className="forsale mb-5">
         <h3>FOR SALE</h3>

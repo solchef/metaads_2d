@@ -124,15 +124,15 @@ function PurchaseSection({
         style={{ visibility: 'visible' }}
       >
         <div className="offcanvas-title ">
-          <span>
+          <span className='pt-2'>
             {viewState === 0
               ? 'About'
               : viewState === 1
-              ? ''
+              ? 'Menu'
               : viewState === 2
-              ? ''
+              ? 'Menu'
               : viewState === 3
-              ? ''
+              ? 'Menu'
               : viewState === 7
               ? 'RoadMap'
               : 'Menu'}

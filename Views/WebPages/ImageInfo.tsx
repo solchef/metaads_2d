@@ -18,7 +18,7 @@ export const ImageInfo = () => {
 
   // console.log(parcelData)
   return (
-    <div className="offcanvas-body image-info  pb-5 pt-5 p-0 text-center">
+    <div className="offcanvas-body image-info  pb-5 pt-4 p-0 text-center">
       <div className="image">
         <img height={200} width={200} src={parcelData.image} />
       </div>
