@@ -421,6 +421,7 @@ span.input-group-text {
   font-size: 26px;
   margin-top: 8%;
   margin-left: 7%;
+  margin-bottom:34px;
 }
 
 .offcanvas-header {
@@ -923,7 +924,7 @@ input:checked + .slider:before {
   .bo .btn span,
   .bo .btn.x,
   .btn-md {
-    font-size: 14px;
+    font-size: 12px;
   }
 }
 
