@@ -43,7 +43,14 @@ export const About = () => {
           And its a simple as that, buy blocks as NFTs then share your NFTs, projects and creations in this digital content space with the entire world!
         </p>
       </div>
-
+      <p className='mt-4 text-nowrap'>
+ ❤️ Share with your friends and followers ❤️
+ </p>
+ <div className="d-flex mt-2 justify-content-center">
+ <i className="bi cursor-pointer	 fs-4 bi-whatsapp"></i>
+ <i className="bi fs-4 bi-facebook mx-4"></i>
+ <i className="bi fs-4 bi-twitter"></i>
+ </div>
     </div>
   )
 }
