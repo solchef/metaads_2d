@@ -73,7 +73,7 @@ export const MapView = () => {
   }, [])
 
   const getImage = async () => {
-    await axios.get('https://api.quadspace.io/adspsdace.json').then((data) => {
+    await axios.get('https://api.quadspace.io/adspsdace.png').then((data) => {
       // console.log(data.data)
       setImage(data.data)
       setLoading(false)
@@ -109,7 +109,7 @@ export const MapView = () => {
               color2="#00707b"
               x={land.h}
               y={land.w}
-              image={image}
+              image={'https://api.quadspace.io/adspsdace.png'}
             />
           )}
           <PerspectiveCamera position={[0, 1200, 0]} makeDefault />
