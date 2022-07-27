@@ -5,9 +5,15 @@
 import { useEffect, useState } from 'react'
 import { selectLand, setLand } from '../../components/reducers/Settings'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
-import { updateX, updateY } from './Map'
+// import { updateX, updateY } from './Map'
 
-export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
+export const Section = ({
+  setName,
+  setUrl,
+  setMintImage,
+  setDescription,
+  handleSubmit,
+}) => {
   const landData = useAppSelector(selectLand)
   const dispatch = useAppDispatch()
   const [selectedFile, setSelectedFile] = useState('Upload Image')
@@ -106,7 +112,6 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
               placeholder="https://"
               className="form-control"
               onChange={(event) => {
-                // console.log(event.target.value)
                 setUrl(event.target.value)
               }}
             />
@@ -150,6 +155,9 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
               placeholder="Description"
               className="p-2 mt-2"
               id="w3review"
+              onChange={(event) => {
+                setDescription(event.target.value)
+              }}
               name="w3review"
               rows={4}
               cols={50}
