@@ -355,6 +355,8 @@ section#grid-section {
     margin-top: 0;
     margin-left: 75px !important;
     transition: 0.2s;
+    overflow: hidden !important;
+    width: calc(100vw - 75px)!important;
 }
 
 .map-box {
@@ -1128,4 +1130,25 @@ input[type='number']::-webkit-inner-spin-button {
     /* margin-right: 64px; */
     width: 84% !important;
     margin: 24px;
+}
+
+.offcanvas-body {
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.offcanvas-body::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
+}
+
+.offcanvas-title span,
+.icon-menu,
+.offcanvas-body h3,
+.offcanvas-body h4,
+.offcanvas-body p,
+.offcanvas-body span {
+    caret-color: transparent;
 }
