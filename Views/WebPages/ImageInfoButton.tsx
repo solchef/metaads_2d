@@ -4,7 +4,7 @@
 
 export const ImageInfoButton = () => {
   return (
-    <div className="offcanvas-body image-info  pb-5 pt-5 p-0 ">
+    <div className="offcanvas-body image-info  pb-5 pt-4 p-0 ">
       <div className="image"></div>
       <h3 className="my-4">Image Name Here</h3>
       <div className="d-flex flex-wrap flex-column">

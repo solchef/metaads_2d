@@ -7,7 +7,7 @@
 export const Editsection = () => {
     return (
 
-        <div className="offcanvas-body image-info  pb-5 pt-5 p-0 ">
+        <div className="offcanvas-body image-info  pb-5 pt-4 p-0 ">
             <h3> Edit my Sq.NFT</h3>
 
             <div><form>

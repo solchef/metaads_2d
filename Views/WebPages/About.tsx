@@ -6,7 +6,7 @@
 
 export const About = () => {
   return (
-    <div style={{paddingLeft:0}} className="offcanvas-body about pt-5 pl-0 ml-0 pr-3 pb-5 w-100">
+    <div style={{paddingLeft:0}} className="offcanvas-body about pt-4 pl-0 ml-0 pr-3 pb-5 w-100">
       <h3 className="mb-4">The Million Dollar Website!</h3>
 
       <p>
