@@ -12,6 +12,7 @@ import { EffectComposer, Outline } from '@react-three/postprocessing'
 import { LoadingManager } from 'three'
 import { Loader } from '../../utils/loader'
 import { useAppSelector } from '../../components/store/hooks'
+import { vertexShader, fragmentShader } from './shaders'
 import {
   selectLand,
   selectViewState,
@@ -26,7 +27,6 @@ import {
 } from '../../components/reducers/Settings'
 import { store } from '../../components/store'
 import useSound from 'use-sound'
-import imageJson from './image.json'
 import axios from 'axios'
 
 let oldx, oldy
@@ -53,6 +53,7 @@ export const MapView = () => {
   const [buyMode, setBuyMode] = useState(false)
   const [image, setImage] = useState('')
   const [loading, setLoading] = useState(true)
+  let pointerIsDown = false
 
   useEffect(() => {
     if (orbit.current) {
@@ -73,7 +74,6 @@ export const MapView = () => {
 
   const getImage = async () => {
     await axios.get('https://api.quadspace.io/adspsdace.json').then((data) => {
-      console.log(data.data)
       setImage(data.data)
       setLoading(false)
     })
@@ -123,13 +123,29 @@ export const MapView = () => {
             maxZoom={1600}
             minDistance={90}
             maxDistance={1200}
+            enableDamping={false}
             mouseButtons={{ LEFT: 2, MIDDLE: 1, RIGHT: 0 }}
             onChange={() => {
-              // console.log(orbit.current)
-              // let element = orbit.current.object.matrixWorldInverse.elements
-              // if (element[12] > 500) element[12] = 500
-              // orbit.current.object.matrixWorldInverse.elements = element
-              // console.log(orbit.current.object.matrixWorldInverse.elements)
+              if (orbit.current.object.position.x < -500) {
+                if (orbit.current.object.position.x != -500)
+                  orbit.current.object.position.x = -490
+                orbit.current.object.updateProjectionMatrix()
+              }
+              if (orbit.current.object.position.x > 500) {
+                if (orbit.current.object.position.x != 500)
+                  orbit.current.object.position.x = 490
+                orbit.current.object.updateProjectionMatrix()
+              }
+              if (orbit.current.object.position.z < -500) {
+                if (orbit.current.object.position.z != -500)
+                  orbit.current.object.position.z = -490
+                orbit.current.object.updateProjectionMatrix()
+              }
+              if (orbit.current.object.position.z > 500) {
+                if (orbit.current.object.position.z != 500)
+                  orbit.current.object.position.z = 490
+                orbit.current.object.updateProjectionMatrix()
+              }
             }}
             enablePan={buyMode}
             touches={{
@@ -141,7 +157,7 @@ export const MapView = () => {
         </Suspense>
         {/* <ToolTip1 /> */}
       </group>
-      <ambientLight />
+      {/* <ambientLight /> */}
     </Canvas>
   )
 }
@@ -165,6 +181,10 @@ const GreenSquare = ({ x, y, image }) => {
     () => new TextureLoader(manager).load(image),
     []
   )
+  const texture2 = React.useMemo(
+    () => new TextureLoader(manager).load('./blank.png'),
+    []
+  )
   const [boxPosition, setBoxPosition] = useState(new Vector3(0, 0, 0))
   const [viewLand, setViewLand] = useState(false)
   const [viewBox, setViewBox] = useState(false)
@@ -172,6 +192,7 @@ const GreenSquare = ({ x, y, image }) => {
   const [moseDown, setMouseDown] = useState(false)
   const [moseUp, setMouseUp] = useState(false)
   const [moseMoved, setMouseMoved] = useState(false)
+
   const ref = useRef()
 
   const cubeRef = useRef()
@@ -311,7 +332,7 @@ const GreenSquare = ({ x, y, image }) => {
               setMouseMoved(true)
             }}
             onPointerOut={() => setViewBox(false)}
-            onPointerMove={({ point }) => {
+            onPointerMove={({ point, camera }) => {
               if (moseMoved) {
                 setViewBox(true)
               }
@@ -330,14 +351,24 @@ const GreenSquare = ({ x, y, image }) => {
             }}
           >
             <planeBufferGeometry args={[widthMap, heightMap]} />
-
-            <meshBasicMaterial
+            <shaderMaterial
+              uniforms={{
+                // Feed the heightmap
+                bumpTexture: { value: texture },
+                bumpTexture2: { value: texture2 },
+              }}
+              // Feed the shaders as strings
+              vertexShader={vertexShader}
+              fragmentShader={fragmentShader}
+              // side={DoubleSide}
+            />
+            {/* <meshBasicMaterial
               attach="material"
               // color={color}
               // displacementMap={texture}
               map={texture}
               side={DoubleSide}
-            />
+            /> */}
           </mesh>
           {/* {viewBox && !store.getState().settings.selectMode ? (
             <mesh position={boxPosition} ref={ref}>
