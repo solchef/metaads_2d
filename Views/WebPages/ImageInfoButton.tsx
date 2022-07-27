@@ -13,29 +13,29 @@ export const ImageInfoButton = () => {
   const parcelData = useAppSelector(getParcel)
   return (
     <div className="offcanvas-body image-info  pb-5 pt-4 p-0 text-center">
-    <div className="image">
-      <img height={200} width={200} src={parcelData.image} />
-    </div>
-<hr className='my-4' />
-    <h4>Token #{parcelData.position}</h4>
+      <div className="image">
+        <img height={200} width={200} src={parcelData.image} />
+      </div>
+      <hr className="my-4" />
+      <h4>Token #{parcelData.position}</h4>
 
-    <h3 >{parcelData.name}</h3>
-  
+      <h3>{parcelData.name}</h3>
 
-    <p className='text-start mt-3' >
-    <span className=" link d-block pb-1 ">
-      {/* <i className="bi bi-link"></i> :&nbsp; */}
-      <a href={parcelData.url} target="_blank" className="text-success">
-        <u>https://{shortUrl(parcelData.url, 15)}</u>
-      </a>
-    </span> 
-      {parcelData.description}</p>
-    <div className="d-flex flex-wrap flex-column">
-      {/* <span className="mb-1">
+      <p className="text-start mt-3">
+        <span className=" link d-block pb-1 ">
+          {/* <i className="bi bi-link"></i> :&nbsp; */}
+          <a href={parcelData.url} target="_blank" className="text-success">
+            <u>https://{shortUrl(parcelData.url, 15)}</u>
+          </a>
+        </span>
+        {parcelData.description}
+      </p>
+      <div className="d-flex flex-wrap flex-column">
+        {/* <span className="mb-1">
         <img src="assets/images/square_icon.png" width="16px" /> :{' '}
         {parcelData.width * parcelData.height} Quads
       </span> */}
-      {/* 
+        {/* 
       <span className="mb-1">
         <i className="bi bi-border " />
         &nbsp;: ( {parcelData.width + 'x ' + parcelData.height} )
@@ -44,7 +44,7 @@ export const ImageInfoButton = () => {
         <i className="bi bi-geo-alt" /> : {parcelData.coords}
       </span> */}
 
-      {/* <span className="text-nowrap pt-1 mb-1">
+        {/* <span className="text-nowrap pt-1 mb-1">
         {' '}
         <b>
           <i className="bi bi-tag" /> :{' '}
@@ -102,40 +102,39 @@ export const ImageInfoButton = () => {
         </svg>
         &nbsp;0.0942 ( $ 100 )
       </span> */}
-      <span className='mt-3'>
-        {/* <i className="bi bi-person"></i> :{' '} */}
-        Owned By <u>{truncateEthAddress(QuadSpaceContract)}</u>
-      </span>
-      {/* <span className="pt-1">
+        <span className="mt-3">
+          {/* <i className="bi bi-person"></i> :{' '} */}
+          Owned By <u>{truncateEthAddress(QuadSpaceContract)}</u>
+        </span>
+        {/* <span className="pt-1">
         <i className="bi bi-clipboard"></i> : Nft
       </span> */}
-    </div>
+      </div>
 
-    <div className="d-flex ">
+      <div className="d-flex ">
         <a
           className="btn-primary w-100 text-nowrap hoverable me-2 mt-4 d-block  btn-md "
-     
           href="#"
+          target="_blank"
         >
-     Bid on Token
+          Bid on Token
         </a>
         <a
           className="btn-primary w-100 text-nowrap hoverable  mt-4 d-block  btn-md "
-    
           href="#"
+          target="_blank"
         >
-       View on Ether
+          View on Etherscan
         </a>
-
       </div>
- <p className='mt-4 text-nowrap'>
- ❤️ Share with your friends and followers ❤️
- </p>
- <div className="d-flex mt-2 justify-content-center">
- <i className="bi fs-4 bi-whatsapp"></i>
- <i className="bi fs-4 bi-facebook mx-4"></i>
- <i className="bi fs-4 bi-twitter"></i>
- </div>
-  </div>
+      <p className="mt-4 text-nowrap">
+        ❤️ Share with your friends and followers ❤️
+      </p>
+      <div className="d-flex mt-2 justify-content-center">
+        <i className="bi fs-4 bi-whatsapp"></i>
+        <i className="bi fs-4 bi-facebook mx-4"></i>
+        <i className="bi fs-4 bi-twitter"></i>
+      </div>
+    </div>
   )
 }

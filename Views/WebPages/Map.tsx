@@ -193,7 +193,7 @@ const GreenSquare = ({ x, y, image }) => {
   // }, [cubeRef.current])
 
   useEffect(() => {
-    axios.get('https://quadspace.io/api/metadata/parcels').then((parc) => {
+    axios.get('/api/metadata/parcels').then((parc) => {
       setParcels(parc.data.message)
     })
   }, [])
@@ -266,7 +266,7 @@ const GreenSquare = ({ x, y, image }) => {
                 Math.floor(point.z) + y / 2
               )
             )
-            store.dispatch(setViewState(2))
+            // store.dispatch(setViewState(2))
             returnLand(
               boxPosition.x + widthMap / 2,
               boxPosition.z + heightMap / 2

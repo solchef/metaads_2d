@@ -91,7 +91,7 @@ export const handleMint = async (
 
   formData.append('file', mintImage[0])
 
-  formData.append('fileName', mintImage[0].name + new Date())
+  formData.append('fileName', mintImage[0].name)
 
   const config = {
     headers: {
@@ -113,7 +113,7 @@ export const handleMint = async (
     url: url,
     metadata: 'metadata',
     image: 'img',
-    image_temp: mintImage[0].name + new Date(),
+    image_temp: mintImage[0].name,
     coordX: land.x,
     coordY: land.y,
     parcelWidth: land.w,
