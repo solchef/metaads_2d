@@ -123,7 +123,7 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
             </span>
 
             <input
-              style={{ cursor: 'pointer', color: 'transparent' }}
+              style={{borderBottomRightRadius: '0.25rem', borderTopRightRadius: '0.25rem',cursor: 'pointer', color: 'transparent' }}
               placeholder={selectedFile}
               className="form-control"
             />
@@ -146,6 +146,7 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
 
 
             <textarea
+             style={{borderRadius: '0.25rem'}}
               placeholder="Description"
               className="p-2 mt-2"
               id="w3review"
