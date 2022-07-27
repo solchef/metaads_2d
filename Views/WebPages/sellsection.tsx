@@ -36,14 +36,14 @@ export const Sellsection = () => {
           <i className="bi-wallet me-2"></i> MINT TOKEN
         </a>
       </div>
-      <p className='mt-4 text-nowrap'>
- ❤️ Share with your friends and followers ❤️
- </p>
- <div className="d-flex mt-2 justify-content-center">
- <i className="bi cursor-pointer	 fs-4 bi-whatsapp"></i>
- <i className="bi fs-4 bi-facebook mx-4"></i>
- <i className="bi fs-4 bi-twitter"></i>
- </div>
+      <p className="mt-4 text-nowrap">
+        ❤️ Share with your friends and followers ❤️
+      </p>
+      <div className="d-flex mt-2 justify-content-center">
+        <i className="bi cursor-pointer	 fs-4 bi-whatsapp"></i>
+        <i className="bi fs-4 bi-facebook mx-4"></i>
+        <i className="bi fs-4 bi-twitter"></i>
+      </div>
     </div>
   )
 }

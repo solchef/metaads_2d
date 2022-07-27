@@ -73,7 +73,7 @@ export const MapView = () => {
   }, [])
 
   const getImage = async () => {
-    await axios.get('https://api.quadspace.io/adspsdace.png').then((data) => {
+    await axios.get('https://api.quadspace.io/adspsdace.json').then((data) => {
       // console.log(data.data)
       setImage(data.data)
       setLoading(false)
@@ -109,7 +109,7 @@ export const MapView = () => {
               color2="#00707b"
               x={land.h}
               y={land.w}
-              image={'https://api.quadspace.io/adspsdace.png'}
+              image={image}
             />
           )}
           <PerspectiveCamera position={[0, 1200, 0]} makeDefault />
@@ -193,7 +193,7 @@ const GreenSquare = ({ x, y, image }) => {
   // }, [cubeRef.current])
 
   useEffect(() => {
-    axios.get('/api/metadata/parcels').then((parc) => {
+    axios.get('https://quadspace.io/api/metadata/parcels').then((parc) => {
       setParcels(parc.data.message)
     })
   }, [])
@@ -266,7 +266,7 @@ const GreenSquare = ({ x, y, image }) => {
                 Math.floor(point.z) + y / 2
               )
             )
-            // store.dispatch(setViewState(2))
+            store.dispatch(setViewState(2))
             returnLand(
               boxPosition.x + widthMap / 2,
               boxPosition.z + heightMap / 2
@@ -327,7 +327,7 @@ const GreenSquare = ({ x, y, image }) => {
       } on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!`,
       position: y * 1000 + x,
     }
-    // store.dispatch(setViewState(2))
+    store.dispatch(setViewState(2))
     parcels.forEach((land) => {
       if (
         findLand(
