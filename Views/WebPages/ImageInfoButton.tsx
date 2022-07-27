@@ -114,15 +114,15 @@ export const ImageInfoButton = () => {
       <div className="d-flex ">
         <a
           className="btn-primary w-100 text-nowrap hoverable me-2 mt-4 d-block  btn-md "
-          href="#"
           target="_blank"
+          href="https://opensea.io/"
         >
           Bid on Token
         </a>
         <a
           className="btn-primary w-100 text-nowrap hoverable  mt-4 d-block  btn-md "
-          href="#"
           target="_blank"
+          href="https://ethersan.io/"
         >
           View on Etherscan
         </a>
