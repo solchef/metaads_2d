@@ -128,7 +128,7 @@ export const ImageInfoButton = () => {
         </a>
 
       </div>
- <p className='mt-4'>
+ <p className='mt-4 text-nowrap'>
  ❤️ Share with your friends and followers ❤️
  </p>
  <div className="d-flex mt-2 justify-content-center">
