@@ -8,6 +8,11 @@ import {
   SuccessfulTransaction,
 } from './notifications'
 import { fabric } from 'fabric'
+import {
+  setMintingstatus,
+  setMintStatus,
+} from '../components/reducers/Settings'
+import { store } from '../components/store'
 
 export const handleMint = async (
   name: string,
@@ -31,6 +36,8 @@ export const handleMint = async (
   },
   uploadImage
 ) => {
+  store.dispatch(setMintStatus('Checking validity of submitted data'))
+
   if (!name) {
     ErrorTransaction({
       title: 'Upload Error ',
@@ -98,6 +105,7 @@ export const handleMint = async (
       'content-type': 'multipart/form-data',
     },
   }
+  store.dispatch(setMintStatus('Uploading parcel image. Please wait'))
 
   let imgUpload = axios.post(urlconf, formData, config).then((response) => {
     console.log(response.data)
@@ -121,18 +129,18 @@ export const handleMint = async (
     parcelIds: mintableids,
   }
 
-  console.log(parcel)
-
   let response = await fetch('/api/metadata/parcels', {
     method: 'POST',
     body: JSON.stringify(parcel),
   })
 
-  // console.log(JSON.stringify(parcel))
-
-  // console.log(response)
-
   if (!response) {
+    store.dispatch(
+      setMintStatus(
+        'Error occurred during the upload. Data cannot be fetched. Please try again'
+      )
+    )
+
     ErrorTransaction({
       title: 'Parcel creation error ',
       description:
@@ -146,6 +154,12 @@ export const handleMint = async (
 
   try {
     if (adscontract) {
+      store.dispatch(
+        setMintStatus(
+          'Submitting data to the Blockchain. Please confirm transaction on your wallet'
+        )
+      )
+
       let mintcost = 0.0 * mintableids.length
       let txn = await adscontract.mint(address, mintableids, {
         value: (mintcost * 10 ** 18).toString(),
@@ -162,6 +176,9 @@ export const handleMint = async (
 
       if (receipt) {
         // console.log(receipt)
+        store.dispatch(
+          setMintStatus('Your parcel has been successfully minted')
+        )
         SuccessfulTransaction({
           title: 'Confirmed',
           description: 'Quads have been successfully minted',
@@ -172,6 +189,7 @@ export const handleMint = async (
     }
   } catch (e) {
     // console.log(e)
+    store.dispatch(setMintStatus('An error occurred, retrying transaction'))
     ErrorTransaction({
       title: 'An Error has Occurred',
       description: 'An error has occured and minting could not be processed',

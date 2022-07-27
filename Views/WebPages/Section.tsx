@@ -3,7 +3,11 @@
 // import Image from 'next/image'
 
 import { useEffect, useState } from 'react'
-import { selectLand, setLand } from '../../components/reducers/Settings'
+import {
+  getMintingstatus,
+  selectLand,
+  setLand,
+} from '../../components/reducers/Settings'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 // import { updateX, updateY } from './Map'
 
@@ -18,6 +22,9 @@ export const Section = ({
   const dispatch = useAppDispatch()
   const [selectedFile, setSelectedFile] = useState('Upload Image')
   useEffect(() => {}, [])
+
+  const mintingDetail = useAppSelector(getMintingstatus)
+
   const handleChangeImage = (e) => {
     if (e.target.files.length && e.target.files[0].size / 1024 / 1024 <= 5) {
       setSelectedFile(e.target.files[0].name)
@@ -169,7 +176,7 @@ export const Section = ({
         Image Size ({landData.h}0 X {landData.w}0px) <br />
         Max Size: 5MB | File Type: JPG,PNG
       </p>
-
+      <span>{mintingDetail}</span>
       <a
         className="btn-primary hoverable d-block mx-3 mt-3 btn-md "
         onClick={handleSubmit}

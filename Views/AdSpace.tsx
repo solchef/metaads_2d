@@ -3,27 +3,7 @@ import useCanvas from '../hooks/useCanvas'
 import PurchaseSection from './WebPages/PurchaseSection'
 import Link from 'next/link'
 import axios from 'axios'
-// import {
-//   fitScrean,
-//   // getViewLocation,
-//   // getZoomLevel,
-//   // loadGrid,
-//   // setBuyStateModal,
-//   zoomIn,
-//   zoomOut,
-// } from './WebPages/canvesGrid'
 
-import StepWizard from 'react-step-wizard'
-import FormOne from '../components/section/FormOne'
-import FormTwo from '../components/section/FormTwo'
-import FormThree from '../components/section/FormThree'
-import FormFour from '../components/section/FormFour'
-import FormFive from '../components/section/FormFive'
-import FormEditOne from '../components/edit-section/FormEditOne'
-import FormEditTwo from '../components/edit-section/FormEditTwo'
-import FormEditThree from '../components/edit-section/FormEditThree'
-import FormEditFour from '../components/edit-section/FormEditFour'
-import FormEditFive from '../components/edit-section/FormEditFive'
 import { useWeb3Context } from '../context'
 import {
   selectLand,
@@ -31,15 +11,6 @@ import {
   selectShowMenu,
   selectZoomLevel,
   setBoughtedLandList,
-  setReloadPage,
-  setSelectedLand,
-  setSelectMode,
-  setShowMenu,
-  setViewState,
-  setZoomIn,
-  setZoomLevel,
-  setZoomOut,
-  set_3dMode,
 } from '../components/reducers/Settings'
 import { useAppDispatch, useAppSelector } from '../components/store/hooks'
 import 'react-minimap/dist/react-minimap.css'
@@ -53,7 +24,6 @@ const AdSpace: React.FunctionComponent = () => {
   const [boughtedLandListData, setBoughtedLandListData] = useState([])
   const land = useAppSelector(selectLand)
   const [zoomLevelState, setZoomLevelState] = useState(1)
-  // const viewPoint = getViewLocation()
   const { cAreaRef, squreInfo, setEnableBuy } = useCanvas()
   const dispatch = useAppDispatch()
   const [mintingData, setMintingData] = useState({
@@ -74,7 +44,6 @@ const AdSpace: React.FunctionComponent = () => {
     axios.get('https://quadspace.io/api/info').then((data) => {
       dispatch(setBoughtedLandList(data.data.meta))
       setBoughtedLandListData(data.data.meta)
-      // console.log(data.data.meta)
     })
   }, [])
 
@@ -93,18 +62,12 @@ const AdSpace: React.FunctionComponent = () => {
       otherQuads: allMintedIds,
     })
     if (allMintedIds.length > 0) {
-      // loadGrid({ walletQuads: walletNfts, otherQuads: allMintedIds })
     }
   }
 
   useEffect(() => {
     setZoomLevelState(zLevel)
   }, [zLevel])
-
-  // useEffect(() => {
-  //   setZoomLevel(getZoomLevel())
-  //   // console.log(viewPoint)
-  // }, [getZoomLevel()])
 
   const [isCanvasRight, setIsCanvasRight] = useState(false)
   const [show, setShow] = useState(false)
@@ -139,17 +102,12 @@ const AdSpace: React.FunctionComponent = () => {
               ref={cAreaRef}
               className="canvas-box  hoverable"
               id="container"
-              // onClick={() => {
-              //   dispatch(setShowMenu(true))
-              // }}
             >
-              {/* <canvas id="adcanvass"></canvas> */}
               {reload ? <MapView /> : ''}
             </div>
           </div>
         </section>
       </Fragment>
-      {/* {show && ( */}
       <PurchaseSection
         setSelectorHeight={setSelectorHeight}
         setSelectorWidth={setSelectorWidth}
