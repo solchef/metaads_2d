@@ -305,7 +305,7 @@ const GreenSquare = ({ x, y, image }) => {
       } else {
         playError()
       }
-      if (!isMobile) store.dispatch(setShowMenu(true))
+      store.dispatch(setShowMenu(true))
     } else {
       store.dispatch(
         setLand({
