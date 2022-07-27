@@ -977,10 +977,7 @@ input:checked+.slider:before {
         height: calc(100vh - 73px) !important;
     }
     .canvas-box {
-        height: calc(100vh - 55px - 30vh - 87px) !important;
-    }
-    .canvas-box div {
-        height: calc(100vh - 55px - 30vh - 87px) !important;
+        height: calc(100vh - 73px) !important;
     }
     nav.navbar {
         margin-left: 0;
