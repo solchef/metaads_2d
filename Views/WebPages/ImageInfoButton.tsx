@@ -115,14 +115,14 @@ export const ImageInfoButton = () => {
         <a
           className="btn-primary w-100 text-nowrap hoverable me-2 mt-4 d-block  btn-md "
           target="_blank"
-          href="https://opensea.io/"
+          href={'https://opensea.io/' + QuadSpaceContract}
         >
           Bid on Token
         </a>
         <a
           className="btn-primary w-100 text-nowrap hoverable  mt-4 d-block  btn-md "
           target="_blank"
-          href="https://ethersan.io/"
+          href={'https://etherscan.io/' + QuadSpaceContract}
         >
           View on Etherscan
         </a>
