@@ -26,6 +26,7 @@ export interface Settings {
     description: string
     position: number
   }
+  mintingStatus: string
 }
 
 const initialState: Settings = {
@@ -53,6 +54,7 @@ const initialState: Settings = {
     description: '',
     position: 0,
   },
+  mintingStatus: '',
 }
 
 export const counterSlice = createSlice({
@@ -99,6 +101,9 @@ export const counterSlice = createSlice({
     setParcel: (state, action: PayloadAction<any>) => {
       state.parcel = action.payload
     },
+    setMintStatus: (state, action: PayloadAction<any>) => {
+      state.mintingStatus = action.payload
+    },
   },
 })
 
@@ -116,6 +121,7 @@ export const {
   setSelectedLand,
   setMenuView,
   setParcel,
+  setMintStatus,
 } = counterSlice.actions
 
 export const selectLand = (state: RootState) => state.settings.land
@@ -133,6 +139,8 @@ export const selectZoomOut = (state: RootState) => state.settings.zoomOut
 export const selectZoomLevel = (state: RootState) => state.settings.zoomLevel
 export const selectMenuView = (state: RootState) => state.settings.menuView
 export const getParcel = (state: RootState) => state.settings.parcel
+export const getMintingstatus = (state: RootState) =>
+  state.settings.mintingStatus
 
 export const setLandData =
   (view: any): AppThunk =>
@@ -202,6 +210,11 @@ export const setParcelDetails =
   (view: any): AppThunk =>
   (dispatch) => {
     dispatch(setParcel(view))
+  }
+export const setMintingstatus =
+  (view: any): AppThunk =>
+  (dispatch) => {
+    dispatch(setMintStatus(view))
   }
 
 export default counterSlice.reducer

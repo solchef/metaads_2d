@@ -29,6 +29,7 @@ import {
 import { store } from '../../components/store'
 import useSound from 'use-sound'
 import axios from 'axios'
+import { returnLand } from '../../utils/returnLand'
 
 let oldx, oldy
 var isMobile = false //initiate as false
@@ -193,7 +194,6 @@ const GreenSquare = ({ x, y, image }) => {
   const [landPosition, setLandPosition] = useState(new Vector3(0, 0, 0))
   const [moseDown, setMouseDown] = useState(false)
   const [moseUp, setMouseUp] = useState(false)
-  const [parcels, setParcels] = useState([])
   const [moseMoved, setMouseMoved] = useState(false)
 
   const ref = useRef()
@@ -212,12 +212,6 @@ const GreenSquare = ({ x, y, image }) => {
   //     console.log(cubeRef)
   //   }
   // }, [cubeRef.current])
-
-  useEffect(() => {
-    axios.get('https://quadspace.io/api/metadata/parcels').then((parc) => {
-      setParcels(parc.data.message)
-    })
-  }, [])
 
   useEffect(() => {
     let result = 0
@@ -324,64 +318,6 @@ const GreenSquare = ({ x, y, image }) => {
     }
 
     setMouseMoved(true)
-  }
-
-  const findLand = (x1, y1, x2, y2, x, y) => {
-    if (x > x1 && x < x2 && y > y1 && y < y2) return true
-
-    return false
-  }
-
-  const returnLand = async (x, y) => {
-    let landpoint = {
-      data: false,
-      name: 'TMDW Token',
-      coords: x + ',' + y,
-      width: 1,
-      height: 1,
-      image:
-        'https://bafybeibaxec4sl7cbx4ey5djtofzdahowg7mv5vmfvkx3kxcfq7koecbx4.ipfs.nftstorage.link/',
-      status: 'Available',
-      url: '#',
-      description: `This NFT gives you full ownership of block ${
-        y * 1000 + x
-      } on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!`,
-      position: y * 1000 + x,
-    }
-    store.dispatch(setViewState(2))
-    parcels.forEach((land) => {
-      if (
-        findLand(
-          land.coordX,
-          land.coordY,
-          land.coordX + land.parcelWidth,
-          land.coordX + land.parcelHeight,
-          x,
-          y
-        )
-      ) {
-        store.dispatch(setViewState(3))
-        landpoint = {
-          data: true,
-          name: land.name,
-          coords: x + ',' + y,
-          width: land.parcelWidth,
-          height: land.parcelHeight,
-          image: `https://api.quadspace.io/${land.image_temp}`,
-          status: 'booked',
-          url: land.url,
-          description: land.description
-            ? land.description
-            : `We created the Meta-Board the online version of your traditional billboard. www.TheMillionDollarWebsite.com (http://www.themilliondollarwebsite.com/) leads to the domain www.quadspace.io (http://www.quadspace.io/). Because Quadspace powers the Metaverse component of this project. Each pixel on the Meta-Board will also come with 1 parcel of land in the Quadspace metaverse as a BONUS!`,
-          position: y * 1000 + x,
-        }
-        return
-      }
-    })
-
-    store.dispatch(setParcel(landpoint))
-
-    return landpoint
   }
 
   return (

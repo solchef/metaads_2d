@@ -3,15 +3,28 @@
 // import Image from 'next/image'
 
 import { useEffect, useState } from 'react'
-import { selectLand, setLand } from '../../components/reducers/Settings'
+import {
+  getMintingstatus,
+  selectLand,
+  setLand,
+} from '../../components/reducers/Settings'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
-import { updateX, updateY } from './Map'
+// import { updateX, updateY } from './Map'
 
-export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
+export const Section = ({
+  setName,
+  setUrl,
+  setMintImage,
+  setDescription,
+  handleSubmit,
+}) => {
   const landData = useAppSelector(selectLand)
   const dispatch = useAppDispatch()
   const [selectedFile, setSelectedFile] = useState('Upload Image')
   useEffect(() => {}, [])
+
+  const mintingDetail = useAppSelector(getMintingstatus)
+
   const handleChangeImage = (e) => {
     if (e.target.files.length && e.target.files[0].size / 1024 / 1024 <= 5) {
       setSelectedFile(e.target.files[0].name)
@@ -26,7 +39,7 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
   return (
     <div className="offcanvas-body image-info pt-4 pb-5 p-0 ">
       <h3> SQ.NFT SIZE</h3>
-      <div className='mt-2'>
+      <div className="mt-2">
         <form>
           <div className="input-group hoverable mb-4">
             <span className="input-group-text ">
@@ -79,7 +92,7 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
       <hr />
       <h3> Sq.NFT DATA</h3>
 
-      <div className='mt-2'>
+      <div className="mt-2">
         <form>
           <div className="input-group hoverable mb-4">
             <span className="input-group-text ">
@@ -106,7 +119,6 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
               placeholder="https://"
               className="form-control"
               onChange={(event) => {
-                // console.log(event.target.value)
                 setUrl(event.target.value)
               }}
             />
@@ -123,7 +135,12 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
             </span>
 
             <input
-              style={{borderBottomRightRadius: '0.25rem', borderTopRightRadius: '0.25rem',cursor: 'pointer', color: 'transparent' }}
+              style={{
+                borderBottomRightRadius: '0.25rem',
+                borderTopRightRadius: '0.25rem',
+                cursor: 'pointer',
+                color: 'transparent',
+              }}
               placeholder={selectedFile}
               className="form-control"
             />
@@ -138,18 +155,16 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
         </form>
         <form>
           <div className="input-group hoverable mb-4">
-
-          
-         
-            <h3 className='ps-0 '>Description :</h3>
-
-
+            <h3 className="ps-0 ">Description :</h3>
 
             <textarea
-             style={{borderRadius: '0.25rem'}}
+              style={{ borderRadius: '0.25rem' }}
               placeholder="Description"
               className="p-2 mt-2"
               id="w3review"
+              onChange={(event) => {
+                setDescription(event.target.value)
+              }}
               name="w3review"
               rows={4}
               cols={50}
@@ -161,16 +176,7 @@ export const Section = ({ setName, setUrl, setMintImage, handleSubmit }) => {
         Image Size ({landData.h}0 X {landData.w}0px) <br />
         Max Size: 5MB | File Type: JPG,PNG
       </p>
-      {/* <div className="d-flex align-items-center mb-2">
-        <input
-          className="form-check-input w-25 pb-5 h-100 me-3 "
-          type="checkbox"
-          value=""
-          id="flexCheckDefault"
-        />
-
-        <p className="p-0 mt-4">MARK FOR SALE ON OPENSEA.IO</p>
-      </div> */}
+      <span>{mintingDetail}</span>
       <a
         className="btn-primary hoverable d-block mx-3 mt-3 btn-md "
         onClick={handleSubmit}
