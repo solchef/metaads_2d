@@ -14,6 +14,18 @@ export interface Settings {
   zoomLevel: number
   selectedLand: {}
   menuView: boolean
+  parcel: {
+    data: boolean
+    name: string
+    coords: string
+    width: number
+    height: number
+    image: string
+    status: string
+    url: string
+    description: string
+    position: number
+  }
 }
 
 const initialState: Settings = {
@@ -29,6 +41,18 @@ const initialState: Settings = {
   zoomLevel: 1,
   selectedLand: {},
   menuView: false,
+  parcel: {
+    data: false,
+    name: 'quad',
+    coords: '-1 , -1',
+    width: 0,
+    height: 0,
+    image: '',
+    status: 'Available',
+    url: '#',
+    description: '',
+    position: 0,
+  },
 }
 
 export const counterSlice = createSlice({
@@ -72,6 +96,9 @@ export const counterSlice = createSlice({
     setMenuView: (state, action: PayloadAction<boolean>) => {
       state.menuView = action.payload
     },
+    setParcel: (state, action: PayloadAction<any>) => {
+      state.parcel = action.payload
+    },
   },
 })
 
@@ -88,6 +115,7 @@ export const {
   setZoomLevel,
   setSelectedLand,
   setMenuView,
+  setParcel,
 } = counterSlice.actions
 
 export const selectLand = (state: RootState) => state.settings.land
@@ -104,6 +132,7 @@ export const selectZoomIn = (state: RootState) => state.settings.zoomIn
 export const selectZoomOut = (state: RootState) => state.settings.zoomOut
 export const selectZoomLevel = (state: RootState) => state.settings.zoomLevel
 export const selectMenuView = (state: RootState) => state.settings.menuView
+export const getParcel = (state: RootState) => state.settings.parcel
 
 export const setLandData =
   (view: any): AppThunk =>
@@ -167,6 +196,12 @@ export const setZoomLevelData =
   (view: number): AppThunk =>
   (dispatch) => {
     dispatch(setZoomLevel(view))
+  }
+
+export const setParcelDetails =
+  (view: any): AppThunk =>
+  (dispatch) => {
+    dispatch(setParcel(view))
   }
 
 export default counterSlice.reducer

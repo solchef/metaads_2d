@@ -3,41 +3,54 @@
 // import Image from 'next/image'
 
 import {
+  getParcel,
   selectLand,
   selectSelectLand,
 } from '../../components/reducers/Settings'
 import { useAppSelector } from '../../components/store/hooks'
+import { shortUrl } from '../../utils'
+import { QuadSpaceContract } from '../../utils/constants'
+import truncateEthAddress from '../../utils/truncate'
 
 export const ImageInfo = () => {
   const landInfo = useAppSelector(selectSelectLand)
-  // console.log(landInfo)
+  const parcelData = useAppSelector(getParcel)
+
+  // console.log(parcelData)
   return (
-    <div className="offcanvas-body image-info  pb-5 pt-5 p-0 ">
+    <div className="offcanvas-body image-info  pb-5 pt-4 p-0 text-center">
       <div className="image">
-        <img src={landInfo.image} />
+        <img height={200} width={200} src={parcelData.image} />
       </div>
-      <h3 className="my-4">{landInfo.name}</h3>
-      <div className="d-flex flex-wrap flex-column">
-        <span className=" link">
-          <i className="bi bi-link"></i> :&nbsp;
-          <a href={landInfo.external_url} className="text-success">
-            {landInfo.external_url}
+      <hr className="my-4" />
+      <h4>Token #{parcelData.position}</h4>
+
+      <h3>{parcelData.name}</h3>
+
+      <p className="text-start mt-3">
+        <span className=" link d-block pb-1 ">
+          {/* <i className="bi bi-link"></i> :&nbsp; */}
+          <a href={parcelData.url} target="_blank" className="text-success">
+            <u>https://{shortUrl(parcelData.url, 15)}</u>
           </a>
         </span>
-        <span className="mb-1">
-          <img src="assets/images/square_icon.png" width="16px" /> : 100 Quads
-        </span>
-
+        {parcelData.description}
+      </p>
+      <div className="d-flex flex-wrap flex-column">
+        {/* <span className="mb-1">
+          <img src="assets/images/square_icon.png" width="16px" /> :{' '}
+          {parcelData.width * parcelData.height} Quads
+        </span> */}
+        {/* 
         <span className="mb-1">
           <i className="bi bi-border " />
-          &nbsp;: ( 10 x 10 )
+          &nbsp;: ( {parcelData.width + 'x ' + parcelData.height} )
         </span>
         <span>
-          <i className="bi bi-geo-alt" /> : {landInfo.attributes[0].value}X ,{' '}
-          {landInfo.attributes[1].value}Y
-        </span>
+          <i className="bi bi-geo-alt" /> : {parcelData.coords}
+        </span> */}
 
-        <span className="text-nowrap pt-1 mb-1">
+        {/* <span className="text-nowrap pt-1 mb-1">
           {' '}
           <b>
             <i className="bi bi-tag" /> :{' '}
@@ -94,13 +107,14 @@ export const ImageInfo = () => {
             </g>
           </svg>
           &nbsp;0.0942 ( $ 100 )
+        </span> */}
+        <span className="mt-3">
+          {/* <i className="bi bi-person"></i> :{' '} */}
+          Owned By <u>{truncateEthAddress(QuadSpaceContract)}</u>
         </span>
-        <span>
-          <i className="bi bi-person"></i> : User Wallet
-        </span>
-        <span className="pt-1">
+        {/* <span className="pt-1">
           <i className="bi bi-clipboard"></i> : Nft
-        </span>
+        </span> */}
       </div>
     </div>
   )

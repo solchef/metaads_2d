@@ -5,6 +5,7 @@ import {
   selectViewState,
   selectShowMenu,
   setShowMenu,
+  setViewState,
 } from '../../components/reducers/Settings'
 import { useAppSelector, useAppDispatch } from '../../components/store/hooks'
 import { useWeb3Context } from '../../context'
@@ -19,6 +20,7 @@ import { Sellsection } from './sellsection'
 // import { Editsection } from './Editsection'
 import { Section } from './Section'
 import Main from './Main'
+import { RoadMap } from './RoadMap'
 
 function PurchaseSection({
   isCanvasLeft,
@@ -37,6 +39,7 @@ function PurchaseSection({
   const landData = useAppSelector(selectLand)
   const { contracts, address, web3Provider } = useWeb3Context()
   const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
   const [url, setUrl] = useState('')
   const [buyState, setBuyState] = useState(activeItem)
   const adscontract = contracts['metaads']
@@ -64,6 +67,8 @@ function PurchaseSection({
     const result = await handleMint(
       name,
       address,
+      description,
+      url,
       adscontract,
       MintImage,
       land,
@@ -76,6 +81,8 @@ function PurchaseSection({
   }
   const getVisibilityMode = () => {
     if (showMenu && viewState === 0) return <About />
+    if (showMenu && viewState === 7) return <RoadMap />
+
     if (!showMenu) return <Main />
     if (showMenu && viewState === 1)
       return (
@@ -87,7 +94,8 @@ function PurchaseSection({
         />
       )
     if (showMenu && viewState === 2) return <Sellsection />
-    if (showMenu && viewState === 3) return <ImageInfo />
+    if (showMenu && viewState === 3) return <ImageInfoButton />
+    if (showMenu && viewState === 4) return <Main />
     {
       /* <ImageInfo /> */
     }
@@ -111,27 +119,28 @@ function PurchaseSection({
   return (
     <>
       <div
-        className={`offcanvas offcanvas-start hide-mobile ${
-          showMenu && 'show'
-        }`}
+        className={`offcanvas offcanvas-start  ${showMenu && 'show'}`}
         data-bs-backdrop="false"
         style={{ visibility: 'visible' }}
       >
         <div className="offcanvas-title ">
-          <span>
+          <span className='pt-2'>
             {viewState === 0
               ? 'About'
               : viewState === 1
-              ? 'Buy Mode'
+              ? 'Menu'
               : viewState === 2
-              ? 'View Mode'
+              ? 'FOR SALE'
               : viewState === 3
-              ? ''
+              ? 'Image Info'
+              : viewState === 7
+              ? 'RoadMap'
               : 'Menu'}
           </span>
           <span
             onClick={() => {
               dispatch(setShowMenu(!showMenu))
+              dispatch(setViewState(4))
             }}
             className={`icon ${showMenu && 'open'}  position-absolute`}
           >
