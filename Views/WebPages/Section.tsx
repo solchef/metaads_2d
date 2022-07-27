@@ -176,14 +176,17 @@ export const Section = ({
         Image Size ({landData.h}0 X {landData.w}0px) <br />
         Max Size: 5MB | File Type: JPG,PNG
       </p>
-      <span>{mintingDetail}</span>
-      <a
-        className="btn-primary hoverable d-block mx-3 mt-3 btn-md "
+      <div className="text-center">
+        <h4>{mintingDetail}</h4>
+      </div>
+
+      <button
+        className="btn-primary hoverable d-block mx-3 mt-3 btn-md col-11"
         onClick={handleSubmit}
-        href="#"
+        disabled={mintingDetail !== null}
       >
         <i className="bi-wallet me-2"></i> PURCHASE PLOT
-      </a>
+      </button>
       <div className="d-flex mt-3 flex-wrap">
         <span className=" me-2 mt-2">
           <img src="assets/images/square_icon.png" width="16px" /> :{' '}

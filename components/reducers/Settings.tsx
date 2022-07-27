@@ -54,7 +54,7 @@ const initialState: Settings = {
     description: '',
     position: 0,
   },
-  mintingStatus: '',
+  mintingStatus: null,
 }
 
 export const counterSlice = createSlice({

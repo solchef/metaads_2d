@@ -112,6 +112,7 @@ export const handleMint = async (
   })
 
   if (imgUpload) {
+    store.dispatch(setMintStatus('Image has been uploaded'))
     console.log('uploaded')
   }
 
@@ -160,7 +161,7 @@ export const handleMint = async (
         )
       )
 
-      let mintcost = 0.0 * mintableids.length
+      let mintcost = 0.00098 * mintableids.length
       let txn = await adscontract.mint(address, mintableids, {
         value: (mintcost * 10 ** 18).toString(),
       })
