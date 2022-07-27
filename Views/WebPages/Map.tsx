@@ -155,6 +155,7 @@ const GreenSquare = ({ x, y, image }) => {
   const widthMap = 1000
   const heightMap = 1000
   const [loading, setLoading] = useState(true)
+  const [lands, setLands] = useState(true)
   const manager = new LoadingManager()
   manager.onStart = function () {
     setLoading(true)
@@ -172,6 +173,7 @@ const GreenSquare = ({ x, y, image }) => {
   const [landPosition, setLandPosition] = useState(new Vector3(0, 0, 0))
   const [moseDown, setMouseDown] = useState(false)
   const [moseUp, setMouseUp] = useState(false)
+  const [parcels, setParcels] = useState([])
   const [moseMoved, setMouseMoved] = useState(false)
   const ref = useRef()
 
@@ -189,6 +191,12 @@ const GreenSquare = ({ x, y, image }) => {
   //     console.log(cubeRef)
   //   }
   // }, [cubeRef.current])
+
+  useEffect(() => {
+    axios.get('https://quadspace.io/api/metadata/parcels').then((parc) => {
+      setParcels(parc.data.message)
+    })
+  }, [])
 
   useEffect(() => {
     let result = 0
@@ -303,14 +311,7 @@ const GreenSquare = ({ x, y, image }) => {
     return false
   }
 
-  const returnLand = (x, y) => {
-    const initialLands = [
-      [0, 0],
-      [0, 750],
-      [800, 0],
-      [800, 750],
-      [400, 375],
-    ]
+  const returnLand = async (x, y) => {
     let landpoint = {
       data: false,
       name: 'TMDW Token',
@@ -327,18 +328,27 @@ const GreenSquare = ({ x, y, image }) => {
       position: y * 1000 + x,
     }
     store.dispatch(setViewState(2))
-    initialLands.forEach((land) => {
-      if (findLand(land[1], land[0], land[1] + 250, land[0] + 200, x, y)) {
+    parcels.forEach((land) => {
+      if (
+        findLand(
+          land.coordX,
+          land.coordY,
+          land.coordX + land.parcelWidth,
+          land.coordX + land.parcelHeight,
+          x,
+          y
+        )
+      ) {
         store.dispatch(setViewState(3))
         landpoint = {
           data: true,
-          name: `TMDW ${y * 1000 + x}`,
+          name: land.name,
           coords: x + ',' + y,
-          width: 250,
-          height: 200,
-          image: 'https://api.quadspace.io/quadmint.png',
+          width: land.parcelWidth,
+          height: land.parcelHeight,
+          image: `https://api.quadspace.io/${land.image_temp}`,
           status: 'booked',
-          url: 'https://milliondollarwebsite.com',
+          url: land.url,
           description: `We created the Meta-Board the online version of your traditional billboard. www.TheMillionDollarWebsite.com (http://www.themilliondollarwebsite.com/) leads to the domain www.quadspace.io (http://www.quadspace.io/). Because Quadspace powers the Metaverse component of this project. Each pixel on the Meta-Board will also come with 1 parcel of land in the Quadspace metaverse as a BONUS!`,
           position: y * 1000 + x,
         }

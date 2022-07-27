@@ -22,20 +22,20 @@ export const ImageInfo = () => {
       <div className="image">
         <img height={200} width={200} src={parcelData.image} />
       </div>
-<hr className='my-4' />
+      <hr className="my-4" />
       <h4>Token #{parcelData.position}</h4>
 
-      <h3 >{parcelData.name}</h3>
-    
+      <h3>{parcelData.name}</h3>
 
-      <p className='text-start mt-3' >
-      <span className=" link d-block pb-1 ">
-        {/* <i className="bi bi-link"></i> :&nbsp; */}
-        <a href={parcelData.url} target="_blank" className="text-success">
-          <u>https://{shortUrl(parcelData.url, 15)}</u>
-        </a>
-      </span> 
-        {parcelData.description}</p>
+      <p className="text-start mt-3">
+        <span className=" link d-block pb-1 ">
+          {/* <i className="bi bi-link"></i> :&nbsp; */}
+          <a href={parcelData.url} target="_blank" className="text-success">
+            <u>https://{shortUrl(parcelData.url, 15)}</u>
+          </a>
+        </span>
+        {parcelData.description}
+      </p>
       <div className="d-flex flex-wrap flex-column">
         {/* <span className="mb-1">
           <img src="assets/images/square_icon.png" width="16px" /> :{' '}
@@ -108,7 +108,7 @@ export const ImageInfo = () => {
           </svg>
           &nbsp;0.0942 ( $ 100 )
         </span> */}
-        <span className='mt-3'>
+        <span className="mt-3">
           {/* <i className="bi bi-person"></i> :{' '} */}
           Owned By <u>{truncateEthAddress(QuadSpaceContract)}</u>
         </span>
