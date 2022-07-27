@@ -127,26 +127,26 @@ export const MapView = () => {
             enableDamping={false}
             mouseButtons={{ LEFT: 2, MIDDLE: 1, RIGHT: 0 }}
             onChange={() => {
-              if (orbit.current.object.position.x < -500) {
-                if (orbit.current.object.position.x != -500)
-                  orbit.current.object.position.x = -490
-                orbit.current.object.updateProjectionMatrix()
-              }
-              if (orbit.current.object.position.x > 500) {
-                if (orbit.current.object.position.x != 500)
-                  orbit.current.object.position.x = 490
-                orbit.current.object.updateProjectionMatrix()
-              }
-              if (orbit.current.object.position.z < -500) {
-                if (orbit.current.object.position.z != -500)
-                  orbit.current.object.position.z = -490
-                orbit.current.object.updateProjectionMatrix()
-              }
-              if (orbit.current.object.position.z > 500) {
-                if (orbit.current.object.position.z != 500)
-                  orbit.current.object.position.z = 490
-                orbit.current.object.updateProjectionMatrix()
-              }
+              // if (orbit.current.object.position.x < -500) {
+              //   if (orbit.current.object.position.x != -500)
+              //     orbit.current.object.position.x = -490
+              //   orbit.current.object.updateProjectionMatrix()
+              // }
+              // if (orbit.current.object.position.x > 500) {
+              //   if (orbit.current.object.position.x != 500)
+              //     orbit.current.object.position.x = 490
+              //   orbit.current.object.updateProjectionMatrix()
+              // }
+              // if (orbit.current.object.position.z < -500) {
+              //   if (orbit.current.object.position.z != -500)
+              //     orbit.current.object.position.z = -490
+              //   orbit.current.object.updateProjectionMatrix()
+              // }
+              // if (orbit.current.object.position.z > 500) {
+              //   if (orbit.current.object.position.z != 500)
+              //     orbit.current.object.position.z = 490
+              //   orbit.current.object.updateProjectionMatrix()
+              // }
             }}
             enablePan={buyMode}
             touches={{
