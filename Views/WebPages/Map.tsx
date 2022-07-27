@@ -261,7 +261,7 @@ const GreenSquare = ({ x, y, image }) => {
   }
 
   const onPointUp = async (point) => {
-    if (moseMoved) {
+    if (moseMoved || isMobile) {
       setViewLand(true)
       onMove(point)
       if (
@@ -395,10 +395,14 @@ const GreenSquare = ({ x, y, image }) => {
             position={[0, 0, 0]}
             rotation={[-Math.PI / 2, 0, 0]}
             scale={[1, 1, 1]}
-            onPointerUp={({ point, nativeEvent }) => {
+            onClick={({ point, nativeEvent }) => {
               if (nativeEvent.which !== 3) onPointUp(point)
               setViewBox(false)
             }}
+            // onPointerUp={({ point, nativeEvent }) => {
+            //   if (nativeEvent.which !== 3) onPointUp(point)
+            //   setViewBox(false)
+            // }}
             onPointerDown={(e) => {
               setMouseMoved(true)
             }}
