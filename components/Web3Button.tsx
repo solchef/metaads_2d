@@ -15,7 +15,7 @@ const ConnectButton = ({ connect, title }: ConnectProps) => {
         href="#"
       >
         <i className="bi-wallet me-2" />
-        {title ? title : 'CONNECT WALLET'}
+        <span>{title ? title : 'CONNECT WALLET'}</span>
       </a>
       <a
         onClick={connect}
