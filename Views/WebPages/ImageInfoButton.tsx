@@ -12,7 +12,7 @@ export const ImageInfoButton = () => {
   const landInfo = useAppSelector(selectSelectLand)
   const parcelData = useAppSelector(getParcel)
   return (
-    <div className="offcanvas-body image-info  pb-5 pt-4 p-0 text-center">
+    <div className="offcanvas-body image-info  pb-5 pt-4 mt-3 p-0 text-center">
       <div className="image">
         <img height={200} width={200} src={parcelData.image} />
       </div>
@@ -113,14 +113,14 @@ export const ImageInfoButton = () => {
 
       <div className="d-flex ">
         <a
-          className="btn-primary w-100 text-nowrap hoverable me-2 mt-4 d-block  btn-md "
+          className="btn-primary w-100 fs-7 text-nowrap hoverable me-2 mt-4 d-block  btn-md "
           target="_blank"
           href={'https://opensea.io/' + QuadSpaceContract}
         >
           Bid on Token
         </a>
         <a
-          className="btn-primary w-100 text-nowrap hoverable  mt-4 d-block  btn-md "
+          className="btn-primary w-100 fs-7 text-nowrap hoverable  mt-4 d-block  btn-md "
           target="_blank"
           href={'https://etherscan.io/' + QuadSpaceContract}
         >

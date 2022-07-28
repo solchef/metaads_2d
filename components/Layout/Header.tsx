@@ -31,7 +31,7 @@ const Header = () => {
   return (
     <>
       <nav className={`navbar sticky-top navbar-dark bg-dark`}>
-        <div className="container-fluid  py-2">
+        <div className="container-fluid ">
           <div>
             <div>
               <div
@@ -39,11 +39,7 @@ const Header = () => {
                   showMenu && 'logo'
                 } align-items-center `}
               >
-                <img
-                  className="me-3 hide-mobile"
-                  src="assets/images/million-dollar-logo.svg"
-                  width="50px"
-                />
+           
                  <span
             onClick={() => { 
               dispatch(setShowMenu(!showMenu))
@@ -56,7 +52,7 @@ const Header = () => {
             <span></span>
           </span>
 
-                <h3 className='pb-0 mb-0 fs-6'>
+                <h3 className='pb-0 mt-1 mb-0 fs-6'>
           
                   THE MILLION <br /> DOLLAR WEBSITE
                 </h3>

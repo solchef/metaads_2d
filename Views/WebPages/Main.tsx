@@ -11,9 +11,9 @@ const Main = () => {
   const showMenu = useAppSelector(selectShowMenu)
 
   return (
-    <div className="offcanvas-body about pt-4   ">
+    <div className="offcanvas-body about ">
       <div
-        className={`d-flex flex-column justify-content-end ${
+        className={`d-flex flex-column mt-4 justify-content-end ${
           showMenu ? 'align-items-start ' : 'align-items-end '
         } pe-2`}
       >
