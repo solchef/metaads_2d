@@ -128,6 +128,7 @@ export const handleMint = async (
     parcelWidth: land.w,
     parcelHeight: land.h,
     parcelIds: mintableids,
+    address: address,
   }
 
   let response = await fetch('/api/metadata/parcels', {
@@ -196,26 +197,4 @@ export const handleMint = async (
       description: 'An error has occured and minting could not be processed',
     })
   }
-}
-const getBase64 = (file) => {
-  console.log(file)
-  return new Promise((resolve) => {
-    let fileInfo
-    let baseURL = ''
-    let reader = new FileReader()
-    reader.readAsDataURL(file[0])
-    reader.onload = () => {
-      let Img = reader.result
-      fabric.Image.fromURL(Img, function (myImg) {
-        var img1 = myImg.set({
-          left: 0,
-          top: 0,
-          width: 2500,
-          height: 2000,
-        })
-        baseURL = img1
-        resolve(baseURL)
-      })
-    }
-  })
 }
