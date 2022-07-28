@@ -40,7 +40,7 @@ const Main = () => {
         <a
           target="_blank"
           className="mt-3"
-          href={'https://opensea.io/' + QuadSpaceContract}
+          href={'https://twitter.com/themilliondollarwebsite'}
         >
           <i
             className="icon-menu bi bi-twitter mt-3"
@@ -61,7 +61,7 @@ const Main = () => {
         <a
           target="_blank"
           className="mt-3"
-          href={'https://opensea.io/' + QuadSpaceContract}
+          href={'https://reddit.com/themilliondollarwebsite'}
         >
           <i
             className="icon-menu bi bi-reddit mt-3"
@@ -72,7 +72,7 @@ const Main = () => {
         <a
           target="_blank"
           className="mt-3"
-          href={'https://opensea.io/' + QuadSpaceContract}
+          href={'https://instagram.com/themilliondollarwebsite'}
         >
           <i
             className="icon-menu bi bi-instagram mt-3"
