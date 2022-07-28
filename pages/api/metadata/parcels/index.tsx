@@ -3,8 +3,6 @@ const ObjectId = require('mongodb').ObjectId
 
 export default function handler(req, res) {
   // switch the methods
-  res.header(Access - Control - Allow - Methods, PUT, POST, PATCH, DELETE, GET)
-
   switch (req.method) {
     case 'GET': {
       return getParcels(req, res)
