@@ -71,6 +71,7 @@ nav.navbar {
     background-color: #5a0167 !important;
     display: inherit;
     margin-left: 75px;
+    height: 75px;
 }
 
 .navbar-brand {

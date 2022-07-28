@@ -30,7 +30,7 @@ const Header = () => {
 
   return (
     <>
-      <nav className={`navbar sticky-top navbar-dark bg-dark`}>
+      <nav className={`navbar sticky-top d-flex navbar-dark bg-dark`}>
         <div className="container-fluid ">
           <div>
             <div>

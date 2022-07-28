@@ -97,7 +97,7 @@ const AdSpace: React.FunctionComponent = () => {
     <>
       <Fragment>
         <section id="grid-section">
-          <div className={`g-main ${showMenu && 'm-300 g-main-300 '}`}>
+          <div className={`grid-canvas  ${showMenu && ' '}`}>
             <div
               ref={cAreaRef}
               className="canvas-box  hoverable"
