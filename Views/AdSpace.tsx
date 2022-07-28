@@ -92,6 +92,8 @@ const AdSpace: React.FunctionComponent = () => {
   const [stateBtn, setStateBtn] = useState('')
   const removeFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes - 1)
   const showMenu = useAppSelector(selectShowMenu)
+  let mouseDown = false
+  let mouseMove = false
 
   return (
     <>
@@ -102,6 +104,15 @@ const AdSpace: React.FunctionComponent = () => {
               ref={cAreaRef}
               className="canvas-box  hoverable"
               id="container"
+              onMouseDown={() => {
+                mouseDown = true
+              }}
+              onMouseUp={() => {
+                mouseDown = false
+              }}
+              onMouseMove={() => {
+                mouseMove = true
+              }}
             >
               {reload ? <MapView /> : ''}
             </div>

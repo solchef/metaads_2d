@@ -39,21 +39,19 @@ const Header = () => {
                   showMenu && 'logo'
                 } align-items-center `}
               >
-           
-                 <span
-            onClick={() => { 
-              dispatch(setShowMenu(!showMenu))
-              dispatch(setViewState(4))
-            }}
-            className={`icon ms-2  show-mobile ${showMenu && 'open'}  `}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
+                <span
+                  onClick={() => {
+                    dispatch(setShowMenu(!showMenu))
+                    dispatch(setViewState(4))
+                  }}
+                  className={`icon ms-2  show-mobile ${showMenu && 'open'}  `}
+                >
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
 
-                <h3 className='pb-0 mt-1 mb-0 fs-6'>
-          
+                <h3 className="pb-0 mt-1 mb-0 fs-6">
                   THE MILLION <br /> DOLLAR WEBSITE
                 </h3>
               </div>

@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useThree } from '@react-three/fiber'
 import { DoubleSide, TextureLoader, Vector3, BoxHelper } from 'three'
 import {
   Html,
@@ -127,6 +127,7 @@ export const MapView = () => {
             enableDamping={false}
             mouseButtons={{ LEFT: 2, MIDDLE: 1, RIGHT: 0 }}
             onChange={() => {
+              onWheel(orbit.current.object)
               // if (orbit.current.object.position.x < -500) {
               //   if (orbit.current.object.position.x != -500)
               //     orbit.current.object.position.x = -490
@@ -174,6 +175,7 @@ const GreenSquare = ({ x, y, image }) => {
   const [loading, setLoading] = useState(true)
   const [lands, setLands] = useState(true)
   const manager = new LoadingManager()
+  const { gl } = useThree()
   manager.onStart = function () {
     setLoading(true)
   }
@@ -188,10 +190,13 @@ const GreenSquare = ({ x, y, image }) => {
     () => new TextureLoader(manager).load('./highres.png'),
     []
   )
-  const textureBox = React.useMemo(
-    () => new TextureLoader(manager).load('./box.png'),
-    []
-  )
+  // console.log(gl)
+
+  // console.log(gl.capabilities.getMaxAnisotropy())
+  // const textureBox = React.useMemo(
+  //   () => new TextureLoader(manager).load('./box.png'),
+  //   []
+  // )
   const [boxPosition, setBoxPosition] = useState(new Vector3(0, 0, 0))
   const [viewLand, setViewLand] = useState(false)
   const [viewBox, setViewBox] = useState(false)
@@ -304,7 +309,7 @@ const GreenSquare = ({ x, y, image }) => {
                 w: 1,
               })
             )
-            playBuild()
+            //playBuild()
             setViewBox(false)
           } else {
             playError()
@@ -433,17 +438,7 @@ const GreenSquare = ({ x, y, image }) => {
               }
               onMove(point)
             }}
-            onWheel={({ camera }) => {
-              if (camera.position.y < 978 && camera.position.y > 861)
-                store.dispatch(setZoomLevel(1))
-              if (camera.position.y < 861 && camera.position.y > 639)
-                store.dispatch(setZoomLevel(2))
-              if (camera.position.y < 639 && camera.position.y > 415)
-                store.dispatch(setZoomLevel(3))
-              if (camera.position.y < 415 && camera.position.y > 95)
-                store.dispatch(setZoomLevel(4))
-              if (camera.position.y <= 90) store.dispatch(setZoomLevel(5))
-            }}
+            onWheel={({ camera }) => onWheel(camera)}
           >
             <planeBufferGeometry args={[widthMap, heightMap]} />
             <shaderMaterial
@@ -522,7 +517,19 @@ const GreenSquare = ({ x, y, image }) => {
     </>
   )
 }
-
+const onWheel = (camera) => {
+  if (camera.position.y < 978 && camera.position.y > 861)
+    store.dispatch(setZoomLevel(1))
+  if (camera.position.y < 861 && camera.position.y > 639)
+    store.dispatch(setZoomLevel(2))
+  if (camera.position.y < 639 && camera.position.y > 415)
+    store.dispatch(setZoomLevel(3))
+  if (camera.position.y < 415 && camera.position.y > 95)
+    store.dispatch(setZoomLevel(4))
+  if (camera.position.y <= 90) {
+    store.dispatch(setZoomLevel(5))
+  }
+}
 function ToolTip1() {
   return (
     <Html center position={[-1, 1, -1]}>
