@@ -37,7 +37,7 @@ export const Section = ({
     else setSelectedFile('Upload Image')
   }
   return (
-    <div className="offcanvas-body image-info pt-4 pb-5 p-0 ">
+    <div className="offcanvas-body image-info mt-4  pb-5 p-0 ">
       <h3> SQ.NFT SIZE</h3>
       <div className="mt-2">
         <form>

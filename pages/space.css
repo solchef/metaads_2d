@@ -167,7 +167,6 @@
     transition: .5s ease-in-out;
     cursor: pointer;
     right: 7%;
-    top: 4%;
 }
 
 .icon span {
@@ -228,11 +227,44 @@
     color: white;
 }
 
+.icon-menu:hover::after {
+    color: #dd307e;
+    content: attr(custom-attribute);
+}
+
+.icon-menu:hover {
+    color: #dd307e;
+    content: attr(custom-attribute);
+}
+
 @media (max-width: 1033px) {
     .offcanvas-start {
         transform: translateX(-100%)!important;
     }
     nav a.btn-primary.hoverable.btn-md.show-mobile {
         padding: 10px 15px;
+    }
+}
+
+@media (min-width: 1033px) {
+    nav button,
+    nav a {
+        height: 40px !important;
+        padding: 8px 15px !important;
+    }
+    .icon {
+        top: 25px;
+    }
+    nav button i {
+        font-size: 18px!important;
+    }
+    nav .bo .btn {
+        padding: 0 !important;
+    }
+    .fs-7 {
+        font-size: 12px;
+    }
+    .btn-md span {
+        font-size: 14px;
     }
 }

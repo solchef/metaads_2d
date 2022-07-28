@@ -106,16 +106,16 @@ function PurchaseSection({
         <div className="offcanvas-title ">
           <span className="pt-2">
             {viewState === 0
-              ? 'About'
+              ? ''
               : viewState === 1
-              ? 'Menu'
+              ? ''
               : viewState === 2
               ? ''
-              : viewState === 3
+              : viewState === 4
               ? ''
               : viewState === 7
-              ? 'RoadMap'
-              : 'Menu'}
+              ? ''
+              : ''}
           </span>
           <span
             onClick={() => {
