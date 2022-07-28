@@ -197,7 +197,7 @@ const GreenSquare = ({ x, y, image }) => {
   const [parcels, setParcels] = useState([])
 
   useEffect(() => {
-    axios.get('https://quadspace.io/api/metadata/parcels').then((parc) => {
+    axios.get('/api/metadata/parcels').then((parc) => {
       setParcels(parc.data.message)
     })
   }, [])
@@ -354,7 +354,7 @@ const GreenSquare = ({ x, y, image }) => {
           land.coordX,
           land.coordY,
           land.coordX + land.parcelWidth,
-          land.coordX + land.parcelHeight,
+          land.coordY + land.parcelHeight,
           x,
           y
         )
