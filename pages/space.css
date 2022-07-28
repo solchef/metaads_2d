@@ -249,8 +249,8 @@
 @media (min-width: 1033px) {
     nav button,
     nav a {
-        height: 40px !important;
-        padding: 8px 15px !important;
+        height: 45px !important;
+        padding: 10px 15px !important;
     }
     .icon {
         top: 25px;
@@ -267,4 +267,9 @@
     .btn-md span {
         font-size: 14px;
     }
+}
+
+.grid-canvas {
+    height: calc(100vh - 75px);
+    width: calc(100vw - 75px);
 }
