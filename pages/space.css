@@ -237,6 +237,11 @@
     content: attr(custom-attribute);
 }
 
+.grid-canvas {
+    height: calc(100vh - 75px);
+    width: calc(100vw - 75px);
+}
+
 @media (max-width: 1033px) {
     .offcanvas-start {
         transform: translateX(-100%)!important;
@@ -244,13 +249,17 @@
     nav a.btn-primary.hoverable.btn-md.show-mobile {
         padding: 10px 15px;
     }
+    .grid-canvas {
+        height: calc(100vh - 75px);
+        width: 100vw;
+    }
 }
 
 @media (min-width: 1033px) {
     nav button,
     nav a {
-        height: 40px !important;
-        padding: 8px 15px !important;
+        height: 45px !important;
+        padding: 10px 15px !important;
     }
     .icon {
         top: 25px;
