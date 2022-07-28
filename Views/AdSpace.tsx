@@ -92,9 +92,13 @@ const AdSpace: React.FunctionComponent = () => {
   const [stateBtn, setStateBtn] = useState('')
   const removeFormTwoHandler = () => setTwoFeeTypes(twoFeeTypes - 1)
   const showMenu = useAppSelector(selectShowMenu)
-  let mouseDown = false
-  let mouseMove = false
-
+  const [mouseDown, setMouseDown] = useState(false)
+  const [mouseMove, setMouseMove] = useState(false)
+  useEffect(() => {
+    if (mouseDown && mouseMove)
+      document.getElementById('container').style.cursor = 'grabbing'
+    else document.getElementById('container').style.cursor = 'pointer'
+  }, [mouseMove, mouseDown])
   return (
     <>
       <Fragment>
@@ -102,16 +106,16 @@ const AdSpace: React.FunctionComponent = () => {
           <div className={`grid-canvas  ${showMenu && ' '}`}>
             <div
               ref={cAreaRef}
-              className="canvas-box  hoverable"
+              className="canvas-box  hoverable "
               id="container"
               onMouseDown={() => {
-                mouseDown = true
+                setMouseDown(true)
               }}
               onMouseUp={() => {
-                mouseDown = false
+                setMouseDown(false)
               }}
               onMouseMove={() => {
-                mouseMove = true
+                setMouseMove(true)
               }}
             >
               {reload ? <MapView /> : ''}
