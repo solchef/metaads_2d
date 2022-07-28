@@ -237,12 +237,21 @@
     content: attr(custom-attribute);
 }
 
+.grid-canvas {
+    height: calc(100vh - 75px);
+    width: calc(100vw - 75px);
+}
+
 @media (max-width: 1033px) {
     .offcanvas-start {
         transform: translateX(-100%)!important;
     }
     nav a.btn-primary.hoverable.btn-md.show-mobile {
         padding: 10px 15px;
+    }
+    .grid-canvas {
+        height: calc(100vh - 75px);
+        width: 100%;
     }
 }
 
@@ -267,9 +276,4 @@
     .btn-md span {
         font-size: 14px;
     }
-}
-
-.grid-canvas {
-    height: calc(100vh - 75px);
-    width: calc(100vw - 75px);
 }
