@@ -166,6 +166,7 @@ export const MapView = () => {
 const GreenSquare = ({ x, y, image }) => {
   const [playError] = useSound('./errorSound.mp3')
   const [playBuild] = useSound('./build.mp3')
+  const ref = useRef()
   const boughtedLandListData = store.getState().settings.boughtedLandList
   const z = 2
   const widthMap = 1000
@@ -184,7 +185,11 @@ const GreenSquare = ({ x, y, image }) => {
     []
   )
   const texture2 = React.useMemo(
-    () => new TextureLoader(manager).load('./blank.png'),
+    () => new TextureLoader(manager).load('./highres.png'),
+    []
+  )
+  const textureBox = React.useMemo(
+    () => new TextureLoader(manager).load('./box.png'),
     []
   )
   const [boxPosition, setBoxPosition] = useState(new Vector3(0, 0, 0))
@@ -201,10 +206,9 @@ const GreenSquare = ({ x, y, image }) => {
       setParcels(parc.data.message)
     })
   }, [])
-  const ref = useRef()
 
   const cubeRef = useRef()
-  useHelper(ref, BoxHelper, 'blue')
+  // useHelper(ref, BoxHelper, '0x00ffff')
 
   const onMove = (point) => {
     if (!viewLand) setViewBox(true)
@@ -214,7 +218,8 @@ const GreenSquare = ({ x, y, image }) => {
 
   // useEffect(() => {
   //   if (cubeRef.current) {
-  //     console.log(cubeRef)
+  //     console.log(cubeRef.current)
+  //     // cubeRef.current.material.uniforms.uniformsNeedUpdate = true
   //   }
   // }, [cubeRef.current])
 
@@ -389,6 +394,22 @@ const GreenSquare = ({ x, y, image }) => {
         <ToolTip1 />
       ) : (
         <>
+          {/* <mesh
+            position={[0.5, 0, 0]}
+            rotation={[-Math.PI / 2, 0, 0]}
+            scale={[1, 1, 1]}
+          >
+            <planeBufferGeometry args={[widthMap, heightMap]} />
+            <meshBasicMaterial
+              attach="material"
+              // color={color}
+              transparent={true}
+              opacity={0.9}
+              // displacementMap={texture}
+              map={texture}
+              side={DoubleSide}
+            />
+          </mesh> */}
           <mesh
             ref={cubeRef}
             position={[0, 0, 0]}
@@ -427,22 +448,39 @@ const GreenSquare = ({ x, y, image }) => {
             <planeBufferGeometry args={[widthMap, heightMap]} />
             <shaderMaterial
               uniforms={{
-                // Feed the heightmap
                 bumpTexture: { value: texture },
                 bumpTexture2: { value: texture2 },
+                brightness: { value: 2.5 },
+                color: { value: '0xffffff' },
               }}
-              // Feed the shaders as strings
               vertexShader={vertexShader}
               fragmentShader={fragmentShader}
-              // side={DoubleSide}
+              side={DoubleSide}
             />
             {/* <meshBasicMaterial
               attach="material"
+              wireframe={false}
+              opacity={0.5}
+              transparent={true}
+              map={texture2}
+              side={DoubleSide}
+            /> */}
+          </mesh>
+          <mesh
+            position={[0, 0, 0]}
+            rotation={[-Math.PI / 2, 0, 0]}
+            scale={[1, 1, 1]}
+          >
+            <planeBufferGeometry args={[widthMap, heightMap]} />
+            <meshBasicMaterial
+              attach="material"
               // color={color}
+              transparent={true}
+              opacity={0.5}
               // displacementMap={texture}
               map={texture}
               side={DoubleSide}
-            /> */}
+            />
           </mesh>
           {/* {viewBox && !store.getState().settings.selectMode ? (
             <mesh position={boxPosition} ref={ref}>
@@ -460,14 +498,13 @@ const GreenSquare = ({ x, y, image }) => {
             >
               {/* <boxBufferGeometry args={[x, z, y]} attach="geometry" /> */}
               <planeBufferGeometry args={[x, y]} />
-              <meshPhongMaterial
-                // color={'#f56fff'}
-                wireframe={false}
-                opacity={0}
-                transparent={true}
+              <meshBasicMaterial
+                // map={textureBox}
+                color="0xffffff"
                 attach="material"
+                side={DoubleSide}
               />
-              <EffectComposer multisampling={8} autoClear={false}>
+              {/* <EffectComposer multisampling={8} autoClear={false}>
                 <Outline
                   selection={ref}
                   selectionLayer={100}
@@ -475,7 +512,7 @@ const GreenSquare = ({ x, y, image }) => {
                   visibleEdgeColor="white"
                   edgeStrength={1000}
                 />
-              </EffectComposer>
+              </EffectComposer> */}
             </mesh>
           ) : (
             ''
