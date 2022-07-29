@@ -6,15 +6,12 @@ import { useEffect, useState } from 'react'
 import {
   getParcel,
   selectClickMint,
-  selectLand,
   setClickMint,
   setViewState,
 } from '../../components/reducers/Settings'
-import { store } from '../../components/store'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 
 export const Sellsection = () => {
-  const landData = useAppSelector(selectLand)
   const parcelData = useAppSelector(getParcel)
   const [land, setLand] = useState({
     data: false,
@@ -32,7 +29,6 @@ export const Sellsection = () => {
 
   useEffect(() => {
     setLand(parcelData)
-    console.log(parcelData)
   }, [parcelData])
   const dispatch = useAppDispatch()
   return (

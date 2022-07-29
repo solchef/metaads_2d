@@ -6,8 +6,6 @@ import FormTwo from '../components/section/FormTwo'
 import FormThree from '../components/section/FormThree'
 import FormFour from '../components/section/FormFour'
 import PurchaseSection from '../Views/WebPages/PurchaseSection'
-import SpaceDetails from '../Views/WebPages/SpaceDetails'
-import Link from 'next/link'
 import { useWeb3Context } from '../context'
 import { QuadSpaceContract } from '../utils/constants'
 import {
@@ -20,9 +18,6 @@ import {
   zoomIn,
   zoomOut,
 } from '../Views/WebPages/canvesGrid'
-import { selectLand } from '../components/reducers/Settings'
-import { useAppSelector } from '../components/store/hooks'
-import Minimap, { Child as ChildComponent } from 'react-minimap'
 import 'react-minimap/dist/react-minimap.css'
 import { MetaadsContractUnsigned } from '../utils/readOnly'
 
@@ -39,7 +34,6 @@ const Space: React.FunctionComponent = () => {
     walletQuads: [],
     otherQuads: [],
   })
-  const landData = useAppSelector(selectLand)
   const {
     cAreaRef,
     squreInfo,
@@ -443,28 +437,24 @@ const Space: React.FunctionComponent = () => {
           </div>
         </div>
       </div>
-      <div
-          className={`accordion show-mobile show ${showMenu ? '' : 'showw'}`}
-        >
-          <div className="accordion-item ">
-            <h2 className="accordion-header">
-              <button
-              
-                className={`accordion-button  ${showMenu && 'collapsed'}  `}
-                type="button"
-
+      <div className={`accordion show-mobile show ${showMenu ? '' : 'showw'}`}>
+        <div className="accordion-item ">
+          <h2 className="accordion-header">
+            <button
+              className={`accordion-button  ${showMenu && 'collapsed'}  `}
+              type="button"
+            >
+              <span
+                onClick={() => {
+                  dispatch(setShowMenu(!showMenu))
+                }}
+                className={`icon ms-3 ${showMenu && 'open'} `}
               >
-                 <span
-            onClick={() => {
-              dispatch(setShowMenu(!showMenu))
-            }}
-            className={`icon ms-3 ${showMenu && 'open'} `}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-                {/* <div className="position-absolute ">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+              {/* <div className="position-absolute ">
                   
                 <div className="d-flex    ">
                    <i 
@@ -481,268 +471,263 @@ const Space: React.FunctionComponent = () => {
                   
                   
                    </div> */}
+            </button>
+          </h2>
+          <div
+            className={`accordion-collapse p-3 collapse show ${showMenu && ''}`}
+            aria-labelledby="panelsStayOpen-headingOne"
+          >
+            {stateBtn == 'info' ? (
+              <div className="h-100 scrollable pe-2 pb-5 mb-5">
+                <h3>ABOUT MDW </h3>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. At
+                  natus assumenda dolore provident ad eaque dolorem magni quod
+                  praesentium, accusantium ipsa sit, quaerat nulla qui ipsam
+                  voluptatum tenetur dicta aspernatur?
+                </p>
 
-
-
-
-
-
-              </button>
-            </h2>
-            <div
-              className={`accordion-collapse p-3 collapse show ${showMenu && ''}`}
-              aria-labelledby="panelsStayOpen-headingOne"
-            >
-              {stateBtn == 'info' ? (
-                <div className="h-100 scrollable pe-2 pb-5 mb-5">
-                  <h3>ABOUT MDW </h3>
-                  <p>
+                <h3 className="mt-5">HOW-IT WORKS</h3>
+                <div className="d-flex">
+                  <span className="num-border mt-1">1</span>
+                  <p className="ps-2">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. At
                     natus assumenda dolore provident ad eaque dolorem magni quod
                     praesentium, accusantium ipsa sit, quaerat nulla qui ipsam
                     voluptatum tenetur dicta aspernatur?
                   </p>
-
-                  <h3 className="mt-5">HOW-IT WORKS</h3>
-                  <div className="d-flex">
-                    <span className="num-border mt-1">1</span>
-                    <p className="ps-2">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. At
-                      natus assumenda dolore provident ad eaque dolorem magni quod
-                      praesentium, accusantium ipsa sit, quaerat nulla qui ipsam
-                      voluptatum tenetur dicta aspernatur?
-                    </p>
-                  </div>
-                  <div className="d-flex">
-                    <span className="num-border mt-1">2</span>
-                    <p className="ps-2">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. At
-                      natus assumenda dolore provident ad eaque dolorem magni quod
-                      praesentium, accusantium ipsa sit, quaerat nulla qui ipsam
-                      voluptatum tenetur dicta aspernatur?
-                    </p>
-                  </div>
-                  <div className="d-flex">
-                    <span className="num-border mt-1">3</span>
-                    <p className="ps-2">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. At
-                      natus assumenda dolore provident ad eaque dolorem magni quod
-                      praesentium, accusantium ipsa sit, quaerat nulla qui ipsam
-                      voluptatum tenetur dicta aspernatur?
-                    </p>
-                  </div>
                 </div>
-              ) : stateBtn == 'View' ? (
-                <>
-                  <h3>IT'S FOR SALE</h3>
-
-                  <div className="d-flex flex-wrap flex-column">
-                    <span>
-                      <i className="bi bi-geo-alt" /> : 287X , 485Y
-                    </span>
-
-                    <span className="text-nowrap  pt-1">
-                      {' '}
-                      <b>
-                        <i className="bi bi-tag" /> :{' '}
-                      </b>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        xmlnsXlink="http://www.w3.org/1999/xlink"
-                        xmlSpace="preserve"
-                        width="12px"
-                        version="1.1"
-                        shapeRendering="geometricPrecision"
-                        textRendering="geometricPrecision"
-                        imageRendering="optimizeQuality"
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        viewBox="0 0 784.37 1277.39"
-                      >
-                        <g id="Layer_x0020_1">
-                          <metadata id="CorelCorpID_0Corel-Layer" />
-                          <g id="_1421394342400">
-                            <g>
-                              <polygon
-                                fill="#343434"
-                                fillRule="nonzero"
-                                points="392.07,0 383.5,29.11 383.5,873.74 392.07,882.29 784.13,650.54 "
-                              />
-                              <polygon
-                                fill="#8C8C8C"
-                                fillRule="nonzero"
-                                points="392.07,0 -0,650.54 392.07,882.29 392.07,472.33 "
-                              />
-                              <polygon
-                                fill="#3C3C3B"
-                                fillRule="nonzero"
-                                points="392.07,956.52 387.24,962.41 387.24,1263.28 392.07,1277.38 784.37,724.89 "
-                              />
-                              <polygon
-                                fill="#8C8C8C"
-                                fillRule="nonzero"
-                                points="392.07,1277.38 392.07,956.52 -0,724.89 "
-                              />
-                              <polygon
-                                fill="#141414"
-                                fillRule="nonzero"
-                                points="392.07,882.29 784.13,650.54 392.07,472.33 "
-                              />
-                              <polygon
-                                fill="#393939"
-                                fillRule="nonzero"
-                                points="0,650.54 392.07,882.29 392.07,472.33 "
-                              />
-                            </g>
-                          </g>
-                        </g>
-                      </svg>
-                      &nbsp;00.00058 ( $ 100 )
-                    </span>
-                    <a
-                      className="btn-primary text-nowrap w-75 btn-mob mx-3 mt-5 hoverable btn-md "
-                      href="#"
-                    >
-                      <i className="bi-wallet me-2"></i>PURCHASE PLOT
-                    </a>
-                  </div>
-                </>
-              ) : stateBtn == 'Buy' ? (
-                <div className="accordion-body">
-                  <StepWizard>
-                    <FormOne
-                      addFormTwoHandler={addFormTwoHandler}
-                      setSelectorWidth={setSelectorWidth}
-                      setSelectorHeight={setSelectorHeight}
-                      selectorWidth={selectorWidth}
-                      selectorHeight={selectorHeight}
-                    />
-                    <FormTwo removeFormTwoHandler={removeFormTwoHandler} />
-                    <FormThree removeFormTwoHandler={removeFormTwoHandler} />
-                    <FormFour removeFormTwoHandler={removeFormTwoHandler} />
-                    <FormFive
-                      removeFormTwoHandler={removeFormTwoHandler}
-                      squreInfo={squreInfo}
-                      getMintImage={getMintImage}
-                    />
-                  </StepWizard>
+                <div className="d-flex">
+                  <span className="num-border mt-1">2</span>
+                  <p className="ps-2">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At
+                    natus assumenda dolore provident ad eaque dolorem magni quod
+                    praesentium, accusantium ipsa sit, quaerat nulla qui ipsam
+                    voluptatum tenetur dicta aspernatur?
+                  </p>
                 </div>
-              ) : (
-                // This For Edit
-                //   <div className="accordion-body">
-                //   <StepWizard>
-                //     <FormEditOne
-                //       addFormTwoHandler={addFormTwoHandler}
-                //       setSelectorWidth={setSelectorWidth}
-                //       setSelectorHeight={setSelectorHeight}
-                //       selectorWidth={selectorWidth}
-                //       selectorHeight={selectorHeight}
-                //     />
-                //     <FormEditTwo removeFormTwoHandler={removeFormTwoHandler} />
-                //     <FormEditThree removeFormTwoHandler={removeFormTwoHandler} />
-                //     <FormEditFour removeFormTwoHandler={removeFormTwoHandler} />
-                //     <FormEditFive
-                //       removeFormTwoHandler={removeFormTwoHandler}
-                //       squreInfo={squreInfo}
-                //       getMintImage={getMintImage}
-                //     />
-                //   </StepWizard>
-                // </div>
-                <div className="d-flex flex-wrap image-info  flex-column">
-                  <h3>NAME HERE</h3>
-                  <span className=" link">
-                    <i className="bi bi-link"></i> :&nbsp;
-                    <a href="" className="text-success">
-                      https://quadspace.io
-                    </a>
-                  </span>
-                  <div className="d-flex mt-1">
-                    <span className="mb-1 me-2">
-                      <img src="assets/images/square_icon.png" width="16px" /> : 100
-                      Quads
-                    </span>
+                <div className="d-flex">
+                  <span className="num-border mt-1">3</span>
+                  <p className="ps-2">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At
+                    natus assumenda dolore provident ad eaque dolorem magni quod
+                    praesentium, accusantium ipsa sit, quaerat nulla qui ipsam
+                    voluptatum tenetur dicta aspernatur?
+                  </p>
+                </div>
+              </div>
+            ) : stateBtn == 'View' ? (
+              <>
+                <h3>IT'S FOR SALE</h3>
 
-                    <span className="mb-1">
-                      <i className="bi bi-border " />
-                      &nbsp;: ( 10 x 10 )
-                    </span>
-                  </div>
-
-                  <div className="d-flex mt-1">
-                    <span className="me-2">
-                      <i className="bi bi-geo-alt" /> : 287X , 485Y
-                    </span>
-
-                    <span className="text-nowrap mb-1">
-                      {' '}
-                      <b>
-                        <i className="bi bi-tag" /> :{' '}
-                      </b>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        xmlnsXlink="http://www.w3.org/1999/xlink"
-                        xmlSpace="preserve"
-                        width="12px"
-                        version="1.1"
-                        shapeRendering="geometricPrecision"
-                        textRendering="geometricPrecision"
-                        imageRendering="optimizeQuality"
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        viewBox="0 0 784.37 1277.39"
-                      >
-                        <g id="Layer_x0020_1">
-                          <metadata id="CorelCorpID_0Corel-Layer" />
-                          <g id="_1421394342400">
-                            <g>
-                              <polygon
-                                fill="#343434"
-                                fillRule="nonzero"
-                                points="392.07,0 383.5,29.11 383.5,873.74 392.07,882.29 784.13,650.54 "
-                              />
-                              <polygon
-                                fill="#8C8C8C"
-                                fillRule="nonzero"
-                                points="392.07,0 -0,650.54 392.07,882.29 392.07,472.33 "
-                              />
-                              <polygon
-                                fill="#3C3C3B"
-                                fillRule="nonzero"
-                                points="392.07,956.52 387.24,962.41 387.24,1263.28 392.07,1277.38 784.37,724.89 "
-                              />
-                              <polygon
-                                fill="#8C8C8C"
-                                fillRule="nonzero"
-                                points="392.07,1277.38 392.07,956.52 -0,724.89 "
-                              />
-                              <polygon
-                                fill="#141414"
-                                fillRule="nonzero"
-                                points="392.07,882.29 784.13,650.54 392.07,472.33 "
-                              />
-                              <polygon
-                                fill="#393939"
-                                fillRule="nonzero"
-                                points="0,650.54 392.07,882.29 392.07,472.33 "
-                              />
-                            </g>
-                          </g>
-                        </g>
-                      </svg>
-                      &nbsp;00.00058 ( $ 100 )
-                    </span>
-                  </div>
+                <div className="d-flex flex-wrap flex-column">
                   <span>
-                    <i className="bi bi-person"></i> : User Wallet
+                    <i className="bi bi-geo-alt" /> : 287X , 485Y
                   </span>
-                  <span className="pt-1">
-                    <i className="bi bi-clipboard"></i> : Nft
+
+                  <span className="text-nowrap  pt-1">
+                    {' '}
+                    <b>
+                      <i className="bi bi-tag" /> :{' '}
+                    </b>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                      xmlSpace="preserve"
+                      width="12px"
+                      version="1.1"
+                      shapeRendering="geometricPrecision"
+                      textRendering="geometricPrecision"
+                      imageRendering="optimizeQuality"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      viewBox="0 0 784.37 1277.39"
+                    >
+                      <g id="Layer_x0020_1">
+                        <metadata id="CorelCorpID_0Corel-Layer" />
+                        <g id="_1421394342400">
+                          <g>
+                            <polygon
+                              fill="#343434"
+                              fillRule="nonzero"
+                              points="392.07,0 383.5,29.11 383.5,873.74 392.07,882.29 784.13,650.54 "
+                            />
+                            <polygon
+                              fill="#8C8C8C"
+                              fillRule="nonzero"
+                              points="392.07,0 -0,650.54 392.07,882.29 392.07,472.33 "
+                            />
+                            <polygon
+                              fill="#3C3C3B"
+                              fillRule="nonzero"
+                              points="392.07,956.52 387.24,962.41 387.24,1263.28 392.07,1277.38 784.37,724.89 "
+                            />
+                            <polygon
+                              fill="#8C8C8C"
+                              fillRule="nonzero"
+                              points="392.07,1277.38 392.07,956.52 -0,724.89 "
+                            />
+                            <polygon
+                              fill="#141414"
+                              fillRule="nonzero"
+                              points="392.07,882.29 784.13,650.54 392.07,472.33 "
+                            />
+                            <polygon
+                              fill="#393939"
+                              fillRule="nonzero"
+                              points="0,650.54 392.07,882.29 392.07,472.33 "
+                            />
+                          </g>
+                        </g>
+
+                      </g>
+                    </svg>
+                    &nbsp;0.0942 ( $ 100 )
+                  </span>
+                  <a
+                    className="btn-primary text-nowrap w-75 btn-mob mx-3 mt-5 hoverable btn-md "
+                    href="#"
+                  >
+                    <i className="bi-wallet me-2"></i>PURCHASE PLOT
+                  </a>
+                </div>
+              </>
+            ) : stateBtn == 'Buy' ? (
+              <div className="accordion-body">
+                <StepWizard>
+                  <FormOne
+                    addFormTwoHandler={addFormTwoHandler}
+                    setSelectorWidth={setSelectorWidth}
+                    setSelectorHeight={setSelectorHeight}
+                    selectorWidth={selectorWidth}
+                    selectorHeight={selectorHeight}
+                  />
+                  <FormTwo removeFormTwoHandler={removeFormTwoHandler} />
+                  <FormThree removeFormTwoHandler={removeFormTwoHandler} />
+                  <FormFour removeFormTwoHandler={removeFormTwoHandler} />
+                  <FormFive
+                    removeFormTwoHandler={removeFormTwoHandler}
+                    squreInfo={squreInfo}
+                    getMintImage={getMintImage}
+                  />
+                </StepWizard>
+              </div>
+            ) : (
+              // This For Edit
+              //   <div className="accordion-body">
+              //   <StepWizard>
+              //     <FormEditOne
+              //       addFormTwoHandler={addFormTwoHandler}
+              //       setSelectorWidth={setSelectorWidth}
+              //       setSelectorHeight={setSelectorHeight}
+              //       selectorWidth={selectorWidth}
+              //       selectorHeight={selectorHeight}
+              //     />
+              //     <FormEditTwo removeFormTwoHandler={removeFormTwoHandler} />
+              //     <FormEditThree removeFormTwoHandler={removeFormTwoHandler} />
+              //     <FormEditFour removeFormTwoHandler={removeFormTwoHandler} />
+              //     <FormEditFive
+              //       removeFormTwoHandler={removeFormTwoHandler}
+              //       squreInfo={squreInfo}
+              //       getMintImage={getMintImage}
+              //     />
+              //   </StepWizard>
+              // </div>
+              <div className="d-flex flex-wrap image-info  flex-column">
+                <h3>NAME HERE</h3>
+                <span className=" link">
+                  <i className="bi bi-link"></i> :&nbsp;
+                  <a href="" className="text-success">
+                    https://quadspace.io
+                  </a>
+                </span>
+                <div className="d-flex mt-1">
+                  <span className="mb-1 me-2">
+                    <img src="assets/images/square_icon.png" width="16px" /> :
+                    100 Quads
+                  </span>
+
+                  <span className="mb-1">
+                    <i className="bi bi-border " />
+                    &nbsp;: ( 10 x 10 )
                   </span>
                 </div>
-              )}
-            </div>
+
+                <div className="d-flex mt-1">
+                  <span className="me-2">
+                    <i className="bi bi-geo-alt" /> : 287X , 485Y
+                  </span>
+
+                  <span className="text-nowrap mb-1">
+                    {' '}
+                    <b>
+                      <i className="bi bi-tag" /> :{' '}
+                    </b>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                      xmlSpace="preserve"
+                      width="12px"
+                      version="1.1"
+                      shapeRendering="geometricPrecision"
+                      textRendering="geometricPrecision"
+                      imageRendering="optimizeQuality"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      viewBox="0 0 784.37 1277.39"
+                    >
+                      <g id="Layer_x0020_1">
+                        <metadata id="CorelCorpID_0Corel-Layer" />
+                        <g id="_1421394342400">
+                          <g>
+                            <polygon
+                              fill="#343434"
+                              fillRule="nonzero"
+                              points="392.07,0 383.5,29.11 383.5,873.74 392.07,882.29 784.13,650.54 "
+                            />
+                            <polygon
+                              fill="#8C8C8C"
+                              fillRule="nonzero"
+                              points="392.07,0 -0,650.54 392.07,882.29 392.07,472.33 "
+                            />
+                            <polygon
+                              fill="#3C3C3B"
+                              fillRule="nonzero"
+                              points="392.07,956.52 387.24,962.41 387.24,1263.28 392.07,1277.38 784.37,724.89 "
+                            />
+                            <polygon
+                              fill="#8C8C8C"
+                              fillRule="nonzero"
+                              points="392.07,1277.38 392.07,956.52 -0,724.89 "
+                            />
+                            <polygon
+                              fill="#141414"
+                              fillRule="nonzero"
+                              points="392.07,882.29 784.13,650.54 392.07,472.33 "
+                            />
+                            <polygon
+                              fill="#393939"
+                              fillRule="nonzero"
+                              points="0,650.54 392.07,882.29 392.07,472.33 "
+                            />
+                          </g>
+                        </g>
+                      </g>
+                    </svg>
+                    &nbsp;0.0942 ( $ 100 )
+                  </span>
+                </div>
+                <span>
+                  <i className="bi bi-person"></i> : User Wallet
+                </span>
+                <span className="pt-1">
+                  <i className="bi bi-clipboard"></i> : Nft
+                </span>
+              </div>
+            )}
           </div>
         </div>
+      </div>
     </>
   )
 }
