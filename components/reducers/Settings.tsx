@@ -14,6 +14,7 @@ export interface Settings {
   zoomLevel: number
   selectedLand: {}
   menuView: boolean
+  clickMint: boolean
   parcel: {
     data: boolean
     name: string
@@ -42,6 +43,7 @@ const initialState: Settings = {
   zoomLevel: 1,
   selectedLand: {},
   menuView: false,
+  clickMint: false,
   parcel: {
     data: false,
     name: 'quad',
@@ -104,6 +106,9 @@ export const counterSlice = createSlice({
     setMintStatus: (state, action: PayloadAction<any>) => {
       state.mintingStatus = action.payload
     },
+    setClickMint: (state, action: PayloadAction<boolean>) => {
+      state.clickMint = action.payload
+    },
   },
 })
 
@@ -122,6 +127,7 @@ export const {
   setMenuView,
   setParcel,
   setMintStatus,
+  setClickMint,
 } = counterSlice.actions
 
 export const selectLand = (state: RootState) => state.settings.land
@@ -141,6 +147,7 @@ export const selectMenuView = (state: RootState) => state.settings.menuView
 export const getParcel = (state: RootState) => state.settings.parcel
 export const getMintingstatus = (state: RootState) =>
   state.settings.mintingStatus
+export const selectClickMint = (state: RootState) => state.settings.clickMint
 
 export const setLandData =
   (view: any): AppThunk =>
@@ -215,6 +222,12 @@ export const setMintingstatus =
   (view: any): AppThunk =>
   (dispatch) => {
     dispatch(setMintStatus(view))
+  }
+
+export const setClickMintData =
+  (view: boolean): AppThunk =>
+  (dispatch) => {
+    dispatch(setClickMint(view))
   }
 
 export default counterSlice.reducer

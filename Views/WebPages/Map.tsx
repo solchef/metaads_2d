@@ -1,21 +1,20 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { Canvas, useThree } from '@react-three/fiber'
-import { DoubleSide, TextureLoader, Vector3, BoxHelper } from 'three'
+import { DoubleSide, TextureLoader, Vector3 } from 'three'
 import {
   Html,
   OrbitControls,
   PerspectiveCamera,
-  useHelper,
+  useAnimations,
 } from '@react-three/drei'
-import { EffectComposer, Outline } from '@react-three/postprocessing'
 import { LoadingManager } from 'three'
 import { Loader } from '../../utils/loader'
 import { useAppSelector } from '../../components/store/hooks'
 import { vertexShader, fragmentShader } from './shaders'
 import {
+  selectClickMint,
   selectLand,
-  selectViewState,
   selectZoomIn,
   selectZoomOut,
   select_3dMode,
@@ -50,11 +49,10 @@ export const MapView = () => {
   const orbit = useRef()
   const zoomIn = useAppSelector(selectZoomIn)
   const zoomOut = useAppSelector(selectZoomOut)
-  const viewState = useAppSelector(selectViewState)
   const [buyMode, setBuyMode] = useState(false)
   const [image, setImage] = useState('')
   const [loading, setLoading] = useState(true)
-  let pointerIsDown = false
+  const clickMint = useAppSelector(selectClickMint)
 
   useEffect(() => {
     if (orbit.current) {
@@ -70,6 +68,17 @@ export const MapView = () => {
   }, [_3dMode])
 
   useEffect(() => {
+    if (orbit.current) {
+      // orbit.current.object.position.y = 100
+      // orbit.current.object.position.z = 200
+      // orbit.current.target.set(100, 100, 100)
+      // orbit.current.update()
+      // console.log(orbit.current.object)
+      // console.log(orbit.current)
+    }
+  }, [clickMint])
+
+  useEffect(() => {
     getImage()
   }, [])
 
@@ -83,14 +92,14 @@ export const MapView = () => {
   useEffect(() => {
     if (orbit.current && store.getState().settings.zoomLevel <= 5) {
       orbit.current.object.position.y -= 290
-      orbit.current.object.updateProjectionMatrix()
+      orbit.current.update()
     }
   }, [zoomIn])
 
   useEffect(() => {
     if (orbit.current && store.getState().settings.zoomLevel >= 1) {
       orbit.current.object.position.y += 290
-      orbit.current.object.updateProjectionMatrix()
+      orbit.current.update()
     }
   }, [zoomOut])
 
@@ -154,10 +163,9 @@ export const MapView = () => {
               ONE: buyMode ? THREE.TOUCH.PAN : 2,
               TWO: THREE.TOUCH.DOLLY_PAN,
             }}
-            enableRotate={_3dMode}
+            enableRotate={false}
           />
         </Suspense>
-        {/* <ToolTip1 /> */}
       </group>
       {/* <ambientLight /> */}
     </Canvas>
@@ -166,16 +174,17 @@ export const MapView = () => {
 
 const GreenSquare = ({ x, y, image }) => {
   const [playError] = useSound('./errorSound.mp3')
-  const [playBuild] = useSound('./build.mp3')
+  // const [playBuild] = useSound('./build.mp3')
   const ref = useRef()
   const boughtedLandListData = store.getState().settings.boughtedLandList
   const z = 2
   const widthMap = 1000
   const heightMap = 1000
   const [loading, setLoading] = useState(true)
-  const [lands, setLands] = useState(true)
   const manager = new LoadingManager()
-  const { gl } = useThree()
+  const { gl, controls } = useThree()
+  gl.capabilities.maxFragmentUniforms = 2400
+  // gl.setViewport(200, 200, 200, 100)
   manager.onStart = function () {
     setLoading(true)
   }
@@ -190,19 +199,16 @@ const GreenSquare = ({ x, y, image }) => {
     () => new TextureLoader(manager).load('./highres.png'),
     []
   )
-  // console.log(gl)
-
-  // console.log(gl.capabilities.getMaxAnisotropy())
-  // const textureBox = React.useMemo(
-  //   () => new TextureLoader(manager).load('./box.png'),
-  //   []
-  // )
+  texture.minFilter = texture2.minFilter = THREE.LinearFilter
+  texture.anisotropy = 30
+  texture2.anisotropy = 300
+  // gl.capabilities.getParameter(gl.MAX_TEXTURE_SIZE)
   const [boxPosition, setBoxPosition] = useState(new Vector3(0, 0, 0))
   const [viewLand, setViewLand] = useState(false)
   const [viewBox, setViewBox] = useState(false)
   const [landPosition, setLandPosition] = useState(new Vector3(0, 0, 0))
-  const [moseDown, setMouseDown] = useState(false)
-  const [moseUp, setMouseUp] = useState(false)
+  // const [moseDown, setMouseDown] = useState(false)
+  // const [moseUp, setMouseUp] = useState(false)
   const [moseMoved, setMouseMoved] = useState(false)
   const [parcels, setParcels] = useState([])
 
@@ -221,20 +227,10 @@ const GreenSquare = ({ x, y, image }) => {
     setMouseMoved(false)
   }
 
-  // useEffect(() => {
-  //   if (cubeRef.current) {
-  //     console.log(cubeRef.current)
-  //     // cubeRef.current.material.uniforms.uniformsNeedUpdate = true
-  //   }
-  // }, [cubeRef.current])
-
   useEffect(() => {
     let result = 0
     if (oldx !== undefined) result = oldx - x
-    // console.log(result)
-    // console.log(landPosition)
     const selectedMap = getSelectedMap(landPosition)
-    // console.log(selectedMap)
     if (selectedMap === undefined) {
       setLandPosition(
         new Vector3(landPosition.x - result / 2, landPosition.y, landPosition.z)
@@ -389,7 +385,7 @@ const GreenSquare = ({ x, y, image }) => {
     })
 
     store.dispatch(setParcel(landpoint))
-
+    store.dispatch(setParcel(landpoint))
     return landpoint
   }
 
@@ -399,22 +395,6 @@ const GreenSquare = ({ x, y, image }) => {
         <ToolTip1 />
       ) : (
         <>
-          {/* <mesh
-            position={[0.5, 0, 0]}
-            rotation={[-Math.PI / 2, 0, 0]}
-            scale={[1, 1, 1]}
-          >
-            <planeBufferGeometry args={[widthMap, heightMap]} />
-            <meshBasicMaterial
-              attach="material"
-              // color={color}
-              transparent={true}
-              opacity={0.9}
-              // displacementMap={texture}
-              map={texture}
-              side={DoubleSide}
-            />
-          </mesh> */}
           <mesh
             ref={cubeRef}
             position={[0, 0, 0]}
@@ -424,44 +404,33 @@ const GreenSquare = ({ x, y, image }) => {
               if (nativeEvent.which !== 3) onPointUp(point)
               setViewBox(false)
             }}
-            // onPointerUp={({ point, nativeEvent }) => {
-            //   if (nativeEvent.which !== 3) onPointUp(point)
-            //   setViewBox(false)
-            // }}
             onPointerDown={(e) => {
               setMouseMoved(true)
             }}
             onPointerOut={() => setViewBox(false)}
-            onPointerMove={({ point, camera }) => {
+            onPointerMove={({ point }) => {
               if (moseMoved) {
                 setViewBox(true)
               }
               onMove(point)
             }}
-            onWheel={({ camera }) => onWheel(camera)}
           >
             <planeBufferGeometry args={[widthMap, heightMap]} />
             <shaderMaterial
               uniforms={{
                 bumpTexture: { value: texture },
                 bumpTexture2: { value: texture2 },
-                brightness: { value: 2.5 },
+                bumpTexture3: { value: texture },
+                brightness: { value: 2 },
+                bumpScale: { value: 100 },
                 color: { value: '0xffffff' },
               }}
               vertexShader={vertexShader}
               fragmentShader={fragmentShader}
               side={DoubleSide}
             />
-            {/* <meshBasicMaterial
-              attach="material"
-              wireframe={false}
-              opacity={0.5}
-              transparent={true}
-              map={texture2}
-              side={DoubleSide}
-            /> */}
           </mesh>
-          <mesh
+          {/* <mesh
             position={[0, 0, 0]}
             rotation={[-Math.PI / 2, 0, 0]}
             scale={[1, 1, 1]}
@@ -469,14 +438,12 @@ const GreenSquare = ({ x, y, image }) => {
             <planeBufferGeometry args={[widthMap, heightMap]} />
             <meshBasicMaterial
               attach="material"
-              // color={color}
-              transparent={true}
-              opacity={0.5}
-              // displacementMap={texture}
+              //  transparent={true}
+              // opacity={0.5}
               map={texture}
               side={DoubleSide}
             />
-          </mesh>
+          </mesh> */}
           {/* {viewBox && !store.getState().settings.selectMode ? (
             <mesh position={boxPosition} ref={ref}>
               <boxBufferGeometry args={[x, z, y]} attach="geometry" />
@@ -491,7 +458,6 @@ const GreenSquare = ({ x, y, image }) => {
               ref={ref}
               rotation={[-Math.PI / 2, 0, 0]}
             >
-              {/* <boxBufferGeometry args={[x, z, y]} attach="geometry" /> */}
               <planeBufferGeometry args={[x, y]} />
               <meshBasicMaterial
                 // map={textureBox}
@@ -499,15 +465,6 @@ const GreenSquare = ({ x, y, image }) => {
                 attach="material"
                 side={DoubleSide}
               />
-              {/* <EffectComposer multisampling={8} autoClear={false}>
-                <Outline
-                  selection={ref}
-                  selectionLayer={100}
-                  width={950}
-                  visibleEdgeColor="white"
-                  edgeStrength={1000}
-                />
-              </EffectComposer> */}
             </mesh>
           ) : (
             ''
@@ -524,9 +481,9 @@ const onWheel = (camera) => {
     store.dispatch(setZoomLevel(2))
   if (camera.position.y < 639 && camera.position.y > 415)
     store.dispatch(setZoomLevel(3))
-  if (camera.position.y < 415 && camera.position.y > 95)
+  if (camera.position.y < 415 && camera.position.y > 100)
     store.dispatch(setZoomLevel(4))
-  if (camera.position.y <= 90) {
+  if (camera.position.y <= 100) {
     store.dispatch(setZoomLevel(5))
   }
 }

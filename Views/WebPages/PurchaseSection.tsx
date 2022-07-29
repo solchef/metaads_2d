@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Web3Button } from '../../components'
 import {
   selectLand,
   selectViewState,
@@ -9,39 +8,22 @@ import {
 } from '../../components/reducers/Settings'
 import { useAppSelector, useAppDispatch } from '../../components/store/hooks'
 import { useWeb3Context } from '../../context'
-import useCanvas from '../../hooks/useCanvas'
 import { useIPFS } from '../../hooks/useIPFS'
 import { handleMint } from '../../utils/handleMint'
-import { setWidth, setHeight, getLandDefSize, getLands } from './canvesGrid'
 import { About } from './About'
-import { ImageInfo } from './ImageInfo'
 import { ImageInfoButton } from './ImageInfoButton'
 import { Sellsection } from './sellsection'
-// import { Editsection } from './Editsection'
 import { Section } from './Section'
 import Main from './Main'
 import { RoadMap } from './RoadMap'
 
-function PurchaseSection({
-  isCanvasLeft,
-  setIsCanvasLeft,
-  activeItem,
-  setSelectorHeight,
-  setSelectorWidth,
-  selectorHeight,
-  selectorWidth,
-  enableBuy,
-  setEnableBuy,
-  offcanvasLeft,
-}) {
+function PurchaseSection({ activeItem, enableBuy }) {
   const { uploadMetadata, uploadImage } = useIPFS()
-  const [mintStatus, setMintStatus] = useState('PURCHASE PLOT')
   const landData = useAppSelector(selectLand)
-  const { contracts, address, web3Provider } = useWeb3Context()
+  const { contracts, address } = useWeb3Context()
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [url, setUrl] = useState('')
-  const [buyState, setBuyState] = useState(activeItem)
   const adscontract = contracts['metaads']
   const [info, setInfo] = useState(activeItem)
   const [MintImage, setMintImage] = useState(null)
@@ -62,7 +44,6 @@ function PurchaseSection({
     })
   }, [landData])
 
-  let squreInfo = land
   const handleSubmit = async () => {
     const result = await handleMint(
       name,

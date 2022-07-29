@@ -10,6 +10,7 @@ import {
 } from '../../components/reducers/Settings'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 // import { updateX, updateY } from './Map'
+import { Web3Balance } from '../../components/Web3Balance';
 
 export const Section = ({
   setName,
@@ -64,6 +65,7 @@ export const Section = ({
                 )
               }}
             />
+            
             <input
               type="number"
               aria-label="H"
@@ -87,40 +89,38 @@ export const Section = ({
         </form>
       </div>
       <p>
-        Select your NFI sq. Size (1 sq=10x10px) & Drag it where you want it.
+        Spec sq. Size (1 sq=10x10px)
       </p>
       <hr />
-      <h3> Sq.NFT DATA</h3>
 
-  
-      <p className="mb-3">
-        Image Size ({landData.h}0 X {landData.w}0px) <br />
-        Max Size: 5MB | File Type: JPG,PNG
-      </p>
-      <div className="text-center">
-        <h4>{mintingDetail}</h4>
-      </div>
+      
 
-      <button
-        className="btn-primary hoverable d-block mx-3 mt-3 btn-md col-11"
-        onClick={handleSubmit}
-        disabled={mintingDetail !== null}
-      >
-        <i className="bi-wallet me-2"></i> PURCHASE PLOT
-      </button>
-      <div className="d-flex mt-3 flex-wrap">
+
+    
+
+      <div className="flex flex-row">
+
+      <span className=" me-2 mt-2">Token price: 0.00098</span>
+       <span className=" me-2 mt-2">Balance alance: <Web3Balance/></span>
+    </div>
+    <div className="flex flex-row">
+
         <span className=" me-2 mt-2">
           <img src="assets/images/square_icon.png" width="16px" /> :{' '}
           {landData.h * landData.w}
         </span>
+
         <span className=" me-2 mt-2">
           <i className="bi bi-border " />
           &nbsp;: ( {landData.h + ' X ' + landData.w} )
         </span>
+
         <span className="me-2 mt-2">
           <i className="bi bi-geo-alt" /> :
           {landData.x + 'X, ' + landData.y + 'Y'}
         </span>
+        
+      
         <span className="me-2 mt-2 text-nowrap">
           {' '}
           <b>
@@ -181,6 +181,20 @@ export const Section = ({
           )
         </span>
       </div>
+
+      <div className="text-center">
+        <h4>{mintingDetail}</h4>
+      </div>
+
+      <button
+        className="btn-primary hoverable d-block mx-3 mt-3 btn-md col-11"
+        onClick={handleSubmit}
+        disabled={mintingDetail !== null}
+      >
+        <i className="bi-wallet me-2"></i> PURCHASE PLOT
+      </button>
+
+  
     </div>
   )
 }

@@ -105,7 +105,6 @@ export const handleMint = async (
       'content-type': 'multipart/form-data',
     },
   }
-
   store.dispatch(setMintStatus('Uploading parcel image. Please wait'))
 
   let imgUpload = axios.post(urlconf, formData, config).then((response) => {
@@ -114,7 +113,7 @@ export const handleMint = async (
 
   if (imgUpload) {
     store.dispatch(setMintStatus('Image has been uploaded'))
-    // console.log('uploaded')
+    console.log('uploaded')
   }
 
   const parcel = {
@@ -123,7 +122,6 @@ export const handleMint = async (
     url: url,
     metadata: 'metadata',
     image: 'img',
-    images:[],
     image_temp: mintImage[0].name,
     coordX: land.x,
     coordY: land.y,
