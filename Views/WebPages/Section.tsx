@@ -3,6 +3,7 @@
 // import Image from 'next/image'
 
 import { useEffect, useState } from 'react'
+import { Web3Button } from '../../components';
 import {
   getBalance,
   getMintingstatus,
@@ -183,23 +184,26 @@ export const Section = ({
         <h4>{mintingDetail}</h4>
       </div>
 
-      {balance < (landData.h * landData.w * 0.000058) && 
-        <div className=" text-warning">
-        <p>You do not have enough Etherium in your connected wallet. Please add some funds, refresh and try again.</p>
+      {address ? 
+        <>
+        {balance < (landData.h * landData.w * 0.000058) && 
+          <div className=" text-warning">
+          <p>You do not have enough Etherium in your connected wallet. Please add some funds, refresh and try again.</p>
+        </div>
+        }
+          <button
+            className={`btn-primary hoverable d-block mx-3 mt-3 btn-md col-11` }
+            onClick={handleSubmit}
+            disabled={ balance < (landData.h * landData.w * 0.000058)}
+          >
+            <i className="bi-wallet me-2"></i> PURCHASE LOT
+          </button>
+        </>
+        :
+        <Web3Button title="PURCHASE LOT"/>
+     }
       </div>
-      }
-      </div>
-           
-
-      <button
-        className={`btn-primary hoverable d-block mx-3 mt-3 btn-md col-11` }
-        onClick={handleSubmit}
-        disabled={ balance < (landData.h * landData.w * 0.000058)}
-      >
-        <i className="bi-wallet me-2"></i> PURCHASE PLOT
-      </button>
-
-  
+ 
     </div>
   )
 }
