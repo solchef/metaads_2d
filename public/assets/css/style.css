@@ -1016,7 +1016,7 @@ input[type='number']::-webkit-inner-spin-button {
   position: relative;
   width: 100%;
   height: 100%;
-  background: #790001;
+  background: #fa0070;
   transform: scale(0);
   transform-origin: center center;
   animation: loader 2s infinite linear;
@@ -1144,11 +1144,4 @@ input[type='number']::-webkit-inner-spin-button {
 .offcanvas-body p,
 .offcanvas-body span {
   caret-color: transparent;
-}
-
-.mouse-pointer {
-  cursor: pointer;
-}
-.mouse-hand {
-  cursor: grab;
 }

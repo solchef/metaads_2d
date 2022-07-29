@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react'
 import {
-  selectViewState,
   selectZoomLevel,
-  setReloadPage,
-  setSelectMode,
   setViewState,
   setZoomIn,
   setZoomLevel,
@@ -18,8 +15,6 @@ const Header = () => {
   // const [threeD, setThreeD] = useState(true)
   const showMenu = useAppSelector(selectShowMenu)
   //alaoui
-  const [stateBtn, setStateBtn] = useState('info')
-  const vewState = useAppSelector(selectViewState)
   const [zoomLevelState, setZoomLevelState] = useState(1)
   const dispatch = useAppDispatch()
   const zLevel = useAppSelector(selectZoomLevel)
