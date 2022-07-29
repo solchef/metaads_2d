@@ -1168,3 +1168,23 @@ input[type='number']::-webkit-inner-spin-button {
 .makeStyles-copyContainer-5 {
     display: none;
 }
+
+.jss5 {
+    color: #263238;
+    width: 100%;
+    border: 1px solid grey;
+    cursor: text;
+    display: inline-flex;
+    padding: 14px;
+    position: relative;
+    font-size: 14px;
+    background: black;
+    box-sizing: border-box;
+    font-style: normal;
+    align-items: center;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: normal;
+    border-radius: 4px;
+    letter-spacing: -0.05px;
+    display: none;
+}
