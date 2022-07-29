@@ -4,15 +4,12 @@
 
 import { useEffect, useState } from 'react'
 import {
-  getBalance,
   getMintingstatus,
   selectLand,
   setLand,
 } from '../../components/reducers/Settings'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 // import { updateX, updateY } from './Map'
-import { Web3Balance } from '../../components/Web3Balance';
-import { useWeb3Context } from '../../context';
 
 export const Section = ({
   setName,
@@ -22,13 +19,11 @@ export const Section = ({
   handleSubmit,
 }) => {
   const landData = useAppSelector(selectLand)
-  const { address } = useWeb3Context()
   const dispatch = useAppDispatch()
   const [selectedFile, setSelectedFile] = useState('Upload Image')
   useEffect(() => {}, [])
 
   const mintingDetail = useAppSelector(getMintingstatus)
-  const balance = useAppSelector(getBalance)
 
   const handleChangeImage = (e) => {
     if (e.target.files.length && e.target.files[0].size / 1024 / 1024 <= 5) {
@@ -69,7 +64,6 @@ export const Section = ({
                 )
               }}
             />
-            
             <input
               type="number"
               aria-label="H"
@@ -93,23 +87,124 @@ export const Section = ({
         </form>
       </div>
       <p>
-        Spec sq. Size (1 sq=10x10px)
+        Select your NFI sq. Size (1 sq=10x10px) & Drag it where you want it.
       </p>
       <hr />
-      <div className="">
-      <span className=" me-2 mt-2"><b>Token Price:</b> 0.000058</span><br/>
-       <span className=" me-2 mt-2"><b>Account Balance:</b>  {address ? balance : 'Not Connected'}  </span>
-    </div>
+      <h3> Sq.NFT DATA</h3>
 
-    <br/>
-    <div className="d-flex  ">
+      <div className="mt-2">
+        <form>
+          <div className="input-group hoverable mb-4">
+            <span className="input-group-text ">
+              <i className="bi bi-geo-alt"></i>
+            </span>
+            <input
+              type="text"
+              placeholder="Sq. NFT Name"
+              className="form-control"
+              onChange={(event) => {
+                setName(event.target.value)
+              }}
+            />
+          </div>
+        </form>
+
+        <form>
+          <div className="input-group hoverable mb-4">
+            <span className="input-group-text ">
+              <i className="bi bi-link"></i>
+            </span>
+            <input
+              type="url"
+              placeholder="https://"
+              className="form-control"
+              onChange={(event) => {
+                setUrl(event.target.value)
+              }}
+            />
+          </div>
+        </form>
+
+        <form
+          style={{ cursor: 'pointer' }}
+          onClick={() => document.getElementById('ghthth').click()}
+        >
+          <div className="input-group hoverable mb-3">
+            <span className="input-group-text ">
+              <i className="bi bi-upload"></i>
+            </span>
+
+            <input
+              style={{
+                borderBottomRightRadius: '0.25rem',
+                borderTopRightRadius: '0.25rem',
+                cursor: 'pointer',
+                color: 'transparent',
+              }}
+              placeholder={selectedFile}
+              className="form-control"
+            />
+            <input
+              type="file"
+              accept="image/png, image/jpeg"
+              onChange={handleChangeImage}
+              id="ghthth"
+              style={{ display: 'none' }}
+            />
+          </div>
+        </form>
+        <form>
+          <div className="input-group hoverable mb-4">
+            <h3 className="ps-0 ">Description :</h3>
+
+            <textarea
+              style={{ borderRadius: '0.25rem' }}
+              placeholder="Description"
+              className="p-2 mt-2"
+              id="w3review"
+              onChange={(event) => {
+                setDescription(event.target.value)
+              }}
+              name="w3review"
+              rows={4}
+              cols={50}
+            ></textarea>
+          </div>
+        </form>
+      </div>
+      <p className="mb-3">
+        Image Size ({landData.h}0 X {landData.w}0px) <br />
+        Max Size: 5MB | File Type: JPG,PNG
+      </p>
+      <div className="text-center">
+        <h4>{mintingDetail}</h4>
+      </div>
+
+      <button
+        className="btn-primary hoverable d-block mx-3 mt-3 btn-md col-11"
+        onClick={handleSubmit}
+        disabled={mintingDetail !== null}
+      >
+        <i className="bi-wallet me-2"></i> PURCHASE PLOT
+      </button>
+      <div className="d-flex mt-3 flex-wrap">
         <span className=" me-2 mt-2">
           <img src="assets/images/square_icon.png" width="16px" /> :{' '}
-          &nbsp;{landData.h * landData.w} {(landData.h * landData.w) == 1  ? 'token' : 'tokens'}
+          {landData.h * landData.w}
+        </span>
+        <span className=" me-2 mt-2">
+          <i className="bi bi-border " />
+          &nbsp;: ( {landData.h + ' X ' + landData.w} )
+        </span>
+        <span className="me-2 mt-2">
+          <i className="bi bi-geo-alt" /> :
+          {landData.x + 'X, ' + landData.y + 'Y'}
         </span>
         <span className="me-2 mt-2 text-nowrap">
           {' '}
-      
+          <b>
+            <i className="bi bi-tag" /> :{' '}
+          </b>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -160,46 +255,11 @@ export const Section = ({
                 </g>
               </g>
             </g>
-          </svg> :
-          &nbsp;{(landData.h * landData.w * 0.000058).toFixed(5)} ( $ {landData.h * landData.w}{' '}
+          </svg>
+          &nbsp;{landData.h * landData.w * 00.00058} ( $ {landData.h * landData.w}{' '}
           )
         </span>
-   
-    </div>
-    <br/>
-  <div className="flex flex-row">
-
-        <span className="me-2 mt-2">
-          <i className="bi bi-geo-alt" />: 
-          &nbsp; {landData.x + 'X, ' + landData.y + 'Y'}
-        </span>
-        
-        <span className=" me-2 mt-2">
-          <i className="bi bi-border " />
-          &nbsp;: ( {landData.h + ' X ' + landData.w} )
-        </span>
-        <br/>
-      <div className="">
-        <h4>{mintingDetail}</h4>
       </div>
-
-      {balance < (landData.h * landData.w * 0.000058) && 
-        <div className=" text-warning">
-        <p>You do not have enough Etherium in your connected wallet. Please add some funds, refresh and try again.</p>
-      </div>
-      }
-      </div>
-           
-
-      <button
-        className={`btn-primary hoverable d-block mx-3 mt-3 btn-md col-11` }
-        onClick={handleSubmit}
-        disabled={mintingDetail !== null || balance < (landData.h * landData.w * 0.000058)}
-      >
-        <i className="bi-wallet me-2"></i> PURCHASE PLOT
-      </button>
-
-  
     </div>
   )
 }

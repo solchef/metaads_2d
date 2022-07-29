@@ -6,6 +6,7 @@ import truncateEthAddress from '../utils/truncate'
 interface ConnectProps {
   connect: (() => Promise<void>) | null
 }
+
 const ConnectButton = ({ connect, title }: ConnectProps) => {
   return connect ? (
     <>

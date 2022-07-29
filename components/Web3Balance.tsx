@@ -3,6 +3,8 @@ import { useWeb3Context } from '../context/'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ethers } from 'ethers'
 import { formatEther } from 'ethers/lib/utils'
+import { store } from './store'
+import { setMintStatus, setUserBalance } from './reducers/Settings'
 
 export function Web3Balance() {
   const { web3Provider, address } = useWeb3Context()
@@ -11,6 +13,7 @@ export function Web3Balance() {
   const fetchBalance = useCallback(
     async (web3Provider: ethers.providers.Web3Provider, address: string) => {
       const balance = await web3Provider.getBalance(address)
+      store.dispatch(setUserBalance(Number(formatEther(balance))))
       setBalance(formatEther(balance))
     },
     []
@@ -23,18 +26,5 @@ export function Web3Balance() {
     }
   }, [web3Provider, address, fetchBalance])
 
-  return (
-    <div className="flex items-center justify-center">
-      <div className="border-grey md: w-full rounded-xl border sm:max-w-xl md:max-w-2xl">
-        <div className="flex flex-row justify-between py-2 px-6">
-          <span className="md:text-md text-left text-sm font-light lg:text-lg">
-            Balance
-          </span>
-          <span className="md:text-md truncate pl-4 text-right text-sm  font-light lg:text-lg">
-            {balance}
-          </span>
-        </div>
-      </div>
-    </div>
-  )
+  return (<>{balance}</>)
 }
