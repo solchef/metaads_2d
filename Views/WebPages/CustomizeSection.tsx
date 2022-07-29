@@ -92,7 +92,86 @@ export const Section = ({
       <hr />
       <h3> Sq.NFT DATA</h3>
 
-  
+      <div className="mt-2">
+        <form>
+          <div className="input-group hoverable mb-4">
+            <span className="input-group-text ">
+              <i className="bi bi-geo-alt"></i>
+            </span>
+            <input
+              type="text"
+              placeholder="Sq. NFT Name"
+              className="form-control"
+              onChange={(event) => {
+                setName(event.target.value)
+              }}
+            />
+          </div>
+        </form>
+
+        <form>
+          <div className="input-group hoverable mb-4">
+            <span className="input-group-text ">
+              <i className="bi bi-link"></i>
+            </span>
+            <input
+              type="url"
+              placeholder="https://"
+              className="form-control"
+              onChange={(event) => {
+                setUrl(event.target.value)
+              }}
+            />
+          </div>
+        </form>
+
+        <form
+          style={{ cursor: 'pointer' }}
+          onClick={() => document.getElementById('ghthth').click()}
+        >
+          <div className="input-group hoverable mb-3">
+            <span className="input-group-text ">
+              <i className="bi bi-upload"></i>
+            </span>
+
+            <input
+              style={{
+                borderBottomRightRadius: '0.25rem',
+                borderTopRightRadius: '0.25rem',
+                cursor: 'pointer',
+                color: 'transparent',
+              }}
+              placeholder={selectedFile}
+              className="form-control"
+            />
+            <input
+              type="file"
+              accept="image/png, image/jpeg"
+              onChange={handleChangeImage}
+              id="ghthth"
+              style={{ display: 'none' }}
+            />
+          </div>
+        </form>
+        <form>
+          <div className="input-group hoverable mb-4">
+            <h3 className="ps-0 ">Description :</h3>
+
+            <textarea
+              style={{ borderRadius: '0.25rem' }}
+              placeholder="Description"
+              className="p-2 mt-2"
+              id="w3review"
+              onChange={(event) => {
+                setDescription(event.target.value)
+              }}
+              name="w3review"
+              rows={4}
+              cols={50}
+            ></textarea>
+          </div>
+        </form>
+      </div>
       <p className="mb-3">
         Image Size ({landData.h}0 X {landData.w}0px) <br />
         Max Size: 5MB | File Type: JPG,PNG
