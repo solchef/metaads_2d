@@ -10,6 +10,7 @@ import {
   setClickMint,
   setViewState,
 } from '../../components/reducers/Settings'
+import { store } from '../../components/store'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 
 export const Sellsection = () => {
@@ -31,6 +32,7 @@ export const Sellsection = () => {
 
   useEffect(() => {
     setLand(parcelData)
+    console.log(parcelData)
   }, [parcelData])
   const dispatch = useAppDispatch()
   return (

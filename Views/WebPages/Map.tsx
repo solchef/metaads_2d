@@ -294,8 +294,8 @@ const GreenSquare = ({ x, y, image }) => {
             )
             store.dispatch(setViewState(2))
             returnLand(
-              boxPosition.x + widthMap / 2,
-              boxPosition.z + heightMap / 2
+              Math.floor(point.x) + x / 2 + widthMap / 2,
+              Math.floor(point.z) + y / 2 + heightMap / 2
             )
             store.dispatch(
               setLand({
@@ -384,7 +384,7 @@ const GreenSquare = ({ x, y, image }) => {
       }
     })
 
-    store.dispatch(setParcel(landpoint))
+    // store.dispatch(setParcel(landpoint))
     store.dispatch(setParcel(landpoint))
     return landpoint
   }
