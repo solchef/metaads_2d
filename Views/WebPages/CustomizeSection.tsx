@@ -256,7 +256,7 @@ export const Section = ({
               </g>
             </g>
           </svg>
-          &nbsp;{landData.h * landData.w * 0.0942} ( $ {landData.h * landData.w}{' '}
+          &nbsp;{landData.h * landData.w * 00.00058} ( $ {landData.h * landData.w}{' '}
           )
         </span>
       </div>

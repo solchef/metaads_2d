@@ -195,7 +195,7 @@ const Space: React.FunctionComponent = () => {
                         </g>
                       </g>
                     </svg>
-                    0.000942 ( $ 1 )
+                    0.00058 ( $ 1 )
                   </span>
                 </span>
               </div>
@@ -370,7 +370,7 @@ const Space: React.FunctionComponent = () => {
                   </g>
                 </g>
               </svg>
-              &nbsp; 0.000942 (1)
+              &nbsp; 0.00058 (1)
             </span>
           </span>
         </span>
@@ -597,7 +597,7 @@ const Space: React.FunctionComponent = () => {
                           </g>
                         </g>
                       </svg>
-                      &nbsp;0.0942 ( $ 100 )
+                      &nbsp;00.00058 ( $ 100 )
                     </span>
                     <a
                       className="btn-primary text-nowrap w-75 btn-mob mx-3 mt-5 hoverable btn-md "
@@ -729,7 +729,7 @@ const Space: React.FunctionComponent = () => {
                           </g>
                         </g>
                       </svg>
-                      &nbsp;0.0942 ( $ 100 )
+                      &nbsp;00.00058 ( $ 100 )
                     </span>
                   </div>
                   <span>

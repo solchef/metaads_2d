@@ -4,6 +4,7 @@
 
 import { useEffect, useState } from 'react'
 import {
+  getBalance,
   getMintingstatus,
   selectLand,
   setLand,
@@ -27,6 +28,7 @@ export const Section = ({
   useEffect(() => {}, [])
 
   const mintingDetail = useAppSelector(getMintingstatus)
+  const balance = useAppSelector(getBalance)
 
   const handleChangeImage = (e) => {
     if (e.target.files.length && e.target.files[0].size / 1024 / 1024 <= 5) {
@@ -95,36 +97,19 @@ export const Section = ({
       </p>
       <hr />
       <div className="">
-      <span className=" me-2 mt-2"><b>Token Price:</b> 0.00098</span><br/>
-       <span className=" me-2 mt-2"><b>Balance:</b>  {address ? <Web3Balance/> : 'Not Connected'}  </span>
+      <span className=" me-2 mt-2"><b>Token Price:</b> 0.000058</span><br/>
+       <span className=" me-2 mt-2"><b>Account Balance:</b>  {address ? balance : 'Not Connected'}  </span>
     </div>
 
     <br/>
-    <div className="d-flex  justify-content-between">
+    <div className="d-flex  ">
         <span className=" me-2 mt-2">
           <img src="assets/images/square_icon.png" width="16px" /> :{' '}
-          {landData.h * landData.w}
+          &nbsp;{landData.h * landData.w} {(landData.h * landData.w) == 1  ? 'token' : 'tokens'}
         </span>
-
-        <span className=" me-2 mt-2">
-          <i className="bi bi-border " />
-          &nbsp;: ( {landData.h + ' X ' + landData.w} )
-        </span>
-    </div>
-
-  <div className="flex flex-row">
-
-        <span className="me-2 mt-2">
-          <i className="bi bi-geo-alt" /> :
-          {landData.x + 'X, ' + landData.y + 'Y'}
-        </span>
-        
-      
         <span className="me-2 mt-2 text-nowrap">
           {' '}
-          <b>
-            <i className="bi bi-tag" /> :{' '}
-          </b>
+      
           <svg
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -175,20 +160,41 @@ export const Section = ({
                 </g>
               </g>
             </g>
-          </svg>
-          &nbsp;{(landData.h * landData.w * 0.0942).toFixed(4)} ( $ {landData.h * landData.w}{' '}
+          </svg> :
+          &nbsp;{(landData.h * landData.w * 0.000058).toFixed(5)} ( $ {landData.h * landData.w}{' '}
           )
         </span>
-      </div>
+   
+    </div>
+    <br/>
+  <div className="flex flex-row">
 
-      <div className="text-center">
+        <span className="me-2 mt-2">
+          <i className="bi bi-geo-alt" />: 
+          &nbsp; {landData.x + 'X, ' + landData.y + 'Y'}
+        </span>
+        
+        <span className=" me-2 mt-2">
+          <i className="bi bi-border " />
+          &nbsp;: ( {landData.h + ' X ' + landData.w} )
+        </span>
+        <br/>
+      <div className="">
         <h4>{mintingDetail}</h4>
       </div>
 
+      {balance < (landData.h * landData.w * 0.000058) && 
+        <div className=" text-warning">
+        <p>You do not have enough Etherium in your connected wallet. Please add some funds, refresh and try again.</p>
+      </div>
+      }
+      </div>
+           
+
       <button
-        className="btn-primary hoverable d-block mx-3 mt-3 btn-md col-11"
+        className={`btn-primary hoverable d-block mx-3 mt-3 btn-md col-11` }
         onClick={handleSubmit}
-        disabled={mintingDetail !== null}
+        disabled={mintingDetail !== null || balance < (landData.h * landData.w * 0.000058)}
       >
         <i className="bi-wallet me-2"></i> PURCHASE PLOT
       </button>

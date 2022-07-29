@@ -15,6 +15,7 @@ export interface Settings {
   selectedLand: {}
   menuView: boolean
   clickMint: boolean
+  balance: number
   parcel: {
     data: boolean
     name: string
@@ -44,6 +45,7 @@ const initialState: Settings = {
   selectedLand: {},
   menuView: false,
   clickMint: false,
+  balance: 0.00,
   parcel: {
     data: false,
     name: 'quad',
@@ -100,6 +102,10 @@ export const counterSlice = createSlice({
     setMenuView: (state, action: PayloadAction<boolean>) => {
       state.menuView = action.payload
     },
+    setBalance: (state, action: PayloadAction<any>) => {
+      state.balance = action.payload
+    },
+    
     setParcel: (state, action: PayloadAction<any>) => {
       state.parcel = action.payload
     },
@@ -125,6 +131,7 @@ export const {
   setZoomLevel,
   setSelectedLand,
   setMenuView,
+  setBalance,
   setParcel,
   setMintStatus,
   setClickMint,
@@ -144,6 +151,7 @@ export const selectZoomIn = (state: RootState) => state.settings.zoomIn
 export const selectZoomOut = (state: RootState) => state.settings.zoomOut
 export const selectZoomLevel = (state: RootState) => state.settings.zoomLevel
 export const selectMenuView = (state: RootState) => state.settings.menuView
+export const getBalance = (state: RootState) => state.settings.balance
 export const getParcel = (state: RootState) => state.settings.parcel
 export const getMintingstatus = (state: RootState) =>
   state.settings.mintingStatus
@@ -207,12 +215,17 @@ export const setZoomOutData =
   (dispatch) => {
     dispatch(setZoomOut(view))
   }
+
 export const setZoomLevelData =
   (view: number): AppThunk =>
   (dispatch) => {
     dispatch(setZoomLevel(view))
   }
-
+export const setUserBalance =
+  (view: number): AppThunk =>
+  (dispatch) => {
+    dispatch(setBalance(view))
+  }
 export const setParcelDetails =
   (view: any): AppThunk =>
   (dispatch) => {
