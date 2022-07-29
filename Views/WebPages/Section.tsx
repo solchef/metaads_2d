@@ -54,7 +54,8 @@ export const Section = ({
             <input
               type="number"
               min="1"
-              max="1000000"
+              max="1000"
+              step={1}
               defaultValue={1}
               aria-label="W"
               placeholder="Width"
@@ -75,7 +76,8 @@ export const Section = ({
               type="number"
               aria-label="H"
               min="1"
-              max="1000000"
+              max="1000"
+              step={1}
               defaultValue={1}
               placeholder="Hight"
               className="form-control value="
