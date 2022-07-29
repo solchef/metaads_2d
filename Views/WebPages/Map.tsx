@@ -293,9 +293,10 @@ const GreenSquare = ({ x, y, image }) => {
               )
             )
             store.dispatch(setViewState(2))
+            console.log(Math.floor(point.x) + widthMap / 2)
             returnLand(
-              Math.floor(point.x) + x / 2 + widthMap / 2,
-              Math.floor(point.z) + y / 2 + heightMap / 2
+              Math.floor(point.x) + widthMap / 2,
+              Math.floor(point.z) + heightMap / 2
             )
             store.dispatch(
               setLand({
