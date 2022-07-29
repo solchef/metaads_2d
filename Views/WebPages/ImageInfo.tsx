@@ -2,11 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 // import Image from 'next/image'
 
-import {
-  getParcel,
-  selectLand,
-  selectSelectLand,
-} from '../../components/reducers/Settings'
+import { getParcel } from '../../components/reducers/Settings'
 import { useAppSelector } from '../../components/store/hooks'
 import { shortUrl } from '../../utils'
 import { QuadSpaceContract } from '../../utils/constants'

@@ -214,7 +214,8 @@ const GreenSquare = ({ x, y, image }) => {
 
   useEffect(() => {
     axios.get('/api/metadata/parcels').then((parc) => {
-      setParcels(parc.data.message)
+      if (parc.data.success) setParcels(parc.data.message)
+      else setParcels([])
     })
   }, [])
 
@@ -293,7 +294,6 @@ const GreenSquare = ({ x, y, image }) => {
               )
             )
             store.dispatch(setViewState(2))
-            console.log(Math.floor(point.x) + widthMap / 2)
             returnLand(
               Math.floor(point.x) + widthMap / 2,
               Math.floor(point.z) + heightMap / 2
@@ -385,7 +385,6 @@ const GreenSquare = ({ x, y, image }) => {
       }
     })
 
-    // store.dispatch(setParcel(landpoint))
     store.dispatch(setParcel(landpoint))
     return landpoint
   }
@@ -422,29 +421,15 @@ const GreenSquare = ({ x, y, image }) => {
                 bumpTexture: { value: texture },
                 bumpTexture2: { value: texture2 },
                 bumpTexture3: { value: texture },
-                brightness: { value: 2 },
-                bumpScale: { value: 100 },
-                color: { value: '0xffffff' },
+                brightness: { value: 1.9 },
+                // bumpScale: { value: 100 },
+                // color: { value: '0xffffff' },
               }}
               vertexShader={vertexShader}
               fragmentShader={fragmentShader}
               side={DoubleSide}
             />
           </mesh>
-          {/* <mesh
-            position={[0, 0, 0]}
-            rotation={[-Math.PI / 2, 0, 0]}
-            scale={[1, 1, 1]}
-          >
-            <planeBufferGeometry args={[widthMap, heightMap]} />
-            <meshBasicMaterial
-              attach="material"
-              //  transparent={true}
-              // opacity={0.5}
-              map={texture}
-              side={DoubleSide}
-            />
-          </mesh> */}
           {/* {viewBox && !store.getState().settings.selectMode ? (
             <mesh position={boxPosition} ref={ref}>
               <boxBufferGeometry args={[x, z, y]} attach="geometry" />

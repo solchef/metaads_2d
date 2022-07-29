@@ -1,15 +1,10 @@
-import {
-  getParcel,
-  selectLand,
-  selectSelectLand,
-} from '../../components/reducers/Settings'
+import { getParcel } from '../../components/reducers/Settings'
 import { useAppSelector } from '../../components/store/hooks'
 import { shortUrl } from '../../utils'
 import { QuadSpaceContract } from '../../utils/constants'
 import truncateEthAddress from '../../utils/truncate'
 
 export const ImageInfoButton = () => {
-  const landInfo = useAppSelector(selectSelectLand)
   const parcelData = useAppSelector(getParcel)
   return (
     <div className="offcanvas-body image-info  pb-5 pt-4 mt-3 p-0 text-center">
