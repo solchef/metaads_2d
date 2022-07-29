@@ -11,6 +11,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 // import { updateX, updateY } from './Map'
 import { Web3Balance } from '../../components/Web3Balance';
+import { useWeb3Context } from '../../context';
 
 export const Section = ({
   setName,
@@ -20,6 +21,7 @@ export const Section = ({
   handleSubmit,
 }) => {
   const landData = useAppSelector(selectLand)
+  const { address } = useWeb3Context()
   const dispatch = useAppDispatch()
   const [selectedFile, setSelectedFile] = useState('Upload Image')
   useEffect(() => {}, [])
@@ -92,19 +94,13 @@ export const Section = ({
         Spec sq. Size (1 sq=10x10px)
       </p>
       <hr />
-
-      
-
-
-    
-
-      <div className="flex flex-row">
-
-      <span className=" me-2 mt-2">Token price: 0.00098</span>
-       <span className=" me-2 mt-2">Balance alance: <Web3Balance/></span>
+      <div className="">
+      <span className=" me-2 mt-2"><b>Token Price:</b> 0.00098</span><br/>
+       <span className=" me-2 mt-2"><b>Balance:</b>  {address ? <Web3Balance/> : 'Not Connected'}  </span>
     </div>
-    <div className="flex flex-row">
 
+    <br/>
+    <div className="d-flex  justify-content-between">
         <span className=" me-2 mt-2">
           <img src="assets/images/square_icon.png" width="16px" /> :{' '}
           {landData.h * landData.w}
@@ -114,6 +110,9 @@ export const Section = ({
           <i className="bi bi-border " />
           &nbsp;: ( {landData.h + ' X ' + landData.w} )
         </span>
+    </div>
+
+  <div className="flex flex-row">
 
         <span className="me-2 mt-2">
           <i className="bi bi-geo-alt" /> :
@@ -177,7 +176,7 @@ export const Section = ({
               </g>
             </g>
           </svg>
-          &nbsp;{landData.h * landData.w * 0.0942} ( $ {landData.h * landData.w}{' '}
+          &nbsp;{(landData.h * landData.w * 0.0942).toFixed(4)} ( $ {landData.h * landData.w}{' '}
           )
         </span>
       </div>
