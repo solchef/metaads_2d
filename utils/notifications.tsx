@@ -1,4 +1,6 @@
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import { setMintStatus } from '../components/reducers/Settings'
+import { store } from '../components/store'
 
 export const SuccessfulTransaction = ({ title, description }) => {
   Swal.fire({
@@ -12,6 +14,9 @@ export const SuccessfulTransaction = ({ title, description }) => {
     // if (result.isConfirmed) {
     //   Swal.fire('Thank You!', 'Check your wallet.', 'success')
     // }
+    store.dispatch(
+      setMintStatus('')
+    )
   })
 }
 
@@ -24,9 +29,9 @@ export const InfoMessage = ({ title, description }) => {
     // cancelButtonColor: '#d33',
     confirmButtonText: 'Close',
   }).then((result) => {
-    // if (result.isConfirmed) {
-    //   Swal.fire('Thank You!', 'Please Try Again Later.', 'warning')
-    // }
+    store.dispatch(
+      setMintStatus('')
+    )
   })
 }
 
@@ -38,9 +43,9 @@ export const ErrorTransaction = ({ title, description }) => {
     confirmButtonColor: '#b401ab',
     confirmButtonText: 'Close',
   }).then((result) => {
-    // if (result.isConfirmed) {
-    //   Swal.fire('Please check!', 'And then try again.', 'error')
-    // }
+    store.dispatch(
+      setMintStatus('')
+    )
   })
 }
 
@@ -53,15 +58,10 @@ export const MiningTransaction = ({ title, description }) => {
     timerProgressBar: true,
 
     didOpen: () => {
-      // `Swal` is a subclass of `Swal` with all the same instance & static methods
       Swal.showLoading()
-      // const b = Swal.getHtmlContainer().querySelector('adcanvass')
-      // timerInterval = setInterval(() => {
-      //   // b.textContent = Swal.getTimerLeft()
-      // }, 50000)
     },
     willClose: () => {
-      clearInterval(timerInterval)
+       
     },
   })
 }

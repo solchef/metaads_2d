@@ -98,7 +98,7 @@ export const Section = ({
       <hr />
       <div className="">
       <span className=" me-2 mt-2"><b>Token Price:</b> 0.000058</span><br/>
-       <span className=" me-2 mt-2"><b>Account Balance:</b>  {address ? balance : 'Not Connected'}  </span>
+       <span className=" me-2 mt-2"><b>Account Balance:</b>  {address ? <Web3Balance/> : 'Not Connected'}  </span>
     </div>
 
     <br/>
@@ -179,7 +179,7 @@ export const Section = ({
           &nbsp;: ( {landData.h + ' X ' + landData.w} )
         </span>
         <br/>
-      <div className="">
+      <div className="text-center">
         <h4>{mintingDetail}</h4>
       </div>
 
@@ -194,7 +194,7 @@ export const Section = ({
       <button
         className={`btn-primary hoverable d-block mx-3 mt-3 btn-md col-11` }
         onClick={handleSubmit}
-        disabled={mintingDetail !== null || balance < (landData.h * landData.w * 0.000058)}
+        disabled={ balance < (landData.h * landData.w * 0.000058)}
       >
         <i className="bi-wallet me-2"></i> PURCHASE PLOT
       </button>

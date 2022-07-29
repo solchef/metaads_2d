@@ -36,27 +36,12 @@ export const handleMint = async (
   },
   uploadImage
 ) => {
+
   store.dispatch(setMintStatus('Checking validity of submitted data'))
 
-  if (!name) {
-    ErrorTransaction({
-      title: 'Upload Error ',
-      description: 'Please provide a name for your quad',
-    })
-    return
-  }
-
-  if (!url) {
-    ErrorTransaction({
-      title: 'Upload Error ',
-      description: 'Please provide a url  attached to your quad',
-    })
-    return
-  }
   let squrePos = land.y * 1000 + land.x
 
   let mintableids = []
-  console.log('minting')
 
   for (let quad = squrePos; quad < squrePos + land.w; quad++) {
     for (let i = 0; i < land.h; i++) {
@@ -64,136 +49,40 @@ export const handleMint = async (
     }
   }
 
-  // console.log(mintImage)
-
-  // update image to ipfs storage and get the CID
-  // const img = await uploadImage(mintImage)
-  // let imgString = await getBase64(mintImage)
-
-  // console.log(imgString)
-
-  // update the metadata fields
-  // const metadata = await uploadMetadata(
-  //   name,
-  //   QuadDescription,
-  //   img,
-  //   land.x,
-  //   land.y
-  // )
-  // console.log(metadata)
-  // if (!metadata) {
-  //   ErrorTransaction({
-  //     title: 'Metadata Error ',
-  //     description: 'Metatadata could not be uploaded. Please try again later',
-  //   })
-  //   return
-  // }
-  //create parcel
-
-  const formData = new FormData()
-  formData.append('file', mintImage)
-  //temporary image upload for processing through backend
-
-  const urlconf = 'https://api.quadspace.io/parcels'
-
-  formData.append('file', mintImage[0])
-
-  formData.append('fileName', mintImage[0].name)
-
-  const config = {
-    headers: {
-      'content-type': 'multipart/form-data',
-    },
-  }
-
-  store.dispatch(setMintStatus('Uploading parcel image. Please wait'))
-
-  let imgUpload = axios.post(urlconf, formData, config).then((response) => {
-    console.log(response.data)
-  })
-
-  if (imgUpload) {
-    store.dispatch(setMintStatus('Image has been uploaded'))
-    // console.log('uploaded')
-  }
-
-  const parcel = {
-    name: name,
-    QuadDescription: description,
-    url: url,
-    metadata: 'metadata',
-    image: 'img',
-    images:[],
-    image_temp: mintImage[0].name,
-    coordX: land.x,
-    coordY: land.y,
-    parcelWidth: land.w,
-    parcelHeight: land.h,
-    parcelIds: mintableids,
-    address: address,
-  }
-
-  let response = await fetch('/api/metadata/parcels', {
-    method: 'POST',
-    body: JSON.stringify(parcel),
-  })
-
-  if (!response) {
-    store.dispatch(
-      setMintStatus(
-        'Error occurred during the upload. Data cannot be fetched. Please try again'
-      )
-    )
-
-    ErrorTransaction({
-      title: 'Parcel creation error ',
-      description:
-        'Proceeding would result to a not well minted parce. Try again after some time.',
-    })
-
-    return
-  }
-
-  // update database storage
-
   try {
     if (adscontract) {
       store.dispatch(
         setMintStatus(
-          'Submitting data to the Blockchain. Please confirm transaction on your wallet'
+          'Please confirm the transaction popup on your wallet'
         )
       )
-
-      let mintcost = 0.00098 * mintableids.length
+      let mintcost = 0.0 * mintableids.length
       let txn = await adscontract.mint(address, mintableids, {
         value: (mintcost * 10 ** 18).toString(),
       })
-
       if (txn.hash) {
-        MiningTransaction({
-          title: 'MiniProcessing Transaction',
-          description: txn.hash,
-        })
+        store.dispatch(
+          setMintStatus(
+            'Transaction is been mined'
+          )
+        )
       }
-
       let receipt = await txn.wait()
 
       if (receipt) {
-        // console.log(receipt)
         store.dispatch(
-          setMintStatus('Your parcel has been successfully minted')
+          setMintStatus('Your tokens have been successfully minted')
         )
         SuccessfulTransaction({
           title: 'Confirmed',
-          description: 'Quads have been successfully minted',
+          description: 'Your tokens have been successfully minted',
         })
       }
     } else {
       console.log('loading transaction')
     }
   } catch (e) {
-    // console.log(e)
-    store.dispatch(setMintStatus('An error occurred, retrying transaction'))
+    store.dispatch(setMintStatus('An error occurred, Try again'))
     ErrorTransaction({
       title: 'An Error has Occurred',
       description: 'An error has occured and minting could not be processed',

@@ -14,7 +14,7 @@ export function Web3Balance() {
     async (web3Provider: ethers.providers.Web3Provider, address: string) => {
       const balance = await web3Provider.getBalance(address)
       store.dispatch(setUserBalance(Number(formatEther(balance))))
-      setBalance(formatEther(balance))
+      setBalance(Number(formatEther(balance)).toFixed(6))
     },
     []
   )
