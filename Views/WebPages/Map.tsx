@@ -385,7 +385,7 @@ const GreenSquare = ({ x, y, image }) => {
     })
 
     store.dispatch(setParcel(landpoint))
-
+    store.dispatch(setParcel(landpoint))
     return landpoint
   }
 
