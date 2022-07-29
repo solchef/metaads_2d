@@ -1,4 +1,5 @@
 import { getParcel } from '../../components/reducers/Settings'
+import ShareSection from '../../components/ShareSection'
 import { useAppSelector } from '../../components/store/hooks'
 import { shortUrl } from '../../utils'
 import { QuadSpaceContract } from '../../utils/constants'
@@ -48,9 +49,7 @@ export const ImageInfoButton = () => {
         ❤️ Share with your friends and followers ❤️
       </p>
       <div className="d-flex mt-2 justify-content-center">
-        <i className="bi fs-4 bi-whatsapp"></i>
-        <i className="bi fs-4 bi-facebook mx-4"></i>
-        <i className="bi fs-4 bi-twitter"></i>
+        <ShareSection/>
       </div>
     </div>
   )

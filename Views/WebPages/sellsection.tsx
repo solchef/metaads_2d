@@ -9,6 +9,7 @@ import {
   setClickMint,
   setViewState,
 } from '../../components/reducers/Settings'
+import ShareSection from '../../components/ShareSection'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 
 export const Sellsection = () => {
@@ -58,9 +59,7 @@ export const Sellsection = () => {
         ❤️ Share with your friends and followers ❤️
       </p>
       <div className="d-flex mt-2 justify-content-center">
-        <i className="bi cursor-pointer	 fs-4 bi-whatsapp"></i>
-        <i className="bi fs-4 bi-facebook mx-4"></i>
-        <i className="bi fs-4 bi-twitter"></i>
+          <ShareSection/>
       </div>
     </div>
   )

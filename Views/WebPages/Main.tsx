@@ -37,17 +37,7 @@ const Main = () => {
           custom-attribute="Roadmap"
         ></i>
 
-        <a
-          target="_blank"
-          className="mt-3"
-          href={'https://twitter.com/themilliondollarwebsite'}
-        >
-          <i
-            className="icon-menu bi bi-twitter mt-3"
-            custom-attribute="Twitter"
-          ></i>
-        </a>
-        <a
+<a
           target="_blank"
           className="mt-3"
           href={'https://opensea.io/' + QuadSpaceContract}
@@ -61,13 +51,25 @@ const Main = () => {
         <a
           target="_blank"
           className="mt-3"
-          href={'https://reddit.com/themilliondollarwebsite'}
+          href={'https://t.me/TheMillionDollarWebsite'}
         >
           <i
-            className="icon-menu bi bi-reddit mt-3"
-            custom-attribute="Reddit"
+            className="icon-menu bi bi-telegram mt-3"
+            custom-attribute="Telegram"
           ></i>
         </a>
+
+        <a
+          target="_blank"
+          className="mt-3"
+          href={'https://twitter.com/themilliondollarwebsite'}
+        >
+          <i
+            className="icon-menu bi bi-twitter mt-3"
+            custom-attribute="Twitter"
+          ></i>
+        </a>
+
 
         <a
           target="_blank"

@@ -2,6 +2,8 @@
 /* eslint-disable react/no-unescaped-entities */
 // import Image from 'next/image'
 
+import ShareSection from "../../components/ShareSection"
+
 
 
 export const About = () => {
@@ -21,7 +23,7 @@ export const About = () => {
       <div className="d-flex">
         <p>
           <h4 className="pb-2"> What’s so special about The Million Dollar Website? </h4>
-          This is your chance to truly own for the first time a piece of digital history through blockchain technology. We divided the MetaBoard to 1 million pixels. Each pixel you own tied to the ownership or holder of the TMDW nft will grant you access to upload upload any image, input a URL domain and even name the specific pixels. Since we are building towards a fully decentralized system everything in uncensored we are for the liberty of the people. You can post about yourself, your business, a crypto project, you’re nft. Anything you like! Through the partnership with Quadspace each pixel will come with it’s own meta land. Here you can get creative and design anything you like. So that when people click on your pixel it gives them the option to jump into your meta space!
+          This is your chance to truly own for the first time a piece of digital history through blockchain technology. We divided the MetaBoard to 1 million pixels. Each pixel you own tied to the ownership or holder of the TMDW nft will grant you access to any image, input a URL domain and even name the specific pixels. Since we are building towards a fully decentralized system everything in uncensored we are for the liberty of the people. You can post about yourself, your business, a crypto project, you’re nft. Anything you like! Through the partnership with Quadspace each pixel will come with it’s own meta land. Here you can get creative and design anything you like. So that when people click on your pixel it gives them the option to jump into your meta space!
         </p>
       </div>
       <div className="d-flex">
@@ -47,9 +49,7 @@ export const About = () => {
  ❤️ Share with your friends and followers ❤️
  </p>
  <div className="d-flex mt-2 justify-content-center">
- <i className="bi cursor-pointer	 fs-4 bi-whatsapp"></i>
- <i className="bi fs-4 bi-facebook mx-4"></i>
- <i className="bi fs-4 bi-twitter"></i>
+<ShareSection/>
  </div>
     </div>
   )
