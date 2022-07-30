@@ -15,6 +15,7 @@ import {
 } from '../components/reducers/Settings'
 import { store } from '../components/store'
 import { useAppSelector } from '../components/store/hooks'
+import { verifyIsAllowed } from './index';
 
 export const handleMint = async (
   name: string,
@@ -46,16 +47,15 @@ export const handleMint = async (
 
   let mintableids = []
 
-  for (let quad = squrePos; quad < squrePos + land.w; quad++) {
+  for (let quad = squrePos + 1; quad < squrePos + land.w; quad++) {
     for (let i = 0; i < land.h; i++) {
+      // let isAllowed = verifyIsAllowed(quad + i)
       mintableids.push(quad + i * 1000)
     }
   }
 
-
-
-
-  // try {
+  
+  try {
     if (adscontract) {
       store.dispatch(
         setMintStatus(
@@ -67,6 +67,7 @@ export const handleMint = async (
       let txn = await adscontract.mint(address, mintableids, {
         value: (mintcost * 10 ** 18).toString(),
       })
+
       if (txn.hash) {
         store.dispatch(
           setMintStatus(
@@ -88,11 +89,11 @@ export const handleMint = async (
     } else {
       console.log('loading transaction')
     }
-  // } catch (e) {
-  //   store.dispatch(setMintStatus('An error occurred, Try again'))
-  //   ErrorTransaction({
-  //     title: 'An Error has Occurred',
-  //     description: 'An error has occured and minting could not be processed',
-  //   })
-  // }
+  } catch (e) {
+    store.dispatch(setMintStatus('An error occurred, Try again'))
+    ErrorTransaction({
+      title: 'An Error has Occurred',
+      description: 'An error has occured and minting could not be processed',
+    })
+  }
 }

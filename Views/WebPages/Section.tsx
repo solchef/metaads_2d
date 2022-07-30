@@ -9,12 +9,15 @@ import {
   getMintingstatus,
   selectLand,
   setLand,
+  setMintStatus,
 } from '../../components/reducers/Settings'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 // import { updateX, updateY } from './Map'
 import { Web3Balance } from '../../components/Web3Balance';
 import { useWeb3Context } from '../../context';
 import { getQuadPrice } from '../../components/reducers/Settings';
+import { verifyIsAllowed } from '../../utils';
+import { store } from '../../components/store';
 
 export const Section = ({
   setName,
@@ -28,21 +31,33 @@ export const Section = ({
   const dispatch = useAppDispatch()
   const [selectedFile, setSelectedFile] = useState('Upload Image')
   useEffect(() => {}, [])
-
   const mintingDetail = useAppSelector(getMintingstatus)
+  const [mintableIDs, setMintableIds] = useState([]);
+  const [unmintableIDs, setUnmintableIds]= useState([]);
   const balance = useAppSelector(getBalance)
   const quadPrice = useAppSelector(getQuadPrice)
-  const handleChangeImage = (e) => {
-    if (e.target.files.length && e.target.files[0].size / 1024 / 1024 <= 5) {
-      setSelectedFile(e.target.files[0].name)
-      setMintImage(e.target.files)
-    } else if (
-      e.target.files.length &&
-      e.target.files[0].size / 1024 / 1024 > 5
-    )
-      setSelectedFile('Max Size 5 MB')
-    else setSelectedFile('Upload Image')
+
+
+
+  const checkIfValid = () => {
+    let mintable = [];
+    let unmintable = [];
+
+    let squrePos = landData.y * 1000 + landData.x
+    for (let quad = squrePos + 1; quad < squrePos + landData.w; quad++) {
+      let isFound = verifyIsAllowed(quad + 1)
+      for (let i = 0; i < landData.h; i++) {
+        
+        if(!isFound){
+          mintable.push(quad + 1 + i * 1000)
+        }else{
+          unmintable.push(quad + 1 + i * 1000)
+        }
+      }
+    }
+    setUnmintableIds(unmintable)
   }
+
   return (
     <div className="offcanvas-body image-info mt-4  pb-5 p-0 ">
       <h3> SQ.NFT SIZE</h3>
@@ -70,6 +85,7 @@ export const Section = ({
                     h: parseInt(e.target.value),
                   })
                 )
+                checkIfValid()
               }}
             />
             
@@ -90,7 +106,9 @@ export const Section = ({
                     w: parseInt(e.target.value),
                     h: landData.h,
                   })
-                )
+                ),
+                checkIfValid()
+
               }}
             />
           </div>
@@ -185,8 +203,13 @@ export const Section = ({
         <br/>
       <div className="text-center">
         <h4>{mintingDetail}</h4>
+         {unmintableIDs.length > 0 && 
+           <h4>
+             The following tokens cannot be minted: {unmintableIDs.map(idu => <span>{idu}, </span>)}
+           </h4>
+        } 
       </div>
-
+   
       {address ? 
         <>
         {balance < (landData.h * landData.w * quadPrice) && 
@@ -197,7 +220,7 @@ export const Section = ({
           <button
             className={`btn-primary hoverable d-block mx-3 mt-3 btn-md col-11` }
             onClick={handleSubmit}
-            disabled={ balance < (landData.h * landData.w * quadPrice)}
+            disabled={ balance < (landData.h * landData.w * quadPrice) || unmintableIDs.length !== 0}
           >
             <i className="bi-wallet me-2"></i> PURCHASE LOT
           </button>

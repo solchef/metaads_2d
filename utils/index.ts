@@ -30,3 +30,30 @@ export function shortUrl(url, l) {
   var end_chunk = shortString(url, chunk_l, true)
   return start_chunk + '..' + end_chunk
 }
+
+export const findLand = (x1, y1, x2, y2, x, y) => {
+  if (x > x1 && x < x2 && y > y1 && y < y2) return true
+
+  return false
+}
+
+export const verifyIsAllowed = (pos) => {
+      let y = Number(pos) % 1000
+      let x = Math.ceil(Number(pos) / 1000)
+      let found = false;
+
+      const quadmints = [
+        [0, 0],
+        [0, 750],
+        [800, 0],
+        [800, 750],
+        [400, 375],
+      ]
+
+      quadmints.forEach(quad => {
+          found = findLand(quad[1], quad[0], quad[1] + 250, quad[0] + 200, x, y)
+      })
+
+      return found;
+  
+}
