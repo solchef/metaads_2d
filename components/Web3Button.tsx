@@ -54,7 +54,7 @@ const DisconnectButton = ({ disconnect, address }: DisconnectProps) => {
         href="#"
       >
         <i className="bi-wallet me-2" />
-        {truncateEthAddress(address)}
+          {truncateEthAddress(address)} 
       </a>
       <a
         className="btn-primary hoverable btn-md show-mobile"

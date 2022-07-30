@@ -9,10 +9,12 @@ import {
 } from './notifications'
 import { fabric } from 'fabric'
 import {
+  getQuadPrice,
   setMintingstatus,
   setMintStatus,
 } from '../components/reducers/Settings'
 import { store } from '../components/store'
+import { useAppSelector } from '../components/store/hooks'
 
 export const handleMint = async (
   name: string,
@@ -34,7 +36,8 @@ export const handleMint = async (
     ): Promise<string>
     (arg0: any, arg1: string, arg2: any, arg3: any, arg4: any): any
   },
-  uploadImage
+  uploadImage,
+  quadPrice
 ) => {
 
   store.dispatch(setMintStatus('Checking validity of submitted data'))
@@ -49,14 +52,18 @@ export const handleMint = async (
     }
   }
 
-  try {
+
+
+
+  // try {
     if (adscontract) {
       store.dispatch(
         setMintStatus(
           'Please confirm the transaction popup on your wallet'
         )
       )
-      let mintcost = 0.0 * mintableids.length
+
+      let mintcost = quadPrice * mintableids.length
       let txn = await adscontract.mint(address, mintableids, {
         value: (mintcost * 10 ** 18).toString(),
       })
@@ -81,11 +88,11 @@ export const handleMint = async (
     } else {
       console.log('loading transaction')
     }
-  } catch (e) {
-    store.dispatch(setMintStatus('An error occurred, Try again'))
-    ErrorTransaction({
-      title: 'An Error has Occurred',
-      description: 'An error has occured and minting could not be processed',
-    })
-  }
+  // } catch (e) {
+  //   store.dispatch(setMintStatus('An error occurred, Try again'))
+  //   ErrorTransaction({
+  //     title: 'An Error has Occurred',
+  //     description: 'An error has occured and minting could not be processed',
+  //   })
+  // }
 }

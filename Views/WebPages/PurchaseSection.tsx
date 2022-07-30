@@ -5,6 +5,7 @@ import {
   selectShowMenu,
   setShowMenu,
   setViewState,
+  getQuadPrice,
 } from '../../components/reducers/Settings'
 import { useAppSelector, useAppDispatch } from '../../components/store/hooks'
 import { useWeb3Context } from '../../context'
@@ -27,6 +28,7 @@ function PurchaseSection({ activeItem, enableBuy }) {
   const adscontract = contracts['metaads']
   const [info, setInfo] = useState(activeItem)
   const [MintImage, setMintImage] = useState(null)
+
   const [land, setLand] = useState<any>({})
   useEffect(() => {
     setInfo(activeItem)
@@ -34,6 +36,8 @@ function PurchaseSection({ activeItem, enableBuy }) {
   const viewState = useAppSelector(selectViewState)
   const dispatch = useAppDispatch()
   const showMenu = useAppSelector(selectShowMenu)
+  const quadPrice = useAppSelector(getQuadPrice)
+
 
   useEffect(() => {
     setLand({
@@ -54,7 +58,8 @@ function PurchaseSection({ activeItem, enableBuy }) {
       MintImage,
       land,
       uploadMetadata,
-      uploadImage
+      uploadImage,
+      quadPrice
     )
   }
   const getVisibilityMode = () => {

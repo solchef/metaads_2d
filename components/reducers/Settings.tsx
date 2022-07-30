@@ -29,6 +29,7 @@ export interface Settings {
     position: number
   }
   mintingStatus: string
+  quadPrice:number
 }
 
 const initialState: Settings = {
@@ -59,6 +60,7 @@ const initialState: Settings = {
     position: 0,
   },
   mintingStatus: null,
+  quadPrice:0.00
 }
 
 export const counterSlice = createSlice({
@@ -115,6 +117,9 @@ export const counterSlice = createSlice({
     setClickMint: (state, action: PayloadAction<boolean>) => {
       state.clickMint = action.payload
     },
+    setquadPrice: (state, action: PayloadAction<any>) => {
+      state.quadPrice = action.payload
+    },
   },
 })
 
@@ -135,6 +140,7 @@ export const {
   setParcel,
   setMintStatus,
   setClickMint,
+  setquadPrice
 } = counterSlice.actions
 
 export const selectLand = (state: RootState) => state.settings.land
@@ -156,6 +162,8 @@ export const getParcel = (state: RootState) => state.settings.parcel
 export const getMintingstatus = (state: RootState) =>
   state.settings.mintingStatus
 export const selectClickMint = (state: RootState) => state.settings.clickMint
+export const getQuadPrice = (state: RootState) => state.settings.quadPrice
+
 
 export const setLandData =
   (view: any): AppThunk =>
@@ -241,6 +249,12 @@ export const setClickMintData =
   (view: boolean): AppThunk =>
   (dispatch) => {
     dispatch(setClickMint(view))
+  }
+
+  export const setQuadPriceCurrent =
+  (view: boolean): AppThunk =>
+  (dispatch) => {
+    dispatch(setQuadPrice(view))
   }
 
 export default counterSlice.reducer

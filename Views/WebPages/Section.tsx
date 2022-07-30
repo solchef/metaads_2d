@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 // import { updateX, updateY } from './Map'
 import { Web3Balance } from '../../components/Web3Balance';
 import { useWeb3Context } from '../../context';
+import { getQuadPrice } from '../../components/reducers/Settings';
 
 export const Section = ({
   setName,
@@ -30,7 +31,7 @@ export const Section = ({
 
   const mintingDetail = useAppSelector(getMintingstatus)
   const balance = useAppSelector(getBalance)
-
+  const quadPrice = useAppSelector(getQuadPrice)
   const handleChangeImage = (e) => {
     if (e.target.files.length && e.target.files[0].size / 1024 / 1024 <= 5) {
       setSelectedFile(e.target.files[0].name)
@@ -100,7 +101,7 @@ export const Section = ({
       </p>
       <hr />
       <div className="">
-      <span className=" me-2 mt-2"><b>Token Price:</b> 0.000058</span><br/>
+      <span className=" me-2 mt-2"><b>Token Price:</b> quadPrice</span><br/>
        <span className=" me-2 mt-2"><b>Account Balance:</b>  {address ? <Web3Balance/> : 'Not Connected'}  </span>
     </div>
 
@@ -164,7 +165,7 @@ export const Section = ({
               </g>
             </g>
           </svg> :
-          &nbsp;{(landData.h * landData.w * 0.000058).toFixed(5)} ( $ {landData.h * landData.w}{' '}
+          &nbsp;{(landData.h * landData.w * quadPrice).toFixed(5)} ( $ {landData.h * landData.w}{' '}
           )
         </span>
    
@@ -188,7 +189,7 @@ export const Section = ({
 
       {address ? 
         <>
-        {balance < (landData.h * landData.w * 0.000058) && 
+        {balance < (landData.h * landData.w * quadPrice) && 
           <div className=" text-warning">
           <p>You do not have enough Etherium in your connected wallet. Please add some funds, refresh and try again.</p>
         </div>
@@ -196,7 +197,7 @@ export const Section = ({
           <button
             className={`btn-primary hoverable d-block mx-3 mt-3 btn-md col-11` }
             onClick={handleSubmit}
-            disabled={ balance < (landData.h * landData.w * 0.000058)}
+            disabled={ balance < (landData.h * landData.w * quadPrice)}
           >
             <i className="bi-wallet me-2"></i> PURCHASE LOT
           </button>

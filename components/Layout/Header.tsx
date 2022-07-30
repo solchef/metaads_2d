@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { useEffect, useState } from 'react'
 import {
   selectZoomLevel,
@@ -7,7 +8,10 @@ import {
   setZoomOut,
   selectShowMenu,
   setShowMenu,
+  setMintStatus,
+  setquadPrice,
 } from '../reducers/Settings'
+import { store } from '../store'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { Web3Button } from '../Web3Button'
 
@@ -21,7 +25,23 @@ const Header = () => {
 
   useEffect(() => {
     setZoomLevelState(zLevel)
+    
   }, [zLevel])
+
+  useEffect(() => {
+    setQuadPrice();
+  },[])
+
+  const setQuadPrice = async() => {
+    const price = await axios.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USDP");
+    let quadPrice = (1/price.data.USDP).toFixed(5)
+    store.dispatch(
+      setquadPrice(
+        quadPrice
+      )
+    )
+
+  }
 
   return (
     <>
