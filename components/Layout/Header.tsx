@@ -16,9 +16,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { Web3Button } from '../Web3Button'
 
 const Header = () => {
-  // const [threeD, setThreeD] = useState(true)
   const showMenu = useAppSelector(selectShowMenu)
-  //alaoui
   const [zoomLevelState, setZoomLevelState] = useState(1)
   const dispatch = useAppDispatch()
   const zLevel = useAppSelector(selectZoomLevel)
@@ -40,7 +38,6 @@ const Header = () => {
         quadPrice
       )
     )
-
   }
 
   return (
@@ -98,7 +95,7 @@ const Header = () => {
                     <button
                       className="btn btn-bi btn-primary hoverable btn-lg "
                       onClick={() => {
-                        if (zoomLevelState < 5) {
+                        if (zoomLevelState < 10) {
                           dispatch(setZoomIn(zoomLevelState + 1))
                           setZoomLevelState(zoomLevelState + 1)
                           dispatch(setZoomLevel(zoomLevelState + 1))
@@ -119,73 +116,3 @@ const Header = () => {
   )
 }
 export default Header
-
-// <div className="buttons w-auto bo me-2 flex-nowrap">
-// <button
-//   onClick={() => {
-//     setStateBtn('Buy')
-//     dispatch(setViewState(1))
-//     dispatch(setSelectMode(false))
-//   }}
-//   className={`btn btn-bi d-flex ${
-//     vewState == 1 ? 'active' : ''
-//   } toggle-mode align-items-center w-100 position-relative m-0 btn-primary btn-lg
-//   `}
-// >
-//   <i
-//     className="bi bi-cart-fill me-2"
-//     // style={{ marginTop: '-5px' }}
-//   />{' '}
-//   <span className="text-nowrap hide-mobile"> Buy Mode</span>
-// </button>
-// <button
-//   onClick={() => {
-//     setStateBtn('View')
-//     dispatch(setViewState(2))
-//     dispatch(setSelectMode(true))
-//   }}
-//   className={`btn btn-bi d-flex ${
-//     vewState == 2 || vewState === 3 ? 'active' : ''
-//   } flex-nowrap toggle-mode
-// } align-items-center accordion w-100 position-relative btn-primary `}
-// >
-//   <i className="bi bi-arrows-move me-2" />
-//   <span className="text-nowrap hide-mobile">View Mode</span>
-// </button>
-// </div>
-
-// <div className="me-2">
-// <button
-//   onClick={() => {
-//     setStateBtn('info')
-//     dispatch(setViewState(0))
-//     dispatch(setSelectMode(true))
-//   }}
-//   className={`btn btn-primary btn-lg hoverable ${
-//     vewState == 0 ? 'active' : ''
-//   }  `}
-// >
-//   <i className="bi bi-info-circle"></i>
-// </button>
-// </div>
-// <div className="buttons flex-nowrap ">
-// <button
-//   className="btn hoverable btn-primary btn-lg "
-//   onClick={async () => {
-//     await dispatch(setReloadPage(false))
-//     await dispatch(setReloadPage(true))
-//   }}
-// >
-//   <i className="bi-arrow-clockwise " />
-// </button>
-
-// {/* <button
-//   onClick={() => {
-//     setThreeD(!threeD)
-//     dispatch(set_3dMode(threeD))
-//   }}
-//   className="btn btn-primary btn-lg hoverable"
-// >
-//   {threeD ? '3D' : '2D'}
-// </button> */}
-// </div>

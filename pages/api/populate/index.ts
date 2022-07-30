@@ -23,6 +23,7 @@ export default async function handler(req, res) {
   let minted = await MetaadsContractUnsigned.occupiedList()
 
   let rects = []
+  
   const quadmints = [
     [0, 0],
     [0, 750],
