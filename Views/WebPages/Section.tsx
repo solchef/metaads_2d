@@ -46,15 +46,16 @@ export const Section = ({
 
     let squrePos = landData.y * 1000 + landData.x
 
-    for (let quad = squrePos + 1; quad < squrePos + landData.w; quad++) {
+    for (let quad = squrePos; quad < squrePos + landData.w; quad++) {
       for (let i = 0; i < landData.h; i++) {
-        console.log(isFound)
          isFound = verifyIsAllowed(quad + 1)
         if(!isFound){
-          mintable.push(quad + 1 + i * 1000)
+          mintable.push(quad + i * 1000)
         }else{
-          unmintable.push(quad + 1 + i * 1000)
+          unmintable.push(quad + i * 1000)
         }
+                console.log(isFound)
+
       }
     }
     setUnmintableIds(unmintable)

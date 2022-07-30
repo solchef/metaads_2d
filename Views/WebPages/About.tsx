@@ -46,7 +46,7 @@ export const About = () => {
         </p>
       </div>
       <p className='mt-4 text-nowrap'>
- ❤️ Share with your friends and followers ❤️
+ Share with your friends and followers 
  </p>
  <div className="d-flex mt-2 justify-content-center">
 <ShareSection/>
