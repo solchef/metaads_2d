@@ -42,12 +42,14 @@ export const Section = ({
   const checkIfValid = () => {
     let mintable = [];
     let unmintable = [];
+    let isFound;
 
     let squrePos = landData.y * 1000 + landData.x
+
     for (let quad = squrePos + 1; quad < squrePos + landData.w; quad++) {
-      let isFound = verifyIsAllowed(quad + 1)
       for (let i = 0; i < landData.h; i++) {
-        
+        console.log(isFound)
+         isFound = verifyIsAllowed(quad + 1)
         if(!isFound){
           mintable.push(quad + 1 + i * 1000)
         }else{
@@ -69,14 +71,16 @@ export const Section = ({
             </span>
             <input
               type="number"
-              min="1"
-              max="1000"
+              min={1}
+              max={1000}
               step={1}
               defaultValue={1}
               aria-label="W"
+              pattern='^(.*[^0-9]|)(1000|[1-9]\d{0,2})([^0-9].*|)$'
               placeholder="Width"
               className="form-control"
               onChange={(e) => {
+                checkIfValid()
                 dispatch(
                   setLand({
                     x: landData.x,
@@ -85,7 +89,6 @@ export const Section = ({
                     h: parseInt(e.target.value),
                   })
                 )
-                checkIfValid()
               }}
             />
             
@@ -94,6 +97,7 @@ export const Section = ({
               aria-label="H"
               min="1"
               max="1000"
+              pattern='^(.*[^0-9]|)(1000|[1-9]\d{0,2})([^0-9].*|)$'
               step={1}
               defaultValue={1}
               placeholder="Hight"
@@ -119,7 +123,7 @@ export const Section = ({
       </p>
       <hr />
       <div className="">
-      <span className=" me-2 mt-2"><b>Token Price:</b> quadPrice</span><br/>
+      <span className=" me-2 mt-2"><b>Token Price:</b> {quadPrice}</span><br/>
        <span className=" me-2 mt-2"><b>Account Balance:</b>  {address ? <Web3Balance/> : 'Not Connected'}  </span>
     </div>
 
