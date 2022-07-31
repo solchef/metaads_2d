@@ -1164,3 +1164,7 @@ input[type='number']::-webkit-inner-spin-button {
 .mouse-hand {
     cursor: grab;
 }
+
+#about a {
+    font-size: 12px;
+}
