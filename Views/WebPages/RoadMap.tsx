@@ -6,9 +6,9 @@ export const RoadMap = () => {
   return (
     <div
       style={{ paddingLeft: 0 }}
-      className="offcanvas-body about pt-5 pl-0 ml-0 pr-3 pb-5 w-100"
+      className="offcanvas-body about  pl-0 ml-0 pr-3 pb-5 w-100"
     >
-      {/* <h3 className="mb-4">ROADMAP</h3> */}
+      <h3 className="mb-4">ROADMAP</h3>
 
       <div className="d-flex">
         <p>

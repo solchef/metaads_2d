@@ -13,7 +13,7 @@ const Main = () => {
   return (
     <div className="offcanvas-body about ">
       <div
-        className={`d-flex flex-column mt-4 justify-content-end ${
+        className={`d-flex flex-column mt-0 justify-content-end ${
           showMenu ? 'align-items-start ' : 'align-items-end '
         } pe-2`}
       >
@@ -37,29 +37,24 @@ const Main = () => {
           custom-attribute="Roadmap"
         ></i>
 
-<a
+        <a
           target="_blank"
-          className="mt-3"
-          href={'https://opensea.io/' + QuadSpaceContract}
-        >
-          <i
-            className="icon-menu bi bi-cart mt-3"
-            custom-attribute="Marketplace"
-          ></i>
+          className="mt-3 pl-2"
+          href={'https://opensea.io/' + QuadSpaceContract}>
+          <img className='ml-2' height="35" width="35"  src='https://opensea.io/static/images/logos/opensea.svg' />
         </a>
 
         <a
           target="_blank"
           className="mt-3"
-          href={'https://t.me/TheMillionDollarWebsite'}
-        >
+          href={'https://t.me/TheMillionDollarWebsite'}>
           <i
             className="icon-menu bi bi-telegram mt-3"
             custom-attribute="Telegram"
           ></i>
         </a>
 
-        <a
+        {/* <a
           target="_blank"
           className="mt-3"
           href={'https://twitter.com/themilliondollarwebsite'}
@@ -80,7 +75,7 @@ const Main = () => {
             className="icon-menu bi bi-instagram mt-3"
             custom-attribute="Instagram"
           ></i>
-        </a>
+        </a> */}
       </div>
     </div>
   )

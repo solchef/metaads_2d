@@ -284,7 +284,7 @@ const GreenSquare = ({ x, y, image }) => {
             store.dispatch(setViewState(3))
           } else if (
             result === undefined ||
-            store.getState().settings.viewState !== 1
+            store.getState().settings.land.h !== 1
           ) {
             setLandPosition(
               new Vector3(
@@ -302,8 +302,8 @@ const GreenSquare = ({ x, y, image }) => {
               setLand({
                 x: boxPosition.x + widthMap / 2,
                 y: boxPosition.z + heightMap / 2,
-                h: 1,
-                w: 1,
+                h: store.getState().settings.land.h,
+                w: store.getState().settings.land.w,
               })
             )
             //playBuild()
@@ -323,8 +323,8 @@ const GreenSquare = ({ x, y, image }) => {
         setLand({
           x: boxPosition.x + widthMap / 2,
           y: boxPosition.z + heightMap / 2,
-          h: 1,
-          w: 1,
+          h: store.getState().settings.land.h,
+          w: store.getState().settings.land.w,
         })
       )
     }
@@ -345,8 +345,8 @@ const GreenSquare = ({ x, y, image }) => {
       data: false,
       name: 'TMDW Token',
       coords: x + ',' + y,
-      width: 1,
-      height: 1,
+      width: store.getState().settings.land.h,
+      height: store.getState().settings.land.w,
       image:
         'https://bafybeibaxec4sl7cbx4ey5djtofzdahowg7mv5vmfvkx3kxcfq7koecbx4.ipfs.nftstorage.link/',
       status: 'Available',
