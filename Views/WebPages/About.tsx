@@ -9,10 +9,12 @@ import ShareSection from "../../components/ShareSection"
 export const About = () => {
   return (
     <div style={{paddingLeft:0}} className="offcanvas-body about  pl-0 ml-0 pr-3  pb-5 w-100" id="about">
-      <h3 className="mb-4">The Million Dollar Website!</h3>
-
-      <p>
-      </p>
+             
+      <div className="d-flex" style={{marginLeft:"20px"}}>
+        <img src="assets/images/million-dollar-logo.svg" height={30} width={30}/>
+         <h3 className="mb-4"> The Million Dollar Website!</h3>
+      </div>
+    
       <div className="d-flex">
         <p>
           <h4 className="pb-2"> TMDW is the homepage billboard of the Metaverse!</h4>
