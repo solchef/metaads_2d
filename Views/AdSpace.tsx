@@ -2,29 +2,23 @@ import { Fragment, useEffect, useState } from 'react'
 import useCanvas from '../hooks/useCanvas'
 import PurchaseSection from './WebPages/PurchaseSection'
 import axios from 'axios'
-
 import {
-  selectLand,
   selectReloadPage,
   selectShowMenu,
   setBoughtedLandList,
 } from '../components/reducers/Settings'
 import { useAppDispatch, useAppSelector } from '../components/store/hooks'
-import 'react-minimap/dist/react-minimap.css'
+// import 'react-minimap/dist/react-minimap.css'
 import { MapView } from './WebPages/Map'
 
 const AdSpace: React.FunctionComponent = () => {
   const reload = useAppSelector(selectReloadPage)
-  const [boughtedLandListData, setBoughtedLandListData] = useState([])
-  const land = useAppSelector(selectLand)
   const { cAreaRef, squreInfo } = useCanvas()
   const dispatch = useAppDispatch()
 
-  useEffect(() => {}, [land])
   useEffect(() => {
     axios.get('https://quadspace.io/api/info').then((data) => {
       dispatch(setBoughtedLandList(data.data.meta))
-      setBoughtedLandListData(data.data.meta)
     })
   }, [])
 
@@ -60,7 +54,7 @@ const AdSpace: React.FunctionComponent = () => {
           </div>
         </section>
       </Fragment>
-      <PurchaseSection activeItem={squreInfo} enableBuy={false} />
+      <PurchaseSection />
       {/* )} */}
     </>
   )

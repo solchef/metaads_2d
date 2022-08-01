@@ -17,7 +17,7 @@ import { Section } from './Section'
 import Main from './Main'
 import { RoadMap } from './RoadMap'
 
-function PurchaseSection({ activeItem, enableBuy }) {
+function PurchaseSection() {
   const { uploadMetadata, uploadImage } = useIPFS()
   const landData = useAppSelector(selectLand)
   const { contracts, address } = useWeb3Context()
@@ -25,12 +25,9 @@ function PurchaseSection({ activeItem, enableBuy }) {
   const [description, setDescription] = useState('')
   const [url, setUrl] = useState('')
   const adscontract = contracts['metaads']
-  const [info, setInfo] = useState(activeItem)
   const [MintImage, setMintImage] = useState(null)
   const [land, setLand] = useState<any>({})
-  useEffect(() => {
-    setInfo(activeItem)
-  }, [activeItem, enableBuy])
+
   const viewState = useAppSelector(selectViewState)
   const dispatch = useAppDispatch()
   const showMenu = useAppSelector(selectShowMenu)

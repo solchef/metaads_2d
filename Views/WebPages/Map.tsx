@@ -52,7 +52,6 @@ export const MapView = () => {
   const [buyMode, setBuyMode] = useState(false)
   const [image, setImage] = useState('')
   const [loading, setLoading] = useState(true)
-  const clickMint = useAppSelector(selectClickMint)
 
   useEffect(() => {
     if (orbit.current) {
@@ -68,17 +67,6 @@ export const MapView = () => {
   }, [_3dMode])
 
   useEffect(() => {
-    if (orbit.current) {
-      // orbit.current.object.position.y = 100
-      // orbit.current.object.position.z = 200
-      // orbit.current.target.set(100, 100, 100)
-      // orbit.current.update()
-      // console.log(orbit.current.object)
-      // console.log(orbit.current)
-    }
-  }, [clickMint])
-
-  useEffect(() => {
     getImage()
   }, [])
 
@@ -90,15 +78,17 @@ export const MapView = () => {
   }
 
   useEffect(() => {
-    if (orbit.current && store.getState().settings.zoomLevel <= 5) {
-      orbit.current.object.position.y -= 290
+    if (orbit.current && store.getState().settings.zoomLevel <= 10) {
+      if (orbit.current.object.position.y - 180 > 40)
+        orbit.current.object.position.y -= 180
+      else orbit.current.object.position.y = 40
       orbit.current.update()
     }
   }, [zoomIn])
 
   useEffect(() => {
     if (orbit.current && store.getState().settings.zoomLevel >= 1) {
-      orbit.current.object.position.y += 290
+      orbit.current.object.position.y += 180
       orbit.current.update()
     }
   }, [zoomOut])
@@ -131,8 +121,8 @@ export const MapView = () => {
             maxAzimuthAngle={0}
             minZoom={0}
             maxZoom={1600}
-            minDistance={90}
-            maxDistance={1200}
+            minDistance={20}
+            maxDistance={1300}
             enableDamping={false}
             mouseButtons={{ LEFT: 2, MIDDLE: 1, RIGHT: 0 }}
             onChange={() => {
@@ -174,6 +164,8 @@ export const MapView = () => {
 
 const GreenSquare = ({ x, y, image }) => {
   const [playError] = useSound('./errorSound.mp3')
+  const defaultCamera = useThree((state) => state.camera)
+
   // const [playBuild] = useSound('./build.mp3')
   const ref = useRef()
   const boughtedLandListData = store.getState().settings.boughtedLandList
@@ -218,7 +210,14 @@ const GreenSquare = ({ x, y, image }) => {
       else setParcels([])
     })
   }, [])
-
+  useEffect(() => {
+    if (defaultCamera) {
+      console.log(defaultCamera)
+      // defaultCamera.position.y = 100
+      // defaultCamera.position.x = 500
+      // defaultCamera.position.set(100, 100, 100)
+    }
+  }, [store.getState().settings.clickMint])
   const cubeRef = useRef()
   // useHelper(ref, BoxHelper, '0x00ffff')
 
@@ -461,16 +460,28 @@ const GreenSquare = ({ x, y, image }) => {
   )
 }
 const onWheel = (camera) => {
-  if (camera.position.y < 978 && camera.position.y > 861)
+  if (camera.position.y < 1300 && camera.position.y > 1100)
     store.dispatch(setZoomLevel(1))
-  if (camera.position.y < 861 && camera.position.y > 639)
+  if (camera.position.y < 1100 && camera.position.y > 950)
     store.dispatch(setZoomLevel(2))
-  if (camera.position.y < 639 && camera.position.y > 415)
+  if (camera.position.y < 950 && camera.position.y > 800)
     store.dispatch(setZoomLevel(3))
-  if (camera.position.y < 415 && camera.position.y > 100)
+  if (camera.position.y < 800 && camera.position.y > 700)
     store.dispatch(setZoomLevel(4))
-  if (camera.position.y <= 100) {
+  if (camera.position.y <= 700) {
     store.dispatch(setZoomLevel(5))
+  }
+
+  if (camera.position.y < 600 && camera.position.y > 400)
+    store.dispatch(setZoomLevel(6))
+  if (camera.position.y < 400 && camera.position.y > 200)
+    store.dispatch(setZoomLevel(7))
+  if (camera.position.y < 200 && camera.position.y > 100)
+    store.dispatch(setZoomLevel(8))
+  if (camera.position.y < 100 && camera.position.y > 40)
+    store.dispatch(setZoomLevel(9))
+  if (camera.position.y <= 40) {
+    store.dispatch(setZoomLevel(10))
   }
 }
 function ToolTip1() {
