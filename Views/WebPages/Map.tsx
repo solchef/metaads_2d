@@ -77,24 +77,34 @@ export const MapView = () => {
   }, [])
 
   const getImage = async () => {
-    await axios.get('https://api.quadspace.io/adspsdace.json').then((data) => {
-      setImage(data.data)
-      setLoading(false)
-    })
+    try {
+      await axios
+        .get('https://api.quadspace.io/adspsdace.json')
+        .then((data) => {
+          setImage(data.data)
+          setLoading(false)
+        })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
+    let zoomNumber = 143
+    if (isMobile) zoomNumber = 209
     if (orbit.current && store.getState().settings.zoomLevel <= 10) {
-      if (orbit.current.object.position.y - 180 > 40)
-        orbit.current.object.position.y -= 180
-      else orbit.current.object.position.y = 40
+      if (orbit.current.object.position.y - zoomNumber > 20)
+        orbit.current.object.position.y -= zoomNumber
+      else orbit.current.object.position.y = 20
       orbit.current.update()
     }
   }, [zoomIn])
 
   useEffect(() => {
+    let zoomNumber = 143
+    if (isMobile) zoomNumber = 209
     if (orbit.current && store.getState().settings.zoomLevel >= 1) {
-      orbit.current.object.position.y += 180
+      orbit.current.object.position.y += zoomNumber
       orbit.current.update()
     }
   }, [zoomOut])
@@ -145,7 +155,10 @@ export const MapView = () => {
             </>
           )}
 
-          <PerspectiveCamera position={[0, 1200, 0]} makeDefault />
+          <PerspectiveCamera
+            position={[0, isMobile ? 1900 : 1300, 0]}
+            makeDefault
+          />
 
           <OrbitControls
             ref={orbit}
@@ -156,7 +169,7 @@ export const MapView = () => {
             minZoom={0}
             maxZoom={1600}
             minDistance={20}
-            maxDistance={1300}
+            maxDistance={isMobile ? 1900 : 1300}
             enableDamping={false}
             mouseButtons={{ LEFT: 2, MIDDLE: 1, RIGHT: 0 }}
             onChange={() => {
@@ -496,28 +509,50 @@ const GreenSquare = ({ x, y, image }) => {
   )
 }
 const onWheel = (camera) => {
-  if (camera.position.y < 1300 && camera.position.y > 1100)
-    store.dispatch(setZoomLevel(1))
-  if (camera.position.y < 1100 && camera.position.y > 950)
-    store.dispatch(setZoomLevel(2))
-  if (camera.position.y < 950 && camera.position.y > 800)
-    store.dispatch(setZoomLevel(3))
-  if (camera.position.y < 800 && camera.position.y > 700)
-    store.dispatch(setZoomLevel(4))
-  if (camera.position.y <= 700) {
-    store.dispatch(setZoomLevel(5))
-  }
-
-  if (camera.position.y < 600 && camera.position.y > 400)
-    store.dispatch(setZoomLevel(6))
-  if (camera.position.y < 400 && camera.position.y > 200)
-    store.dispatch(setZoomLevel(7))
-  if (camera.position.y < 200 && camera.position.y > 100)
-    store.dispatch(setZoomLevel(8))
-  if (camera.position.y < 100 && camera.position.y > 40)
-    store.dispatch(setZoomLevel(9))
-  if (camera.position.y <= 40) {
-    store.dispatch(setZoomLevel(10))
+  if (!isMobile) {
+    if (camera.position.y < 1300 && camera.position.y > 1164)
+      store.dispatch(setZoomLevel(1))
+    else if (camera.position.y < 1164 && camera.position.y > 1021)
+      store.dispatch(setZoomLevel(2))
+    else if (camera.position.y < 1021 && camera.position.y > 878)
+      store.dispatch(setZoomLevel(3))
+    else if (camera.position.y < 878 && camera.position.y > 735)
+      store.dispatch(setZoomLevel(4))
+    else if (camera.position.y < 735 && camera.position.y > 592)
+      store.dispatch(setZoomLevel(5))
+    else if (camera.position.y < 592 && camera.position.y > 449)
+      store.dispatch(setZoomLevel(6))
+    else if (camera.position.y < 449 && camera.position.y > 306)
+      store.dispatch(setZoomLevel(7))
+    else if (camera.position.y < 306 && camera.position.y > 163)
+      store.dispatch(setZoomLevel(8))
+    else if (camera.position.y < 163 && camera.position.y > 40)
+      store.dispatch(setZoomLevel(9))
+    else if (camera.position.y >= 20 && camera.position.y < 40) {
+      store.dispatch(setZoomLevel(10))
+    }
+  } else {
+    if (camera.position.y < 1900 && camera.position.y > 1712)
+      store.dispatch(setZoomLevel(1))
+    else if (camera.position.y < 1712 && camera.position.y > 1592)
+      store.dispatch(setZoomLevel(2))
+    else if (camera.position.y < 1592 && camera.position.y > 1383)
+      store.dispatch(setZoomLevel(3))
+    else if (camera.position.y < 1383 && camera.position.y > 1174)
+      store.dispatch(setZoomLevel(4))
+    else if (camera.position.y < 1174 && camera.position.y > 965)
+      store.dispatch(setZoomLevel(5))
+    else if (camera.position.y < 965 && camera.position.y > 756)
+      store.dispatch(setZoomLevel(6))
+    else if (camera.position.y < 756 && camera.position.y > 547)
+      store.dispatch(setZoomLevel(7))
+    else if (camera.position.y < 547 && camera.position.y > 338)
+      store.dispatch(setZoomLevel(8))
+    else if (camera.position.y < 338 && camera.position.y > 109)
+      store.dispatch(setZoomLevel(9))
+    else if (camera.position.y >= 20 && camera.position.y < 40) {
+      store.dispatch(setZoomLevel(10))
+    }
   }
 }
 function ToolTip1() {
