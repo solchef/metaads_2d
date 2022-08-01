@@ -52,6 +52,7 @@ export const MapView = () => {
   const [buyMode, setBuyMode] = useState(false)
   const [image, setImage] = useState('')
   const [loading, setLoading] = useState(true)
+  const [ownerLandList, SetOwnerLandList] = useState([])
 
   useEffect(() => {
     if (orbit.current) {
@@ -68,6 +69,11 @@ export const MapView = () => {
 
   useEffect(() => {
     getImage()
+  }, [])
+
+  // load user Lands
+  useEffect(() => {
+    SetOwnerLandList([])
   }, [])
 
   const getImage = async () => {
@@ -96,6 +102,23 @@ export const MapView = () => {
   useEffect(() => {
     setBuyMode(true)
   }, [])
+
+  //landPosition = new Vector3(x,y,z) y always = 0.5
+  // landSize = { w:width, h:height }
+  const OwnerLans = (landPosition, landSize) => {
+    return (
+      <mesh position={landPosition} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeBufferGeometry args={[landSize.w, landSize.h]} />
+        <meshBasicMaterial
+          // map={textureBox}
+          color="0xdf2a6f"
+          attach="material"
+          side={DoubleSide}
+        />
+      </mesh>
+    )
+  }
+
   return (
     <Canvas style={{ height: '100vh', width: '100%', backgroundColor: '#000' }}>
       <group>
@@ -103,14 +126,25 @@ export const MapView = () => {
           {loading ? (
             <ToolTip1 />
           ) : (
-            <GreenSquare
-              color="#f56f42"
-              color2="#00707b"
-              x={land.h}
-              y={land.w}
-              image={image}
-            />
+            <>
+              <GreenSquare
+                color="#f56f42"
+                color2="#00707b"
+                x={land.h}
+                y={land.w}
+                image={image}
+              />
+              {ownerLandList.map((data) => {
+                return (
+                  <OwnerLans
+                    landPosition={data.landPosition}
+                    landSize={data.landSize}
+                  />
+                )
+              })}
+            </>
           )}
+
           <PerspectiveCamera position={[0, 1200, 0]} makeDefault />
 
           <OrbitControls
@@ -332,7 +366,7 @@ const GreenSquare = ({ x, y, image }) => {
   }
 
   const findLand = (x1, y1, x2, y2, x, y) => {
-    x = x + 1;
+    x = x + 1
     y = y + 1
     if (x > x1 && x < x2 && y > y1 && y < y2) return true
 
