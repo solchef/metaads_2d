@@ -335,8 +335,8 @@ const GreenSquare = ({ x, y, image }) => {
               setLand({
                 x: boxPosition.x + widthMap / 2,
                 y: boxPosition.z + heightMap / 2,
-                h: 1,
-                w: 1,
+                h: x,
+                w: y,
               })
             )
             //playBuild()
@@ -356,8 +356,8 @@ const GreenSquare = ({ x, y, image }) => {
         setLand({
           x: boxPosition.x + widthMap / 2,
           y: boxPosition.z + heightMap / 2,
-          h: 1,
-          w: 1,
+          h: x,
+          w: y,
         })
       )
     }

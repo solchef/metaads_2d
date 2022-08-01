@@ -52,6 +52,7 @@ export const Section = ({
               defaultValue={1}
               aria-label="W"
               placeholder="Width"
+              value={landData.w}
               className="form-control"
               onChange={(e) => {
                 dispatch(
@@ -71,6 +72,7 @@ export const Section = ({
               max="1000000"
               defaultValue={1}
               placeholder="Hight"
+              value={landData.h}
               className="form-control value="
               onChange={(e) => {
                 dispatch(
@@ -256,8 +258,8 @@ export const Section = ({
               </g>
             </g>
           </svg>
-          &nbsp;{landData.h * landData.w * 0.00058} ( $ {landData.h * landData.w}{' '}
-          )
+          &nbsp;{landData.h * landData.w * 0.00058} ( ${' '}
+          {landData.h * landData.w} )
         </span>
       </div>
     </div>

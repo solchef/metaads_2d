@@ -1,7 +1,5 @@
 import React from 'react'
-import { updateX, updateY } from '../../Views/WebPages/Map'
 import { selectLand, setLand } from '../reducers/Settings'
-import { store } from '../store'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 
 const FormOne = (props) => {
@@ -20,6 +18,7 @@ const FormOne = (props) => {
             type="number"
             min="1"
             max="1000000"
+            value={landData.h}
             onChange={(e) => {
               dispatch(
                 setLand({
@@ -37,6 +36,7 @@ const FormOne = (props) => {
             type="number"
             min="1"
             max="1000000"
+            value={landData.w}
             onChange={(e) => {
               dispatch(
                 setLand({
