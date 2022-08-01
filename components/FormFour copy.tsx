@@ -103,7 +103,7 @@ const FormFour = (props) => {
               </g>
             </g>
           </svg>{' '}
-          {(0.000942 * land.w * land.h).toFixed(3)} ($ {1 * land.w * land.h} )
+          {(0.00058 * land.w * land.h).toFixed(3)} ($ {1 * land.w * land.h} )
         </span>
 
         <span className=" pe-2">

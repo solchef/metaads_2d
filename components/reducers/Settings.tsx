@@ -15,6 +15,7 @@ export interface Settings {
   selectedLand: {}
   menuView: boolean
   clickMint: boolean
+  balance: number
   parcel: {
     data: boolean
     name: string
@@ -28,6 +29,7 @@ export interface Settings {
     position: number
   }
   mintingStatus: string
+  quadPrice:number
 }
 
 const initialState: Settings = {
@@ -44,6 +46,7 @@ const initialState: Settings = {
   selectedLand: {},
   menuView: false,
   clickMint: false,
+  balance: 0.00,
   parcel: {
     data: false,
     name: 'quad',
@@ -57,6 +60,7 @@ const initialState: Settings = {
     position: 0,
   },
   mintingStatus: null,
+  quadPrice:0.00
 }
 
 export const counterSlice = createSlice({
@@ -100,6 +104,10 @@ export const counterSlice = createSlice({
     setMenuView: (state, action: PayloadAction<boolean>) => {
       state.menuView = action.payload
     },
+    setBalance: (state, action: PayloadAction<any>) => {
+      state.balance = action.payload
+    },
+    
     setParcel: (state, action: PayloadAction<any>) => {
       state.parcel = action.payload
     },
@@ -108,6 +116,9 @@ export const counterSlice = createSlice({
     },
     setClickMint: (state, action: PayloadAction<boolean>) => {
       state.clickMint = action.payload
+    },
+    setquadPrice: (state, action: PayloadAction<any>) => {
+      state.quadPrice = action.payload
     },
   },
 })
@@ -125,9 +136,11 @@ export const {
   setZoomLevel,
   setSelectedLand,
   setMenuView,
+  setBalance,
   setParcel,
   setMintStatus,
   setClickMint,
+  setquadPrice
 } = counterSlice.actions
 
 export const selectLand = (state: RootState) => state.settings.land
@@ -144,10 +157,13 @@ export const selectZoomIn = (state: RootState) => state.settings.zoomIn
 export const selectZoomOut = (state: RootState) => state.settings.zoomOut
 export const selectZoomLevel = (state: RootState) => state.settings.zoomLevel
 export const selectMenuView = (state: RootState) => state.settings.menuView
+export const getBalance = (state: RootState) => state.settings.balance
 export const getParcel = (state: RootState) => state.settings.parcel
 export const getMintingstatus = (state: RootState) =>
   state.settings.mintingStatus
 export const selectClickMint = (state: RootState) => state.settings.clickMint
+export const getQuadPrice = (state: RootState) => state.settings.quadPrice
+
 
 export const setLandData =
   (view: any): AppThunk =>
@@ -207,12 +223,17 @@ export const setZoomOutData =
   (dispatch) => {
     dispatch(setZoomOut(view))
   }
+
 export const setZoomLevelData =
   (view: number): AppThunk =>
   (dispatch) => {
     dispatch(setZoomLevel(view))
   }
-
+export const setUserBalance =
+  (view: number): AppThunk =>
+  (dispatch) => {
+    dispatch(setBalance(view))
+  }
 export const setParcelDetails =
   (view: any): AppThunk =>
   (dispatch) => {
@@ -228,6 +249,12 @@ export const setClickMintData =
   (view: boolean): AppThunk =>
   (dispatch) => {
     dispatch(setClickMint(view))
+  }
+
+  export const setQuadPriceCurrent =
+  (view: boolean): AppThunk =>
+  (dispatch) => {
+    dispatch(setQuadPrice(view))
   }
 
 export default counterSlice.reducer

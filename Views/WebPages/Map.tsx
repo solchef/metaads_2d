@@ -332,6 +332,8 @@ const GreenSquare = ({ x, y, image }) => {
   }
 
   const findLand = (x1, y1, x2, y2, x, y) => {
+    x = x + 1;
+    y = y + 1
     if (x > x1 && x < x2 && y > y1 && y < y2) return true
 
     return false
@@ -372,7 +374,7 @@ const GreenSquare = ({ x, y, image }) => {
           coords: x + ',' + y,
           width: land.parcelWidth,
           height: land.parcelHeight,
-          image: `https://api.quadspace.io/${land.image_temp}`,
+          image: `https://api.quadspace.io/${land.image_temp}`, //temporary compressed image of land
           status: 'booked',
           url: land.url,
           description: land.description

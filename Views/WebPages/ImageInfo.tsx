@@ -20,13 +20,13 @@ export const ImageInfo = () => {
       <h4>Token #{parcelData.position}</h4>
 
       <h3>{parcelData.name}</h3>
-
+      <a href={parcelData.url} target="_blank" className="text-success">
+            <u>https://{shortUrl(parcelData.url, 15)}</u>
+          </a>
       <p className="text-start mt-3">
         <span className=" link d-block pb-1 ">
           {/* <i className="bi bi-link"></i> :&nbsp; */}
-          <a href={parcelData.url} target="_blank" className="text-success">
-            <u>https://{shortUrl(parcelData.url, 15)}</u>
-          </a>
+        
         </span>
         {parcelData.description}
       </p>

@@ -6,6 +6,7 @@ import truncateEthAddress from '../utils/truncate'
 interface ConnectProps {
   connect: (() => Promise<void>) | null
 }
+
 const ConnectButton = ({ connect, title }: ConnectProps) => {
   return connect ? (
     <>
@@ -53,7 +54,7 @@ const DisconnectButton = ({ disconnect, address }: DisconnectProps) => {
         href="#"
       >
         <i className="bi-wallet me-2" />
-        {truncateEthAddress(address)}
+          {truncateEthAddress(address)} 
       </a>
       <a
         className="btn-primary hoverable btn-md show-mobile"

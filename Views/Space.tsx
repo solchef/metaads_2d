@@ -189,7 +189,7 @@ const Space: React.FunctionComponent = () => {
                         </g>
                       </g>
                     </svg>
-                    0.000942 ( $ 1 )
+                    0.00058 ( $ 1 )
                   </span>
                 </span>
               </div>
@@ -364,7 +364,7 @@ const Space: React.FunctionComponent = () => {
                   </g>
                 </g>
               </svg>
-              &nbsp; 0.000942 (1)
+              &nbsp; 0.00058 (1)
             </span>
           </span>
         </span>
@@ -579,6 +579,7 @@ const Space: React.FunctionComponent = () => {
                             />
                           </g>
                         </g>
+
                       </g>
                     </svg>
                     &nbsp;0.0942 ( $ 100 )

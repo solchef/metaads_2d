@@ -7,7 +7,7 @@ const squreInfoDefault = {
   y: -1,
   Price: 0,
   Status: 'Available',
-  owner: '0.000942',
+  owner: '0.00058',
   link: 'quadspace.io',
   area: '1 X 1',
   qty: 1,

@@ -9,6 +9,7 @@ import {
   setClickMint,
   setViewState,
 } from '../../components/reducers/Settings'
+import ShareSection from '../../components/ShareSection'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 
 export const Sellsection = () => {
@@ -32,7 +33,7 @@ export const Sellsection = () => {
   }, [parcelData])
   const dispatch = useAppDispatch()
   return (
-    <div className="offcanvas-body image-info pb-5 mt-4 p-0 text-center">
+    <div className="offcanvas-body image-info pb-5 mt-0 p-0 text-center">
       {/* <h3> FOR SALE</h3> */}
       <div className="forsale mb-4">
         <h3>FOR SALE</h3>
@@ -55,12 +56,10 @@ export const Sellsection = () => {
         </a>
       </div>
       <p className="mt-4 text-nowrap">
-        ❤️ Share with your friends and followers ❤️
+        Share with your friends and followers 
       </p>
       <div className="d-flex mt-2 justify-content-center">
-        <i className="bi cursor-pointer	 fs-4 bi-whatsapp"></i>
-        <i className="bi fs-4 bi-facebook mx-4"></i>
-        <i className="bi fs-4 bi-twitter"></i>
+          <ShareSection/>
       </div>
     </div>
   )

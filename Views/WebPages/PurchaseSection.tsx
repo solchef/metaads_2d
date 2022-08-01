@@ -5,6 +5,7 @@ import {
   selectShowMenu,
   setShowMenu,
   setViewState,
+  getQuadPrice,
 } from '../../components/reducers/Settings'
 import { useAppSelector, useAppDispatch } from '../../components/store/hooks'
 import { useWeb3Context } from '../../context'
@@ -26,11 +27,14 @@ function PurchaseSection() {
   const [url, setUrl] = useState('')
   const adscontract = contracts['metaads']
   const [MintImage, setMintImage] = useState(null)
+
   const [land, setLand] = useState<any>({})
 
   const viewState = useAppSelector(selectViewState)
   const dispatch = useAppDispatch()
   const showMenu = useAppSelector(selectShowMenu)
+  const quadPrice = useAppSelector(getQuadPrice)
+
 
   useEffect(() => {
     setLand({
@@ -51,7 +55,8 @@ function PurchaseSection() {
       MintImage,
       land,
       uploadMetadata,
-      uploadImage
+      uploadImage,
+      quadPrice
     )
   }
   const getVisibilityMode = () => {
@@ -82,7 +87,7 @@ function PurchaseSection() {
         style={{ visibility: 'visible' }}
       >
         <div className="offcanvas-title ">
-          <span className="pt-2">
+          <span className="">
             {viewState === 0
               ? ''
               : viewState === 1
@@ -95,17 +100,18 @@ function PurchaseSection() {
               ? ''
               : ''}
           </span>
-          <span
+          <a
+          className=''
+          style={{float:"right", marginRight:"20px"}}
             onClick={() => {
               dispatch(setShowMenu(!showMenu))
               dispatch(setViewState(4))
             }}
-            className={`icon ${showMenu && 'open'}  position-absolute`}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
+            href="#">
+            {
+              showMenu && <i className='fa fa-close' ></i>
+            }
+          </a>
         </div>
         {getVisibilityMode()}
       </div>
