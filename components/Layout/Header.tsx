@@ -95,7 +95,7 @@ const Header = () => {
                     <button
                       className="btn btn-bi btn-primary hoverable btn-lg "
                       onClick={() => {
-                        if (zoomLevelState < 10) {
+                        if (zoomLevelState < 5) {
                           dispatch(setZoomIn(zoomLevelState + 1))
                           setZoomLevelState(zoomLevelState + 1)
                           dispatch(setZoomLevel(zoomLevelState + 1))

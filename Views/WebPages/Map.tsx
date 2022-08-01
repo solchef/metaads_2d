@@ -284,7 +284,7 @@ const GreenSquare = ({ x, y, image }) => {
             store.dispatch(setViewState(3))
           } else if (
             result === undefined ||
-            store.getState().settings.land.h !== 1
+            store.getState().settings.viewState !== 1
           ) {
             setLandPosition(
               new Vector3(
@@ -302,8 +302,8 @@ const GreenSquare = ({ x, y, image }) => {
               setLand({
                 x: boxPosition.x + widthMap / 2,
                 y: boxPosition.z + heightMap / 2,
-                h: store.getState().settings.land.h,
-                w: store.getState().settings.land.w,
+                h: 1,
+                w: 1,
               })
             )
             //playBuild()
@@ -323,8 +323,8 @@ const GreenSquare = ({ x, y, image }) => {
         setLand({
           x: boxPosition.x + widthMap / 2,
           y: boxPosition.z + heightMap / 2,
-          h: store.getState().settings.land.h,
-          w: store.getState().settings.land.w,
+          h: 1,
+          w: 1,
         })
       )
     }
@@ -334,7 +334,7 @@ const GreenSquare = ({ x, y, image }) => {
 
   const findLand = (x1, y1, x2, y2, x, y) => {
     x = x + 1;
-    y = y + 1;
+    y = y + 1
     if (x > x1 && x < x2 && y > y1 && y < y2) return true
 
     return false
@@ -345,8 +345,8 @@ const GreenSquare = ({ x, y, image }) => {
       data: false,
       name: 'TMDW Token',
       coords: x + ',' + y,
-      width: store.getState().settings.land.h,
-      height: store.getState().settings.land.w,
+      width: 1,
+      height: 1,
       image:
         'https://bafybeibaxec4sl7cbx4ey5djtofzdahowg7mv5vmfvkx3kxcfq7koecbx4.ipfs.nftstorage.link/',
       status: 'Available',
@@ -375,7 +375,7 @@ const GreenSquare = ({ x, y, image }) => {
           coords: x + ',' + y,
           width: land.parcelWidth,
           height: land.parcelHeight,
-          image: `https://api.quadspace.io/${land.image_temp}`,
+          image: `https://api.quadspace.io/${land.image_temp}`, //temporary compressed image of land
           status: 'booked',
           url: land.url,
           description: land.description
