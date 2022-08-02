@@ -65,7 +65,7 @@ export default function useCanvas() {
   })
 
   useEffect(() => {
-    initCanvas()
+    initCanvas() 
   }, [])
 
   useEffect(() => {
