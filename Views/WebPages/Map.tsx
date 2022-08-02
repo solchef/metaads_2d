@@ -7,18 +7,21 @@ import {
   OrbitControls,
   PerspectiveCamera,
   useAnimations,
+  View,
 } from '@react-three/drei'
 import { LoadingManager } from 'three'
 import { Loader } from '../../utils/loader'
-import { useAppSelector } from '../../components/store/hooks'
+import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 import { vertexShader, fragmentShader } from './shaders'
 import {
   selectClickMint,
   selectLand,
   selectZoomIn,
+  selectZoomLevel,
   selectZoomOut,
   select_3dMode,
   setLand,
+  setMiniMapPosition,
   setParcel,
   setSelectedLand,
   setShowMenu,
@@ -43,16 +46,37 @@ if (
   isMobile = true
 }
 
-export const MapView = () => {
+export const MiniMap = () => {
+  return <MapView minMap={true} />
+}
+
+export const MapView = ({ minMap }) => {
   const _3dMode = useAppSelector(select_3dMode)
   const land = useAppSelector(selectLand)
   const orbit = useRef()
   const zoomIn = useAppSelector(selectZoomIn)
   const zoomOut = useAppSelector(selectZoomOut)
   const [buyMode, setBuyMode] = useState(false)
-  const [image, setImage] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [image, setImage] = useState()
   const [ownerLandList, SetOwnerLandList] = useState([])
+  const [load, setLoad] = useState(false)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    getImage()
+  }, [])
+
+  const getImage = async () => {
+    try {
+      await axios
+        .get('https://api.quadspace.io/adspsdace.json')
+        .then((data) => {
+          setImage(data.data)
+        })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
     if (orbit.current) {
@@ -67,27 +91,10 @@ export const MapView = () => {
     }
   }, [_3dMode])
 
-  useEffect(() => {
-    getImage()
-  }, [])
-
   // load user Lands
   useEffect(() => {
     SetOwnerLandList([])
   }, [])
-
-  const getImage = async () => {
-    try {
-      await axios
-        .get('https://api.quadspace.io/adspsdace.json')
-        .then((data) => {
-          setImage(data.data)
-          setLoading(false)
-        })
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   useEffect(() => {
     let zoomNumber = 143
@@ -96,6 +103,7 @@ export const MapView = () => {
       if (orbit.current.object.position.y - zoomNumber > 20)
         orbit.current.object.position.y -= zoomNumber
       else orbit.current.object.position.y = 20
+
       orbit.current.update()
     }
   }, [zoomIn])
@@ -130,10 +138,20 @@ export const MapView = () => {
   }
 
   return (
-    <Canvas style={{ height: '100vh', width: '100%', backgroundColor: '#000' }}>
+    <Canvas
+      style={
+        minMap
+          ? {
+              height: '250px',
+              width: '250px',
+              backgroundColor: '#000',
+            }
+          : { height: '100vh', width: '100%', backgroundColor: '#000' }
+      }
+    >
       <group>
         <Suspense fallback={<></>}>
-          {loading ? (
+          {load ? (
             <ToolTip1 />
           ) : (
             <>
@@ -143,6 +161,7 @@ export const MapView = () => {
                 x={land.h}
                 y={land.w}
                 image={image}
+                miniMap={minMap}
               />
               {ownerLandList.map((data) => {
                 return (
@@ -174,6 +193,13 @@ export const MapView = () => {
             mouseButtons={{ LEFT: 2, MIDDLE: 1, RIGHT: 0 }}
             onChange={() => {
               onWheel(orbit.current.object)
+              dispatch(
+                setMiniMapPosition({
+                  x: orbit.current.object.position.x,
+                  y: orbit.current.object.position.z,
+                })
+              )
+
               // if (orbit.current.object.position.x < -500) {
               //   if (orbit.current.object.position.x != -500)
               //     orbit.current.object.position.x = -490
@@ -209,7 +235,7 @@ export const MapView = () => {
   )
 }
 
-const GreenSquare = ({ x, y, image }) => {
+const GreenSquare = ({ x, y, image, miniMap }) => {
   const [playError] = useSound('./errorSound.mp3')
   const defaultCamera = useThree((state) => state.camera)
 
@@ -219,16 +245,21 @@ const GreenSquare = ({ x, y, image }) => {
   const z = 2
   const widthMap = 1000
   const heightMap = 1000
-  const [loading, setLoading] = useState(true)
   const manager = new LoadingManager()
-  const { gl, controls } = useThree()
+  const { gl, controls, camera } = useThree()
+  const [load, setLoad] = useState(false)
+  // console.log(camera.position)
+  // console.log(gl)
+  // if (miniMap) gl.setViewport(100, 100, 200, 200)
+  gl.setPixelRatio(window.devicePixelRatio)
+
   gl.capabilities.maxFragmentUniforms = 2400
   // gl.setViewport(200, 200, 200, 100)
   manager.onStart = function () {
-    setLoading(true)
+    setLoad(true)
   }
   manager.onLoad = function () {
-    setLoading(false)
+    setLoad(false)
   }
   const texture = React.useMemo(
     () => new TextureLoader(manager).load(image),
@@ -259,7 +290,7 @@ const GreenSquare = ({ x, y, image }) => {
   }, [])
   useEffect(() => {
     if (defaultCamera) {
-      console.log(defaultCamera)
+      // console.log(defaultCamera)
       // defaultCamera.position.y = 100
       // defaultCamera.position.x = 500
       // defaultCamera.position.set(100, 100, 100)
@@ -439,7 +470,7 @@ const GreenSquare = ({ x, y, image }) => {
 
   return (
     <>
-      {loading ? (
+      {load ? (
         <ToolTip1 />
       ) : (
         <>
@@ -486,6 +517,7 @@ const GreenSquare = ({ x, y, image }) => {
           ) : (
             ''
           )} */}
+
           {viewLand ? (
             <mesh
               position={landPosition}
@@ -503,9 +535,119 @@ const GreenSquare = ({ x, y, image }) => {
           ) : (
             ''
           )}
+          {miniMap ? <ViewedAria /> : ''}
         </>
       )}
     </>
+  )
+}
+const ViewedAria = () => {
+  const [width, setWidth] = useState(750)
+  const [height, setHight] = useState(750)
+  const [xPosition, setXPosition] = useState(0)
+  const [yPosition, setYPosition] = useState(0)
+
+  const fullWidth = 1000
+  const fullHeight = 1000
+
+  store.subscribe(() => {
+    setXPosition(store.getState().settings.miniMapPosition.x)
+    setYPosition(store.getState().settings.miniMapPosition.y)
+    if (store.getState().settings.zoomLevel === 10) {
+      setWidth(8)
+      setHight(8)
+    }
+    if (store.getState().settings.zoomLevel === 9) {
+      setWidth(13.3)
+      setHight(13.3)
+    }
+    if (store.getState().settings.zoomLevel === 8) {
+      setWidth(26.6)
+      setHight(26.6)
+    }
+    if (store.getState().settings.zoomLevel === 7) {
+      setWidth(39.9)
+      setHight(39.9)
+    }
+    if (store.getState().settings.zoomLevel === 6) {
+      setWidth(53.3)
+      setHight(53.3)
+    }
+    if (store.getState().settings.zoomLevel === 5) {
+      setWidth(66.6)
+      setHight(66.6)
+    }
+    if (store.getState().settings.zoomLevel === 4) {
+      setWidth(79.9)
+      setHight(79.9)
+    }
+    if (store.getState().settings.zoomLevel === 3) {
+      setWidth(93.3)
+      setHight(93.3)
+    }
+    if (store.getState().settings.zoomLevel === 2) {
+      setWidth(106.6)
+      setHight(106.6)
+    }
+    if (store.getState().settings.zoomLevel === 1) {
+      setWidth(119.9)
+      setHight(119.9)
+    }
+  })
+  return (
+    <Html center position={[xPosition, 1, yPosition]}>
+      <div
+        style={{
+          backgroundColor: '#00000000',
+          width: fullWidth,
+          height: fullHeight,
+        }}
+      >
+        <div
+          style={{
+            backgroundColor: '#0000007d',
+            width: fullWidth,
+            height: 500 - height,
+          }}
+        ></div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: '#0000007d',
+              width: 500 - width,
+              height: height * 2,
+              float: 'left',
+            }}
+          ></div>
+          <div
+            style={{
+              border: 'solid 2px red',
+              width: width * 2,
+            }}
+          ></div>
+          <div
+            style={{
+              backgroundColor: '#0000007d',
+              width: 500 - width,
+              height: height * 2,
+              float: 'right',
+            }}
+          ></div>
+        </div>
+        <div
+          style={{
+            backgroundColor: '#0000007d',
+            width: fullWidth,
+            height: 500 - height,
+          }}
+        ></div>
+      </div>
+    </Html>
   )
 }
 const onWheel = (camera) => {

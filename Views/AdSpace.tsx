@@ -49,7 +49,7 @@ const AdSpace: React.FunctionComponent = () => {
                 setMouseMove(true)
               }}
             >
-              {reload ? <MapView /> : ''}
+              {reload ? <MapView minMap={false} /> : ''}
             </div>
           </div>
         </section>

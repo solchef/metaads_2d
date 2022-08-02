@@ -29,7 +29,8 @@ export interface Settings {
     position: number
   }
   mintingStatus: string
-  quadPrice:number
+  quadPrice: number
+  miniMapPosition: {}
 }
 
 const initialState: Settings = {
@@ -46,7 +47,7 @@ const initialState: Settings = {
   selectedLand: {},
   menuView: false,
   clickMint: false,
-  balance: 0.00,
+  balance: 0.0,
   parcel: {
     data: false,
     name: 'quad',
@@ -60,7 +61,8 @@ const initialState: Settings = {
     position: 0,
   },
   mintingStatus: null,
-  quadPrice:0.00
+  quadPrice: 0.0,
+  miniMapPosition: { x: 0, y: 0 },
 }
 
 export const counterSlice = createSlice({
@@ -107,7 +109,7 @@ export const counterSlice = createSlice({
     setBalance: (state, action: PayloadAction<any>) => {
       state.balance = action.payload
     },
-    
+
     setParcel: (state, action: PayloadAction<any>) => {
       state.parcel = action.payload
     },
@@ -119,6 +121,9 @@ export const counterSlice = createSlice({
     },
     setquadPrice: (state, action: PayloadAction<any>) => {
       state.quadPrice = action.payload
+    },
+    setMiniMapPosition: (state, action: PayloadAction<{}>) => {
+      state.miniMapPosition = action.payload
     },
   },
 })
@@ -140,7 +145,8 @@ export const {
   setParcel,
   setMintStatus,
   setClickMint,
-  setquadPrice
+  setquadPrice,
+  setMiniMapPosition,
 } = counterSlice.actions
 
 export const selectLand = (state: RootState) => state.settings.land
@@ -163,7 +169,8 @@ export const getMintingstatus = (state: RootState) =>
   state.settings.mintingStatus
 export const selectClickMint = (state: RootState) => state.settings.clickMint
 export const getQuadPrice = (state: RootState) => state.settings.quadPrice
-
+export const selectMiniMapPosition = (state: RootState) =>
+  state.settings.miniMapPosition
 
 export const setLandData =
   (view: any): AppThunk =>
@@ -192,6 +199,12 @@ export const setSelectedLandData =
   (view: {}): AppThunk =>
   (dispatch) => {
     dispatch(setSelectedLand(view))
+  }
+
+export const setMiniMapPositionData =
+  (view: {}): AppThunk =>
+  (dispatch) => {
+    dispatch(setMiniMapPosition(view))
   }
 
 export const setSelectModeData =
@@ -251,7 +264,7 @@ export const setClickMintData =
     dispatch(setClickMint(view))
   }
 
-  export const setQuadPriceCurrent =
+export const setQuadPriceCurrent =
   (view: boolean): AppThunk =>
   (dispatch) => {
     dispatch(setQuadPrice(view))
