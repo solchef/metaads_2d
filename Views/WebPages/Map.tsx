@@ -59,7 +59,7 @@ export const MapView = ({ minMap }) => {
   const [buyMode, setBuyMode] = useState(false)
   const [image, setImage] = useState()
   const [ownerLandList, SetOwnerLandList] = useState([])
-  const [load, setLoad] = useState(false)
+  const [load, setLoad] = useState(true)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -72,6 +72,7 @@ export const MapView = ({ minMap }) => {
         .get('https://api.quadspace.io/adspsdace.json')
         .then((data) => {
           setImage(data.data)
+          setLoad(false)
         })
     } catch (error) {
       console.log(error)
