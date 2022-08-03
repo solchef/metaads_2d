@@ -13,7 +13,6 @@ import { MapView } from './WebPages/Map'
 
 const AdSpace: React.FunctionComponent = () => {
   const reload = useAppSelector(selectReloadPage)
-  const { cAreaRef, squreInfo } = useCanvas()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -36,7 +35,6 @@ const AdSpace: React.FunctionComponent = () => {
         <section id="grid-section">
           <div className={`grid-canvas  ${showMenu && ' '}`}>
             <div
-              ref={cAreaRef}
               className="canvas-box  hoverable "
               id="container"
               onMouseDown={() => {

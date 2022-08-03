@@ -20,6 +20,7 @@ import {
   selectZoomLevel,
   selectZoomOut,
   select_3dMode,
+  setImage,
   setLand,
   setMiniMapPosition,
   setParcel,
@@ -57,7 +58,7 @@ export const MapView = ({ minMap }) => {
   const zoomIn = useAppSelector(selectZoomIn)
   const zoomOut = useAppSelector(selectZoomOut)
   const [buyMode, setBuyMode] = useState(false)
-  const [image, setImage] = useState()
+  const [image, setImageState] = useState()
   const [ownerLandList, SetOwnerLandList] = useState([])
   const [load, setLoad] = useState(true)
   const dispatch = useAppDispatch()
@@ -71,7 +72,8 @@ export const MapView = ({ minMap }) => {
       await axios
         .get('https://api.quadspace.io/adspsdace.json')
         .then((data) => {
-          setImage(data.data)
+          setImageState(data.data)
+          dispatch(setImage(data.data))
           setLoad(false)
         })
     } catch (error) {
@@ -263,7 +265,10 @@ const GreenSquare = ({ x, y, image, miniMap }) => {
     setLoad(false)
   }
   const texture = React.useMemo(
-    () => new TextureLoader(manager).load(image),
+    () =>
+      new TextureLoader(manager).load(
+        miniMap ? store.getState().settings.image : image
+      ),
     []
   )
   const texture2 = React.useMemo(
