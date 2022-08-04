@@ -67,16 +67,13 @@ export default function ShareSection() {
         <TwitterIcon size={32} round />
       </TwitterShareButton>
 
-      <div
-        // title={"THE MILLION DOLLAR WEBSITE!"}
-        // url={"http://www.themilliondollarwebsite.com/"}
-        onClick={() =>
-          window.open('https://t.me/TheMillionDollarWebsite', '_blank')
-        }
+      <TelegramShareButton
+        title={'THE MILLION DOLLAR WEBSITE!'}
+        url={'http://www.themilliondollarwebsite.com/'}
         className="m-2"
       >
         <TelegramIcon size={32} round />
-      </div>
+      </TelegramShareButton>
     </>
   )
 }

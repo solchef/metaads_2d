@@ -254,9 +254,14 @@ const GreenSquare = ({ x, y, image, miniMap }) => {
   // console.log(camera.position)
   // console.log(gl)
   // if (miniMap) gl.setViewport(100, 100, 200, 200)
-  gl.setPixelRatio(window.devicePixelRatio)
-
+  console.log(window.devicePixelRatio)
+  gl.setPixelRatio(2.5)
   gl.capabilities.maxFragmentUniforms = 2400
+  gl.capabilities.maxAttributes = 64
+  gl.capabilities.maxTextures = 64
+  gl.capabilities.maxVertexTextures = 64
+  console.log(gl.capabilities)
+
   // gl.setViewport(200, 200, 200, 100)
   manager.onStart = function () {
     setLoad(true)
