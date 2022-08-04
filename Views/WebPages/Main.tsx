@@ -44,8 +44,8 @@ const Main = () => {
         >
           <img
             className="ml-2"
-            height="35"
-            width="35"
+            height="30"
+            width="30"
             src="https://opensea.io/static/images/logos/opensea.svg"
           />
         </a>
