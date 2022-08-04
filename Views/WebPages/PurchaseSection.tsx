@@ -35,7 +35,6 @@ function PurchaseSection() {
   const showMenu = useAppSelector(selectShowMenu)
   const quadPrice = useAppSelector(getQuadPrice)
 
-
   useEffect(() => {
     setLand({
       x: landData.x,
@@ -60,7 +59,7 @@ function PurchaseSection() {
     )
   }
   const getVisibilityMode = () => {
-    if (showMenu && viewState === 0) return <About />
+    if (viewState === 0) return <About />
     if (showMenu && viewState === 7) return <RoadMap />
 
     if (!showMenu) return <Main />
@@ -101,16 +100,15 @@ function PurchaseSection() {
               : ''}
           </span>
           <a
-          className=''
-          style={{float:"right", marginRight:"20px"}}
+            className=""
+            style={{ float: 'right', marginRight: '20px' }}
             onClick={() => {
               dispatch(setShowMenu(!showMenu))
               dispatch(setViewState(4))
             }}
-            href="#">
-            {
-              showMenu && <i className='fa fa-close' ></i>
-            }
+            href="#"
+          >
+            {showMenu && <i className="fa fa-close"></i>}
           </a>
         </div>
         {getVisibilityMode()}

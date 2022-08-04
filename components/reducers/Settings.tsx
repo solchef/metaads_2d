@@ -38,7 +38,7 @@ const initialState: Settings = {
   land: { x: -1, y: -1, w: 1, h: 1 },
   _3dMode: false,
   viewState: 0,
-  showMenu: false,
+  showMenu: true,
   selectMode: true,
   boughtedLandList: [],
   reloadPage: true,

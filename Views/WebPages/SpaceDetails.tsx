@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react'
 import useCanvas from '../../hooks/useCanvas'
 
-function SpaceDetails({offcanvasBottem,offcanvasLeft, isCanvasRight, setIsCanvasRight }) {
+function SpaceDetails({
+  offcanvasBottem,
+  offcanvasLeft,
+  isCanvasRight,
+  setIsCanvasRight,
+}) {
   const { squreInfo } = useCanvas()
 
   const [info, setInfo] = useState(squreInfo)
@@ -18,7 +23,7 @@ function SpaceDetails({offcanvasBottem,offcanvasLeft, isCanvasRight, setIsCanvas
         style={{ visibility: 'visible' }}
       >
         <div className="offcanvas-header d-flex align-items-center">
-          <h3 className='d-flex align-items-center mt-1'>
+          <h3 className="d-flex align-items-center mt-1">
             <i className="bi bi-info-circle me-3" /> Information
           </h3>
           <button
@@ -29,9 +34,9 @@ function SpaceDetails({offcanvasBottem,offcanvasLeft, isCanvasRight, setIsCanvas
             aria-label="Close"
           />
         </div>
-        <div className="offcanvas-title hoverable">
+        {/* <div className="offcanvas-title hoverable">
           <i className="bi bi-camera" />
-        </div>
+        </div> */}
         <div className="offcanvas-body d-flex flex-lg-column">
           <div>
             <h3 className="mt-4 d-flex align-items-center">
@@ -43,12 +48,11 @@ function SpaceDetails({offcanvasBottem,offcanvasLeft, isCanvasRight, setIsCanvas
             <h3 className="mt-4 d-flex align-items-center">
               <i className="bi bi-link-45deg text-lowercase" />
               <a
-                    onClick={ ()=>{
-                      offcanvasLeft()
-
-                      offcanvasBottem()
-                    }}
-                      href=""
+                onClick={() => {
+                  offcanvasLeft()
+                  offcanvasBottem()
+                }}
+                href=""
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasScrolling"
                 aria-controls="offcanvasScrolling"
@@ -60,8 +64,12 @@ function SpaceDetails({offcanvasBottem,offcanvasLeft, isCanvasRight, setIsCanvas
               <i className="bi bi-person" /> {info.owner}{' '}
             </h3>
             <hr />
-            <h3 className="mt-4 d-flex align-items-center">Status: {info.Status} </h3>
-            <h3 className="mt-4 d-flex align-items-center">Price: $ {info.Price} .00</h3>
+            <h3 className="mt-4 d-flex align-items-center">
+              Status: {info.Status}{' '}
+            </h3>
+            <h3 className="mt-4 d-flex align-items-center">
+              Price: $ {info.Price} .00
+            </h3>
           </div>
         </div>
       </div>

@@ -40,14 +40,21 @@ const Main = () => {
         <a
           target="_blank"
           className="mt-3 pl-2"
-          href={'https://opensea.io/' + QuadSpaceContract}>
-          <img className='ml-2' height="35" width="35"  src='https://opensea.io/static/images/logos/opensea.svg' />
+          href={'https://opensea.io/' + QuadSpaceContract}
+        >
+          <img
+            className="ml-2"
+            height="35"
+            width="35"
+            src="https://opensea.io/static/images/logos/opensea.svg"
+          />
         </a>
 
         <a
           target="_blank"
           className="mt-3"
-          href={'https://t.me/TheMillionDollarWebsite'}>
+          href={'https://t.me/TheMillionDollarWebsite'}
+        >
           <i
             className="icon-menu bi bi-telegram mt-3"
             custom-attribute="Telegram"

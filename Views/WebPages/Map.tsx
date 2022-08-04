@@ -224,7 +224,7 @@ export const MapView = ({ minMap }) => {
               //   orbit.current.object.updateProjectionMatrix()
               // }
             }}
-            enablePan={buyMode}
+            enablePan={!minMap}
             touches={{
               ONE: buyMode ? THREE.TOUCH.PAN : 2,
               TWO: THREE.TOUCH.DOLLY_PAN,
