@@ -249,20 +249,18 @@ const GreenSquare = ({ x, y, image, miniMap }) => {
   const widthMap = 1000
   const heightMap = 1000
   const manager = new LoadingManager()
-  const { gl, controls, camera } = useThree()
+  const { gl, scene, camera } = useThree()
   const [load, setLoad] = useState(false)
   // console.log(camera.position)
   // console.log(gl)
   // if (miniMap) gl.setViewport(100, 100, 200, 200)
-  console.log(window.devicePixelRatio)
   gl.setPixelRatio(2.5)
   gl.capabilities.maxFragmentUniforms = 2400
   gl.capabilities.maxAttributes = 64
   gl.capabilities.maxTextures = 64
   gl.capabilities.maxVertexTextures = 64
-  console.log(gl.capabilities)
 
-  // gl.setViewport(200, 200, 200, 100)
+  // gl.setViewport(5000, 5000, 5000, 5000)
   manager.onStart = function () {
     setLoad(true)
   }
@@ -546,13 +544,17 @@ const GreenSquare = ({ x, y, image, miniMap }) => {
           ) : (
             ''
           )}
-          {miniMap ? <ViewedAria /> : ''}
+          {miniMap ? (
+            <ViewedAria zoomLevel={store.getState().settings.zoomLevel} />
+          ) : (
+            ''
+          )}
         </>
       )}
     </>
   )
 }
-const ViewedAria = () => {
+const ViewedAria = (zoomLevel) => {
   const [width, setWidth] = useState(750)
   const [height, setHight] = useState(750)
   const [xPosition, setXPosition] = useState(0)
@@ -561,50 +563,59 @@ const ViewedAria = () => {
   const fullWidth = 1000
   const fullHeight = 1000
 
-  store.subscribe(() => {
+  const getResize = (zoom) => {
     setXPosition(store.getState().settings.miniMapPosition.x)
     setYPosition(store.getState().settings.miniMapPosition.y)
-    if (store.getState().settings.zoomLevel === 10) {
+    if (zoom === 10) {
       setWidth(8)
       setHight(8)
     }
-    if (store.getState().settings.zoomLevel === 9) {
+    if (zoom === 9) {
       setWidth(13.3)
       setHight(13.3)
     }
-    if (store.getState().settings.zoomLevel === 8) {
+    if (zoom === 8) {
       setWidth(26.6)
       setHight(26.6)
     }
-    if (store.getState().settings.zoomLevel === 7) {
+    if (zoom === 7) {
       setWidth(39.9)
       setHight(39.9)
     }
-    if (store.getState().settings.zoomLevel === 6) {
+    if (zoom === 6) {
       setWidth(53.3)
       setHight(53.3)
     }
-    if (store.getState().settings.zoomLevel === 5) {
+    if (zoom === 5) {
       setWidth(66.6)
       setHight(66.6)
     }
-    if (store.getState().settings.zoomLevel === 4) {
+    if (zoom === 4) {
       setWidth(79.9)
       setHight(79.9)
     }
-    if (store.getState().settings.zoomLevel === 3) {
+    if (zoom === 3) {
       setWidth(93.3)
       setHight(93.3)
     }
-    if (store.getState().settings.zoomLevel === 2) {
+    if (zoom === 2) {
       setWidth(106.6)
       setHight(106.6)
     }
-    if (store.getState().settings.zoomLevel === 1) {
+    if (zoom === 1) {
       setWidth(119.9)
       setHight(119.9)
     }
+  }
+
+  useEffect(() => {
+    getResize(zoomLevel.zoomLevel)
+  }, [])
+
+  store.subscribe(() => {
+    getResize(store.getState().settings.zoomLevel)
   })
+
   return (
     <Html center position={[xPosition, 1, yPosition]}>
       <div
