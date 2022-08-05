@@ -41,6 +41,7 @@ const Main = () => {
           target="_blank"
           className="mt-3 pl-2"
           href={'https://opensea.io/' + QuadSpaceContract}
+          style={{fontSize: "10px", marginLeft:"12px"}}
         >
           <img
             className="ml-2"
