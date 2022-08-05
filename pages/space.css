@@ -26,6 +26,42 @@
     font-size: 20px;
 }
 
+.main-color {
+    color: #fa0070;
+}
+
+.main-color-2 {
+    color: #5a0167;
+}
+
+.title-map::before {
+    content: "";
+    width: 8px;
+    position: absolute;
+    height: 8px;
+    border-radius: 50%;
+    top: 1.5rem;
+    left: 14px;
+    background-color: #fa0070;
+}
+
+.marketplace::after {
+    content: 'MarketPlace';
+    position: absolute;
+    top: 0;
+    left: 30px;
+    color: #fa0070;
+}
+
+.line-map {
+    height: 100%;
+    width: 4px;
+    margin-left: 5px;
+    position: absolute;
+    border-left: 2px dashed #fa0070;
+    background-color: transparent;
+}
+
 .accordion-header {
     margin: -3px;
 }
