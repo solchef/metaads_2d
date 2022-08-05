@@ -48,6 +48,7 @@ const Main = () => {
             width="30"
             src="https://opensea.io/static/images/logos/opensea.svg"
           />
+          MarketPlace
         </a>
 
         <a
