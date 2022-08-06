@@ -13,8 +13,9 @@ export const RoadMap = () => {
         <h3 className="mb-4"> RoadMap</h3>
       </div>
       <div className="text-center">
-        {/* <img src="assets/roadmap-icon.svg" height={100} /> */}
+        <img src="assets/roadmap-icon.svg" height={100} />
       </div>
+      {/* <img src="assets/roadmap-icon.svg" className="mt-3" height={20} /> */}
 
       <ul className="timeline">
         <li>
@@ -23,10 +24,11 @@ export const RoadMap = () => {
             21 March, 2014
           </a> */}
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-            scelerisque diam non nisi semper, et elementum lorem ornare.
-            Maecenas placerat facilisis mollis. Duis sagittis ligula in sodales
-            vehicula....
+            $1 Pre-Sale Mint starts deploy seo optimization deploy marketing
+            budget Sell out and start the SnapShot Countdown Take a snapshot of
+            the whole MetaBoard and convert it into NFT Auction the NFT on
+            OpenSea and donate all profits to a charity Hold a community vote
+            with all the TMDW nft holders to which charity the funds will go to.{' '}
           </p>
         </li>
         <li>
