@@ -88,16 +88,16 @@ function PurchaseSection() {
         <div className="offcanvas-title ">
           <span className="">
             {viewState === 0
-              ? ''
+              ? 'Menu'
               : viewState === 1
-              ? ''
+              ? 'Menu'
               : viewState === 2
-              ? ''
+              ? 'Menu'
               : viewState === 4
-              ? ''
+              ? 'Menu'
               : viewState === 7
-              ? ''
-              : ''}
+              ? 'Menu'
+              : 'Menu'}
           </span>
           <a
             className=""

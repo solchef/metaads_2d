@@ -37,24 +37,21 @@ const Main = () => {
           custom-attribute="Roadmap"
         ></i>
 
-       <a
+        <a
           target="_blank"
           className="mt-3  pl-2"
           href={'https://opensea.io/' + QuadSpaceContract}
         >
-         
-          <i custom-attribute="MarketPlace" className='icon-menu' >
-
-          <img
-            className="ml-2 "
-            height="30"
-            width="30"
-            src="https://opensea.io/static/images/logos/opensea.svg"
-          />
-          
+          <i custom-attribute="MarketPlace" className="icon-menu">
+            <img
+              className="ml-2 "
+              height="30"
+              width="30"
+              src="https://opensea.io/static/images/logos/opensea.svg"
+            />
           </i>
         </a>
-        
+
         <a
           target="_blank"
           className="mt-3"
@@ -68,35 +65,13 @@ const Main = () => {
         <a
           target="_blank"
           className="mt-3"
-          href={'https://twitter.com/themillliondillarwebsite'}
+          href={'https://twitter.com/quadspaceio'}
         >
           <i
             className="icon-menu bi bi-twitter mt-3"
             custom-attribute="Twitter"
           ></i>
         </a>
-        {/* <a
-          target="_blank"
-          className="mt-3"
-          href={'https://twitter.com/themilliondollarwebsite'}
-        >
-          <i
-            className="icon-menu bi bi-twitter mt-3"
-            custom-attribute="Twitter"
-          ></i>
-        </a>
-
-
-        <a
-          target="_blank"
-          className="mt-3"
-          href={'https://instagram.com/themilliondollarwebsite'}
-        >
-          <i
-            className="icon-menu bi bi-instagram mt-3"
-            custom-attribute="Instagram"
-          ></i>
-        </a> */}
       </div>
     </div>
   )
