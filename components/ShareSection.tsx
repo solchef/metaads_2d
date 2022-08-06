@@ -51,7 +51,7 @@ export default function ShareSection() {
         url={'http://www.themilliondollarwebsite.com/'}
         quote={'THE MILLION DOLLAR WEBSITE!'}
         hashtag={'#hashtag'}
-        title={'THE MILLION DOLLAR WEBSITE!'}
+        title="THE MILLION DOLLAR WEBSITE! This is your chance to truly own for the first time a piece of digital history through blockchain technology. We divided the MetaBoard to 1 million pixels. "
         // description="THE MILLION DOLLAR WEBSITE!"
         className="m-2"
       >
@@ -59,7 +59,8 @@ export default function ShareSection() {
       </FacebookShareButton>
 
       <TwitterShareButton
-        title={'THE MILLION DOLLAR WEBSITE!'}
+        // title={'THE MILLION DOLLAR WEBSITE!'}
+        title="THE MILLION DOLLAR WEBSITE! This is your chance to truly own for the first time a piece of digital history through blockchain technology. We divided the MetaBoard to 1 million pixels. "
         url={'http://www.themilliondollarwebsite.com/'}
         hashtags={['quadspace', 'themilliondollarwebsite']}
         className="m-2"
@@ -68,7 +69,7 @@ export default function ShareSection() {
       </TwitterShareButton>
 
       <TelegramShareButton
-        title={'THE MILLION DOLLAR WEBSITE!'}
+        title="THE MILLION DOLLAR WEBSITE! This is your chance to truly own for the first time a piece of digital history through blockchain technology. We divided the MetaBoard to 1 million pixels. "
         url={'http://www.themilliondollarwebsite.com/'}
         className="m-2"
       >

@@ -1165,7 +1165,7 @@ input[type='number']::-webkit-inner-spin-button {
 .roadmapborder {
   border-left: 1px dotted white;
   margin-left: 20p;
-  padding-left: 20px;
+  /* padding-left: 20px; */
   margin-left: -30px;
 }
 
@@ -1178,7 +1178,7 @@ ul.timeline:before {
   background: #d4d9df;
   display: inline-block;
   position: absolute;
-  left: 29px;
+  /* left: 29px; */
   width: 2px;
   height: 100%;
   z-index: 400;
@@ -1193,9 +1193,17 @@ ul.timeline > li:before {
   display: inline-block;
   position: absolute;
   border-radius: 50%;
-  border: 3px solid #22c0e8;
+  border: 3px solid #f5de00;
   left: 20px;
   width: 20px;
   height: 20px;
   z-index: 400;
+}
+
+/* ul.timeline > p {
+  padding: 0px;
+} */
+
+.timeline p {
+  padding: 0px;
 }
