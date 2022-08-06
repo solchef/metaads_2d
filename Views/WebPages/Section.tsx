@@ -245,8 +245,7 @@ export const Section = ({
             <Web3Button title="PURCHASE LOT" />
           )}
         </div>
-
-        <div className="text-center mt-2">
+        <div className="text-center mt-5 p-0 w-100">
           <p> Share with your friends and followers</p>
           <div className="d-flex mt-2 justify-content-center">
             <ShareSection />
