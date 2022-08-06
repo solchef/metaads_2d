@@ -15,15 +15,13 @@ export const ImageInfoButton = () => {
       <hr className="my-4" />
       <h4>Token #{parcelData.position}</h4>
       <h3>{parcelData.name}</h3>
-      <p className="text-start mt-3">
-        <span className=" link d-block pb-1 ">
-          {/* <i className="bi bi-link"></i> :&nbsp; */}
-          <a href={parcelData.url} target="_blank" className="text-success">
-            <u>https://{shortUrl(parcelData.url, 15)}</u>
-          </a>
-        </span>
-        {parcelData.description}
-      </p>
+      <span className=" link d-block pb-1 ">
+        {/* <i className="bi bi-link"></i> :&nbsp; */}
+        <a href={parcelData.url} target="_blank" className="text-success">
+          <u>https://{shortUrl(parcelData.url, 15)}</u>
+        </a>
+      </span>
+      <p className="text-start mt-3">{parcelData.description}</p>
       <div className="d-flex flex-wrap flex-column">
         <span className="mt-3">
           Owned By <u>{truncateEthAddress(QuadSpaceContract)}</u>
@@ -45,11 +43,9 @@ export const ImageInfoButton = () => {
           View on Etherscan
         </a>
       </div>
-      <p className="mt-4 text-nowrap">
-        Share with your friends and followers 
-      </p>
+      <p className="mt-4 text-nowrap">Share with your friends and followers</p>
       <div className="d-flex mt-2 justify-content-center">
-        <ShareSection/>
+        <ShareSection />
       </div>
     </div>
   )
