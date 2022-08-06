@@ -579,7 +579,6 @@ const Space: React.FunctionComponent = () => {
                             />
                           </g>
                         </g>
-
                       </g>
                     </svg>
                     &nbsp;0.0942 ( $ 100 )
