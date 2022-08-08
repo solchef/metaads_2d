@@ -96,7 +96,27 @@ export const MapView = ({ minMap }) => {
 
   // load user Lands
   useEffect(() => {
-    SetOwnerLandList([])
+    let owned = [
+      316375, 317375, 318375, 319375, 320375, 321375, 322375, 323375, 324375,
+      325375, 316376, 317376, 318376, 319376, 320376, 321376, 322376, 323376,
+      324376, 325376,
+    ]
+
+    let markedOwned = []
+
+    owned.forEach((own) => {
+      let y = Number(own) % 1000
+      let x = Math.ceil(Number(own) / 1000)
+
+      markedOwned.push({
+        landPosition: new Vector3(x, 1, y),
+        landSize: { w: 1, h: 1 },
+      })
+    })
+
+    console.log(markedOwned)
+
+    SetOwnerLandList(markedOwned)
   }, [])
 
   useEffect(() => {
@@ -127,12 +147,13 @@ export const MapView = ({ minMap }) => {
   //landPosition = new Vector3(x,y,z) y always = 0.5
   // landSize = { w:width, h:height }
   const OwnerLans = (landPosition, landSize) => {
+    console.log(landPosition, landSize)
     return (
       <mesh position={landPosition} rotation={[-Math.PI / 2, 0, 0]}>
         <planeBufferGeometry args={[landSize.w, landSize.h]} />
         <meshBasicMaterial
           // map={textureBox}
-          color="0xdf2a6f"
+          color="0Xf5de00"
           attach="material"
           side={DoubleSide}
         />

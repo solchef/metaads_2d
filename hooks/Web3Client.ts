@@ -16,7 +16,7 @@ import {
 
 import { toast } from 'react-toastify'
 import { QuadSpaceContract } from '../utils/constants'
-import axios from 'axios';
+import axios from 'axios'
 
 const providerOptions = {
   walletlink: {
@@ -62,7 +62,7 @@ export const useWeb3 = () => {
         const signer = web3Provider.getSigner()
         const address = await signer.getAddress()
         const network = await web3Provider.getNetwork()
-        
+
         toast.success('Connected to Web3')
 
         const metaadscontract = new ethers.Contract(
@@ -75,16 +75,12 @@ export const useWeb3 = () => {
           QuadSpaceContract,
           metaadsabi,
           new ethers.providers.JsonRpcProvider(
-            'https://mainnet.infura.io/v3/7c716361d1734288bbc5cf519570c08f'
+            'https://rinkeby.infura.io/v3/7c716361d1734288bbc5cf519570c08f'
           )
         )
         const contracts = []
         contracts['metaads'] = metaadscontract
         contracts['metaads_unsigned'] = metaadscontract_unsigned
-
-
-        // console.log(price)
-
 
         dispatch({
           type: 'SET_WEB3_PROVIDER',
