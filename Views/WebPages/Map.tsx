@@ -130,6 +130,7 @@ export const MapView = ({ minMap }) => {
             landSize: { w: 1, h: 1 },
           })
         })
+        console.log(markedOwned)
         SetOwnerLandList(markedOwned)
       })
     }
