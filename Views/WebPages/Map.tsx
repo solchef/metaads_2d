@@ -56,7 +56,7 @@ export const MapView = ({ minMap }) => {
   const [ownerLandList, SetOwnerLandList] = useState([])
   const [load, setLoad] = useState(true)
   const [load2, setLoad2] = useState(true)
-
+  const [reload, setReload] = useState(false)
   const [textuerData, setTextuerData] = useState()
   const dispatch = useAppDispatch()
   const manager1 = new LoadingManager()
@@ -93,7 +93,7 @@ export const MapView = ({ minMap }) => {
           dispatch(setImage(data.data))
           const texture = new TextureLoader(manager1).load(data.data)
           setTexture(texture)
-          // setLoad(false)
+          setReload(true)
         })
     } catch (error) {
       console.log(error)
@@ -128,12 +128,10 @@ export const MapView = ({ minMap }) => {
       let x = Math.ceil(Number(own) / 1000)
 
       markedOwned.push({
-        landPosition: new Vector3(x, 1, y),
+        landPosition: new Vector3(x, y, 2),
         landSize: { w: 1, h: 1 },
       })
     })
-
-    console.log(markedOwned)
 
     SetOwnerLandList(markedOwned)
   }, [])
@@ -165,14 +163,16 @@ export const MapView = ({ minMap }) => {
 
   //landPosition = new Vector3(x,y,z) y always = 0.5
   // landSize = { w:width, h:height }
-  const OwnerLans = (landPosition, landSize) => {
-    console.log(landPosition, landSize)
+  const OwnerLans = ({ landPosition, landSize }) => {
     return (
-      <mesh position={landPosition} rotation={[-Math.PI / 2, 0, 0]}>
+      <mesh
+        position={[landPosition.x - 500 + 0.5, 0.1, landPosition.y - 500 + 0.5]}
+        rotation={[-Math.PI / 2, 0, 0]}
+      >
         <planeBufferGeometry args={[landSize.w, landSize.h]} />
         <meshBasicMaterial
           // map={textureBox}
-          color="0Xf5de00"
+          color="#f5de00"
           attach="material"
           side={DoubleSide}
         />
@@ -195,7 +195,7 @@ export const MapView = ({ minMap }) => {
       <group>
         <Suspense fallback={<></>}>
           {load || load2 ? (
-            <ToolTip1 />
+            <ToolTip1 reload={reload} miniMap={minMap} />
           ) : (
             <>
               <GreenSquare
@@ -207,14 +207,17 @@ export const MapView = ({ minMap }) => {
                 texture2={texture2}
                 texture={texture}
               />
-              {ownerLandList.map((data) => {
-                return (
-                  <OwnerLans
-                    landPosition={data.landPosition}
-                    landSize={data.landSize}
-                  />
-                )
-              })}
+              <group>
+                {ownerLandList.map((data, index) => {
+                  return (
+                    <OwnerLans
+                      key={index}
+                      landPosition={data.landPosition}
+                      landSize={data.landSize}
+                    />
+                  )
+                })}
+              </group>
             </>
           )}
 
@@ -693,10 +696,44 @@ const onWheel = (camera) => {
     }
   }
 }
-function ToolTip1() {
+function ToolTip1({ reload, minMap }) {
   return (
     <Html center position={[-1, 1, -1]}>
-      <Loader />
+      {reload ? (
+        minMap ? (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+            onClick={() => location.reload()}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="160"
+              height="160"
+              fill="currentColor"
+              className="bi bi-arrow-clockwise"
+              viewBox="0 0 16 16"
+              color="#f90070"
+            >
+              <path
+                fillRule="evenodd"
+                d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"
+              />
+              <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+            </svg>
+
+            <h3> Reload Page</h3>
+            <h4>Network Error</h4>
+          </div>
+        ) : (
+          ''
+        )
+      ) : (
+        <Loader />
+      )}
     </Html>
   )
 }
