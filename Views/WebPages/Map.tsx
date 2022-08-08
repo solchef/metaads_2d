@@ -2,22 +2,15 @@ import React, { Suspense, useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { Canvas, useThree } from '@react-three/fiber'
 import { DoubleSide, TextureLoader, Vector3 } from 'three'
-import {
-  Html,
-  OrbitControls,
-  PerspectiveCamera,
-  useAnimations,
-  View,
-} from '@react-three/drei'
+import { Html, OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { LoadingManager } from 'three'
 import { Loader } from '../../utils/loader'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 import { vertexShader, fragmentShader } from './shaders'
 import {
-  selectClickMint,
+  selectImage,
   selectLand,
   selectZoomIn,
-  selectZoomLevel,
   selectZoomOut,
   select_3dMode,
   setImage,
@@ -54,6 +47,7 @@ export const MiniMap = () => {
 export const MapView = ({ minMap }) => {
   const _3dMode = useAppSelector(select_3dMode)
   const land = useAppSelector(selectLand)
+  const imageStore = useAppSelector(selectImage)
   const orbit = useRef()
   const zoomIn = useAppSelector(selectZoomIn)
   const zoomOut = useAppSelector(selectZoomOut)
@@ -61,8 +55,31 @@ export const MapView = ({ minMap }) => {
   const [image, setImageState] = useState()
   const [ownerLandList, SetOwnerLandList] = useState([])
   const [load, setLoad] = useState(true)
-  const dispatch = useAppDispatch()
+  const [load2, setLoad2] = useState(true)
 
+  const [textuerData, setTextuerData] = useState()
+  const dispatch = useAppDispatch()
+  const manager1 = new LoadingManager()
+  const manager2 = new LoadingManager()
+  const [texture, setTexture] = useState()
+  manager1.onStart = function () {
+    setLoad(true)
+  }
+  manager1.onLoad = function () {
+    setLoad(false)
+  }
+  manager2.onStart = function () {
+    setLoad2(true)
+  }
+  manager2.onLoad = function () {
+    setLoad2(false)
+  }
+  //
+
+  const texture2 = React.useMemo(
+    () => new TextureLoader(manager2).load('./highres.png'),
+    []
+  )
   useEffect(() => {
     getImage()
   }, [])
@@ -74,7 +91,9 @@ export const MapView = ({ minMap }) => {
         .then((data) => {
           setImageState(data.data)
           dispatch(setImage(data.data))
-          setLoad(false)
+          const texture = new TextureLoader(manager1).load(data.data)
+          setTexture(texture)
+          // setLoad(false)
         })
     } catch (error) {
       console.log(error)
@@ -154,7 +173,7 @@ export const MapView = ({ minMap }) => {
     >
       <group>
         <Suspense fallback={<></>}>
-          {load ? (
+          {load || load2 ? (
             <ToolTip1 />
           ) : (
             <>
@@ -163,8 +182,9 @@ export const MapView = ({ minMap }) => {
                 color2="#00707b"
                 x={land.h}
                 y={land.w}
-                image={image}
                 miniMap={minMap}
+                texture2={texture2}
+                texture={texture}
               />
               {ownerLandList.map((data) => {
                 return (
@@ -202,27 +222,6 @@ export const MapView = ({ minMap }) => {
                   y: orbit.current.object.position.z,
                 })
               )
-
-              // if (orbit.current.object.position.x < -500) {
-              //   if (orbit.current.object.position.x != -500)
-              //     orbit.current.object.position.x = -490
-              //   orbit.current.object.updateProjectionMatrix()
-              // }
-              // if (orbit.current.object.position.x > 500) {
-              //   if (orbit.current.object.position.x != 500)
-              //     orbit.current.object.position.x = 490
-              //   orbit.current.object.updateProjectionMatrix()
-              // }
-              // if (orbit.current.object.position.z < -500) {
-              //   if (orbit.current.object.position.z != -500)
-              //     orbit.current.object.position.z = -490
-              //   orbit.current.object.updateProjectionMatrix()
-              // }
-              // if (orbit.current.object.position.z > 500) {
-              //   if (orbit.current.object.position.z != 500)
-              //     orbit.current.object.position.z = 490
-              //   orbit.current.object.updateProjectionMatrix()
-              // }
             }}
             enablePan={!minMap}
             touches={{
@@ -238,78 +237,37 @@ export const MapView = ({ minMap }) => {
   )
 }
 
-const GreenSquare = ({ x, y, image, miniMap }) => {
+const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
   const [playError] = useSound('./errorSound.mp3')
-  const defaultCamera = useThree((state) => state.camera)
-
-  // const [playBuild] = useSound('./build.mp3')
   const ref = useRef()
   const boughtedLandListData = store.getState().settings.boughtedLandList
-  const z = 2
   const widthMap = 1000
   const heightMap = 1000
-  const manager = new LoadingManager()
-  const { gl, scene, camera } = useThree()
-  const [load, setLoad] = useState(false)
-  // console.log(camera.position)
-  // console.log(gl)
-  // if (miniMap) gl.setViewport(100, 100, 200, 200)
+  const { gl } = useThree()
+
   gl.setPixelRatio(2.5)
   gl.capabilities.maxFragmentUniforms = 2400
   gl.capabilities.maxAttributes = 64
   gl.capabilities.maxTextures = 64
   gl.capabilities.maxVertexTextures = 64
 
-  // gl.setViewport(5000, 5000, 5000, 5000)
-  manager.onStart = function () {
-    setLoad(true)
-  }
-  manager.onLoad = function () {
-    setLoad(false)
-  }
-  const texture = React.useMemo(
-    () =>
-      new TextureLoader(manager).load(
-        miniMap ? store.getState().settings.image : image
-      ),
+  const userLandImageTexture = React.useMemo(
+    () => new TextureLoader().load(''),
     []
   )
-  const texture2 = React.useMemo(
-    () => new TextureLoader(manager).load('./highres.png'),
-    []
-  )
-  texture.minFilter = texture2.minFilter = THREE.LinearFilter
-  texture.anisotropy = 30
-  texture2.anisotropy = 300
-  // gl.capabilities.getParameter(gl.MAX_TEXTURE_SIZE)
+  if (texture && texture2) {
+    texture.minFilter = texture2.minFilter = THREE.LinearFilter
+    texture.anisotropy = 30
+    texture2.anisotropy = 300
+  }
   const [boxPosition, setBoxPosition] = useState(new Vector3(0, 0, 0))
   const [viewLand, setViewLand] = useState(false)
-  const [viewBox, setViewBox] = useState(false)
   const [landPosition, setLandPosition] = useState(new Vector3(0, 0, 0))
-  // const [moseDown, setMouseDown] = useState(false)
-  // const [moseUp, setMouseUp] = useState(false)
   const [moseMoved, setMouseMoved] = useState(false)
   const [parcels, setParcels] = useState([])
 
-  useEffect(() => {
-    axios.get('/api/metadata/parcels').then((parc) => {
-      if (parc.data.success) setParcels(parc.data.message)
-      else setParcels([])
-    })
-  }, [])
-  useEffect(() => {
-    if (defaultCamera) {
-      // console.log(defaultCamera)
-      // defaultCamera.position.y = 100
-      // defaultCamera.position.x = 500
-      // defaultCamera.position.set(100, 100, 100)
-    }
-  }, [store.getState().settings.clickMint])
   const cubeRef = useRef()
-  // useHelper(ref, BoxHelper, '0x00ffff')
-
   const onMove = (point) => {
-    if (!viewLand) setViewBox(true)
     setBoxPosition(new Vector3(Math.floor(point.x), 0.5, Math.floor(point.z)))
     setMouseMoved(false)
   }
@@ -341,6 +299,15 @@ const GreenSquare = ({ x, y, image, miniMap }) => {
     }
     oldy = y
   }, [y])
+
+  useEffect(() => {
+    axios.get('/api/metadata/parcels').then((parc) => {
+      if (parc.data.success) setParcels(parc.data.message)
+      else setParcels([])
+    })
+  }, [])
+
+  useEffect(() => {}, [])
 
   const getSelectedMap = (point) => {
     return boughtedLandListData.find(
@@ -393,7 +360,6 @@ const GreenSquare = ({ x, y, image, miniMap }) => {
               })
             )
             //playBuild()
-            setViewBox(false)
           } else {
             playError()
           }
@@ -479,46 +445,37 @@ const GreenSquare = ({ x, y, image, miniMap }) => {
 
   return (
     <>
-      {load ? (
-        <ToolTip1 />
-      ) : (
-        <>
-          <mesh
-            ref={cubeRef}
-            position={[0, 0, 0]}
-            rotation={[-Math.PI / 2, 0, 0]}
-            scale={[1, 1, 1]}
-            onClick={({ point, nativeEvent }) => {
-              if (nativeEvent.which !== 3) onPointUp(point)
-              setViewBox(false)
-            }}
-            onPointerDown={(e) => {
-              setMouseMoved(true)
-            }}
-            onPointerOut={() => setViewBox(false)}
-            onPointerMove={({ point }) => {
-              if (moseMoved) {
-                setViewBox(true)
-              }
-              onMove(point)
-            }}
-          >
-            <planeBufferGeometry args={[widthMap, heightMap]} />
-            <shaderMaterial
-              uniforms={{
-                bumpTexture: { value: texture },
-                bumpTexture2: { value: texture2 },
-                bumpTexture3: { value: texture },
-                brightness: { value: 1.9 },
-                // bumpScale: { value: 100 },
-                // color: { value: '0xffffff' },
-              }}
-              vertexShader={vertexShader}
-              fragmentShader={fragmentShader}
-              side={DoubleSide}
-            />
-          </mesh>
-          {/* {viewBox && !store.getState().settings.selectMode ? (
+      <mesh
+        ref={cubeRef}
+        position={[0, 0, 0]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        scale={[1, 1, 1]}
+        onClick={({ point, nativeEvent }) => {
+          if (nativeEvent.which !== 3) onPointUp(point)
+        }}
+        onPointerDown={(e) => {
+          setMouseMoved(true)
+        }}
+        onPointerMove={({ point }) => {
+          onMove(point)
+        }}
+      >
+        <planeBufferGeometry args={[widthMap, heightMap]} />
+        <shaderMaterial
+          uniforms={{
+            bumpTexture: { value: texture },
+            bumpTexture2: { value: texture2 },
+            bumpTexture3: { value: texture },
+            brightness: { value: 1.9 },
+            // bumpScale: { value: 100 },
+            // color: { value: '0xffffff' },
+          }}
+          vertexShader={vertexShader}
+          fragmentShader={fragmentShader}
+          side={DoubleSide}
+        />
+      </mesh>
+      {/* {viewBox && !store.getState().settings.selectMode ? (
             <mesh position={boxPosition} ref={ref}>
               <boxBufferGeometry args={[x, z, y]} attach="geometry" />
               <meshPhongMaterial color={color2} attach="material" />
@@ -527,29 +484,25 @@ const GreenSquare = ({ x, y, image, miniMap }) => {
             ''
           )} */}
 
-          {viewLand ? (
-            <mesh
-              position={landPosition}
-              ref={ref}
-              rotation={[-Math.PI / 2, 0, 0]}
-            >
-              <planeBufferGeometry args={[x, y]} />
-              <meshBasicMaterial
-                // map={textureBox}
-                color="0xffffff"
-                attach="material"
-                side={DoubleSide}
-              />
-            </mesh>
-          ) : (
-            ''
-          )}
-          {miniMap ? (
-            <ViewedAria zoomLevel={store.getState().settings.zoomLevel} />
-          ) : (
-            ''
-          )}
-        </>
+      {viewLand ? (
+        <mesh position={landPosition} ref={ref} rotation={[-Math.PI / 2, 0, 0]}>
+          <planeBufferGeometry args={[x, y]} />
+          <meshBasicMaterial
+            // map={
+            //   userLandImageTexture !== undefined ? userLandImageTexture : null
+            // }
+            color="0xffffff"
+            attach="material"
+            side={DoubleSide}
+          />
+        </mesh>
+      ) : (
+        ''
+      )}
+      {miniMap ? (
+        <ViewedAria zoomLevel={store.getState().settings.zoomLevel} />
+      ) : (
+        ''
       )}
     </>
   )
