@@ -16,6 +16,7 @@ import { Sellsection } from './sellsection'
 import { Section } from './Section'
 import Main from './Main'
 import { RoadMap } from './RoadMap'
+import { CustomizeSection } from './CustomizeSection'
 
 function PurchaseSection() {
   const { uploadMetadata, uploadImage } = useIPFS()
@@ -75,6 +76,16 @@ function PurchaseSection() {
     if (showMenu && viewState === 2) return <Sellsection />
     if (showMenu && viewState === 3) return <ImageInfoButton />
     if (showMenu && viewState === 4) return <Main />
+    if (showMenu && viewState === 6)
+      return (
+        <CustomizeSection
+          setName={undefined}
+          setUrl={undefined}
+          setMintImage={undefined}
+          setDescription={undefined}
+          handleSubmit={undefined}
+        />
+      )
   }
 
   return (

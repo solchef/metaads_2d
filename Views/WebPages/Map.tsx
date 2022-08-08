@@ -24,6 +24,8 @@ import {
 import { store } from '../../components/store'
 import useSound from 'use-sound'
 import axios from 'axios'
+import { MetaadsContractUnsigned } from '../../utils/readOnly'
+import { useWeb3Context } from '../../context'
 
 let oldx, oldy
 var isMobile = false //initiate as false
@@ -74,6 +76,7 @@ export const MapView = ({ minMap }) => {
     setLoad2(false)
   }
   //
+  const { address } = useWeb3Context()
 
   const texture2 = React.useMemo(
     () => new TextureLoader(manager2).load('./highres.png'),
@@ -114,25 +117,22 @@ export const MapView = ({ minMap }) => {
 
   // load user Lands
   useEffect(() => {
-    let owned = [
-      316375, 317375, 318375, 319375, 320375, 321375, 322375, 323375, 324375,
-      325375, 316376, 317376, 318376, 319376, 320376, 321376, 322376, 323376,
-      324376, 325376,
-    ]
+    if (address) {
+      MetaadsContractUnsigned.getTokenIdsOfWallet(address).then((owned) => {
+        // console.log(owned)
+        let markedOwned = []
+        owned.forEach((own) => {
+          let x = Number(own) % 1000
+          let y = Math.ceil(Number(own) / 1000)
 
-    let markedOwned = []
-
-    owned.forEach((own) => {
-      let y = Number(own) % 1000
-      let x = Math.ceil(Number(own) / 1000)
-
-      markedOwned.push({
-        landPosition: new Vector3(x, y, 2),
-        landSize: { w: 1, h: 1 },
+          markedOwned.push({
+            landPosition: new Vector3(x, 1, y),
+            landSize: { w: 1, h: 1 },
+          })
+        })
+        SetOwnerLandList(markedOwned)
       })
-    })
-
-    SetOwnerLandList(markedOwned)
+    }
   }, [])
 
   useEffect(() => {
@@ -162,7 +162,8 @@ export const MapView = ({ minMap }) => {
 
   //landPosition = new Vector3(x,y,z) y always = 0.5
   // landSize = { w:width, h:height }
-  const OwnerLans = ({ landPosition, landSize }) => {
+  const OwnerLans = (landPosition, landSize) => {
+    // console.log(landPosition, landSize)
     return (
       <mesh
         position={[
@@ -268,8 +269,14 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
   const boughtedLandListData = store.getState().settings.boughtedLandList
   const widthMap = 1000
   const heightMap = 1000
-  const { gl } = useThree()
+  const manager = new LoadingManager()
+  const { gl, scene, camera } = useThree()
+  const [load, setLoad] = useState(false)
+  const { address } = useWeb3Context()
 
+  // console.log(camera.position)
+  // console.log(gl)
+  // if (miniMap) gl.setViewport(100, 100, 200, 200)
   gl.setPixelRatio(2.5)
   gl.capabilities.maxFragmentUniforms = 2400
   gl.capabilities.maxAttributes = 64
@@ -287,6 +294,9 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
   }
   const [boxPosition, setBoxPosition] = useState(new Vector3(0, 0, 0))
   const [viewLand, setViewLand] = useState(false)
+  const [viewBox, setViewBox] = useState(false)
+  const [owned, setOwned] = useState([])
+
   const [landPosition, setLandPosition] = useState(new Vector3(0, 0, 0))
   const [moseMoved, setMouseMoved] = useState(false)
   const [parcels, setParcels] = useState([])
@@ -417,7 +427,30 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
     return false
   }
 
+  useEffect(() => {
+    // if (address) {
+    MetaadsContractUnsigned.getTokenIdsOfWallet(
+      '0x3968b60F6afAb609A1F4d0c0E13F86584C79c992'
+    ).then((list) => {
+      setOwned(list)
+    })
+    // }
+  }, [])
+
   const returnLand = async (x, y) => {
+    let ownedList = []
+    owned.forEach((own) => {
+      ownedList.push(Number(own))
+    })
+    let pos = y * 1000 + x
+    console.log(pos)
+    if (ownedList.includes(pos)) {
+      // alert('dd')
+      store.dispatch(setViewState(6))
+    } else {
+      store.dispatch(setViewState(2))
+    }
+
     let landpoint = {
       data: false,
       name: 'TMDW Token',
@@ -433,7 +466,6 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
       } on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!`,
       position: y * 1000 + x,
     }
-    store.dispatch(setViewState(2))
     parcels.forEach((land) => {
       if (
         findLand(
@@ -445,7 +477,12 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
           y
         )
       ) {
-        store.dispatch(setViewState(3))
+        if (ownedList.includes(y * 1000 + x)) {
+          store.dispatch(setViewState(6))
+        } else {
+          store.dispatch(setViewState(3))
+        }
+
         landpoint = {
           data: true,
           name: land.name,

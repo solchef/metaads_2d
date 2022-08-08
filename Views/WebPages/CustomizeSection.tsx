@@ -11,7 +11,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 // import { updateX, updateY } from './Map'
 
-export const Section = ({
+export const CustomizeSection = ({
   setName,
   setUrl,
   setMintImage,
@@ -38,7 +38,8 @@ export const Section = ({
   }
   return (
     <div className="offcanvas-body image-info mt-4  pb-5 p-0 ">
-      <h3> SQ.NFT SIZE</h3>
+      <h3>Customize Your Squres</h3>
+      <p>Set width and Height to customize</p>
       <div className="mt-2">
         <form>
           <div className="input-group hoverable mb-4">
@@ -88,11 +89,6 @@ export const Section = ({
           </div>
         </form>
       </div>
-      <p>
-        Select your NFI sq. Size (1 sq=10x10px) & Drag it where you want it.
-      </p>
-      <hr />
-      <h3> Sq.NFT DATA</h3>
 
       <div className="mt-2">
         <form>

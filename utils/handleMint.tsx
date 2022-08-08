@@ -15,7 +15,7 @@ import {
 } from '../components/reducers/Settings'
 import { store } from '../components/store'
 import { useAppSelector } from '../components/store/hooks'
-import { verifyIsAllowed } from './index';
+import { verifyIsAllowed } from './index'
 
 export const handleMint = async (
   name: string,
@@ -40,29 +40,25 @@ export const handleMint = async (
   uploadImage,
   quadPrice
 ) => {
-
   store.dispatch(setMintStatus('Checking validity of submitted data'))
 
   let squrePos = land.y * 1000 + land.x
 
   let mintableids = []
 
-  for (let quad = squrePos + 1; quad < squrePos + land.w; quad++) {
-    for (let i = 0; i < land.h; i++) {
+  for (let quad = squrePos; quad < squrePos + land.h; quad++) {
+    for (let i = 0; i < land.w; i++) {
       // let isAllowed = verifyIsAllowed(quad + i)
       mintableids.push(quad + i * 1000)
     }
   }
 
-  
   try {
     if (adscontract) {
       store.dispatch(
-        setMintStatus(
-          'Please confirm the transaction popup on your wallet'
-        )
+        setMintStatus('Please confirm the transaction popup on your wallet')
       )
-
+      console.log(mintableids)
       let mintcost = quadPrice * mintableids.length
       let txn = await adscontract.mint(address, mintableids, {
         value: (mintcost * 10 ** 18).toString(),
@@ -70,9 +66,7 @@ export const handleMint = async (
 
       if (txn.hash) {
         store.dispatch(
-          setMintStatus(
-            'Transaction is been mined'
-          )
+          setMintStatus('Please wait as the transaction is been mined')
         )
       }
       let receipt = await txn.wait()

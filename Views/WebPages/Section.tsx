@@ -45,7 +45,7 @@ export const Section = ({ handleSubmit }) => {
         } else {
           unmintable.push(quad + i * 1000)
         }
-        console.log(isFound)
+        // console.log(isFound)
       }
     }
     setUnmintableIds(unmintable)
