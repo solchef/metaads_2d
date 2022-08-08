@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
-  selectLand,
   selectViewState,
   selectShowMenu,
   setShowMenu,
@@ -20,7 +19,7 @@ import { RoadMap } from './RoadMap'
 
 function PurchaseSection() {
   const { uploadMetadata, uploadImage } = useIPFS()
-  const landData = useAppSelector(selectLand)
+  // const landData = useAppSelector(selectLand)
   const { contracts, address } = useWeb3Context()
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -35,14 +34,14 @@ function PurchaseSection() {
   const showMenu = useAppSelector(selectShowMenu)
   const quadPrice = useAppSelector(getQuadPrice)
 
-  useEffect(() => {
-    setLand({
-      x: landData.x,
-      y: landData.y,
-      w: landData.w,
-      h: landData.h,
-    })
-  }, [landData])
+  // useEffect(() => {
+  //   setLand({
+  //     x: landData.x,
+  //     y: landData.y,
+  //     w: landData.w,
+  //     h: landData.h,
+  //   })
+  // }, [landData])
 
   const handleSubmit = async () => {
     const result = await handleMint(

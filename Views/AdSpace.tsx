@@ -1,5 +1,4 @@
 import { Fragment, useEffect, useState } from 'react'
-import useCanvas from '../hooks/useCanvas'
 import PurchaseSection from './WebPages/PurchaseSection'
 import axios from 'axios'
 import {

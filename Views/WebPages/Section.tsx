@@ -9,7 +9,6 @@ import {
   getMintingstatus,
   selectLand,
   setLand,
-  setMintStatus,
 } from '../../components/reducers/Settings'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 // import { updateX, updateY } from './Map'
@@ -17,16 +16,9 @@ import { Web3Balance } from '../../components/Web3Balance'
 import { useWeb3Context } from '../../context'
 import { getQuadPrice } from '../../components/reducers/Settings'
 import { verifyIsAllowed } from '../../utils'
-import { store } from '../../components/store'
 import ShareSection from '../../components/ShareSection'
 
-export const Section = ({
-  setName,
-  setUrl,
-  setMintImage,
-  setDescription,
-  handleSubmit,
-}) => {
+export const Section = ({ handleSubmit }) => {
   const landData = useAppSelector(selectLand)
   const { address } = useWeb3Context()
   const dispatch = useAppDispatch()
@@ -213,8 +205,8 @@ export const Section = ({
             {unmintableIDs.length > 0 && (
               <h4>
                 The following tokens cannot be minted:{' '}
-                {unmintableIDs.map((idu) => (
-                  <span>{idu}, </span>
+                {unmintableIDs.map((idu, index) => (
+                  <span key={index}>{idu}, </span>
                 ))}
               </h4>
             )}

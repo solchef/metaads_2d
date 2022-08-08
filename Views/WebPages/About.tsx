@@ -20,12 +20,12 @@ export const About = () => {
         <h3 className="mb-4"> The Million Dollar Website!</h3>
       </div>
 
-      <div className="d-flex">
+      <div>
+        <h4 className="pb-2 ps-3">
+          {' '}
+          TMDW is the homepage billboard of the Metaverse!
+        </h4>
         <p>
-          <h4 className="pb-2">
-            {' '}
-            TMDW is the homepage billboard of the Metaverse!
-          </h4>
           We created the Meta-Board the online version of your traditional
           billboard.{' '}
           <a target="_blank" href="https://www.TheMillionDollarWebsite.com">
@@ -40,12 +40,12 @@ export const About = () => {
           the Quadspace metaverse as a BONUS!
         </p>
       </div>
-      <div className="d-flex">
+      <div>
+        <h4 className="pb-2 ps-3">
+          {' '}
+          What’s so special about The Million Dollar Website?{' '}
+        </h4>
         <p>
-          <h4 className="pb-2">
-            {' '}
-            What’s so special about The Million Dollar Website?{' '}
-          </h4>
           This is your chance to truly own for the first time a piece of digital
           history through blockchain technology. We divided the MetaBoard to 1
           million pixels. Each pixel you own tied to the ownership or holder of
@@ -60,9 +60,9 @@ export const About = () => {
           space!
         </p>
       </div>
-      <div className="d-flex">
+      <div>
+        <h4 className="pb-2 ms-3"> Purchase Price ONLY $1 per pixel </h4>
         <p className="w-100">
-          <h4 className="pb-2"> Purchase Price ONLY $1 per pixel </h4>
           When it was created in 2005, milliondollarhomepage.com{' '}
           <a target="_blank" href="https://www.TheMillionDollarWebsite.com">
             The Million Dollar Website
@@ -114,15 +114,16 @@ export const About = () => {
           share content on anything you like!{' '}
         </p>
       </div>
-      <div className="d-flex">
+      <div>
+        <h4 className="pb-2 ms-3"> How does it work? </h4>
         <p>
-          <h4 className="pb-2"> How does it work? </h4> TMDW has 1,000,000
-          blocks on a 1000 x 1000 2D grid represented by 1,000,000 NFTs on the
-          Ethereum network. Each NFT can either be minted or bought second-hand
-          from someone who's already minted it. Once owned, you can put any
-          image within that block, along with a title, description and url to
-          another website! To mint new blocks and make use of Ethereum and Web3
-          technologies you need to have a Web3 enabled plugin like{' '}
+          TMDW has 1,000,000 blocks on a 1000 x 1000 2D grid represented by
+          1,000,000 NFTs on the Ethereum network. Each NFT can either be minted
+          or bought second-hand from someone who's already minted it. Once
+          owned, you can put any image within that block, along with a title,
+          description and url to another website! To mint new blocks and make
+          use of Ethereum and Web3 technologies you need to have a Web3 enabled
+          plugin like{' '}
           <a target="_blank" href="https://metamask.io">
             Metamask
           </a>{' '}

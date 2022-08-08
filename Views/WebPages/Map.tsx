@@ -1,5 +1,4 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react'
-import * as THREE from 'three'
 import { Canvas, useThree } from '@react-three/fiber'
 import { DoubleSide, TextureLoader, Vector3 } from 'three'
 import { Html, OrbitControls, PerspectiveCamera } from '@react-three/drei'
@@ -166,7 +165,11 @@ export const MapView = ({ minMap }) => {
   const OwnerLans = ({ landPosition, landSize }) => {
     return (
       <mesh
-        position={[landPosition.x - 500 + 0.5, 0.1, landPosition.y - 500 + 0.5]}
+        position={[
+          landPosition.x - 500 + 0.5,
+          0.02,
+          landPosition.y - 500 + 0.5,
+        ]}
         rotation={[-Math.PI / 2, 0, 0]}
       >
         <planeBufferGeometry args={[landSize.w, landSize.h]} />
@@ -220,12 +223,10 @@ export const MapView = ({ minMap }) => {
               </group>
             </>
           )}
-
           <PerspectiveCamera
             position={[0, isMobile ? 1900 : 1300, 0]}
             makeDefault
           />
-
           <OrbitControls
             ref={orbit}
             minPolarAngle={0}
@@ -249,8 +250,8 @@ export const MapView = ({ minMap }) => {
             }}
             enablePan={!minMap}
             touches={{
-              ONE: buyMode ? THREE.TOUCH.PAN : 2,
-              TWO: THREE.TOUCH.DOLLY_PAN,
+              ONE: buyMode ? 1 : 2,
+              TWO: 2,
             }}
             enableRotate={false}
           />
@@ -280,7 +281,7 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
     []
   )
   if (texture && texture2) {
-    texture.minFilter = texture2.minFilter = THREE.LinearFilter
+    texture.minFilter = texture2.minFilter = 1006
     texture.anisotropy = 30
     texture2.anisotropy = 300
   }
@@ -366,7 +367,7 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
             setLandPosition(
               new Vector3(
                 Math.floor(point.x) + x / 2,
-                0.01,
+                0.05,
                 Math.floor(point.z) + y / 2
               )
             )
@@ -489,14 +490,14 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
           uniforms={{
             bumpTexture: { value: texture },
             bumpTexture2: { value: texture2 },
-            bumpTexture3: { value: texture },
+            // bumpTexture3: { value: texture },
             brightness: { value: 1.9 },
             // bumpScale: { value: 100 },
             // color: { value: '0xffffff' },
           }}
           vertexShader={vertexShader}
           fragmentShader={fragmentShader}
-          side={DoubleSide}
+          // side={DoubleSide}
         />
       </mesh>
       {/* {viewBox && !store.getState().settings.selectMode ? (
@@ -515,9 +516,9 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
             // map={
             //   userLandImageTexture !== undefined ? userLandImageTexture : null
             // }
-            color="0xffffff"
+            color="#ffffff"
             attach="material"
-            side={DoubleSide}
+            // side={DoubleSide}
           />
         </mesh>
       ) : (
