@@ -17,6 +17,7 @@ export interface Settings {
   clickMint: boolean
   balance: number
   image: {}
+  image2: {}
   parcel: {
     data: boolean
     name: string
@@ -50,6 +51,7 @@ const initialState: Settings = {
   clickMint: false,
   balance: 0.0,
   image: {},
+  image2: {},
   parcel: {
     data: false,
     name: 'quad',
@@ -130,6 +132,9 @@ export const counterSlice = createSlice({
     setImage: (state, action: PayloadAction<{}>) => {
       state.image = action.payload
     },
+    setImage2: (state, action: PayloadAction<{}>) => {
+      state.image2 = action.payload
+    },
   },
 })
 
@@ -153,6 +158,7 @@ export const {
   setquadPrice,
   setMiniMapPosition,
   setImage,
+  setImage2,
 } = counterSlice.actions
 
 export const selectLand = (state: RootState) => state.settings.land
@@ -178,6 +184,7 @@ export const getQuadPrice = (state: RootState) => state.settings.quadPrice
 export const selectMiniMapPosition = (state: RootState) =>
   state.settings.miniMapPosition
 export const selectImage = (state: RootState) => state.settings.image
+export const selectImage2 = (state: RootState) => state.settings.image2
 
 export const setLandData =
   (view: any): AppThunk =>
@@ -268,6 +275,12 @@ export const setImageData =
   (view: {}): AppThunk =>
   (dispatch) => {
     dispatch(setImage(view))
+  }
+
+export const setImage2Data =
+  (view: {}): AppThunk =>
+  (dispatch) => {
+    dispatch(setImage2(view))
   }
 
 export const setClickMintData =

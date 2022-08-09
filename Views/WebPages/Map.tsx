@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react'
-import { Canvas, useThree } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
 import { DoubleSide, TextureLoader, Vector3 } from 'three'
 import { Html, OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { LoadingManager } from 'three'
@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 import { vertexShader, fragmentShader } from './shaders'
 import {
   selectImage,
+  selectImage2,
   selectLand,
   selectZoomIn,
   selectZoomOut,
@@ -22,7 +23,7 @@ import {
   setZoomLevel,
 } from '../../components/reducers/Settings'
 import { store } from '../../components/store'
-import useSound from 'use-sound'
+// import useSound from 'use-sound'
 import axios from 'axios'
 import { MetaadsContractUnsigned } from '../../utils/readOnly'
 import { useWeb3Context } from '../../context'
@@ -42,10 +43,13 @@ if (
 }
 
 export const MiniMap = () => {
-  return <MapView minMap={true} />
+  const imageStore = useAppSelector(selectImage)
+  const imageStore2 = useAppSelector(selectImage2)
+
+  return <MapView minMap={true} texture1={imageStore} texture2={imageStore2} />
 }
 
-export const MapView = ({ minMap }) => {
+export const MapView = ({ minMap, texture1, texture2 }) => {
   const _3dMode = useAppSelector(select_3dMode)
   const land = useAppSelector(selectLand)
   const imageStore = useAppSelector(selectImage)
@@ -55,52 +59,13 @@ export const MapView = ({ minMap }) => {
   const [buyMode, setBuyMode] = useState(false)
   const [image, setImageState] = useState()
   const [ownerLandList, SetOwnerLandList] = useState([])
-  const [load, setLoad] = useState(true)
-  const [load2, setLoad2] = useState(true)
+  const [load2, setLoad2] = useState(false)
   const [reload, setReload] = useState(false)
   const [textuerData, setTextuerData] = useState()
   const dispatch = useAppDispatch()
-  const manager1 = new LoadingManager()
-  const manager2 = new LoadingManager()
-  const [texture, setTexture] = useState()
-  manager1.onStart = function () {
-    setLoad(true)
-  }
-  manager1.onLoad = function () {
-    setLoad(false)
-  }
-  manager2.onStart = function () {
-    setLoad2(true)
-  }
-  manager2.onLoad = function () {
-    setLoad2(false)
-  }
+
   //
   const { address } = useWeb3Context()
-
-  const texture2 = React.useMemo(
-    () => new TextureLoader(manager2).load('./highres.png'),
-    []
-  )
-  useEffect(() => {
-    getImage()
-  }, [])
-
-  const getImage = async () => {
-    try {
-      await axios
-        .get('https://api.quadspace.io/adspsdace.json')
-        .then((data) => {
-          setImageState(data.data)
-          dispatch(setImage(data.data))
-          const texture = new TextureLoader(manager1).load(data.data)
-          setTexture(texture)
-          setReload(true)
-        })
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   useEffect(() => {
     if (orbit.current) {
@@ -130,6 +95,7 @@ export const MapView = ({ minMap }) => {
             landSize: { w: 1, h: 1 },
           })
         })
+        // console.log(markedOwned)
         SetOwnerLandList(markedOwned)
       })
     }
@@ -189,8 +155,8 @@ export const MapView = ({ minMap }) => {
       style={
         minMap
           ? {
-              height: '250px',
-              width: '250px',
+              height: '200px',
+              width: '200px',
               backgroundColor: '#000',
             }
           : { height: '100vh', width: '100%', backgroundColor: '#000' }
@@ -198,8 +164,8 @@ export const MapView = ({ minMap }) => {
     >
       <group>
         <Suspense fallback={<></>}>
-          {load || load2 ? (
-            <ToolTip1 reload={reload} miniMap={minMap} />
+          {load2 ? (
+            <ErrorReload miniMap={minMap} />
           ) : (
             <>
               <GreenSquare
@@ -209,7 +175,7 @@ export const MapView = ({ minMap }) => {
                 y={land.w}
                 miniMap={minMap}
                 texture2={texture2}
-                texture={texture}
+                texture={texture1}
               />
               <group>
                 {ownerLandList.map((data, index) => {
@@ -264,34 +230,29 @@ export const MapView = ({ minMap }) => {
 }
 
 const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
-  const [playError] = useSound('./errorSound.mp3')
+  // const [playError] = useSound('./errorSound.mp3')
   const ref = useRef()
   const boughtedLandListData = store.getState().settings.boughtedLandList
   const widthMap = 1000
   const heightMap = 1000
-  const manager = new LoadingManager()
-  const { gl, scene, camera } = useThree()
-  const [load, setLoad] = useState(false)
-  const { address } = useWeb3Context()
-
   // console.log(camera.position)
   // console.log(gl)
   // if (miniMap) gl.setViewport(100, 100, 200, 200)
-  gl.setPixelRatio(2.5)
-  gl.capabilities.maxFragmentUniforms = 2400
-  gl.capabilities.maxAttributes = 64
-  gl.capabilities.maxTextures = 64
-  gl.capabilities.maxVertexTextures = 64
+  // gl.setPixelRatio(2.5)
+  // gl.capabilities.maxFragmentUniforms = 2400
+  // gl.capabilities.maxAttributes = 64
+  // gl.capabilities.maxTextures = 64
+  // gl.capabilities.maxVertexTextures = 64
 
   const userLandImageTexture = React.useMemo(
     () => new TextureLoader().load(''),
     []
   )
-  if (texture && texture2) {
-    texture.minFilter = texture2.minFilter = 1006
-    texture.anisotropy = 30
-    texture2.anisotropy = 300
-  }
+  // if (texture && texture2) {
+  //   texture.minFilter = texture2.minFilter = 1006
+  //   texture.anisotropy = 30
+  //   texture2.anisotropy = 300
+  // }
   const [boxPosition, setBoxPosition] = useState(new Vector3(0, 0, 0))
   const [viewLand, setViewLand] = useState(false)
   const [viewBox, setViewBox] = useState(false)
@@ -316,7 +277,7 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
         new Vector3(landPosition.x - result / 2, landPosition.y, landPosition.z)
       )
     } else {
-      playError()
+      // playError()
     }
     oldx = x
   }, [x])
@@ -330,7 +291,7 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
         new Vector3(landPosition.x, landPosition.y, landPosition.z - result / 2)
       )
     else {
-      playError()
+      // playError()
     }
     oldy = y
   }, [y])
@@ -341,8 +302,6 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
       else setParcels([])
     })
   }, [])
-
-  useEffect(() => {}, [])
 
   const getSelectedMap = (point) => {
     return boughtedLandListData.find(
@@ -396,13 +355,13 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
             )
             //playBuild()
           } else {
-            playError()
+            // playError()
           }
         } else {
-          playError()
+          // playError()
         }
       } else {
-        playError()
+        // playError()
       }
       store.dispatch(setShowMenu(true))
     } else {
@@ -443,7 +402,6 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
       ownedList.push(Number(own))
     })
     let pos = y * 1000 + x
-    console.log(pos)
     if (ownedList.includes(pos)) {
       // alert('dd')
       store.dispatch(setViewState(6))
@@ -734,44 +692,36 @@ const onWheel = (camera) => {
     }
   }
 }
-function ToolTip1({ reload, minMap }) {
+export const ErrorReload = () => {
   return (
-    <Html center position={[-1, 1, -1]}>
-      {reload ? (
-        minMap ? (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-            onClick={() => location.reload()}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="160"
-              height="160"
-              fill="currentColor"
-              className="bi bi-arrow-clockwise"
-              viewBox="0 0 16 16"
-              color="#f90070"
-            >
-              <path
-                fillRule="evenodd"
-                d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"
-              />
-              <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
-            </svg>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        height: '100vh',
+        justifyContent: 'center',
+      }}
+      onClick={() => location.reload()}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="160"
+        height="160"
+        fill="currentColor"
+        className="bi bi-arrow-clockwise"
+        viewBox="0 0 16 16"
+        color="#f90070"
+      >
+        <path
+          fillRule="evenodd"
+          d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"
+        />
+        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+      </svg>
 
-            <h3> Reload Page</h3>
-            <h4>Network Error</h4>
-          </div>
-        ) : (
-          ''
-        )
-      ) : (
-        <Loader />
-      )}
-    </Html>
+      <h3> Reload Page</h3>
+      <h4>Network Error</h4>
+    </div>
   )
 }

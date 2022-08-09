@@ -17,6 +17,7 @@ import { Section } from './Section'
 import Main from './Main'
 import { RoadMap } from './RoadMap'
 import { CustomizeSection } from './CustomizeSection'
+import { MiniMap } from './Map'
 
 function PurchaseSection() {
   const { uploadMetadata, uploadImage } = useIPFS()
@@ -87,6 +88,13 @@ function PurchaseSection() {
         />
       )
   }
+  const getMiniMap = () => {
+    return (
+      <div className="mini-map">
+        <MiniMap />
+      </div>
+    )
+  }
 
   return (
     <>
@@ -109,6 +117,7 @@ function PurchaseSection() {
               ? 'Menu'
               : 'Menu'}
           </span>
+
           <a
             className=""
             style={{ float: 'right', marginRight: '20px' }}
@@ -120,6 +129,7 @@ function PurchaseSection() {
           >
             {showMenu && <i className="fa fa-close"></i>}
           </a>
+          {viewState !== 0 ? getMiniMap() : ''}
         </div>
         {getVisibilityMode()}
       </div>

@@ -1022,10 +1022,16 @@ input[type='number']::-webkit-inner-spin-button {
   animation: loader 2s infinite linear;
 }
 
+.mini-map {
+  width: 200px;
+}
+
 .loader-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 .loader-title {

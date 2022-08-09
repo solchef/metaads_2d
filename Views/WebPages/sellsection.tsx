@@ -11,7 +11,6 @@ import {
 } from '../../components/reducers/Settings'
 import ShareSection from '../../components/ShareSection'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
-import { MiniMap } from './Map'
 
 export const Sellsection = () => {
   const parcelData = useAppSelector(getParcel)
@@ -36,9 +35,7 @@ export const Sellsection = () => {
   return (
     <div className="offcanvas-body image-info pb-5 mt-0 p-0 text-center">
       {/* <h3> FOR SALE</h3> */}
-      <div className="mini-map">
-        <MiniMap />
-      </div>
+
       <div className="forsale mb-4">
         <h3>FOR SALE</h3>
       </div>
