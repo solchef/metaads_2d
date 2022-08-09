@@ -20,6 +20,7 @@ export const CustomizeSection = ({
 }) => {
   const landData = useAppSelector(selectLand)
   const dispatch = useAppDispatch()
+  const [preview, setPreview] = useState(null)
   const [selectedFile, setSelectedFile] = useState('Upload Image')
   useEffect(() => {}, [])
 
@@ -29,13 +30,34 @@ export const CustomizeSection = ({
     if (e.target.files.length && e.target.files[0].size / 1024 / 1024 <= 5) {
       setSelectedFile(e.target.files[0].name)
       setMintImage(e.target.files)
+      setPreview(URL.createObjectURL(e.target.files[0]))
     } else if (
       e.target.files.length &&
       e.target.files[0].size / 1024 / 1024 > 5
     )
       setSelectedFile('Max Size 5 MB')
-    else setSelectedFile('Upload Image')
+    else setSelectedFile(e.target.files[0].name)
   }
+
+  const checkIfValid = () => {
+    // let mintable = []
+    // let unmintable = []
+    // let isFound
+    // let squrePos = landData.y * 1000 + landData.x
+    // for (let quad = squrePos; quad < squrePos + landData.w; quad++) {
+    //   for (let i = 0; i < landData.h; i++) {
+    //     isFound = verifyIsAllowed(quad + 1)
+    //     if (!isFound) {
+    //       mintable.push(quad + i * 1000)
+    //     } else {
+    //       unmintable.push(quad + i * 1000)
+    //     }
+    //     // console.log(isFound)
+    //   }
+    // }
+    // setUnmintableIds(unmintable)
+  }
+
   return (
     <div className="offcanvas-body image-info mt-4  pb-5 p-0 ">
       <h3>Customize Your Squres</h3>
@@ -48,14 +70,17 @@ export const CustomizeSection = ({
             </span>
             <input
               type="number"
-              min="1"
-              max="1000000"
+              min={1}
+              max={1000}
+              step={1}
               defaultValue={1}
               aria-label="W"
+              pattern="^(.*[^0-9]|)(1000|[1-9]\d{0,2})([^0-9].*|)$"
               placeholder="Width"
-              value={landData.w}
+              value={landData.h}
               className="form-control"
               onChange={(e) => {
+                checkIfValid()
                 dispatch(
                   setLand({
                     x: landData.x,
@@ -66,14 +91,17 @@ export const CustomizeSection = ({
                 )
               }}
             />
+
             <input
               type="number"
               aria-label="H"
               min="1"
-              max="1000000"
+              max="1000"
+              pattern="^(.*[^0-9]|)(1000|[1-9]\d{0,2})([^0-9].*|)$"
+              step={1}
               defaultValue={1}
               placeholder="Hight"
-              value={landData.h}
+              value={landData.w}
               className="form-control value="
               onChange={(e) => {
                 dispatch(
@@ -83,7 +111,8 @@ export const CustomizeSection = ({
                     w: parseInt(e.target.value),
                     h: landData.h,
                   })
-                )
+                ),
+                  checkIfValid()
               }}
             />
           </div>
@@ -114,7 +143,7 @@ export const CustomizeSection = ({
             </span>
             <input
               type="url"
-              placeholder="https://"
+              placeholder="Redirect Link"
               className="form-control"
               onChange={(event) => {
                 setUrl(event.target.value)
@@ -150,15 +179,25 @@ export const CustomizeSection = ({
               style={{ display: 'none' }}
             />
           </div>
+
+          {preview ? (
+            <div className="text-center mb-2">
+              <img src={preview} height={100} width={100} />
+            </div>
+          ) : (
+            <></>
+          )}
         </form>
         <form>
-          <div className="input-group hoverable mb-4">
-            <h3 className="ps-0 ">Description :</h3>
+          <div className="input-group hoverable mb-3">
+            <span className="input-group-text ">
+              <i className="bi bi-file-text"></i>
+            </span>
 
             <textarea
-              style={{ borderRadius: '0.25rem' }}
+              // style={{ borderRadius: '0.25rem' }}
               placeholder="Description"
-              className="p-2 mt-2"
+              className="p-2  form-control"
               id="w3review"
               onChange={(event) => {
                 setDescription(event.target.value)
@@ -183,79 +222,16 @@ export const CustomizeSection = ({
         onClick={handleSubmit}
         disabled={mintingDetail !== null}
       >
-        <i className="bi-wallet me-2"></i> PURCHASE PLOT
+        <i className="bi-wallet me-2"></i> UPLOAD INFO
       </button>
-      <div className="d-flex mt-3 flex-wrap">
-        <span className=" me-2 mt-2">
-          <img src="assets/images/square_icon.png" width="16px" /> :{' '}
-          {landData.h * landData.w}
+      <div className="d-flex mt-3 flex-wrap justify-content-between">
+        <span className="me-2 mt-2">
+          <i className="bi bi-geo-alt" />: &nbsp;
+          {landData.x + 'X, ' + landData.y + 'Y'}
         </span>
         <span className=" me-2 mt-2">
           <i className="bi bi-border " />
           &nbsp;: ( {landData.h + ' X ' + landData.w} )
-        </span>
-        <span className="me-2 mt-2">
-          <i className="bi bi-geo-alt" /> :
-          {landData.x + 'X, ' + landData.y + 'Y'}
-        </span>
-        <span className="me-2 mt-2 text-nowrap">
-          {' '}
-          <b>
-            <i className="bi bi-tag" /> :{' '}
-          </b>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-            xmlSpace="preserve"
-            width="12px"
-            version="1.1"
-            shapeRendering="geometricPrecision"
-            textRendering="geometricPrecision"
-            imageRendering="optimizeQuality"
-            fillRule="evenodd"
-            clipRule="evenodd"
-            viewBox="0 0 784.37 1277.39"
-          >
-            <g id="Layer_x0020_1">
-              <metadata id="CorelCorpID_0Corel-Layer" />
-              <g id="_1421394342400">
-                <g>
-                  <polygon
-                    fill="#343434"
-                    fillRule="nonzero"
-                    points="392.07,0 383.5,29.11 383.5,873.74 392.07,882.29 784.13,650.54 "
-                  />
-                  <polygon
-                    fill="#8C8C8C"
-                    fillRule="nonzero"
-                    points="392.07,0 -0,650.54 392.07,882.29 392.07,472.33 "
-                  />
-                  <polygon
-                    fill="#3C3C3B"
-                    fillRule="nonzero"
-                    points="392.07,956.52 387.24,962.41 387.24,1263.28 392.07,1277.38 784.37,724.89 "
-                  />
-                  <polygon
-                    fill="#8C8C8C"
-                    fillRule="nonzero"
-                    points="392.07,1277.38 392.07,956.52 -0,724.89 "
-                  />
-                  <polygon
-                    fill="#141414"
-                    fillRule="nonzero"
-                    points="392.07,882.29 784.13,650.54 392.07,472.33 "
-                  />
-                  <polygon
-                    fill="#393939"
-                    fillRule="nonzero"
-                    points="0,650.54 392.07,882.29 392.07,472.33 "
-                  />
-                </g>
-              </g>
-            </g>
-          </svg>
-          &nbsp;{landData.h * landData.w * 0.00058} ( ${' '}
-          {landData.h * landData.w} )
         </span>
       </div>
     </div>

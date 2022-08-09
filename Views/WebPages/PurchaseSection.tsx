@@ -18,6 +18,7 @@ import Main from './Main'
 import { RoadMap } from './RoadMap'
 import { CustomizeSection } from './CustomizeSection'
 import { MiniMap } from './Map'
+import { handleUpdateData } from '../../utils/handleUpdateData'
 
 function PurchaseSection() {
   const { uploadMetadata, uploadImage } = useIPFS()
@@ -59,6 +60,22 @@ function PurchaseSection() {
       quadPrice
     )
   }
+
+  const handleCustomize = async () => {
+    const result = await handleUpdateData(
+      name,
+      address,
+      description,
+      url,
+      adscontract,
+      MintImage,
+      land,
+      uploadMetadata,
+      uploadImage
+      // quadPrice
+    )
+  }
+
   const getVisibilityMode = () => {
     if (viewState === 0) return <About />
     if (showMenu && viewState === 7) return <RoadMap />
@@ -80,11 +97,11 @@ function PurchaseSection() {
     if (showMenu && viewState === 6)
       return (
         <CustomizeSection
-          setName={undefined}
-          setUrl={undefined}
-          setMintImage={undefined}
-          setDescription={undefined}
-          handleSubmit={undefined}
+          setUrl={setUrl}
+          setName={setName}
+          setMintImage={setMintImage}
+          setDescription={setDescription}
+          handleSubmit={handleCustomize}
         />
       )
   }
@@ -129,7 +146,7 @@ function PurchaseSection() {
           >
             {showMenu && <i className="fa fa-close"></i>}
           </a>
-          {viewState !== 0&&showMenu ? getMiniMap() : ''}
+          {viewState !== 0 && showMenu ? getMiniMap() : ''}
         </div>
         {getVisibilityMode()}
       </div>

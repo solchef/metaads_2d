@@ -14,7 +14,7 @@ import {
 } from '../components/reducers/Settings'
 import { store } from '../components/store'
 
-export const handleMint = async (
+export const handleUpdateData = async (
   name: string,
   address: string,
   description: string,
