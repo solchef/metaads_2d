@@ -129,7 +129,7 @@ function PurchaseSection() {
           >
             {showMenu && <i className="fa fa-close"></i>}
           </a>
-          {viewState !== 0 ? getMiniMap() : ''}
+          {viewState !== 0&&showMenu ? getMiniMap() : ''}
         </div>
         {getVisibilityMode()}
       </div>
