@@ -36,7 +36,7 @@ const AdSpace: React.FunctionComponent = () => {
       await axios
         .get('https://api.quadspace.io/adspsdace.json')
         .then((data) => {
-          const texture = new TextureLoader(manager1).load(data.data)
+          const texture = new TextureLoader().load(data.data)
           const texture2 = new TextureLoader(manager1).load('./highres.png')
           dispatch(setImage(texture))
           dispatch(setImage2(texture2))
@@ -89,7 +89,7 @@ const AdSpace: React.FunctionComponent = () => {
               }}
             >
               {reload ? (
-                load ? (
+                load && !texture1 && !texture2 ? (
                   showError ? (
                     <ErrorReload />
                   ) : (

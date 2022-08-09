@@ -84,7 +84,6 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
   useEffect(() => {
     if (address) {
       MetaadsContractUnsigned.getTokenIdsOfWallet(address).then((owned) => {
-        // console.log(owned)
         let markedOwned = []
         owned.forEach((own) => {
           let x = Number(own) % 1000
@@ -128,7 +127,6 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
   //landPosition = new Vector3(x,y,z) y always = 0.5
   // landSize = { w:width, h:height }
   const OwnerLans = (landPosition, landSize) => {
-    // console.log(landPosition, landSize)
     return (
       <mesh
         position={[
@@ -234,6 +232,8 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
   const boughtedLandListData = store.getState().settings.boughtedLandList
   const widthMap = 1000
   const heightMap = 1000
+  const [uploadImge, setUploadImage] = useState()
+
   // console.log(camera.position)
   // console.log(gl)
   // if (miniMap) gl.setViewport(100, 100, 200, 200)
@@ -243,10 +243,6 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
   // gl.capabilities.maxTextures = 64
   // gl.capabilities.maxVertexTextures = 64
 
-  const userLandImageTexture = React.useMemo(
-    () => new TextureLoader().load(''),
-    []
-  )
   // if (texture && texture2) {
   //   texture.minFilter = texture2.minFilter = 1006
   //   texture.anisotropy = 30
@@ -395,6 +391,14 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
     // }
   }, [])
 
+  store.subscribe(() => {
+    // console.log(store.getState().settings.updateImage)
+    if (store.getState().settings.updateImage !== '')
+      setUploadImage(
+        new TextureLoader().load(store.getState().settings.updateImage)
+      )
+  })
+
   const returnLand = async (x, y) => {
     let ownedList = []
     owned.forEach((own) => {
@@ -507,12 +511,10 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
         <mesh position={landPosition} ref={ref} rotation={[-Math.PI / 2, 0, 0]}>
           <planeBufferGeometry args={[x, y]} />
           <meshBasicMaterial
-            // map={
-            //   userLandImageTexture !== undefined ? userLandImageTexture : null
-            // }
+            map={uploadImge}
             color="#ffffff"
             attach="material"
-            // side={DoubleSide}
+            side={DoubleSide}
           />
         </mesh>
       ) : (
