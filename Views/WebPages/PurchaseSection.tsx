@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   selectViewState,
   selectShowMenu,
   setShowMenu,
   setViewState,
   getQuadPrice,
+  selectLand,
 } from '../../components/reducers/Settings'
 import { useAppSelector, useAppDispatch } from '../../components/store/hooks'
 import { useWeb3Context } from '../../context'
@@ -22,7 +23,7 @@ import { handleUpdateData } from '../../utils/handleUpdateData'
 
 function PurchaseSection() {
   const { uploadMetadata, uploadImage } = useIPFS()
-  // const landData = useAppSelector(selectLand)
+  const landData = useAppSelector(selectLand)
   const { contracts, address } = useWeb3Context()
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -37,14 +38,14 @@ function PurchaseSection() {
   const showMenu = useAppSelector(selectShowMenu)
   const quadPrice = useAppSelector(getQuadPrice)
 
-  // useEffect(() => {
-  //   setLand({
-  //     x: landData.x,
-  //     y: landData.y,
-  //     w: landData.w,
-  //     h: landData.h,
-  //   })
-  // }, [landData])
+  useEffect(() => {
+    setLand({
+      x: landData.x,
+      y: landData.y,
+      w: landData.w,
+      h: landData.h,
+    })
+  }, [landData])
 
   const handleSubmit = async () => {
     const result = await handleMint(

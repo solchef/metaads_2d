@@ -44,6 +44,8 @@ export const handleMint = async (
 
   let squrePos = land.y * 1000 + land.x
 
+  console.log(land)
+
   let mintableids = []
 
   for (let quad = squrePos; quad < squrePos + land.h; quad++) {
