@@ -95,7 +95,6 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
             landSize: { w: 1, h: 1 },
           })
         })
-        // console.log(markedOwned)
         SetOwnerLandList(markedOwned)
       })
     }
