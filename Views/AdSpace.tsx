@@ -34,7 +34,7 @@ const AdSpace: React.FunctionComponent = () => {
   const getImage = async () => {
     try {
       await axios
-        .get('https://api.quadspace.io/adspsdace.json')
+        .get('https://api.quadspace.io/uploads/adspsdace.json')
         .then((data) => {
           const texture = new TextureLoader().load(data.data)
           const texture2 = new TextureLoader(manager1).load('./highres.png')

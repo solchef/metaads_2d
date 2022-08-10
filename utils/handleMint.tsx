@@ -100,4 +100,5 @@ export const handleMint = async (
   await fetch('https://api.quadspace.io/invokegen', {
     method: 'GET',
   })
+  
 }
