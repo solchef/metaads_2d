@@ -146,55 +146,13 @@ export const handleUpdateData = async (
     ErrorTransaction({
       title: 'Parcel creation error ',
       description:
-        'Proceeding would result to a not well minted parce. Try again after some time.',
+        'Proceeding would result to a not well updated squres lot. Try again after some time.',
     })
 
     return
-  }
-
-  // update database storage
-
-  try {
-    if (adscontract) {
-      store.dispatch(
-        setMintStatus(
-          'Submitting data to the Blockchain. Please confirm transaction on your wallet'
-        )
-      )
-
-      let mintcost = 0.00098 * mintableids.length
-      let txn = await adscontract.mint(address, mintableids, {
-        value: (mintcost * 10 ** 18).toString(),
-      })
-
-      if (txn.hash) {
-        MiningTransaction({
-          title: 'MiniProcessing Transaction',
-          description: txn.hash,
-        })
-      }
-
-      let receipt = await txn.wait()
-
-      if (receipt) {
-        // console.log(receipt)
-        store.dispatch(
-          setMintStatus('Your parcel has been successfully minted')
-        )
-        SuccessfulTransaction({
-          title: 'Confirmed',
-          description: 'Quads have been successfully minted',
-        })
-      }
-    } else {
-      console.log('loading transaction')
-    }
-  } catch (e) {
-    // console.log(e)
-    store.dispatch(setMintStatus('An error occurred, retrying transaction'))
-    ErrorTransaction({
-      title: 'An Error has Occurred',
-      description: 'An error has occured and minting could not be processed',
+  } else {
+    let response = await fetch('https://api.quadspace.io/invokegen', {
+      method: 'GET',
     })
   }
 }

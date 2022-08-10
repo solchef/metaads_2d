@@ -60,7 +60,7 @@ export const handleMint = async (
       store.dispatch(
         setMintStatus('Please confirm the transaction popup on your wallet')
       )
-      console.log(mintableids)
+      // console.log(mintableids)
       let mintcost = quadPrice * mintableids.length
       let txn = await adscontract.mint(address, mintableids, {
         value: (mintcost * 10 ** 18).toString(),
@@ -92,4 +92,12 @@ export const handleMint = async (
       description: 'An error has occured and minting could not be processed',
     })
   }
+
+  await fetch('https://api.quadspace.io/printBoard', {
+    method: 'GET',
+  })
+
+  await fetch('https://api.quadspace.io/invokegen', {
+    method: 'GET',
+  })
 }
