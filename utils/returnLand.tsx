@@ -18,8 +18,7 @@ export const returnLand = (x, y) => {
     coords: x + ',' + y,
     width: 1,
     height: 1,
-    image:
-      'https://bafybeibaxec4sl7cbx4ey5djtofzdahowg7mv5vmfvkx3kxcfq7koecbx4.ipfs.nftstorage.link/',
+    image: 'https://api.quadspace.io/uploads/quadmint.png',
     status: 'Available',
     url: '#',
     description: `This NFT gives you full ownership of block ${
