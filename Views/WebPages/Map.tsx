@@ -418,23 +418,7 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
     })
 
     let pos = y * 1000 + x
-
-    if (ownedList.includes(pos)) {
-      store.dispatch(setViewState(3))
-      landpoint = {
-        data: false,
-        name: 'TMDW Token',
-        coords: x + ',' + y,
-        width: 1,
-        height: 1,
-        image: 'https://api.quadspace.io/uploads/tmdw.jpg',
-        status: 'Available',
-        url: '#',
-        description: `This NFT  ${pos} on TheMillionDollarWebsite.com (TMDW)  has been claimed.`,
-        position: pos,
-      }
-    }
-
+  
     parcels.forEach((land) => {
       if (
         findLand(
@@ -465,6 +449,24 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
         return landpoint
       }
     })
+
+    if (ownedList.includes(pos)) {
+      landpoint = {
+        data: false,
+        name: 'TMDW Token',
+        coords: x + ',' + y,
+        width: 1,
+        height: 1,
+        image: 'https://api.quadspace.io/uploads/tmdw.jpg',
+        status: 'Available',
+        url: '#',
+        description: `This NFT  ${pos} on TheMillionDollarWebsite.com (TMDW)  has been claimed.`,
+        position: pos,
+      }
+      store.dispatch(setViewState(3))
+      store.dispatch(setParcel(landpoint))
+      return landpoint
+    }
 
     store.dispatch(setParcel(landpoint))
     return landpoint
