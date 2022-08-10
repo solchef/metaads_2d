@@ -393,10 +393,10 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
 
   store.subscribe(() => {
     // console.log(store.getState().settings.updateImage)
-    if (store.getState().settings.updateImage !== '')
-      setUploadImage(
-        new TextureLoader().load(store.getState().settings.updateImage)
-      )
+    // if (store.getState().settings.updateImage !== '')
+    //   setUploadImage(
+    //     new TextureLoader().load(store.getState().settings.updateImage)
+    //   )
   })
 
   const returnLand = async (x, y) => {
