@@ -396,6 +396,9 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
   })
 
   const returnLand = async (x, y) => {
+    let pos = y * 1000 + x
+    pos = pos + 1;
+
     let landpoint = {
       data: false,
       name: 'TMDW Token',
@@ -406,9 +409,9 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
       status: 'Available',
       url: '#',
       description: `This NFT gives you full ownership of block ${
-        y * 1000 + x
+        pos
       } on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!`,
-      position: y * 1000 + x,
+      position: pos,
     }
 
     let ownedList = []
@@ -417,7 +420,6 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
       ownedList.push(Number(own))
     })
 
-    let pos = y * 1000 + x
   
     parcels.forEach((land) => {
       if (
