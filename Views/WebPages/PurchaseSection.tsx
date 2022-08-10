@@ -108,7 +108,7 @@ function PurchaseSection() {
   }
   const getMiniMap = () => {
     return (
-      <div className="mini-map">
+      <div className="d-flex justify-content-center">
         <MiniMap />
       </div>
     )

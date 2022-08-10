@@ -152,8 +152,8 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
       style={
         minMap
           ? {
-              height: '200px',
-              width: '200px',
+              height: '250px',
+              width: '250px',
               backgroundColor: '#000',
             }
           : { height: '100vh', width: '100%', backgroundColor: '#000' }

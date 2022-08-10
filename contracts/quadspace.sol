@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./ERC721Pausable.sol";
 
-contract QuadSpace is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable {
+contract ROSECLUBNFT is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable {
 
     using SafeMath for uint256;
     using Counters for Counters.Counter;
@@ -23,16 +23,16 @@ contract QuadSpace is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable 
     uint256 private constant PRICE_PRESALE = 1 * 10**16; // 0.01ETH Per quad
     uint256 private constant PRICE_PREMINT = 1 * 10**16; // Free Per quad
 
-    uint256 private constant MAX_QUADS = 1000000; // 1000000 quads for Entire QuadSpace.
-    uint256 private constant MAX_QUADS_PRESALE = 1000000; //  QuadSpace for Pre Sale.
-    uint256 private constant MAX_QUADS_PREMINT = 1000000; //  QuadSpace for GiveAway.
+    uint256 private constant MAX_ROSE_NFTS = 20000; // 20000 quads for Entire ROSECLUBNFT.
+    uint256 private constant MAX_ROSE_NFTS_PRESALE = 20000; //  ROSECLUBNFT for Pre Sale.
+    uint256 private constant MAX_ROSE_NFTS_PREMINT = 20000; //  ROSECLUBNFT for GiveAway.
 
-    uint256 private constant MAX_MINT = 1000000; // Upper Limit per Mint is 20
-    uint256 private constant MAX_MINT_PRESALE = 1000000; // Upper Limit per Mint 
-    uint256 private constant MAX_MINT_PREMINT = 1000000; // Upper Limit per Mint 
+    uint256 private constant MAX_MINT = 20000; // Upper Limit per Mint is 20
+    uint256 private constant MAX_MINT_PRESALE = 20000; // Upper Limit per Mint 
+    uint256 private constant MAX_MINT_PREMINT = 20000; // Upper Limit per Mint 
 
     uint256 private _price;
-    uint256 private _maxQuads;
+    uint256 private _maxROSECLUBNFTs;
     uint256 private _maxMint;
 
     mapping(uint256 => bool) private _isOccupiedId;
@@ -43,13 +43,13 @@ contract QuadSpace is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable 
 
     string private baseTokenURI;
 
-    event QuadSpace(address to, uint256 indexed id);
+    event ROSECLUBNFT(address to, uint256 indexed id);
 
     modifier saleIsOpen {
         if (_msgSender() != owner()) {
-            require(SALE_OPEN == true, "SALES: Please wait a big longer before buying QuadSpace ;)");
+            require(SALE_OPEN == true, "SALES: Please wait a big longer before buying ROSECLUBNFT ;)");
         }
-        require(_totalSupply() <= MAX_QUADS, "SALES: Sale end");
+        require(_totalSupply() <= MAX_ROSE_NFTS, "SALES: Sale end");
 
         if (_msgSender() != owner()) {
             require(!paused(), "PAUSABLE: Paused");
@@ -57,10 +57,10 @@ contract QuadSpace is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable 
         _;
     }
 
-    constructor (string memory baseURI) ERC721("QUADSPACE", "QUADSPACE") {
+    constructor (string memory baseURI) ERC721("ROSECLUBNFT", "ROSECLUBNFT") {
         setBaseURI(baseURI);
         _price = PRICE_PREMINT;
-        _maxQuads = MAX_QUADS_PREMINT;
+        _maxROSECLUBNFTs = MAX_ROSE_NFTS_PREMINT;
         _maxMint = MAX_MINT_PREMINT;
     }
 
@@ -69,8 +69,8 @@ contract QuadSpace is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable 
 
    
 
-        require(total + _ids.length <= _maxQuads, "MINT: Current count exceeds maximum element count.");
-        require(total <= _maxQuads, "MINT: Please go to the Opensea to buy a quad.");
+        require(total + _ids.length <= _maxROSECLUBNFTs, "MINT: Current count exceeds maximum element count.");
+        require(total <= _maxROSECLUBNFTs, "MINT: Please go to the Opensea to buy a quad.");
         require(_ids.length <= _maxMint, "MINT: Current count exceeds maximum mint count.");
                             
         if (_to != owner()) {
@@ -94,7 +94,7 @@ contract QuadSpace is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable 
         _isOccupiedId[_id] = true;
         _occupiedList.push(_id);
 
-        emit QuadSpace(_to, _id);
+        emit ROSECLUBNFT(_to, _id);
     }
 
     function startPreSale() public onlyOwner {
@@ -103,7 +103,7 @@ contract QuadSpace is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable 
         SALE_OPEN = true;
 
         _price = PRICE_PRESALE;
-        _maxQuads = MAX_QUADS_PRESALE + MAX_QUADS_PREMINT;
+        _maxROSECLUBNFTs = MAX_ROSE_NFTS_PRESALE + MAX_ROSE_NFTS_PREMINT;
         _maxMint = MAX_MINT_PRESALE;
     }
 
@@ -113,7 +113,7 @@ contract QuadSpace is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable 
         SALE_OPEN = true;
 
         _price = PRICE;
-        _maxQuads = MAX_QUADS;
+        _maxROSECLUBNFTs = MAX_ROSE_NFTS;
         _maxMint = MAX_MINT;
     }
 
@@ -154,11 +154,11 @@ contract QuadSpace is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable 
     }
 
     function maxSales() public view returns (uint256) {
-        return _maxQuads;
+        return _maxROSECLUBNFTs;
     }
 
     function maxSupply() public pure returns (uint256) {
-        return MAX_QUADS;
+        return MAX_ROSE_NFTS;
     }
 
     function raised() public view returns (uint256) {

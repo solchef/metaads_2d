@@ -9,8 +9,10 @@ export const ImageInfoButton = () => {
   const parcelData = useAppSelector(getParcel)
   return (
     <div className="offcanvas-body image-info  pb-5 pt-4 mt-3 p-0 text-center">
-      <div className="image">
-        <img height={200} width={200} src={parcelData.image} />
+      <div className="d-flex justify-content-center">
+        <div className="">
+          <img height={200} width={250} src={parcelData.image} />
+        </div>
       </div>
       <hr className="my-4" />
       <h4>Token #{parcelData.position}</h4>
