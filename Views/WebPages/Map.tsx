@@ -446,7 +446,7 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
           y
         )
       ) {
-        store.dispatch(setViewState(3))
+        // store.dispatch(setViewState(3))
         landpoint = {
           data: true,
           name: land.name,
@@ -461,8 +461,8 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
             : `We created the Meta-Board the online version of your traditional billboard. www.TheMillionDollarWebsite.com (http://www.themilliondollarwebsite.com/) leads to the domain www.quadspace.io (http://www.quadspace.io/). Because Quadspace powers the Metaverse component of this project. Each pixel on the Meta-Board will also come with 1 parcel of land in the Quadspace metaverse as a BONUS!`,
           position: pos,
         }
-
-        return
+        store.dispatch(setParcel(landpoint))
+        return landpoint
       }
     })
 

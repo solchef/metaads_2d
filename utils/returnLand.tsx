@@ -21,9 +21,7 @@ export const returnLand = (x, y) => {
     image: 'https://api.quadspace.io/uploads/tmdw.jpg',
     status: 'Available',
     url: '#',
-    description: `This NFT gives you full ownership of block ${
-      y * 1000 + x
-    } on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!`,
+    description: `This NFT  ${y * 1000 + x} on TheMillionDollarWebsite.com (TMDW)  has been claimed.`,
     position: y * 1000 + x,
   }
   store.dispatch(setViewState(2))
