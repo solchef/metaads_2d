@@ -79,7 +79,8 @@ export const handleMint = async (
         )
         SuccessfulTransaction({
           title: 'Confirmed',
-          description: 'Your tokens have been successfully minted',
+          description:
+            'Your tokens have been successfully minted. Please hold on as your squres are being printed on the board. Your window may reload.',
         })
       }
     } else {
@@ -100,5 +101,6 @@ export const handleMint = async (
   await fetch('https://api.quadspace.io/invokegen', {
     method: 'GET',
   })
-  
+
+  location.reload()
 }
