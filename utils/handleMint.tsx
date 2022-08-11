@@ -42,8 +42,8 @@ export const handleMint = async (
 ) => {
   store.dispatch(setMintStatus('Checking validity of submitted data'))
 
-  let squrePos = (land.y + 1) * 1000 + (land.x + 1)
-
+  let squrePos = land.y * 1000 + land.x
+  squrePos = squrePos + 1
   // console.log(land)
 
   let mintableids = []

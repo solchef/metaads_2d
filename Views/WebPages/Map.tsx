@@ -438,7 +438,7 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
           coords: x + ',' + y,
           width: land.parcelWidth,
           height: land.parcelHeight,
-          image: `https://api.quadspace.io/uploads/${land.image_temp}`, //temporary compressed image of land
+          image: `https://api.quadspace.io/uploads/${land.image_temp}`, //temporary compressed served image of parcel
           status: 'booked',
           url: land.url,
           description: land.description
