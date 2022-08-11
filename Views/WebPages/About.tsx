@@ -41,7 +41,7 @@ export const About = () => {
                   ></video> */}
                   <img
                     className="pb-2 ps-3"
-                    src="assets/images/step1.png"
+                    src="assets/images/step1-min.png"
                     width={'100%'}
                   />
 
@@ -57,7 +57,7 @@ export const About = () => {
                   </video> */}
                   <img
                     className="pb-2 ps-3"
-                    src="assets/images/step2.png"
+                    src="assets/images/step2-min.png"
                     width={'100%'}
                   />
                   <p>Update tokens to show off what you've got!</p>
@@ -74,7 +74,7 @@ export const About = () => {
 
                   <img
                     className="pb-2 ps-3"
-                    src="assets/images/step3.png"
+                    src="assets/images/step3-min.png"
                     width={'100%'}
                   />
                   <p>

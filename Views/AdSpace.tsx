@@ -40,8 +40,8 @@ const AdSpace: React.FunctionComponent = () => {
         .then((data) => {
           const texture = new TextureLoader().load(data.data)
           const texture2 = new TextureLoader(manager1).load('./highres-min.png')
-          dispatch(setImage(texture))
-          dispatch(setImage2(texture2))
+          dispatch(setImage(data.data))
+          // dispatch(setImage2(texture2))
           setTexture2(texture2)
           setTexture1(texture)
           setLoad(false)

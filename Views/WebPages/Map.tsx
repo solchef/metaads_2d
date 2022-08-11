@@ -46,11 +46,21 @@ const materialList = []
 
 export const MiniMap = () => {
   const imageStore = useAppSelector(selectImage)
-  const imageStore2 = useAppSelector(selectImage2)
-  console.log(JSON.stringify(imageStore))
-  console.log(JSON.stringify(imageStore2))
-
-  // return <MapView minMap={true} texture1={imageStore} texture2={imageStore2} />
+  return (
+    <div>
+      <img
+        src={imageStore}
+        style={{
+          width: '250px',
+          height: '250px',
+          background: 'url(blank.svg)',
+          backgroundSize: '250px 250px',
+          backgroundColor: '#00000050',
+        }}
+      />
+      <ViewedAria zoomLevel={store.getState().settings.zoomLevel} />
+    </div>
+  )
 }
 
 export const MapView = ({ minMap, texture1, texture2 }) => {
@@ -413,7 +423,7 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
 
   const returnLand = async (x, y) => {
     let pos = y * 1000 + x
-    pos = pos + 1;
+    pos = pos + 1
 
     let landpoint = {
       data: false,
@@ -424,9 +434,7 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
       image: 'https://api.quadspace.io/uploads/tmdw.jpg',
       status: 'Available',
       url: '#',
-      description: `This NFT gives you full ownership of block ${
-        pos
-      } on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!`,
+      description: `This NFT gives you full ownership of block ${pos} on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!`,
       position: pos,
     }
 
@@ -436,7 +444,6 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
       ownedList.push(Number(own))
     })
 
-  
     parcels.forEach((land) => {
       if (
         findLand(
@@ -553,11 +560,11 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
       ) : (
         ''
       )}
-      {miniMap ? (
+      {/* {miniMap ? (
         <ViewedAria zoomLevel={store.getState().settings.zoomLevel} />
       ) : (
         ''
-      )}
+      )} */}
     </>
   )
 }
@@ -624,59 +631,59 @@ const ViewedAria = (zoomLevel) => {
   })
 
   return (
-    <Html center position={[xPosition, 1, yPosition]}>
+    <div
+      style={{
+        backgroundColor: '#00000000',
+        width: fullWidth,
+        height: fullHeight,
+        top: -310,
+        position: 'fixed',
+      }}
+    >
       <div
         style={{
-          backgroundColor: '#00000000',
+          backgroundColor: '#0000007d',
           width: fullWidth,
-          height: fullHeight,
+          height: 500 - height,
+        }}
+      ></div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
         }}
       >
         <div
           style={{
             backgroundColor: '#0000007d',
-            width: fullWidth,
-            height: 500 - height,
+            width: 500 - width,
+            height: height * 2,
+            float: 'left',
           }}
         ></div>
         <div
           style={{
-            display: 'flex',
-            flexDirection: 'row',
+            border: 'solid 2px red',
+            width: width * 2,
           }}
-        >
-          <div
-            style={{
-              backgroundColor: '#0000007d',
-              width: 500 - width,
-              height: height * 2,
-              float: 'left',
-            }}
-          ></div>
-          <div
-            style={{
-              border: 'solid 2px red',
-              width: width * 2,
-            }}
-          ></div>
-          <div
-            style={{
-              backgroundColor: '#0000007d',
-              width: 500 - width,
-              height: height * 2,
-              float: 'right',
-            }}
-          ></div>
-        </div>
+        ></div>
         <div
           style={{
             backgroundColor: '#0000007d',
-            width: fullWidth,
-            height: 500 - height,
+            width: 500 - width,
+            height: height * 2,
+            float: 'right',
           }}
         ></div>
       </div>
-    </Html>
+      <div
+        style={{
+          backgroundColor: '#0000007d',
+          width: fullWidth,
+          height: 500 - height,
+        }}
+      ></div>
+    </div>
   )
 }
 const onWheel = (camera) => {
