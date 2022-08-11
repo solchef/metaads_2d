@@ -1,9 +1,10 @@
-import React, { Suspense, useEffect, useRef, useState } from 'react'
-import { Canvas } from '@react-three/fiber'
+import React, { Children, Suspense, useEffect, useRef, useState } from 'react'
+import { Canvas, useThree } from '@react-three/fiber'
+import * as THREE from 'three'
 import { DoubleSide, TextureLoader, Vector3 } from 'three'
 import { Html, OrbitControls, PerspectiveCamera } from '@react-three/drei'
-import { LoadingManager } from 'three'
-import { Loader } from '../../utils/loader'
+// import { LoadingManager } from 'three'
+// import { Loader } from '../../utils/loader'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 import { vertexShader, fragmentShader } from './shaders'
 import {
@@ -13,7 +14,7 @@ import {
   selectZoomIn,
   selectZoomOut,
   select_3dMode,
-  setImage,
+  // setImage,
   setLand,
   setMiniMapPosition,
   setParcel,
@@ -41,12 +42,15 @@ if (
 ) {
   isMobile = true
 }
+const materialList = []
 
 export const MiniMap = () => {
   const imageStore = useAppSelector(selectImage)
   const imageStore2 = useAppSelector(selectImage2)
+  console.log(JSON.stringify(imageStore))
+  console.log(JSON.stringify(imageStore2))
 
-  return <MapView minMap={true} texture1={imageStore} texture2={imageStore2} />
+  // return <MapView minMap={true} texture1={imageStore} texture2={imageStore2} />
 }
 
 export const MapView = ({ minMap, texture1, texture2 }) => {
@@ -149,6 +153,11 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
 
   return (
     <Canvas
+      gl={{ preserveDrawingBuffer: true }}
+      // onCreated={({ gl }) => {
+      //   gl.gammaInput = true
+      //   gl.toneMapping = THREE.ACESFilmicToneMapping
+      // }}
       style={
         minMap
           ? {
@@ -159,34 +168,34 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
           : { height: '100vh', width: '100%', backgroundColor: '#000' }
       }
     >
-      <group>
+      <group
+        dispose={() => {
+          console.log('hoi')
+        }}
+      >
         <Suspense fallback={<></>}>
-          {load2 ? (
-            <ErrorReload miniMap={minMap} />
-          ) : (
-            <>
-              <GreenSquare
-                color="#f56f42"
-                color2="#00707b"
-                x={land.h}
-                y={land.w}
-                miniMap={minMap}
-                texture2={texture2}
-                texture={texture1}
-              />
-              <group>
-                {ownerLandList.map((data, index) => {
-                  return (
-                    <OwnerLans
-                      key={index}
-                      landPosition={data.landPosition}
-                      landSize={data.landSize}
-                    />
-                  )
-                })}
-              </group>
-            </>
-          )}
+          <>
+            <GreenSquare
+              color="#f56f42"
+              color2="#00707b"
+              x={land.h}
+              y={land.w}
+              miniMap={minMap}
+              texture2={texture2}
+              texture={texture1}
+            />
+            {/* <group>
+              {ownerLandList.map((data, index) => {
+                return (
+                  <OwnerLans
+                    key={index}
+                    landPosition={data.landPosition}
+                    landSize={data.landSize}
+                  />
+                )
+              })}
+            </group> */}
+          </>
           <PerspectiveCamera
             position={[0, isMobile ? 1900 : 1300, 0]}
             makeDefault
@@ -228,16 +237,23 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
 
 const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
   // const [playError] = useSound('./errorSound.mp3')
+  // texture.dispose()
+  // texture2.dispose()
+  // console.log(texture)
   const ref = useRef()
   const boughtedLandListData = store.getState().settings.boughtedLandList
   const widthMap = 1000
   const heightMap = 1000
   const [uploadImge, setUploadImage] = useState()
-
+  const { gl } = useThree()
+  THREE.Cache.enabled = true
   // console.log(camera.position)
   // console.log(gl)
+  // console.log(scene)
   // if (miniMap) gl.setViewport(100, 100, 200, 200)
-  // gl.setPixelRatio(2.5)
+  // console.log(window.devicePixelRatio)
+  if (isMobile) gl.setPixelRatio(1)
+  if (miniMap) gl.setPixelRatio(0.4)
   // gl.capabilities.maxFragmentUniforms = 2400
   // gl.capabilities.maxAttributes = 64
   // gl.capabilities.maxTextures = 64
@@ -465,6 +481,15 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
     store.dispatch(setParcel(landpoint))
     return landpoint
   }
+  const mat = useRef()
+  // useEffect(() => {
+  //   if (mat.current) {
+  //     materialList.push(mat.current)
+  //     mat.current.dispose()
+  //     console.log(mat.current.dispose())
+  //     console.log(mat.current)
+  //   }
+  // }, [mat.current])
 
   return (
     <>
@@ -483,7 +508,7 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
           onMove(point)
         }}
       >
-        <planeBufferGeometry args={[widthMap, heightMap]} />
+        <planeBufferGeometry ref={mat} args={[widthMap, heightMap]} />
         <shaderMaterial
           uniforms={{
             bumpTexture: { value: texture },
@@ -506,7 +531,7 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
           ) : (
             ''
           )} */}
-
+      {/* {console.log(uploadImge)} */}
       {viewLand ? (
         <mesh position={landPosition} ref={ref} rotation={[-Math.PI / 2, 0, 0]}>
           <planeBufferGeometry args={[x, y]} />

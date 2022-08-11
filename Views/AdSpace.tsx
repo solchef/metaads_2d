@@ -22,6 +22,7 @@ const AdSpace: React.FunctionComponent = () => {
   const [texture2, setTexture2] = useState()
   const [load, setLoad] = useState(true)
   const [showError, setShowError] = useState(false)
+  let loaded = false
 
   manager1.onStart = function () {
     setLoad(true)
@@ -32,12 +33,13 @@ const AdSpace: React.FunctionComponent = () => {
   // }
 
   const getImage = async () => {
+    loaded = true
     try {
       await axios
-        .get('https://api.quadspace.io/adspsdace.json')
+        .get('https://api.quadspace.io/uploads/adspsdace.json')
         .then((data) => {
           const texture = new TextureLoader().load(data.data)
-          const texture2 = new TextureLoader(manager1).load('./highres.png')
+          const texture2 = new TextureLoader(manager1).load('./highres-min.png')
           dispatch(setImage(texture))
           dispatch(setImage2(texture2))
           setTexture2(texture2)
@@ -57,7 +59,7 @@ const AdSpace: React.FunctionComponent = () => {
   }, [])
 
   useEffect(() => {
-    getImage()
+    if (!loaded) getImage()
   }, [])
 
   const showMenu = useAppSelector(selectShowMenu)
