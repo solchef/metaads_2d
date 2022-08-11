@@ -47,16 +47,15 @@ import {
 export default function ShareSection() {
   return (
     <>
-      <FacebookShareButton
+      {/* <FacebookShareButton
         url={'http://www.themilliondollarwebsite.com/'}
         quote={'THE MILLION DOLLAR WEBSITE!'}
         hashtag={'#hashtag'}
         title="THE MILLION DOLLAR WEBSITE! This is your chance to truly own for the first time a piece of digital history through blockchain technology. We divided the MetaBoard to 1 million pixels. "
-        // description="THE MILLION DOLLAR WEBSITE!"
         className="m-2"
       >
         <FacebookIcon size={32} round />
-      </FacebookShareButton>
+      </FacebookShareButton> */}
 
       <TwitterShareButton
         // title={'THE MILLION DOLLAR WEBSITE!'}

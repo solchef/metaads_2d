@@ -18,13 +18,10 @@ export const returnLand = (x, y) => {
     coords: x + ',' + y,
     width: 1,
     height: 1,
-    image:
-      'https://bafybeibaxec4sl7cbx4ey5djtofzdahowg7mv5vmfvkx3kxcfq7koecbx4.ipfs.nftstorage.link/',
+    image: 'https://api.quadspace.io/uploads/tmdw.jpg',
     status: 'Available',
     url: '#',
-    description: `This NFT gives you full ownership of block ${
-      y * 1000 + x
-    } on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!`,
+    description: `This NFT  ${y * 1000 + x} on TheMillionDollarWebsite.com (TMDW)  has been claimed.`,
     position: y * 1000 + x,
   }
   store.dispatch(setViewState(2))

@@ -23,26 +23,26 @@ const Header = () => {
 
   useEffect(() => {
     setZoomLevelState(zLevel)
-    
   }, [zLevel])
 
   useEffect(() => {
-    setQuadPrice();
-  },[])
+    setQuadPrice()
+  }, [])
 
-  const setQuadPrice = async() => {
-    const price = await axios.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USDP");
-    let quadPrice = (1/price.data.USDP).toFixed(5)
-    store.dispatch(
-      setquadPrice(
-        quadPrice
-      )
+  const setQuadPrice = async () => {
+    const price = await axios.get(
+      'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USDP'
     )
+    let quadPrice = (1 / price.data.USDP).toFixed(5)
+    store.dispatch(setquadPrice(quadPrice))
   }
 
   return (
     <>
-      <nav className={`navbar sticky-top d-flex navbar-dark bg-dark`}>
+      <nav
+        className={`navbar sticky-top d-flex navbar-dark bg-dark  `}
+        style={{ marginLeft: showMenu ? '168px' : '64px' }}
+      >
         <div className="container-fluid ">
           <div>
             <div>

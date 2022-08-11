@@ -43,8 +43,8 @@ export const handleMint = async (
   store.dispatch(setMintStatus('Checking validity of submitted data'))
 
   let squrePos = land.y * 1000 + land.x
-
-  console.log(land)
+  squrePos = squrePos + 1
+  // console.log(land)
 
   let mintableids = []
 
@@ -60,7 +60,7 @@ export const handleMint = async (
       store.dispatch(
         setMintStatus('Please confirm the transaction popup on your wallet')
       )
-      console.log(mintableids)
+      // console.log(mintableids)
       let mintcost = quadPrice * mintableids.length
       let txn = await adscontract.mint(address, mintableids, {
         value: (mintcost * 10 ** 18).toString(),
@@ -77,10 +77,23 @@ export const handleMint = async (
         store.dispatch(
           setMintStatus('Your tokens have been successfully minted')
         )
+
         SuccessfulTransaction({
           title: 'Confirmed',
-          description: 'Your tokens have been successfully minted',
+          description:
+            'Your tokens have been successfully minted. Please hold on as your squres are being printed on the board. Your window may reload.',
         })
+
+        await fetch('https://api.quadspace.io/printBoard', {
+          method: 'GET',
+        })
+      
+        await fetch('https://api.quadspace.io/invokegen', {
+          method: 'GET',
+        })
+
+        location.reload()
+
       }
     } else {
       console.log('loading transaction')
@@ -92,4 +105,6 @@ export const handleMint = async (
       description: 'An error has occured and minting could not be processed',
     })
   }
+
+
 }

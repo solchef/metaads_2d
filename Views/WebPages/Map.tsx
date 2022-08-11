@@ -161,8 +161,8 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
       style={
         minMap
           ? {
-              height: '200px',
-              width: '200px',
+              height: '250px',
+              width: '250px',
               backgroundColor: '#000',
             }
           : { height: '100vh', width: '100%', backgroundColor: '#000' }
@@ -398,35 +398,22 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
   }
 
   useEffect(() => {
-    // if (address) {
-    MetaadsContractUnsigned.getTokenIdsOfWallet(
-      '0x3968b60F6afAb609A1F4d0c0E13F86584C79c992'
-    ).then((list) => {
+    MetaadsContractUnsigned.occupiedList().then((list) => {
       setOwned(list)
     })
-    // }
   }, [])
 
   store.subscribe(() => {
     // console.log(store.getState().settings.updateImage)
-    if (store.getState().settings.updateImage !== '')
-      setUploadImage(
-        new TextureLoader().load(store.getState().settings.updateImage)
-      )
+    // if (store.getState().settings.updateImage !== '')
+    //   setUploadImage(
+    //     new TextureLoader().load(store.getState().settings.updateImage)
+    //   )
   })
 
   const returnLand = async (x, y) => {
-    let ownedList = []
-    owned.forEach((own) => {
-      ownedList.push(Number(own))
-    })
     let pos = y * 1000 + x
-    if (ownedList.includes(pos)) {
-      // alert('dd')
-      store.dispatch(setViewState(6))
-    } else {
-      store.dispatch(setViewState(2))
-    }
+    pos = pos + 1;
 
     let landpoint = {
       data: false,
@@ -434,15 +421,22 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
       coords: x + ',' + y,
       width: 1,
       height: 1,
-      image:
-        'https://bafybeibaxec4sl7cbx4ey5djtofzdahowg7mv5vmfvkx3kxcfq7koecbx4.ipfs.nftstorage.link/',
+      image: 'https://api.quadspace.io/uploads/tmdw.jpg',
       status: 'Available',
       url: '#',
       description: `This NFT gives you full ownership of block ${
-        y * 1000 + x
+        pos
       } on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!`,
-      position: y * 1000 + x,
+      position: pos,
     }
+
+    let ownedList = []
+
+    owned.forEach((own) => {
+      ownedList.push(Number(own))
+    })
+
+  
     parcels.forEach((land) => {
       if (
         findLand(
@@ -454,29 +448,43 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
           y
         )
       ) {
-        if (ownedList.includes(y * 1000 + x)) {
-          store.dispatch(setViewState(6))
-        } else {
-          store.dispatch(setViewState(3))
-        }
-
         landpoint = {
           data: true,
           name: land.name,
           coords: x + ',' + y,
           width: land.parcelWidth,
           height: land.parcelHeight,
-          image: `https://api.quadspace.io/${land.image_temp}`, //temporary compressed image of land
+          image: `https://api.quadspace.io/uploads/${land.image_temp}`, //temporary compressed served image of parcel
           status: 'booked',
           url: land.url,
           description: land.description
             ? land.description
             : `We created the Meta-Board the online version of your traditional billboard. www.TheMillionDollarWebsite.com (http://www.themilliondollarwebsite.com/) leads to the domain www.quadspace.io (http://www.quadspace.io/). Because Quadspace powers the Metaverse component of this project. Each pixel on the Meta-Board will also come with 1 parcel of land in the Quadspace metaverse as a BONUS!`,
-          position: y * 1000 + x,
+          position: pos,
         }
-        return
+        store.dispatch(setViewState(3))
+        store.dispatch(setParcel(landpoint))
+        return landpoint
       }
     })
+
+    if (ownedList.includes(pos)) {
+      landpoint = {
+        data: false,
+        name: 'TMDW Token',
+        coords: x + ',' + y,
+        width: 1,
+        height: 1,
+        image: 'https://api.quadspace.io/uploads/tmdw.jpg',
+        status: 'Available',
+        url: '#',
+        description: `This NFT  ${pos} on TheMillionDollarWebsite.com (TMDW)  has been claimed.`,
+        position: pos,
+      }
+      store.dispatch(setViewState(3))
+      store.dispatch(setParcel(landpoint))
+      return landpoint
+    }
 
     store.dispatch(setParcel(landpoint))
     return landpoint
