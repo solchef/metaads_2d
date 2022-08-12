@@ -40,8 +40,8 @@ const Header = () => {
   return (
     <>
       <nav
-        className={`navbar sticky-top d-flex navbar-dark bg-dark  `}
-        style={{ marginLeft: showMenu ? '168px' : '64px' }}
+        className={`navbar ${showMenu && ' active'}  sticky-top d-flex navbar-dark bg-dark  `}
+        
       >
         <div className="container-fluid ">
           <div>
