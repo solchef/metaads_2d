@@ -7,6 +7,7 @@ import {
   setBoughtedLandList,
   setImage,
   setImage2,
+  setUpdateImage,
 } from '../components/reducers/Settings'
 import { LoadingManager, TextureLoader } from 'three'
 import { useAppDispatch, useAppSelector } from '../components/store/hooks'
@@ -38,10 +39,12 @@ const AdSpace: React.FunctionComponent = () => {
       await axios
         .get('https://api.quadspace.io/uploads/adspsdace.json')
         .then((data) => {
+          // console.log(data.data)
           const texture = new TextureLoader().load(data.data)
           const texture2 = new TextureLoader(manager1).load('./highres-min.png')
+          const uploadImage = new TextureLoader().load('./defult-sq.png')
           dispatch(setImage(data.data))
-          // dispatch(setImage2(texture2))
+          dispatch(setUpdateImage(uploadImage))
           setTexture2(texture2)
           setTexture1(texture)
           setLoad(false)

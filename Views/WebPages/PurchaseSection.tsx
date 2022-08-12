@@ -107,10 +107,28 @@ function PurchaseSection() {
       )
   }
   const getMiniMap = () => {
+    const ratio = 5
+    const width = window.innerWidth / ratio
+    const height = window.innerHeight / ratio
     return (
-      <div className="d-flex justify-content-center">
-        <MiniMap />
-      </div>
+      <></>
+      // <div className="d-flex justify-content-center">
+      //   <div
+      //     className="d-flex justify-content-center"
+      //     id="mini-map-container"
+      //     style={{
+      //       position: 'relative',
+      //       overflow: 'hidden',
+      //       backgroundColor: '#00000050',
+      //       width: width,
+      //       height: height,
+      //       minHeight: 250,
+      //       minWidth: 250,
+      //     }}
+      //   >
+      //     <MiniMap />
+      //   </div>
+      // </div>
     )
   }
 
@@ -147,7 +165,7 @@ function PurchaseSection() {
           >
             {showMenu && <i className="fa fa-close"></i>}
           </a>
-          {viewState !== 0 && showMenu ? getMiniMap() : ''}
+          {/* {viewState !== 0 && showMenu ? getMiniMap() : ''} */}
         </div>
         {getVisibilityMode()}
       </div>

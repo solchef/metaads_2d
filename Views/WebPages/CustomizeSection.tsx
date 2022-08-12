@@ -9,6 +9,7 @@ import {
   setLand,
   setUpdateImage,
 } from '../../components/reducers/Settings'
+import { TextureLoader, LoadingManager } from 'three'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 // import { updateX, updateY } from './Map'
 
@@ -41,7 +42,14 @@ export const CustomizeSection = ({
       setPreview(URL.createObjectURL(e.target.files[0]))
       getBase64(e.target.files[0]).then((data) => {
         console.log(data)
-        dispatch(setUpdateImage(data + ''))
+        const manager1 = new LoadingManager()
+        const texture = new TextureLoader(manager1).load(
+          URL.createObjectURL(e.target.files[0])
+        )
+        manager1.onLoad = () => {
+          texture.needsUpdate = true
+          dispatch(setUpdateImage(texture))
+        }
       })
     } else if (
       e.target.files.length &&

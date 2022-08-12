@@ -11,6 +11,7 @@ import {
   selectImage,
   selectImage2,
   selectLand,
+  selectUpdateImage,
   selectZoomIn,
   selectZoomOut,
   select_3dMode,
@@ -45,37 +46,40 @@ if (
 const materialList = []
 
 export const MiniMap = () => {
-  const imageStore = useAppSelector(selectImage)
-  return (
-    <div>
-      <img
-        src={imageStore}
-        style={{
-          width: '250px',
-          height: '250px',
-          background: 'url(blank.svg)',
-          backgroundSize: '250px 250px',
-          backgroundColor: '#00000050',
-        }}
-      />
-      <ViewedAria zoomLevel={store.getState().settings.zoomLevel} />
-    </div>
-  )
+  // const imageStore = useAppSelector(selectImage)
+  // const canvas = document.getElementById('mycanvas').children[0].children[0]
+  // console.log(canvas)
+  // const img = canvas.toDataURL('image/png')
+  // console.log(img)
+  // return (
+  //   <div>
+  //     <img
+  //       src={img}
+  //       style={{
+  //         width: '250px',
+  //         height: '250px',
+  //         // background: 'url(blank.svg)',
+  //         // backgroundSize: '250px 250px',
+  //       }}
+  //     />
+  //     <ViewedAria zoomLevel={store.getState().settings.zoomLevel} />
+  //   </div>
+  // )
 }
 
 export const MapView = ({ minMap, texture1, texture2 }) => {
   const _3dMode = useAppSelector(select_3dMode)
   const land = useAppSelector(selectLand)
-  const imageStore = useAppSelector(selectImage)
+  const imageStore = useAppSelector(selectUpdateImage)
   const orbit = useRef()
   const zoomIn = useAppSelector(selectZoomIn)
   const zoomOut = useAppSelector(selectZoomOut)
   const [buyMode, setBuyMode] = useState(false)
   const [image, setImageState] = useState()
   const [ownerLandList, SetOwnerLandList] = useState([])
-  const [load2, setLoad2] = useState(false)
-  const [reload, setReload] = useState(false)
-  const [textuerData, setTextuerData] = useState()
+  // const [load2, setLoad2] = useState(false)
+  // const [reload, setReload] = useState(false)
+  // const [textuerData, setTextuerData] = useState()
   const dispatch = useAppDispatch()
 
   //
@@ -163,6 +167,9 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
 
   return (
     <Canvas
+      // id="mycanvas"
+      flat
+      linear
       gl={{ preserveDrawingBuffer: true }}
       // onCreated={({ gl }) => {
       //   gl.gammaInput = true
@@ -193,6 +200,7 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
               miniMap={minMap}
               texture2={texture2}
               texture={texture1}
+              uploadImage={imageStore}
             />
             {/* <group>
               {ownerLandList.map((data, index) => {
@@ -245,38 +253,21 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
   )
 }
 
-const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
+const GreenSquare = ({ x, y, miniMap, texture, texture2, uploadImage }) => {
   // const [playError] = useSound('./errorSound.mp3')
-  // texture.dispose()
-  // texture2.dispose()
-  // console.log(texture)
   const ref = useRef()
+  const land = useRef()
   const boughtedLandListData = store.getState().settings.boughtedLandList
   const widthMap = 1000
   const heightMap = 1000
-  const [uploadImge, setUploadImage] = useState()
   const { gl } = useThree()
   THREE.Cache.enabled = true
-  // console.log(camera.position)
-  // console.log(gl)
-  // console.log(scene)
-  // if (miniMap) gl.setViewport(100, 100, 200, 200)
-  // console.log(window.devicePixelRatio)
+
   if (isMobile) gl.setPixelRatio(1)
   if (miniMap) gl.setPixelRatio(0.4)
-  // gl.capabilities.maxFragmentUniforms = 2400
-  // gl.capabilities.maxAttributes = 64
-  // gl.capabilities.maxTextures = 64
-  // gl.capabilities.maxVertexTextures = 64
 
-  // if (texture && texture2) {
-  //   texture.minFilter = texture2.minFilter = 1006
-  //   texture.anisotropy = 30
-  //   texture2.anisotropy = 300
-  // }
   const [boxPosition, setBoxPosition] = useState(new Vector3(0, 0, 0))
   const [viewLand, setViewLand] = useState(false)
-  const [viewBox, setViewBox] = useState(false)
   const [owned, setOwned] = useState([])
 
   const [landPosition, setLandPosition] = useState(new Vector3(0, 0, 0))
@@ -413,14 +404,6 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
     })
   }, [])
 
-  store.subscribe(() => {
-    // console.log(store.getState().settings.updateImage)
-    // if (store.getState().settings.updateImage !== '')
-    //   setUploadImage(
-    //     new TextureLoader().load(store.getState().settings.updateImage)
-    //   )
-  })
-
   const returnLand = async (x, y) => {
     let pos = y * 1000 + x
     pos = pos + 1
@@ -496,15 +479,6 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
     store.dispatch(setParcel(landpoint))
     return landpoint
   }
-  const mat = useRef()
-  // useEffect(() => {
-  //   if (mat.current) {
-  //     materialList.push(mat.current)
-  //     mat.current.dispose()
-  //     console.log(mat.current.dispose())
-  //     console.log(mat.current)
-  //   }
-  // }, [mat.current])
 
   return (
     <>
@@ -523,7 +497,7 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
           onMove(point)
         }}
       >
-        <planeBufferGeometry ref={mat} args={[widthMap, heightMap]} />
+        <planeBufferGeometry args={[widthMap, heightMap]} />
         <shaderMaterial
           uniforms={{
             bumpTexture: { value: texture },
@@ -551,7 +525,8 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
         <mesh position={landPosition} ref={ref} rotation={[-Math.PI / 2, 0, 0]}>
           <planeBufferGeometry args={[x, y]} />
           <meshBasicMaterial
-            map={uploadImge}
+            ref={land}
+            map={uploadImage}
             color="#ffffff"
             attach="material"
             side={DoubleSide}
@@ -569,56 +544,57 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2 }) => {
   )
 }
 const ViewedAria = (zoomLevel) => {
-  const [width, setWidth] = useState(750)
-  const [height, setHight] = useState(750)
   const [xPosition, setXPosition] = useState(0)
   const [yPosition, setYPosition] = useState(0)
-
   const fullWidth = 1000
   const fullHeight = 1000
+  const conWidth = document.getElementById('mini-map-container')?.clientWidth
+  const conHeight = document.getElementById('mini-map-container')?.clientHeight
+  const [width, setWidth] = useState(conWidth)
+  const [height, setHight] = useState(conHeight)
 
   const getResize = (zoom) => {
     setXPosition(store.getState().settings.miniMapPosition.x)
     setYPosition(store.getState().settings.miniMapPosition.y)
     if (zoom === 10) {
-      setWidth(8)
-      setHight(8)
+      setWidth(350)
+      setHight(250)
     }
     if (zoom === 9) {
-      setWidth(13.3)
-      setHight(13.3)
+      setWidth(300)
+      setHight(225)
     }
     if (zoom === 8) {
-      setWidth(26.6)
-      setHight(26.6)
+      setWidth(250)
+      setHight(200)
     }
     if (zoom === 7) {
-      setWidth(39.9)
-      setHight(39.9)
+      setWidth(200)
+      setHight(175)
     }
     if (zoom === 6) {
-      setWidth(53.3)
-      setHight(53.3)
+      setWidth(150)
+      setHight(150)
     }
     if (zoom === 5) {
-      setWidth(66.6)
-      setHight(66.6)
+      setWidth(100)
+      setHight(100)
     }
     if (zoom === 4) {
-      setWidth(79.9)
-      setHight(79.9)
+      setWidth(75)
+      setHight(75)
     }
     if (zoom === 3) {
-      setWidth(93.3)
-      setHight(93.3)
+      setWidth(50)
+      setHight(50)
     }
     if (zoom === 2) {
-      setWidth(106.6)
-      setHight(106.6)
+      setWidth(25)
+      setHight(25)
     }
     if (zoom === 1) {
-      setWidth(119.9)
-      setHight(119.9)
+      setWidth(0)
+      setHight(0)
     }
   }
 
@@ -632,55 +608,65 @@ const ViewedAria = (zoomLevel) => {
 
   return (
     <div
+      id="main"
       style={{
         backgroundColor: '#00000000',
         width: fullWidth,
         height: fullHeight,
-        top: -310,
-        position: 'fixed',
+        top: -375 + yPosition / 5,
+        left: -375 + xPosition / 10,
+        position: 'absolute',
       }}
     >
       <div
+        id="top"
         style={{
           backgroundColor: '#0000007d',
           width: fullWidth,
-          height: 500 - height,
+          height: 375 + height / 2,
         }}
       ></div>
       <div
+        id="center"
         style={{
           display: 'flex',
           flexDirection: 'row',
         }}
       >
         <div
+          id="left"
           style={{
             backgroundColor: '#0000007d',
-            width: 500 - width,
-            height: height * 2,
+            width: conWidth + width,
+            height: conHeight - height,
             float: 'left',
           }}
         ></div>
         <div
+          id="view"
           style={{
             border: 'solid 2px red',
-            width: width * 2,
+            width: conWidth - width,
+            height: conHeight - height,
+            // height: window.innerHeight / 5,
           }}
         ></div>
         <div
+          id="right"
           style={{
             backgroundColor: '#0000007d',
-            width: 500 - width,
-            height: height * 2,
+            width: conWidth + width,
+            height: conHeight - height,
             float: 'right',
           }}
         ></div>
       </div>
       <div
+        id="buttom"
         style={{
           backgroundColor: '#0000007d',
           width: fullWidth,
-          height: 500 - height,
+          height: 375 + height / 2,
         }}
       ></div>
     </div>
