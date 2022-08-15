@@ -1,15 +1,24 @@
 import { create } from 'ipfs-http-client'
+const projectId = '25jA0TBvDtcO15UJjpQu5u5FuPP'
+const projectSecret = '477958be72519e86a31afd65ca3d4aa9'
+
+const auth =
+  'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64')
 
 const ipfs = create({
-  host: 'ipfs.infura.io',
+  host: 'jim.infura-ipfs.io',
   port: 5001,
   protocol: 'http',
+  headers: {
+    authorization: auth,
+  },
 })
+
 export const useIPFS = () => {
   // Format the IPFS url
   const resolveLink = (url) => {
     if (!url || !url.includes('ipfs://')) return url
-    return url.replace('ipfs://', 'https://gateway.ipfs.io/ipfs/')
+    return url.replace('ipfs://', 'https://jim.infura-ipfs.io')
   }
 
   // Upload image to IPFS
@@ -25,7 +34,14 @@ export const useIPFS = () => {
   }
 
   // Upload metadata to IPFS
-  const uploadMetadata = async (parcelPosition, name, description, imageURL, xProp, yProp) => {
+  const uploadMetadata = async (
+    parcelPosition,
+    name,
+    description,
+    imageURL,
+    xProp,
+    yProp
+  ) => {
     const metadata = {
       name: `QUADSPACE(${xProp}, ${yProp})`,
       description: 'QUADSPACE allows you to ...',

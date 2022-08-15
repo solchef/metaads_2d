@@ -77,6 +77,7 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
   const [buyMode, setBuyMode] = useState(false)
   const [image, setImageState] = useState()
   const [ownerLandList, SetOwnerLandList] = useState([])
+  const [parcels, setParcels] = useState([])
   // const [load2, setLoad2] = useState(false)
   // const [reload, setReload] = useState(false)
   // const [textuerData, setTextuerData] = useState()
@@ -98,23 +99,30 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
     }
   }, [_3dMode])
 
+  useEffect(() => {
+    MetaadsContractUnsigned.getParcels().then((list) => {
+      if (list.length > 0) setParcels(list)
+      else {
+        setParcels([])
+      }
+    })
+  }, [])
+
   // load user Lands
   useEffect(() => {
-    if (address) {
-      MetaadsContractUnsigned.getTokenIdsOfWallet(address).then((owned) => {
-        let markedOwned = []
-        owned.forEach((own) => {
-          let x = Number(own) % 1000
-          let y = Math.ceil(Number(own) / 1000)
-
-          markedOwned.push({
-            landPosition: new Vector3(x, 1, y),
-            landSize: { w: 1, h: 1 },
-          })
+    let markedOwned = []
+    parcels.forEach((land) => {
+      if (address == land.owner) {
+        let x = Number(land.coord) % 1000
+        let y = Math.ceil(Number(land.coord) / 1000)
+        markedOwned.push({
+          landPosition: new Vector3(x - 1, 1, y - 1),
+          landSize: { w: Number(land.width), h: Number(land.width) },
         })
-        SetOwnerLandList(markedOwned)
-      })
-    }
+      }
+    })
+    SetOwnerLandList(markedOwned)
+    console.log(markedOwned)
   }, [])
 
   useEffect(() => {
@@ -145,6 +153,7 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
   //landPosition = new Vector3(x,y,z) y always = 0.5
   // landSize = { w:width, h:height }
   const OwnerLans = (landPosition, landSize) => {
+    // console.log(landPosition)
     return (
       <mesh
         position={[
@@ -200,6 +209,8 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
               texture2={texture2}
               texture={texture1}
               uploadImage={imageStore}
+              address={address}
+              parcels={parcels}
             />
             <group>
               {ownerLandList.map((data, index) => {
@@ -252,7 +263,16 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
   )
 }
 
-const GreenSquare = ({ x, y, miniMap, texture, texture2, uploadImage }) => {
+const GreenSquare = ({
+  x,
+  y,
+  miniMap,
+  texture,
+  texture2,
+  uploadImage,
+  address,
+  parcels,
+}) => {
   // const [playError] = useSound('./errorSound.mp3')
   const ref = useRef()
   const land = useRef()
@@ -271,7 +291,6 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2, uploadImage }) => {
 
   const [landPosition, setLandPosition] = useState(new Vector3(0, 0, 0))
   const [moseMoved, setMouseMoved] = useState(false)
-  const [parcels, setParcels] = useState([])
 
   const cubeRef = useRef()
   const onMove = (point) => {
@@ -306,13 +325,6 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2, uploadImage }) => {
     }
     oldy = y
   }, [y])
-
-  useEffect(() => {
-    axios.get('/api/metadata/parcels').then((parc) => {
-      if (parc.data.success) setParcels(parc.data.message)
-      else setParcels([])
-    })
-  }, [])
 
   const getSelectedMap = (point) => {
     return boughtedLandListData.find(
@@ -390,22 +402,14 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2, uploadImage }) => {
   }
 
   const findLand = (x1, y1, x2, y2, x, y) => {
-    x = x + 1
-    y = y + 1
     if (x > x1 && x < x2 && y > y1 && y < y2) return true
 
     return false
   }
 
-  useEffect(() => {
-    MetaadsContractUnsigned.occupiedList().then((list) => {
-      setOwned(list)
-    })
-  }, [])
-
   const returnLand = async (x, y) => {
     let pos = y * 1000 + x
-    pos = pos + 1
+    pos = pos
 
     let landpoint = {
       data: false,
@@ -420,60 +424,45 @@ const GreenSquare = ({ x, y, miniMap, texture, texture2, uploadImage }) => {
       position: pos,
     }
 
-    let ownedList = []
-
-    owned.forEach((own) => {
-      ownedList.push(Number(own))
-    })
-
     parcels.forEach((land) => {
+      let cx = Number(land.coord) % 1000
+      let cy = Math.ceil(Number(land.coord) / 1000)
+
       if (
         findLand(
-          land.coordX,
-          land.coordY,
-          land.coordX + land.parcelWidth,
-          land.coordY + land.parcelHeight,
-          x,
-          y
+          cx - 1,
+          cy - 1,
+          cx + Number(land.width),
+          cy + Number(land.height),
+          x + 1,
+          y + 1
         )
       ) {
         landpoint = {
           data: true,
           name: land.name,
           coords: x + ',' + y,
-          width: land.parcelWidth,
-          height: land.parcelHeight,
-          image: `https://api.quadspace.io/uploads/${land.image_temp}`, //temporary compressed served image of parcel
-          status: 'booked',
+          width: Number(land.width),
+          height: Number(land.height),
+          image: `https://api.quadspace.io/uploads/tmdw.jpg`, //temporary compressed served image of parcel
+          status: 'Bought',
           url: land.url,
           description: land.description
             ? land.description
-            : `We created the Meta-Board the online version of your traditional billboard. www.TheMillionDollarWebsite.com (http://www.themilliondollarwebsite.com/) leads to the domain www.quadspace.io (http://www.quadspace.io/). Because Quadspace powers the Metaverse component of this project. Each pixel on the Meta-Board will also come with 1 parcel of land in the Quadspace metaverse as a BONUS!`,
+            : `This NFT  ${pos} on TheMillionDollarWebsite.com (TMDW) has been claimed.`,
           position: pos,
         }
-        store.dispatch(setViewState(3))
-        store.dispatch(setParcel(landpoint))
-        return landpoint
+        // console.log(land.owner)
+
+        if (address == land.owner) {
+          store.dispatch(setViewState(6))
+          store.dispatch(setParcel(landpoint))
+        } else {
+          store.dispatch(setViewState(3))
+          store.dispatch(setParcel(landpoint))
+        }
       }
     })
-
-    if (ownedList.includes(pos)) {
-      landpoint = {
-        data: false,
-        name: 'TMDW Token',
-        coords: x + ',' + y,
-        width: 1,
-        height: 1,
-        image: 'https://api.quadspace.io/uploads/tmdw.jpg',
-        status: 'Available',
-        url: '#',
-        description: `This NFT  ${pos} on TheMillionDollarWebsite.com (TMDW)  has been claimed.`,
-        position: pos,
-      }
-      store.dispatch(setViewState(3))
-      store.dispatch(setParcel(landpoint))
-      return landpoint
-    }
 
     store.dispatch(setParcel(landpoint))
     return landpoint

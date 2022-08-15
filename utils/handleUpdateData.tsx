@@ -64,32 +64,26 @@ export const handleUpdateData = async (
     }
   }
 
-  // console.log(mintImage)
-
   // update image to ipfs storage and get the CID
-  // const img = await uploadImage(mintImage)
-  // let imgString = await getBase64(mintImage)
+  const img = await uploadImage(mintImage)
 
-  // console.log(imgString)
-
-  // update the metadata fields
-  // const metadata = await uploadMetadata(
-  //   name,
-  //   QuadDescription,
-  //   img,
-  //   land.x,
-  //   land.y
-  // )
+  const metadata = await uploadMetadata(
+    name,
+    QuadDescription,
+    img,
+    land.x,
+    land.y
+  )
   // console.log(metadata)
-  // if (!metadata) {
-  //   ErrorTransaction({
-  //     title: 'Metadata Error ',
-  //     description: 'Metatadata could not be uploaded. Please try again later',
-  //   })
-  //   return
-  // }
-  //create parcel
+  if (!metadata) {
+    ErrorTransaction({
+      title: 'Metadata Error ',
+      description: 'Metatadata could not be uploaded. Please try again later',
+    })
+    return
+  }
 
+  //create parcel
   const formData = new FormData()
   formData.append('file', mintImage)
   //temporary image upload for processing through backend
@@ -135,6 +129,63 @@ export const handleUpdateData = async (
     method: 'POST',
     body: JSON.stringify(parcel),
   })
+
+  try {
+    if (adscontract) {
+      store.dispatch(
+        setMintStatus('Please confirm the transaction popup on your wallet')
+      )
+      // console.log(mintableids)
+      let txn = await adscontract.updateParcelData(
+        parcelId,
+        squrePos,
+        land.w,
+        land.h,
+        'https://api.quadspace.io/api/metadata/1',
+        {
+          value: (mintcost * 10 ** 18).toString(),
+        }
+      )
+
+      if (txn.hash) {
+        store.dispatch(
+          setMintStatus('Please wait as the transaction is been mined')
+        )
+      }
+
+      let receipt = await txn.wait()
+
+      if (receipt) {
+        store.dispatch(
+          setMintStatus('Your tokens have been successfully minted')
+        )
+
+        SuccessfulTransaction({
+          title: 'Confirmed',
+          description:
+            'Your tokens have been successfully minted. Please hold on as your squres are being printed on the board. Your window may reload.',
+        })
+
+        await fetch('https://api.quadspace.io/printBoard', {
+          method: 'GET',
+        })
+
+        await fetch('https://api.quadspace.io/invokegen', {
+          method: 'GET',
+        })
+
+        location.reload()
+      }
+    } else {
+      console.log('loading transaction')
+    }
+  } catch (e) {
+    store.dispatch(setMintStatus('An error occurred, Try again'))
+    ErrorTransaction({
+      title: 'An Error has Occurred',
+      description: 'An error has occured and minting could not be processed',
+    })
+  }
 
   if (!response) {
     store.dispatch(

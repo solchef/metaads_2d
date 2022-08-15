@@ -27,7 +27,7 @@ export const handleMint = async (
   land: { y: number; x: number; w: any; h: number },
   uploadMetadata: {
     (
-      parcelPosition:any,
+      parcelPosition: any,
       name: any,
       description: any,
       imageURL: any,
@@ -44,24 +44,7 @@ export const handleMint = async (
   let squrePos = land.y * 1000 + land.x
   squrePos = squrePos + 1
 
-  const metadata = await uploadMetadata(
-    squrePos, 
-    name,
-    QuadDescription,
-    'https://api.quadspace.io/tmdw.jpg',
-    land.x,
-    land.y
-  )
-
-  if (!metadata) {
-    ErrorTransaction({
-      title: 'Metadata Error ',
-      description: 'Metatadata could not be uploaded. Please try again later',
-    })
-    return
-  }
-
-  let mintableids = [];
+  let mintableids = []
 
   for (let quad = squrePos; quad < squrePos + land.h; quad++) {
     for (let i = 0; i < land.w; i++) {
@@ -77,9 +60,16 @@ export const handleMint = async (
       )
       // console.log(mintableids)
       let mintcost = quadPrice * mintableids.length
-      let txn = await adscontract.mint(address, squrePos, land.w, land.h, metadata, {
-         value: (mintcost * 10 ** 18).toString()
-      })
+      let txn = await adscontract.mint(
+        address,
+        squrePos,
+        land.w,
+        land.h,
+        'https://api.quadspace.io/api/metadata/1',
+        {
+          value: (mintcost * 10 ** 18).toString(),
+        }
+      )
 
       if (txn.hash) {
         store.dispatch(
@@ -102,13 +92,12 @@ export const handleMint = async (
         await fetch('https://api.quadspace.io/printBoard', {
           method: 'GET',
         })
-      
+
         await fetch('https://api.quadspace.io/invokegen', {
           method: 'GET',
         })
 
         location.reload()
-
       }
     } else {
       console.log('loading transaction')
@@ -120,6 +109,4 @@ export const handleMint = async (
       description: 'An error has occured and minting could not be processed',
     })
   }
-
-
 }
