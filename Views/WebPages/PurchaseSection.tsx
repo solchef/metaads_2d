@@ -18,7 +18,7 @@ import { Section } from './Section'
 import Main from './Main'
 import { RoadMap } from './RoadMap'
 import { CustomizeSection } from './CustomizeSection'
-import { MiniMap } from './Map'
+// import { MiniMap } from './Map'
 import { handleUpdateData } from '../../utils/handleUpdateData'
 
 function PurchaseSection() {
