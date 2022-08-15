@@ -19,9 +19,7 @@ export const handleUpdateData = async (
   address: string,
   description: string,
   url: string,
-  adscontract: {
-    mint: (arg0: any, arg1: any[], arg2: { value: string }) => any
-  },
+  adscontract,
   mintImage: any,
   land: { y: number; x: number; w: any; h: number },
   uploadMetadata: {
@@ -135,16 +133,12 @@ export const handleUpdateData = async (
       store.dispatch(
         setMintStatus('Please confirm the transaction popup on your wallet')
       )
-      // console.log(mintableids)
+
       let txn = await adscontract.updateParcelData(
-        parcelId,
         squrePos,
         land.w,
         land.h,
-        'https://api.quadspace.io/api/metadata/1',
-        {
-          value: (mintcost * 10 ** 18).toString(),
-        }
+        metadata
       )
 
       if (txn.hash) {
@@ -157,17 +151,13 @@ export const handleUpdateData = async (
 
       if (receipt) {
         store.dispatch(
-          setMintStatus('Your tokens have been successfully minted')
+          setMintStatus('Your tokens have been successfully updated')
         )
 
         SuccessfulTransaction({
           title: 'Confirmed',
           description:
-            'Your tokens have been successfully minted. Please hold on as your squres are being printed on the board. Your window may reload.',
-        })
-
-        await fetch('https://api.quadspace.io/printBoard', {
-          method: 'GET',
+            'Your tokens have been successfully updated. Please hold on as the update is being printed on the board. Your window may reload.',
         })
 
         await fetch('https://api.quadspace.io/invokegen', {
