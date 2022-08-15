@@ -1,15 +1,15 @@
-import React, { Children, Suspense, useEffect, useRef, useState } from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
-import { DoubleSide, TextureLoader, Vector3 } from 'three'
-import { Html, OrbitControls, PerspectiveCamera } from '@react-three/drei'
+import { DoubleSide, Vector3 } from 'three'
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 // import { LoadingManager } from 'three'
 // import { Loader } from '../../utils/loader'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 import { vertexShader, fragmentShader } from './shaders'
 import {
-  selectImage,
-  selectImage2,
+  // selectImage,
+  // selectImage2,
   selectLand,
   selectUpdateImage,
   selectZoomIn,
@@ -43,7 +43,7 @@ if (
 ) {
   isMobile = true
 }
-const materialList = []
+// const materialList = []
 
 export const MiniMap = () => {
   // const imageStore = useAppSelector(selectImage)
@@ -167,7 +167,6 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
 
   return (
     <Canvas
-      // id="mycanvas"
       flat
       linear
       gl={{ preserveDrawingBuffer: true }}
@@ -202,7 +201,7 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
               texture={texture1}
               uploadImage={imageStore}
             />
-            {/* <group>
+            <group>
               {ownerLandList.map((data, index) => {
                 return (
                   <OwnerLans
@@ -212,7 +211,7 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
                   />
                 )
               })}
-            </group> */}
+            </group>
           </>
           <PerspectiveCamera
             position={[0, isMobile ? 1900 : 1300, 0]}
