@@ -1,7 +1,7 @@
 import { create } from 'ipfs-http-client'
 
 const ipfs = create({
-  host: '127.0.0.1',
+  host: 'ipfs.infura.io',
   port: 5001,
   protocol: 'http',
 })
@@ -25,11 +25,13 @@ export const useIPFS = () => {
   }
 
   // Upload metadata to IPFS
-  const uploadMetadata = async (name, description, imageURL, xProp, yProp) => {
+  const uploadMetadata = async (parcelPosition, name, description, imageURL, xProp, yProp) => {
     const metadata = {
       name: `QUADSPACE(${xProp}, ${yProp})`,
       description: 'QUADSPACE allows you to ...',
       image: imageURL,
+      parcelPosition: parcelPosition,
+      parcelId: 0,
       quad: {
         name: name,
         description: description,

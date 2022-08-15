@@ -22,13 +22,12 @@ export const handleMint = async (
   address: string,
   description: string,
   url: string,
-  adscontract: {
-    mint: (arg0: any, arg1: any[], arg2: { value: string }) => any
-  },
+  adscontract,
   mintImage: any,
   land: { y: number; x: number; w: any; h: number },
   uploadMetadata: {
     (
+      parcelPosition:any,
       name: any,
       description: any,
       imageURL: any,
@@ -44,9 +43,25 @@ export const handleMint = async (
 
   let squrePos = land.y * 1000 + land.x
   squrePos = squrePos + 1
-  // console.log(land)
 
-  let mintableids = []
+  const metadata = await uploadMetadata(
+    squrePos, 
+    name,
+    QuadDescription,
+    'https://api.quadspace.io/tmdw.jpg',
+    land.x,
+    land.y
+  )
+
+  if (!metadata) {
+    ErrorTransaction({
+      title: 'Metadata Error ',
+      description: 'Metatadata could not be uploaded. Please try again later',
+    })
+    return
+  }
+
+  let mintableids = [];
 
   for (let quad = squrePos; quad < squrePos + land.h; quad++) {
     for (let i = 0; i < land.w; i++) {
@@ -62,8 +77,8 @@ export const handleMint = async (
       )
       // console.log(mintableids)
       let mintcost = quadPrice * mintableids.length
-      let txn = await adscontract.mint(address, mintableids, {
-        value: (mintcost * 10 ** 18).toString(),
+      let txn = await adscontract.mint(address, squrePos, land.w, land.h, metadata, {
+         value: (mintcost * 10 ** 18).toString()
       })
 
       if (txn.hash) {
