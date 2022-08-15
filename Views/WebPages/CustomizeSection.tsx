@@ -5,6 +5,7 @@
 import { useEffect, useState } from 'react'
 import {
   getMintingstatus,
+  getParcel,
   selectLand,
   setLand,
   setUpdateImage,
@@ -24,9 +25,11 @@ export const CustomizeSection = ({
   const dispatch = useAppDispatch()
   const [preview, setPreview] = useState(null)
   const [selectedFile, setSelectedFile] = useState('Upload Image')
+
   useEffect(() => {}, [])
 
   const mintingDetail = useAppSelector(getMintingstatus)
+
   function getBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()
@@ -35,6 +38,7 @@ export const CustomizeSection = ({
       reader.onerror = (error) => reject(error)
     })
   }
+
   const handleChangeImage = (e) => {
     if (e.target.files.length && e.target.files[0].size / 1024 / 1024 <= 5) {
       setSelectedFile(e.target.files[0].name)
@@ -240,7 +244,7 @@ export const CustomizeSection = ({
       <button
         className="btn-primary hoverable d-block mx-3 mt-3 btn-md col-11"
         onClick={handleSubmit}
-        disabled={mintingDetail !== null}
+        // disabled={mintingDetail !== null}
       >
         <i className="bi-wallet me-2"></i> UPLOAD INFO
       </button>

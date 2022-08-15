@@ -9,6 +9,7 @@ import {
 } from './notifications'
 import { fabric } from 'fabric'
 import {
+  getParcel,
   setMintingstatus,
   setMintStatus,
 } from '../components/reducers/Settings'
@@ -32,7 +33,8 @@ export const handleUpdateData = async (
     ): Promise<string>
     (arg0: any, arg1: string, arg2: any, arg3: any, arg4: any): any
   },
-  uploadImage
+  uploadImage,
+  parc
 ) => {
   store.dispatch(setMintStatus('Checking validity of submitted data'))
 
@@ -54,8 +56,7 @@ export const handleUpdateData = async (
   let squrePos = land.y * 1000 + land.x
 
   let mintableids = []
-  console.log('minting')
-
+  // console.log('minting')
   for (let quad = squrePos; quad < squrePos + land.w; quad++) {
     for (let i = 0; i < land.h; i++) {
       mintableids.push(quad + i * 1000)
@@ -63,7 +64,7 @@ export const handleUpdateData = async (
   }
 
   // update image to ipfs storage and get the CID
-  const img = await uploadImage(mintImage)
+  const img = await uploadImage(mintImage[0])
 
   const metadata = await uploadMetadata(
     name,
@@ -85,11 +86,8 @@ export const handleUpdateData = async (
   const formData = new FormData()
   formData.append('file', mintImage)
   //temporary image upload for processing through backend
-
   const urlconf = 'https://api.quadspace.io/parcels'
-
   formData.append('file', mintImage[0])
-
   formData.append('fileName', mintImage[0].name)
 
   const config = {
@@ -117,8 +115,8 @@ export const handleUpdateData = async (
     image_temp: mintImage[0].name,
     coordX: land.x,
     coordY: land.y,
-    parcelWidth: land.w,
-    parcelHeight: land.h,
+    parcelWidth: parc.width,
+    parcelHeight: parc.height,
     parcelIds: mintableids,
     address: address,
   }
@@ -128,16 +126,36 @@ export const handleUpdateData = async (
     body: JSON.stringify(parcel),
   })
 
+  if (!response) {
+    store.dispatch(
+      setMintStatus(
+        'Error occurred during the upload. Data cannot be fetched. Please try again'
+      )
+    )
+
+    ErrorTransaction({
+      title: 'Parcel creation error ',
+      description:
+        'Proceeding would result to a not well updated squres lot. Try again after some time.',
+    })
+
+    return
+  } else {
+    let response = await fetch('https://api.quadspace.io/invokegen', {
+      method: 'GET',
+    })
+  }
+
   try {
     if (adscontract) {
       store.dispatch(
         setMintStatus('Please confirm the transaction popup on your wallet')
       )
-
+      console.log(parc, parc.width, parc.height)
       let txn = await adscontract.updateParcelData(
-        squrePos,
-        land.w,
-        land.h,
+        parc.parcId,
+        parc.width,
+        parc.height,
         metadata
       )
 
@@ -174,26 +192,6 @@ export const handleUpdateData = async (
     ErrorTransaction({
       title: 'An Error has Occurred',
       description: 'An error has occured and minting could not be processed',
-    })
-  }
-
-  if (!response) {
-    store.dispatch(
-      setMintStatus(
-        'Error occurred during the upload. Data cannot be fetched. Please try again'
-      )
-    )
-
-    ErrorTransaction({
-      title: 'Parcel creation error ',
-      description:
-        'Proceeding would result to a not well updated squres lot. Try again after some time.',
-    })
-
-    return
-  } else {
-    let response = await fetch('https://api.quadspace.io/invokegen', {
-      method: 'GET',
     })
   }
 }

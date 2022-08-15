@@ -6,6 +6,7 @@ import {
   setViewState,
   getQuadPrice,
   selectLand,
+  getParcel,
 } from '../../components/reducers/Settings'
 import { useAppSelector, useAppDispatch } from '../../components/store/hooks'
 import { useWeb3Context } from '../../context'
@@ -30,6 +31,7 @@ function PurchaseSection() {
   const [url, setUrl] = useState('')
   const adscontract = contracts['metaads']
   const [MintImage, setMintImage] = useState(null)
+  const parcelDt = useAppSelector(getParcel)
 
   const [land, setLand] = useState<any>({})
 
@@ -72,8 +74,8 @@ function PurchaseSection() {
       MintImage,
       land,
       uploadMetadata,
-      uploadImage
-      // quadPrice
+      uploadImage,
+      parcelDt
     )
   }
 

@@ -20,6 +20,7 @@ export interface Settings {
   image2: {}
   updateImage: string
   parcel: {
+    parcId: number
     data: boolean
     name: string
     coords: string
@@ -55,6 +56,7 @@ const initialState: Settings = {
   image2: {},
   updateImage: '',
   parcel: {
+    parcId: 0,
     data: false,
     name: 'quad',
     coords: '-1 , -1',

@@ -112,7 +112,7 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
   useEffect(() => {
     let markedOwned = []
     parcels.forEach((land) => {
-      if (address == land.owner) {
+      if (address.toLowerCase() == land.owner.toLowerCase()) {
         let x = Number(land.coord) % 1000
         let y = Math.ceil(Number(land.coord) / 1000)
         markedOwned.push({
@@ -409,9 +409,9 @@ const GreenSquare = ({
 
   const returnLand = async (x, y) => {
     let pos = y * 1000 + x
-    pos = pos
 
     let landpoint = {
+      parcId: 0,
       data: false,
       name: 'TMDW Token',
       coords: x + ',' + y,
@@ -424,7 +424,7 @@ const GreenSquare = ({
       position: pos,
     }
 
-    parcels.forEach((land) => {
+    parcels.forEach((land, i) => {
       let cx = Number(land.coord) % 1000
       let cy = Math.ceil(Number(land.coord) / 1000)
 
@@ -439,6 +439,7 @@ const GreenSquare = ({
         )
       ) {
         landpoint = {
+          parcId: i + 1,
           data: true,
           name: land.name,
           coords: x + ',' + y,
@@ -446,15 +447,14 @@ const GreenSquare = ({
           height: Number(land.height),
           image: `https://api.quadspace.io/uploads/tmdw.jpg`, //temporary compressed served image of parcel
           status: 'Bought',
-          url: land.url,
+          url: land.uri,
           description: land.description
             ? land.description
             : `This NFT  ${pos} on TheMillionDollarWebsite.com (TMDW) has been claimed.`,
           position: pos,
         }
         // console.log(land.owner)
-
-        if (address == land.owner) {
+        if (address.toLowerCase() == land.owner.toLowerCase()) {
           store.dispatch(setViewState(6))
           store.dispatch(setParcel(landpoint))
         } else {

@@ -16,3 +16,7 @@ export default function handler(req, res) {
     ],
   })
 }
+
+// locate quad parcel and update
+// get parcel image and divide
+//return individual quad image

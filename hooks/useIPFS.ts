@@ -1,16 +1,14 @@
-import { create } from 'ipfs-http-client'
+import { create, CID, IPFSHTTPClient } from 'ipfs-http-client'
+
 const projectId = '25jA0TBvDtcO15UJjpQu5u5FuPP'
 const projectSecret = '477958be72519e86a31afd65ca3d4aa9'
 
-const auth =
-  'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64')
+const authorization = 'Basic ' + btoa(projectId + ':' + projectSecret)
 
 const ipfs = create({
-  host: 'jim.infura-ipfs.io',
-  port: 5001,
-  protocol: 'http',
+  url: 'https://ipfs.infura.io:5001/api/v0',
   headers: {
-    authorization: auth,
+    authorization,
   },
 })
 
@@ -25,6 +23,7 @@ export const useIPFS = () => {
   const uploadImage = async (imageFile) => {
     // console.log(imageFile)
     const fileAdded = await ipfs.add(imageFile)
+
     if (!fileAdded) {
       console.error('Something went wrong when updloading the file')
       return
@@ -77,7 +76,6 @@ export const useIPFS = () => {
     // console.log(metadata)
 
     const metadataAdded = await ipfs.add(JSON.stringify(metadata))
-
     if (!metadataAdded) {
       console.error('Something went wrong when updloading the file')
       return
