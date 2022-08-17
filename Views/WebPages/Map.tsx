@@ -112,13 +112,15 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
   useEffect(() => {
     let markedOwned = []
     parcels.forEach((land) => {
-      if (address.toLowerCase() == land.owner.toLowerCase()) {
-        let x = Number(land.coord) % 1000
-        let y = Math.ceil(Number(land.coord) / 1000)
-        markedOwned.push({
-          landPosition: new Vector3(x - 1, 1, y - 1),
-          landSize: { w: Number(land.width), h: Number(land.width) },
-        })
+      if (address) {
+        if (address.toLowerCase() == land.owner.toLowerCase()) {
+          let x = Number(land.coord) % 1000
+          let y = Math.ceil(Number(land.coord) / 1000)
+          markedOwned.push({
+            landPosition: new Vector3(x - 1, 1, y - 1),
+            landSize: { w: Number(land.width), h: Number(land.width) },
+          })
+        }
       }
     })
     SetOwnerLandList(markedOwned)
@@ -454,12 +456,15 @@ const GreenSquare = ({
           position: pos,
         }
         // console.log(land.owner)
-        if (address.toLowerCase() == land.owner.toLowerCase()) {
-          store.dispatch(setViewState(6))
-          store.dispatch(setParcel(landpoint))
-        } else {
-          store.dispatch(setViewState(3))
-          store.dispatch(setParcel(landpoint))
+
+        if (address) {
+          if (address.toLowerCase() == land.owner.toLowerCase()) {
+            store.dispatch(setViewState(6))
+            store.dispatch(setParcel(landpoint))
+          } else {
+            store.dispatch(setViewState(3))
+            store.dispatch(setParcel(landpoint))
+          }
         }
       }
     })
