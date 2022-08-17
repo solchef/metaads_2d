@@ -98,7 +98,7 @@ export const handleUpdateData = async (
   store.dispatch(setMintStatus('Uploading parcel image. Please wait'))
 
   let imgUpload = axios.post(urlconf, formData, config).then((response) => {
-    console.log(response.data)
+    // console.log(response.data)
   })
 
   if (imgUpload) {
@@ -153,7 +153,8 @@ export const handleUpdateData = async (
       )
       console.log(parc, parc.width, parc.height)
       let txn = await adscontract.updateParcelData(
-        parc.parcId,
+        parc.parcId - 1,
+        parc.position + 1,
         parc.width,
         parc.height,
         metadata

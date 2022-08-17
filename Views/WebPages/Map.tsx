@@ -112,6 +112,7 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
   useEffect(() => {
     let markedOwned = []
     parcels.forEach((land) => {
+      if(address){
       if (address.toLowerCase() == land.owner.toLowerCase()) {
         let x = Number(land.coord) % 1000
         let y = Math.ceil(Number(land.coord) / 1000)
@@ -120,6 +121,7 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
           landSize: { w: Number(land.width), h: Number(land.width) },
         })
       }
+    }
     })
     SetOwnerLandList(markedOwned)
     console.log(markedOwned)
@@ -453,7 +455,7 @@ const GreenSquare = ({
             : `This NFT  ${pos} on TheMillionDollarWebsite.com (TMDW) has been claimed.`,
           position: pos,
         }
-        // console.log(land.owner)
+        if(address){
         if (address.toLowerCase() == land.owner.toLowerCase()) {
           store.dispatch(setViewState(6))
           store.dispatch(setParcel(landpoint))
@@ -461,6 +463,7 @@ const GreenSquare = ({
           store.dispatch(setViewState(3))
           store.dispatch(setParcel(landpoint))
         }
+      }
       }
     })
 
