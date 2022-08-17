@@ -21,7 +21,7 @@ export const useIPFS = () => {
 
   // Upload image to IPFS
   const uploadImage = async (imageFile) => {
-    // console.log(imageFile)
+    console.log(imageFile)
     const fileAdded = await ipfs.add(imageFile)
 
     if (!fileAdded) {
@@ -84,6 +84,58 @@ export const useIPFS = () => {
     return metadataAdded.path
   }
 
+  const handleMultiUploadMetadata = async (
+    name,
+    description,
+    images,
+    xProp,
+    yProp
+  ) => {
+    let imgArray = []
+    // await images.forEach((img) => {
+
+    //   imgArray.push();
+    // })
+
+    let squrePos = yProp * 1000 + xProp
+    const metadataArr = []
+
+    // const metadataAdded = await ipfs.addAll(JSON.stringify(images))
+
+    const sources = await images.map((file, i) => ({
+      path: `${i}.json`,
+      content: new File([JSON.stringify(file)], `${i}.txt`, {
+        type: 'text/plain',
+      }),
+    }))
+
+    console.log(sources[0])
+
+    let rootCid: string
+    for await (const result of ipfs.addAll(sources)) {
+      // console.log(`Uploaded: ${JSON.stringify(result.cid.toString())}`)
+      metadataArr.push(result.path)
+      if (result.path === '' || result.path === undefined) {
+        rootCid = result.cid.toString()
+      }
+    }
+
+    // console.log(rootCid)
+
+    // metadataArr.push(metadataAdded)
+
+    // console.log(metadata)
+    // const metadataAdded = await ipfs.add(JSON.stringify(metadata))
+    // if (!metadataAdded) {
+    //   console.error('Something went wrong when updloading the file')
+    //   return
+    // }
+
+    // console.log(metadataArr)
+
+    return true
+  }
+
   // Upload image to IPFS
   /** Uses `URL.createObjectURL` free returned ObjectURL with `URL.RevokeObjectURL` when done with it.
    *
@@ -119,5 +171,11 @@ export const useIPFS = () => {
     return res
   }
 
-  return { resolveLink, uploadImage, uploadMetadata, loadImgURL }
+  return {
+    resolveLink,
+    uploadImage,
+    uploadMetadata,
+    loadImgURL,
+    handleMultiUploadMetadata,
+  }
 }

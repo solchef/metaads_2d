@@ -23,7 +23,7 @@ import { CustomizeSection } from './CustomizeSection'
 import { handleUpdateData } from '../../utils/handleUpdateData'
 
 function PurchaseSection() {
-  const { uploadMetadata, uploadImage } = useIPFS()
+  const { uploadMetadata, uploadImage, handleMultiUploadMetadata } = useIPFS()
   const landData = useAppSelector(selectLand)
   const { contracts, address } = useWeb3Context()
   const [name, setName] = useState('')
@@ -75,7 +75,8 @@ function PurchaseSection() {
       land,
       uploadMetadata,
       uploadImage,
-      parcelDt
+      parcelDt,
+      handleMultiUploadMetadata
     )
   }
 

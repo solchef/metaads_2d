@@ -1,2 +1,2 @@
 export const QuadDescription = 'description'
-export const QuadSpaceContract = '0x5D9FF8A2BAFFe6987fe99eF1346b4c092c1Fd6b6'
+export const QuadSpaceContract = '0x646D7f7d71aBD7b6ac886DDB3667d74c6292BE0f'

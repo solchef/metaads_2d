@@ -45,7 +45,6 @@ export const CustomizeSection = ({
       setMintImage(e.target.files)
       setPreview(URL.createObjectURL(e.target.files[0]))
       getBase64(e.target.files[0]).then((data) => {
-        console.log(data)
         const manager1 = new LoadingManager()
         const texture = new TextureLoader(manager1).load(
           URL.createObjectURL(e.target.files[0])
@@ -97,7 +96,6 @@ export const CustomizeSection = ({
               min={1}
               max={1000}
               step={1}
-              defaultValue={1}
               aria-label="W"
               pattern="^(.*[^0-9]|)(1000|[1-9]\d{0,2})([^0-9].*|)$"
               placeholder="Width"
@@ -123,7 +121,6 @@ export const CustomizeSection = ({
               max="1000"
               pattern="^(.*[^0-9]|)(1000|[1-9]\d{0,2})([^0-9].*|)$"
               step={1}
-              defaultValue={1}
               placeholder="Hight"
               value={landData.w}
               className="form-control value="
