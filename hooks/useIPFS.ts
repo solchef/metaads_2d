@@ -43,7 +43,7 @@ export const useIPFS = () => {
   ) => {
     const metadata = {
       name: `QUADSPACE(${xProp}, ${yProp})`,
-      description: 'QUADSPACE allows you to ...',
+      description: description,
       image: imageURL,
       parcelPosition: parcelPosition,
       parcelId: 0,

@@ -55,6 +55,23 @@ export const handleUpdateData = async (
     })
     return
   }
+
+  if (!description) {
+    ErrorTransaction({
+      title: 'Upload Error ',
+      description: 'Please provide a description  attached to your quad',
+    })
+    return
+  }
+
+  if (!mintImage) {
+    ErrorTransaction({
+      title: 'Upload Error ',
+      description: 'Please upload an image to update',
+    })
+    return
+  }
+
   let squrePos = land.y * 1000 + land.x
 
   let mintableids = []
@@ -129,7 +146,7 @@ export const handleUpdateData = async (
     land.y
   )
 
-  console.log(metadata)
+  // console.log(metadata)
   if (!metadata) {
     ErrorTransaction({
       title: 'Metadata Error ',
@@ -175,6 +192,7 @@ export const handleUpdateData = async (
     parcelHeight: parc.height,
     parcelIds: mintableids,
     address: address,
+    ipfs:metadata
   }
 
   let response = await fetch('/api/metadata/parcels', {
@@ -182,6 +200,7 @@ export const handleUpdateData = async (
     body: JSON.stringify(parcel),
   })
 
+  
   if (!response) {
     store.dispatch(
       setMintStatus(
@@ -196,26 +215,28 @@ export const handleUpdateData = async (
     })
 
     return
-  } else {
-    let response = await fetch('https://api.quadspace.io/invokegen', {
-      method: 'GET',
-    })
   }
 
-  // try {
+  let inserted = await response.json();
+  inserted = inserted.parcel.insertedId;
+
+  // console.log(inserted)
+
+  
+  try {
   if (adscontract) {
     store.dispatch(
       setMintStatus('Please confirm the transaction popup on your wallet')
     )
-    console.log(parc)
-    console.log(parc.parcId, squrePos, parc.width, parc.height, metadata)
+    // console.log(parc)
+    // console.log(parc.parcId, squrePos, parc.width, parc.height, metadata)
 
     let txn = await adscontract.updateParcelData(
       parc.parcId,
       parc.position,
       parc.width,
       parc.height,
-      metadata
+      `https://quadspace.io/api/metadata/parcels/${inserted}`
     )
 
     if (txn.hash) {
@@ -246,11 +267,11 @@ export const handleUpdateData = async (
   } else {
     console.log('loading transaction')
   }
-  // } catch (e) {
-  //   store.dispatch(setMintStatus('An error occurred, Try again'))
-  //   ErrorTransaction({
-  //     title: 'An Error has Occurred',
-  //     description: 'An error has occured and minting could not be processed',
-  //   })
-  // }
+  } catch (e) {
+    store.dispatch(setMintStatus('An error occurred, Try again'))
+    ErrorTransaction({
+      title: 'An Error has Occurred',
+      description: 'An error has occured and minting could not be processed',
+    })
+  }
 }

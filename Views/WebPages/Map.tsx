@@ -29,6 +29,7 @@ import { store } from '../../components/store'
 import axios from 'axios'
 import { MetaadsContractUnsigned } from '../../utils/readOnly'
 import { useWeb3Context } from '../../context'
+import { QuadSpaceContract } from '../../utils/constants';
 
 let oldx, oldy
 var isMobile = false //initiate as false
@@ -425,12 +426,23 @@ const GreenSquare = ({
       url: '#',
       description: `This NFT gives you full ownership of block ${pos} on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!`,
       position: pos,
+      address: QuadSpaceContract
     }
 
-    parcels.forEach((land, i) => {
+    parcels.forEach(async (land, i) => {
       let cx = Number(land.coord) % 1000
       let cy = Math.ceil(Number(land.coord) / 1000)
-
+      let meta = undefined;
+      try{
+        let data = await fetch(land.uri,  {method: 'GET'});
+        if(data){
+          let res = await data.json();
+          meta = res.message[0]
+        }
+      }catch(e){
+        console.log('incomplete parcel')
+      }
+        
       if (
         findLand(
           cx - 1,
@@ -444,17 +456,18 @@ const GreenSquare = ({
         landpoint = {
           parcId: i + 1,
           data: true,
-          name: land.name,
+          name: meta && meta.name ? meta.name : `TMDW ${pos}`,
           coords: x + ',' + y,
           width: Number(land.width),
           height: Number(land.height),
-          image: `https://api.quadspace.io/uploads/tmdw.jpg`, //temporary compressed served image of parcel
+          image: meta && meta.image_temp ? `https://quadspace.io/api/metadata/quad/${meta.image_temp}` : `https://api.quadspace.io/uploads/tmdw.jpg`, //temporary compressed served image of parcel
           status: 'Bought',
-          url: land.uri,
-          description: land.description
-            ? land.description
+          url: meta && meta.url,
+          description: meta && meta.QuadDescription
+            ? meta.QuadDescription
             : `This NFT  ${pos} on TheMillionDollarWebsite.com (TMDW) has been claimed.`,
-          position: pos,
+          position: land.coord,
+          address: land.owner
         }
         // console.log(land.owner)
 
