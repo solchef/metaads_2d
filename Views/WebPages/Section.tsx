@@ -66,7 +66,6 @@ export const Section = ({ handleSubmit }) => {
                 min={1}
                 max={1000}
                 step={1}
-                defaultValue={1}
                 aria-label="W"
                 pattern="^(.*[^0-9]|)(1000|[1-9]\d{0,2})([^0-9].*|)$"
                 placeholder="Width"
@@ -92,7 +91,6 @@ export const Section = ({ handleSubmit }) => {
                 max="1000"
                 pattern="^(.*[^0-9]|)(1000|[1-9]\d{0,2})([^0-9].*|)$"
                 step={1}
-                defaultValue={1}
                 placeholder="Hight"
                 value={landData.w}
                 className="form-control value="

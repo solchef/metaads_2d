@@ -124,7 +124,7 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
       }
     })
     SetOwnerLandList(markedOwned)
-    console.log(markedOwned)
+    // console.log(markedOwned)
   }, [])
 
   useEffect(() => {
@@ -411,6 +411,7 @@ const GreenSquare = ({
 
   const returnLand = async (x, y) => {
     let pos = y * 1000 + x
+    pos = pos + 1
 
     let landpoint = {
       parcId: 0,

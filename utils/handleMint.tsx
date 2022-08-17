@@ -1,12 +1,7 @@
 import { getLands } from '../Views/WebPages/canvesGrid'
 import { QuadDescription } from './constants'
 import axios from 'axios'
-import {
-  ErrorTransaction,
-  InfoMessage,
-  MiningTransaction,
-  SuccessfulTransaction,
-} from './notifications'
+import { ErrorTransaction, SuccessfulTransaction } from './notifications'
 import { fabric } from 'fabric'
 import {
   getQuadPrice,
@@ -58,16 +53,15 @@ export const handleMint = async (
       store.dispatch(
         setMintStatus('Please confirm the transaction popup on your wallet')
       )
-      // console.log(mintableids)
       let mintcost = quadPrice * mintableids.length
       let txn = await adscontract.mint(
         address,
         squrePos,
-        land.w,
         land.h,
-        'https://api.quadspace.io/api/metadata/1',
+        land.w,
+        'er',
         {
-          value: (mintcost * 10 ** 18).toString(),
+          value: (mintcost * 10 ** 18).toFixed(0).toString(),
         }
       )
 
@@ -99,8 +93,6 @@ export const handleMint = async (
 
         location.reload()
       }
-    } else {
-      console.log('loading transaction')
     }
   } catch (e) {
     store.dispatch(setMintStatus('An error occurred, Try again'))
