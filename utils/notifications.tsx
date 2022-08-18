@@ -34,7 +34,9 @@ export const InfoMessage = ({ title, description }) => {
 export const ErrorTransaction = ({ title, description }) => {
   Swal.fire({
     title: title,
-    text: description,
+    text: description.includes('MintCannot')
+      ? description.replace('MintCannot', 'Cannot')
+      : description,
     icon: 'error',
     confirmButtonColor: '#b401ab',
     confirmButtonText: 'Close',

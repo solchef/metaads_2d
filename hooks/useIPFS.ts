@@ -109,7 +109,7 @@ export const useIPFS = () => {
       }),
     }))
 
-    console.log(sources[0])
+    // console.log(sources[0])
 
     let rootCid: string
     for await (const result of ipfs.addAll(sources)) {

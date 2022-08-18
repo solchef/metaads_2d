@@ -96,9 +96,12 @@ export const handleMint = async (
     }
   } catch (e) {
     store.dispatch(setMintStatus('An error occurred, Try again'))
+    console.log(e['reason'])
     ErrorTransaction({
       title: 'An Error has Occurred',
-      description: 'An error has occured and minting could not be processed',
+      description: e['reason']
+        ? e['reason'].split(':')[1]
+        : 'An error has occured and minting could not be processed',
     })
   }
 }
