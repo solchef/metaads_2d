@@ -37,17 +37,17 @@ export const Section = ({ handleSubmit }) => {
 
     let squrePos = landData.y * 1000 + landData.x
 
-    for (let quad = squrePos; quad < squrePos + landData.w; quad++) {
-      for (let i = 0; i < landData.h; i++) {
-        isFound = verifyIsAllowed(quad + 1)
-        if (!isFound) {
-          mintable.push(quad + i * 1000)
-        } else {
-          unmintable.push(quad + i * 1000)
-        }
-        // console.log(isFound)
-      }
-    }
+    // for (let quad = squrePos; quad < squrePos + landData.w; quad++) {
+    //   for (let i = 0; i < landData.h; i++) {
+    //     isFound = verifyIsAllowed(quad + 1)
+    //     if (!isFound) {
+    //       mintable.push(quad + i * 1000)
+    //     } else {
+    //       unmintable.push(quad + i * 1000)
+    //     }
+    //     // console.log(isFound)
+    //   }
+    // }
     setUnmintableIds(unmintable)
   }
 
