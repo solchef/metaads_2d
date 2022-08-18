@@ -75,7 +75,7 @@ export const useWeb3 = () => {
           QuadSpaceContract,
           metaadsabi,
           new ethers.providers.JsonRpcProvider(
-            'https://rinkeby.infura.io/v3/7c716361d1734288bbc5cf519570c08f'
+            'https://mainnet.infura.io/v3/7c716361d1734288bbc5cf519570c08f'
           )
         )
         const contracts = []
