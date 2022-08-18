@@ -5,7 +5,7 @@ import { store } from '../components/store'
 import { InitialParcels, QuadSpaceContract } from './constants'
 
 export const findLand = (x1, y1, x2, y2, x, y) => {
-  if (x > x1 && x < x2 && y > y1 && y < y2) return true
+  if (x >= x1 && x <= x2 && y >= y1 && y <= y2) return true
 
   return false
 }
@@ -34,17 +34,17 @@ export const returnLand = async (x, y, parcels, address) => {
       findLand(
         initial.x,
         initial.y,
-        initial.x + initial.w,
-        initial.y + initial.h,
-        x,
-        y
+        initial.x + initial.w - 1,
+        initial.y + initial.h - 1,
+        x + 1,
+        y + 1
       )
     ) {
       landpoint = {
         parcId: 0,
         data: false,
         name: 'TMDW PREMIUM',
-        coords: x + ',' + y,
+        coords: x + 1 + ',' + (y + 1),
         width: 1,
         height: 1,
         image: 'https://api.quadspace.io/uploads/quadmint.png',
@@ -74,10 +74,10 @@ export const returnLand = async (x, y, parcels, address) => {
 
     if (
       findLand(
-        cx - 1,
-        cy - 1,
-        cx + Number(land.width),
-        cy + Number(land.height),
+        cx,
+        cy,
+        cx + Number(land.width) - 1,
+        cy + Number(land.height) - 1,
         x + 1,
         y + 1
       )
