@@ -41,7 +41,7 @@ export const ImageInfoButton = () => {
         </span>
       </div>
 
-      {address.toLowerCase() === parcelData.address ? (
+      {address.toLowerCase() !== parcelData.address.toLowerCase() ? (
         <div className="d-flex ">
           <a
             className="btn-primary w-100 fs-7 text-nowrap hoverable me-2 mt-4 d-block  btn-md "
