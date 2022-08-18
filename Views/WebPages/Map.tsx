@@ -460,7 +460,7 @@ const GreenSquare = ({
           coords: x + ',' + y,
           width: Number(land.width),
           height: Number(land.height),
-          image: meta && meta.image_temp ? `https://quadspace.io/api/metadata/quad/${meta.image_temp}` : `https://api.quadspace.io/uploads/tmdw.jpg`, //temporary compressed served image of parcel
+          image: meta && meta.image_temp ? `https://api.quadspace.io/uploads/${meta.image_temp}` : `https://api.quadspace.io/uploads/tmdw.jpg`, //temporary compressed served image of parcel
           status: 'Bought',
           url: meta && meta.url ? meta.url : 'https://quadspace.io',
           description: meta && meta.QuadDescription
