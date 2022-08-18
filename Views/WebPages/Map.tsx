@@ -29,7 +29,8 @@ import { store } from '../../components/store'
 import axios from 'axios'
 import { MetaadsContractUnsigned } from '../../utils/readOnly'
 import { useWeb3Context } from '../../context'
-import { QuadSpaceContract } from '../../utils/constants';
+import { InitialParcels, QuadSpaceContract } from '../../utils/constants';
+import { returnLand } from '../../utils/returnLand'
 
 let oldx, oldy
 var isMobile = false //initiate as false
@@ -369,7 +370,9 @@ const GreenSquare = ({
             store.dispatch(setViewState(2))
             returnLand(
               Math.floor(point.x) + widthMap / 2,
-              Math.floor(point.z) + heightMap / 2
+              Math.floor(point.z) + heightMap / 2,
+              parcels,
+              address
             )
             store.dispatch(
               setLand({
@@ -404,88 +407,7 @@ const GreenSquare = ({
     setMouseMoved(true)
   }
 
-  const findLand = (x1, y1, x2, y2, x, y) => {
-    if (x > x1 && x < x2 && y > y1 && y < y2) return true
 
-    return false
-  }
-
-  const returnLand = async (x, y) => {
-    let pos = y * 1000 + x
-    pos = pos + 1
-
-    let landpoint = {
-      parcId: 0,
-      data: false,
-      name: 'TMDW Token',
-      coords: x + ',' + y,
-      width: 1,
-      height: 1,
-      image: 'https://api.quadspace.io/uploads/tmdw.jpg',
-      status: 'Available',
-      url: '#',
-      description: `This NFT gives you full ownership of block ${pos} on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!`,
-      position: pos,
-      address: QuadSpaceContract
-    }
-
-    parcels.forEach(async (land, i) => {
-      let cx = Number(land.coord) % 1000
-      let cy = Math.ceil(Number(land.coord) / 1000)
-      let meta = undefined;
-      try{
-        let data = await fetch(land.uri,  {method: 'GET'});
-        if(data){
-          let res = await data.json();
-          meta = res.message[0]
-        }
-      }catch(e){
-        console.log('incomplete parcel')
-      }
-        
-      if (
-        findLand(
-          cx - 1,
-          cy - 1,
-          cx + Number(land.width),
-          cy + Number(land.height),
-          x + 1,
-          y + 1
-        )
-      ) {
-        landpoint = {
-          parcId: i + 1,
-          data: true,
-          name: meta && meta.name ? meta.name : `TMDW ${pos}`,
-          coords: x + ',' + y,
-          width: Number(land.width),
-          height: Number(land.height),
-          image: meta && meta.image_temp ? `https://api.quadspace.io/uploads/${meta.image_temp}` : `https://api.quadspace.io/uploads/tmdw.jpg`, //temporary compressed served image of parcel
-          status: 'Bought',
-          url: meta && meta.url ? meta.url : 'https://quadspace.io',
-          description: meta && meta.QuadDescription
-            ? meta.QuadDescription
-            : `This NFT  ${pos} on TheMillionDollarWebsite.com (TMDW) has been claimed.`,
-          position: Number(land.coord),
-          address: land.owner
-        }
-        // console.log(land.owner)
-
-        if (address) {
-          if (address.toLowerCase() == land.owner.toLowerCase()) {
-            store.dispatch(setViewState(6))
-            store.dispatch(setParcel(landpoint))
-          } else {
-            store.dispatch(setViewState(3))
-            store.dispatch(setParcel(landpoint))
-          }
-        }
-      }
-    })
-
-    store.dispatch(setParcel(landpoint))
-    return landpoint
-  }
 
   return (
     <>
