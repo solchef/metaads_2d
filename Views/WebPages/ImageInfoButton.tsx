@@ -1,12 +1,16 @@
-import { getParcel } from '../../components/reducers/Settings'
+import { getParcel, setViewState } from '../../components/reducers/Settings'
 import ShareSection from '../../components/ShareSection'
+import { store } from '../../components/store'
 import { useAppSelector } from '../../components/store/hooks'
+import { useWeb3Context } from '../../context'
 import { shortUrl } from '../../utils'
 import { QuadSpaceContract } from '../../utils/constants'
 import truncateEthAddress from '../../utils/truncate'
 
 export const ImageInfoButton = () => {
   const parcelData = useAppSelector(getParcel)
+  const { address } = useWeb3Context()
+
   return (
     <div className="offcanvas-body image-info  pb-5 pt-4 mt-3 p-0 text-center">
       <div className="d-flex justify-content-center">
@@ -26,26 +30,54 @@ export const ImageInfoButton = () => {
       <p className="text-start mt-3">{parcelData.description}</p>
       <div className="d-flex flex-wrap flex-column">
         <span className="mt-3">
-          Owned By <u>{truncateEthAddress(QuadSpaceContract)}</u>
+          Owned By{' '}
+          <a
+            className=" font-small"
+            target="_blank"
+            href={`https://etherscan.io/address/${parcelData.address}`}
+          >
+            <small>{truncateEthAddress(parcelData.address)}</small>
+          </a>
         </span>
       </div>
-      <div className="d-flex ">
-        <a
-          className="btn-primary w-100 fs-7 text-nowrap hoverable me-2 mt-4 d-block  btn-md "
-          target="_blank"
-          href={`https://opensea.io/${QuadSpaceContract}/${parcelData.position}`}
-        >
-          Bid on Token
-        </a>
-        <a
-          className="btn-primary w-100 fs-7 text-nowrap hoverable  mt-4 d-block  btn-md "
-          target="_blank"
-          href={`https://etherscan.io/token/${QuadSpaceContract}?a=${parcelData.position}`}
-          
-        >
-          View on Etherscan
-        </a>
-      </div>
+
+      {address.toLowerCase() === parcelData.address ? (
+        <div className="d-flex ">
+          <a
+            className="btn-primary w-100 fs-7 text-nowrap hoverable me-2 mt-4 d-block  btn-md "
+            target="_blank"
+            href={`https://opensea.io/${QuadSpaceContract}/${parcelData.position}`}
+          >
+            Bid on Token
+          </a>
+          <a
+            className="btn-primary w-100 fs-7 text-nowrap hoverable  mt-4 d-block  btn-md "
+            target="_blank"
+            href={`https://etherscan.io/token/${QuadSpaceContract}?a=${parcelData.position}`}
+          >
+            View on Etherscan
+          </a>
+        </div>
+      ) : (
+        <div className="d-flex ">
+          <a
+            className="btn-primary w-100 fs-7 text-nowrap hoverable me-2 mt-4 d-block  btn-md "
+            href="#"
+            onClick={() => store.dispatch(setViewState(6))}
+          >
+            Customize
+          </a>
+
+          <a
+            className="btn-primary w-100 fs-7 text-nowrap hoverable me-2 mt-4 d-block  btn-md "
+            target="_blank"
+            href={`https://opensea.io/${QuadSpaceContract}/${parcelData.position}`}
+          >
+            View On OpenSea
+          </a>
+        </div>
+      )}
+
       <p className="mt-4 text-nowrap">Share with your friends and followers</p>
       <div className="d-flex mt-2 justify-content-center">
         <ShareSection />

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { QuadSpaceContract } from '../../utils/constants'
 import { RootState, AppThunk } from '../store'
 
 export interface Settings {
@@ -31,6 +32,7 @@ export interface Settings {
     url: string
     description: string
     position: number
+    address: string
   }
   mintingStatus: string
   quadPrice: number
@@ -67,6 +69,7 @@ const initialState: Settings = {
     url: '#',
     description: '',
     position: 0,
+    address: QuadSpaceContract,
   },
   mintingStatus: null,
   quadPrice: 0.0,
@@ -307,7 +310,7 @@ export const setClickMintData =
 export const setQuadPriceCurrent =
   (view: boolean): AppThunk =>
   (dispatch) => {
-    dispatch(setQuadPrice(view))
+    dispatch(setquadPrice(view))
   }
 
 export default counterSlice.reducer

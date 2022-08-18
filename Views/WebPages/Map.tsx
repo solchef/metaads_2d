@@ -29,7 +29,7 @@ import { store } from '../../components/store'
 import axios from 'axios'
 import { MetaadsContractUnsigned } from '../../utils/readOnly'
 import { useWeb3Context } from '../../context'
-import { InitialParcels, QuadSpaceContract } from '../../utils/constants';
+import { InitialParcels, QuadSpaceContract } from '../../utils/constants'
 import { returnLand } from '../../utils/returnLand'
 
 let oldx, oldy
@@ -406,8 +406,6 @@ const GreenSquare = ({
 
     setMouseMoved(true)
   }
-
-
 
   return (
     <>

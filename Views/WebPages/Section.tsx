@@ -53,7 +53,7 @@ export const Section = ({ handleSubmit }) => {
 
   return (
     <>
-      <div className="offcanvas-body image-info mt-4  pb-5 p-0 ">
+      <div className="offcanvas-body image-info mt-4  pb-5  p-4">
         <h3> SQ.NFT SIZE</h3>
         <div className="mt-2">
           <form>
@@ -221,7 +221,7 @@ export const Section = ({ handleSubmit }) => {
                 </div>
               )}
               <button
-                className={`btn-primary hoverable d-block mx-3 mt-3 btn-md col-11`}
+                className={`btn-primary hoverable d-block mt-3 btn-md col-12`}
                 onClick={handleSubmit}
                 disabled={
                   balance < landData.h * landData.w * quadPrice ||
