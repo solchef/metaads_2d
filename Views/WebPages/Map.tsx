@@ -462,11 +462,11 @@ const GreenSquare = ({
           height: Number(land.height),
           image: meta && meta.image_temp ? `https://quadspace.io/api/metadata/quad/${meta.image_temp}` : `https://api.quadspace.io/uploads/tmdw.jpg`, //temporary compressed served image of parcel
           status: 'Bought',
-          url: meta && meta.url,
+          url: meta && meta.url ? meta.url : 'https://quadspace.io',
           description: meta && meta.QuadDescription
             ? meta.QuadDescription
             : `This NFT  ${pos} on TheMillionDollarWebsite.com (TMDW) has been claimed.`,
-          position: land.coord,
+          position: Number(land.coord),
           address: land.owner
         }
         // console.log(land.owner)
