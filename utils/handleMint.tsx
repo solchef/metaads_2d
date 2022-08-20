@@ -55,11 +55,9 @@ export const handleMint = async (
       )
       let mintcost = quadPrice * mintableids.length
       let txn = await adscontract.mint(
-        address,
         squrePos,
         land.h,
         land.w,
-        'er',
         {
           value: (mintcost * 10 ** 18).toFixed(0).toString(),
         }

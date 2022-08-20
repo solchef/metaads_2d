@@ -1,5 +1,5 @@
 export const QuadDescription = 'description'
-export const QuadSpaceContract = '0xE42B844c54eE3645aEA809B111608cD5F8e2a768'
+export const QuadSpaceContract = '0xD93a69c58002714700704e74919CffC54D5a425b'
 export const InitialParcels = [
   { x: 1, y: 1, w: 250, h: 200 },
   { x: 751, y: 1, w: 250, h: 200 },
