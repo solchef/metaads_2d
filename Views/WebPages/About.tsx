@@ -14,7 +14,7 @@ export const About = () => {
       <div className="m-2 p-3 pt-0 mt-0">
         <div className="d-flex">
           <img
-           className='mt-4 me-4 hide-mobile' 
+            className="mt-4 me-4 hide-mobile"
             src="assets/images/million-dollar-logo.svg"
             height={30}
             width={30}
@@ -257,6 +257,15 @@ export const About = () => {
                     And its a simple as that, buy blocks as NFTs then share your
                     NFTs, projects and creations in this digital content space
                     with the entire world!
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="pb-2 "> Contact</h4>
+                  <p>
+                    For any enquiries, you can get intouch with us through,
+                    <i> support@TheMillionDollarWebsite.com</i>
+                    <br /> <br />
                   </p>
                 </div>
                 <p className="mt-4 text-nowrap"></p>
