@@ -1,9 +1,14 @@
 import { getLands } from '../Views/WebPages/canvesGrid'
 import { QuadDescription } from './constants'
 import axios from 'axios'
-import { ErrorTransaction, SuccessfulTransaction } from './notifications'
+import {
+  ErrorTransaction,
+  MiningTransaction,
+  SuccessfulTransaction,
+} from './notifications'
 import { fabric } from 'fabric'
 import {
+  getMintingstatus,
   getQuadPrice,
   setMintingstatus,
   setMintStatus,
@@ -11,6 +16,7 @@ import {
 import { store } from '../components/store'
 import { useAppSelector } from '../components/store/hooks'
 import { verifyIsAllowed } from './index'
+import Swal from 'sweetalert2'
 
 export const handleMint = async (
   name: string,
@@ -35,6 +41,7 @@ export const handleMint = async (
   quadPrice
 ) => {
   store.dispatch(setMintStatus('Checking validity of submitted data'))
+  const mintingDetail = store.getState().settings.mintingStatus
 
   let squrePos = land.y * 1000 + land.x
   squrePos = squrePos + 1
@@ -53,21 +60,24 @@ export const handleMint = async (
       store.dispatch(
         setMintStatus('Please confirm the transaction popup on your wallet')
       )
+
       let mintcost = quadPrice * mintableids.length
-      let txn = await adscontract.mint(
-        squrePos,
-        land.h,
-        land.w,
-        {
-          value: (mintcost * 10 ** 18).toFixed(0).toString(),
-        }
-      )
+
+      let txn = await adscontract.mint(squrePos, land.h, land.w, {
+        value: (mintcost * 10 ** 18).toFixed(0).toString(),
+      })
 
       if (txn.hash) {
         store.dispatch(
           setMintStatus('Please wait as the transaction is been mined')
         )
+
+        MiningTransaction({
+          title: 'Mining',
+          description: 'Please wait as the transaction is been mined',
+        })
       }
+
       let receipt = await txn.wait()
 
       if (receipt) {
@@ -75,10 +85,12 @@ export const handleMint = async (
           setMintStatus('Your tokens have been successfully minted')
         )
 
+        Swal.close()
+
         SuccessfulTransaction({
-          title: 'Confirmed',
+          title: 'Success',
           description:
-            'Your tokens have been successfully minted. Please hold on as your squres are being printed on the board. Your window may reload.',
+            'Your tokens have been successfully minted. This window may reload to print your space on the board.',
         })
 
         await fetch('https://api.quadspace.io/printBoard', {
