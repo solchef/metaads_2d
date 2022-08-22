@@ -189,7 +189,7 @@
 }
 
 .offcanvas-start {
-    transform: translateX(-75%) !important;
+    transform: translateX(0) !important;
 }
 
 .offcanvas-start.show {

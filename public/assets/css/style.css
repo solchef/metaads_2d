@@ -678,7 +678,6 @@ section#marketplace-section {
     .offcanvas.offcanvas-start.hide-mobile {
         top: 72%;
         width: 100% !important;
-        transform: translateX(-75%) !important;
     }
     .offcanvas-top,
     .offcanvas-bottom {
