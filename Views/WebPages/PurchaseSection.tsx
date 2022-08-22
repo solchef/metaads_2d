@@ -143,7 +143,7 @@ function PurchaseSection() {
         data-bs-backdrop="false"
         style={{ visibility: 'visible' }}
       >
-        <div className="offcanvas-title ">
+        <div className="offcanvas-title mb-0 ">
          
           {showMenu ? '':<>
 
