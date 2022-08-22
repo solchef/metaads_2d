@@ -13,7 +13,7 @@ export const findLand = (x1, y1, x2, y2, x, y) => {
 export const returnLand = async (x, y, parcels, address) => {
   let pos = y * 1000 + x
   pos = pos + 1
-
+  // console.log(parcels)
   let landpoint = {
     parcId: 0,
     data: false,
@@ -26,7 +26,7 @@ export const returnLand = async (x, y, parcels, address) => {
     url: '#',
     description: `This NFT gives you full ownership of block ${pos} on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!`,
     position: pos,
-    address: QuadSpaceContract,
+    address: 'QuadSpaceContract',
   }
 
   InitialParcels.forEach((initial) => {
@@ -61,16 +61,23 @@ export const returnLand = async (x, y, parcels, address) => {
   parcels.forEach(async (land, i) => {
     let cx = Number(land.coord) % 1000
     let cy = Math.ceil(Number(land.coord) / 1000)
+    // console.log(cx, cy)
     let meta = undefined
-    try {
+
+    // try {
+    if (land.uri != '') {
       let data = await fetch(land.uri, { method: 'GET' })
-      if (data) {
-        let res = await data.json()
+      let res = await data.json()
+      if (res) {
+        // console.log(data)
         meta = res.message[0]
       }
-    } catch (e) {
-      console.log('incomplete parcel')
     }
+
+    // }
+    // } catch (e) {
+    //   console.log('incomplete parcel')
+    // }
 
     if (
       findLand(
@@ -102,6 +109,7 @@ export const returnLand = async (x, y, parcels, address) => {
         position: Number(land.coord),
         address: land.owner,
       }
+
       store.dispatch(setViewState(3))
 
       // if (address) {

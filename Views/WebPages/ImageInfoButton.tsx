@@ -41,19 +41,19 @@ export const ImageInfoButton = () => {
         </span>
       </div>
 
-      {address.toLowerCase() !== parcelData.address.toLowerCase() ? (
+      {address && address.toLowerCase() !== parcelData.address.toLowerCase() ? (
         <div className="d-flex ">
           <a
             className="btn-primary w-100 fs-7 text-nowrap hoverable me-2 mt-4 d-block  btn-md "
             target="_blank"
-            href={`https://opensea.io/${QuadSpaceContract}/${parcelData.position}`}
+            href={`https://opensea.io/assets/ethereum/${QuadSpaceContract}/${parcelData.position}`}
           >
             Bid on Token
           </a>
           <a
             className="btn-primary w-100 fs-7 text-nowrap hoverable  mt-4 d-block  btn-md "
             target="_blank"
-            href={`https://etherscan.io/token/${QuadSpaceContract}?a=${parcelData.position}`}
+            href={`https://etherscan.io/nft/${QuadSpaceContract}/${parcelData.position}`}
           >
             View on Etherscan
           </a>

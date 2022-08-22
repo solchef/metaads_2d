@@ -40,7 +40,7 @@ const Main = () => {
         <a
           target="_blank"
           className="mt-3  pl-2"
-          href={'https://opensea.io/' + QuadSpaceContract}
+          href="https://opensea.io/collection/themilliondollarwebsite"
         >
           <i custom-attribute="MarketPlace" className="icon-menu">
             <img
