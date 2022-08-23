@@ -40,15 +40,22 @@ export const ImageInfoButton = () => {
       </div>
       <hr className="my-4" />
       <div className="px-5">
-        {console.log(metaDetails)}
+        {/* {console.log(metaDetails)} */}
         <h4>
           {metaDetails ? metaDetails?.name : `Token #${parcelData.position}`}
         </h4>
         <h3>{parcelData.name}</h3>
         <span className=" link d-block pb-1 ">
           {/* <i className="bi bi-link"></i> :&nbsp; */}
-          <a href={parcelData.url} target="_blank" className="text-success">
-            <u>https://{shortUrl(parcelData.url, 15)}</u>
+          <a
+            href={metaDetails ? metaDetails?.url : parcelData.url}
+            target="_blank"
+            className="text-success"
+          >
+            <u>
+              https://
+              {shortUrl(metaDetails ? metaDetails?.name : parcelData.url, 15)}
+            </u>
           </a>
         </span>
         <p className="text-start mt-3">
