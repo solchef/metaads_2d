@@ -634,7 +634,7 @@ export const ErrorReload = () => {
         height: '100vh',
         justifyContent: 'center',
       }}
-      onClick={() => location.reload()}
+      // onClick={() => location.reload()}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

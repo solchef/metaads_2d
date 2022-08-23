@@ -135,8 +135,8 @@ export const useWeb3 = () => {
       const handleChainChanged = (_hexChainId: string) => {
         if (typeof window !== 'undefined') {
           // console.log('switched to chain...', _hexChainId)
-          toast.info('Web3 Network Changed')
-          window.location.reload()
+          toast.info('Web3 Network Changed. Please reload your browser if submitting a transaction.')
+          // window.location.reload()
         } else {
           // console.log('window is undefined')
         }
