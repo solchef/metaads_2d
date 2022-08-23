@@ -27,6 +27,7 @@ export const returnLand = async (x, y, parcels, address) => {
     description: `This NFT gives you full ownership of block ${pos} on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!`,
     position: pos,
     address: 'QuadSpaceContract',
+    datauri: '',
   }
 
   InitialParcels.forEach((initial) => {
@@ -53,6 +54,7 @@ export const returnLand = async (x, y, parcels, address) => {
         description: `We created the Meta-Board the online version of your traditional billboard. Each pixel on the Meta-Board will also come with 1 parcel of land in the Quadspace metaverse as a BONUS!`,
         position: pos,
         address: QuadSpaceContract,
+        datauri: '',
       }
       store.dispatch(setViewState(3))
     }
@@ -61,23 +63,6 @@ export const returnLand = async (x, y, parcels, address) => {
   parcels.forEach(async (land, i) => {
     let cx = Number(land.coord) % 1000
     let cy = Math.ceil(Number(land.coord) / 1000)
-    // console.log(cx, cy)
-    let meta = undefined
-
-    // try {
-    if (land.uri != '') {
-      let data = await fetch(land.uri, { method: 'GET' })
-      let res = await data.json()
-      if (res) {
-        // console.log(data)
-        meta = res.message[0]
-      }
-    }
-
-    // }
-    // } catch (e) {
-    //   console.log('incomplete parcel')
-    // }
 
     if (
       findLand(
@@ -92,22 +77,17 @@ export const returnLand = async (x, y, parcels, address) => {
       landpoint = {
         parcId: i + 1,
         data: true,
-        name: meta && meta.name ? meta.name : `TMDW ${pos}`,
+        name: `TMDW ${pos}`,
         coords: x + ',' + y,
         width: Number(land.width),
         height: Number(land.height),
-        image:
-          meta && meta.image_temp
-            ? `https://api.quadspace.io/uploads/${meta.image_temp}`
-            : `https://api.quadspace.io/uploads/tmdw.jpg`, //temporary compressed served image of parcel
+        image: `https://api.quadspace.io/uploads/tmdw.jpg`, //temporary compressed served image of parcel
         status: 'Bought',
-        url: meta && meta.url ? meta.url : 'https://quadspace.io',
-        description:
-          meta && meta.QuadDescription
-            ? meta.QuadDescription
-            : `This NFT  ${pos} on TheMillionDollarWebsite.com (TMDW) has been claimed.`,
+        url: 'https://quadspace.io',
+        description: `This NFT  ${pos} on TheMillionDollarWebsite.com (TMDW) has been claimed.`,
         position: Number(land.coord),
         address: land.owner,
+        datauri: land.uri,
       }
 
       store.dispatch(setViewState(3))

@@ -33,6 +33,7 @@ export interface Settings {
     description: string
     position: number
     address: string
+    datauri: string
   }
   mintingStatus: string
   quadPrice: number
@@ -70,6 +71,7 @@ const initialState: Settings = {
     description: '',
     position: 0,
     address: QuadSpaceContract,
+    datauri: '',
   },
   mintingStatus: null,
   quadPrice: 0.0,

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { getParcel, setViewState } from '../../components/reducers/Settings'
 import ShareSection from '../../components/ShareSection'
 import { store } from '../../components/store'
@@ -10,17 +11,39 @@ import truncateEthAddress from '../../utils/truncate'
 export const ImageInfoButton = () => {
   const parcelData = useAppSelector(getParcel)
   const { address } = useWeb3Context()
+  const [metaDetails, setMetaDetails] = useState()
+
+  useEffect(() => {
+    fetch(parcelData.datauri, { method: 'GET' }).then((res) => {
+      res.json().then((data) => {
+        // console.log(data)
+        setMetaDetails(data.message[0])
+      })
+      // let meta = data.message[0]
+    })
+  }, [])
 
   return (
     <div className="offcanvas-body image-info  pb-5 pt-4 mt-3 p-0 text-center">
       <div className="d-flex justify-content-center">
         <div className="">
-          <img height={200} width={250} src={parcelData.image} />
+          <img
+            height={200}
+            width={250}
+            src={
+              metaDetails
+                ? `https://api.quadspace.io/uploads/${metaDetails?.image_temp}`
+                : parcelData.image
+            }
+          />
         </div>
       </div>
       <hr className="my-4" />
       <div className="px-5">
-        <h4>Token #{parcelData.position}</h4>
+        {console.log(metaDetails)}
+        <h4>
+          {metaDetails ? metaDetails?.name : `Token #${parcelData.position}`}
+        </h4>
         <h3>{parcelData.name}</h3>
         <span className=" link d-block pb-1 ">
           {/* <i className="bi bi-link"></i> :&nbsp; */}
@@ -28,7 +51,9 @@ export const ImageInfoButton = () => {
             <u>https://{shortUrl(parcelData.url, 15)}</u>
           </a>
         </span>
-        <p className="text-start mt-3">{parcelData.description}</p>
+        <p className="text-start mt-3">
+          {metaDetails ? metaDetails?.QuadDescription : parcelData.description}
+        </p>
         <div className="d-flex flex-wrap flex-column">
           <span className="mt-3">
             Owned By{' '}
