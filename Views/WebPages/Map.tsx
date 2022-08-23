@@ -3,19 +3,15 @@ import { Canvas, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import { DoubleSide, Vector3 } from 'three'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
-// import { LoadingManager } from 'three'
-// import { Loader } from '../../utils/loader'
+
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 import { vertexShader, fragmentShader } from './shaders'
 import {
-  // selectImage,
-  // selectImage2,
   selectLand,
   selectUpdateImage,
   selectZoomIn,
   selectZoomOut,
   select_3dMode,
-  // setImage,
   setLand,
   setMiniMapPosition,
   setParcel,
@@ -26,7 +22,6 @@ import {
 } from '../../components/reducers/Settings'
 import { store } from '../../components/store'
 // import useSound from 'use-sound'
-import axios from 'axios'
 import { MetaadsContractUnsigned } from '../../utils/readOnly'
 import { useWeb3Context } from '../../context'
 
@@ -67,7 +62,7 @@ export const MiniMap = () => {
   // )
 }
 
-export const MapView = ({ minMap, texture1, texture2 }) => {
+export const MapView = ({ minMap, texture1, texture2, texture3 }) => {
   const _3dMode = useAppSelector(select_3dMode)
   const land = useAppSelector(selectLand)
   const imageStore = useAppSelector(selectUpdateImage)
@@ -78,9 +73,6 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
   const [image, setImageState] = useState()
   const [ownerLandList, SetOwnerLandList] = useState([])
   const [parcels, setParcels] = useState([])
-  // const [load2, setLoad2] = useState(false)
-  // const [reload, setReload] = useState(false)
-  // const [textuerData, setTextuerData] = useState()
   const dispatch = useAppDispatch()
 
   //
@@ -164,12 +156,7 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
         rotation={[-Math.PI / 2, 0, 0]}
       >
         <planeBufferGeometry args={[landSize.w, landSize.h]} />
-        <meshBasicMaterial
-          // map={textureBox}
-          color="#f5de00"
-          attach="material"
-          side={DoubleSide}
-        />
+        <meshBasicMaterial map={texture3} attach="material" side={DoubleSide} />
       </mesh>
     )
   }
@@ -179,10 +166,6 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
       flat
       linear
       gl={{ preserveDrawingBuffer: true }}
-      // onCreated={({ gl }) => {
-      //   gl.gammaInput = true
-      //   gl.toneMapping = THREE.ACESFilmicToneMapping
-      // }}
       style={
         minMap
           ? {
@@ -193,16 +176,10 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
           : { height: '100vh', width: '100%', backgroundColor: '#000' }
       }
     >
-      <group
-        dispose={() => {
-          console.log('hoi')
-        }}
-      >
+      <group>
         <Suspense fallback={<></>}>
           <>
             <GreenSquare
-              color="#f56f42"
-              color2="#00707b"
               x={land.h}
               y={land.w}
               miniMap={minMap}
@@ -217,6 +194,7 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
                 return (
                   <OwnerLans
                     key={index}
+                    texture={data.texture}
                     landPosition={data.landPosition}
                     landSize={data.landSize}
                   />
@@ -258,7 +236,7 @@ export const MapView = ({ minMap, texture1, texture2 }) => {
           />
         </Suspense>
       </group>
-      {/* <ambientLight /> */}
+      <ambientLight />
     </Canvas>
   )
 }

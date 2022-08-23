@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import PurchaseSection from './WebPages/PurchaseSection'
 import axios from 'axios'
 import {
@@ -6,7 +6,6 @@ import {
   selectShowMenu,
   setBoughtedLandList,
   setImage,
-  setImage2,
   setUpdateImage,
 } from '../components/reducers/Settings'
 import { LoadingManager, TextureLoader } from 'three'
@@ -21,6 +20,7 @@ const AdSpace: React.FunctionComponent = () => {
   const manager1 = new LoadingManager()
   const [texture1, setTexture1] = useState()
   const [texture2, setTexture2] = useState()
+  const [texture3, setTexture3] = useState()
   const [load, setLoad] = useState(true)
   const [showError, setShowError] = useState(false)
   let loaded = false
@@ -43,10 +43,12 @@ const AdSpace: React.FunctionComponent = () => {
           const texture = new TextureLoader().load(data.data)
           const texture2 = new TextureLoader(manager1).load('./highres-min.png')
           const uploadImage = new TextureLoader().load('./defult-sq.png')
+          const ownerLand = new TextureLoader().load('./defult-sq-yellow.png')
           dispatch(setImage(data.data))
           dispatch(setUpdateImage(uploadImage))
           setTexture2(texture2)
           setTexture1(texture)
+          setTexture3(ownerLand)
           setLoad(false)
         })
     } catch (error) {
@@ -105,6 +107,7 @@ const AdSpace: React.FunctionComponent = () => {
                     minMap={false}
                     texture1={texture1}
                     texture2={texture2}
+                    texture3={texture3}
                   />
                 )
               ) : (
