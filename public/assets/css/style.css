@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Slab:wght@100;400&display=swap');
 
 /* ======| Layout |================================*/
 
@@ -70,12 +71,12 @@ nav.navbar {
     z-index: 99999;
     background-color: #5a0167 !important;
     display: inherit;
-    margin-left: 64px;
+    padding-left: 200px;
     height: 75px;
 }
 
 nav.navbar.active {
-    margin-left: 220px!important;
+    padding-left: 220px!important;
 }
 
 .navbar-brand {
@@ -123,14 +124,15 @@ h2 {
 }
 
 h3 {
-    font-size: 18px;
+    font-size: 2rem;
+    font-family: "Roboto Slab", sans-serif;
     text-transform: uppercase;
     /* letter-spacing: 3px; */
     margin-bottom: 10px;
 }
 
 h4 {
-    font-weight: 400;
+    font-weight: bolder;
     font-size: 14px;
     margin-bottom: 4px;
     color: #f5de00;
@@ -481,9 +483,18 @@ span.input-group-text {
 .offcanvas-title.hide-mobile.hoverable p,
 .offcanvas-body p,
 .offcanvas-body span {
-    font-size: 13px;
-    line-height: 20px;
-    font-weight: 300;
+    font-size: 16px;
+    font-family: "Roboto Slab", sans-serif;
+    font-weight: 400;
+    line-height: 1.5em;
+    text-decoration: none;
+    margin: 0px;
+    text-align: inherit;
+    text-shadow: inherit;
+    text-transform: inherit;
+    overflow-wrap: anywhere;
+    /* margin: 20px 0; */
+    padding: 20px 0;
 }
 
 .offcanvas-body i {
@@ -509,7 +520,7 @@ span.input-group-text {
 .offcanvas {
     z-index: 99999;
     background: #454545;
-    width: 450px !important;
+    width: 500px !important;
 }
 
 .btn-close svg {
@@ -678,14 +689,13 @@ section#marketplace-section {
     .offcanvas.offcanvas-start.hide-mobile {
         top: 72%;
         width: 100% !important;
-        transform: translateX(-75%) !important;
     }
     .offcanvas-top,
     .offcanvas-bottom {
         width: 100% !important;
     }
     .offcanvas-body h3 {
-        font-size: 16px;
+        font-size: 2rem;
         margin-top: 5px;
         margin-bottom: 0 !important;
     }
@@ -958,7 +968,7 @@ input:checked+.slider:before {
 
 .logo {
     transition: 0.3s;
-    margin-left: 230px;
+    margin-left: 275px;
 }
 
 .logo-m {
@@ -990,11 +1000,15 @@ input:checked+.slider:before {
         height: calc(100vh - 73px) !important;
     }
     nav.navbar {
-        margin-left: 0!important;
+        padding-left: 0!important;
         background-image: linear-gradient(to right, #fa0070, #5a0167);
     }
     nav.navbar.active {
-        margin-left: 0!important;
+        padding-left: 0!important;
+    }
+    .menu-top {
+        top: 85px!important;
+        left: 12px!important;
     }
     .joy:first-of-type {
         border-top-left-radius: 7px !important;
@@ -1180,11 +1194,11 @@ input[type='number']::-webkit-inner-spin-button {
 }
 
 #about a {
-    font-size: 12px;
+    font-size: 16px;
 }
 
 #about h4 {
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .roadmapborder {

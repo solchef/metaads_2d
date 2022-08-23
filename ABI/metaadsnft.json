@@ -1,10 +1,23 @@
-[
-    {
-        "inputs": [
+[{
+        "inputs": [{
+                "internalType": "uint256",
+                "name": "_mintPrice",
+                "type": "uint256"
+            },
             {
                 "internalType": "string",
-                "name": "baseURI",
+                "name": "_metadataBaseURI",
                 "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_collectionURI",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_royaltyBasisPoints",
+                "type": "uint256"
             }
         ],
         "stateMutability": "nonpayable",
@@ -12,8 +25,7 @@
     },
     {
         "anonymous": false,
-        "inputs": [
-            {
+        "inputs": [{
                 "indexed": true,
                 "internalType": "address",
                 "name": "owner",
@@ -37,8 +49,7 @@
     },
     {
         "anonymous": false,
-        "inputs": [
-            {
+        "inputs": [{
                 "indexed": true,
                 "internalType": "address",
                 "name": "owner",
@@ -62,8 +73,7 @@
     },
     {
         "anonymous": false,
-        "inputs": [
-            {
+        "inputs": [{
                 "indexed": false,
                 "internalType": "address",
                 "name": "to",
@@ -81,8 +91,7 @@
     },
     {
         "anonymous": false,
-        "inputs": [
-            {
+        "inputs": [{
                 "indexed": true,
                 "internalType": "address",
                 "name": "previousOwner",
@@ -100,21 +109,36 @@
     },
     {
         "anonymous": false,
-        "inputs": [
-            {
+        "inputs": [{
                 "indexed": false,
                 "internalType": "address",
-                "name": "account",
+                "name": "to",
                 "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
             }
         ],
+        "name": "ParcelUpdated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [{
+            "indexed": false,
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+        }],
         "name": "Paused",
         "type": "event"
     },
     {
         "anonymous": false,
-        "inputs": [
-            {
+        "inputs": [{
                 "indexed": false,
                 "internalType": "address",
                 "name": "to",
@@ -132,39 +156,18 @@
     },
     {
         "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "tokenId",
-                "type": "uint256"
-            },
-            {
-                "components": [
-                    {
-                        "internalType": "address payable",
-                        "name": "account",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "uint96",
-                        "name": "value",
-                        "type": "uint96"
-                    }
-                ],
-                "indexed": false,
-                "internalType": "struct LibPart.Part[]",
-                "name": "royalties",
-                "type": "tuple[]"
-            }
-        ],
-        "name": "RoyaltiesSet",
+        "inputs": [{
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+        }],
+        "name": "TokenContentURIChanged",
         "type": "event"
     },
     {
         "anonymous": false,
-        "inputs": [
-            {
+        "inputs": [{
                 "indexed": true,
                 "internalType": "address",
                 "name": "from",
@@ -188,91 +191,50 @@
     },
     {
         "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
-            }
-        ],
+        "inputs": [{
+            "indexed": false,
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+        }],
         "name": "Unpaused",
         "type": "event"
     },
     {
         "inputs": [],
-        "name": "QUAD_COLUMNS",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
+        "name": "MaximumQuads",
+        "outputs": [{
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
         "inputs": [],
-        "name": "QUAD_ROWS",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
+        "name": "TotalColumns",
+        "outputs": [{
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
         "inputs": [],
-        "name": "SALE_OPEN",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
+        "name": "TotalRows",
+        "outputs": [{
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "name": "_whitelist",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "whiltelisted",
-                "type": "address"
-            }
-        ],
-        "name": "addToWhitelist",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
+        "inputs": [{
                 "internalType": "address",
                 "name": "to",
                 "type": "address"
@@ -289,241 +251,189 @@
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "owner",
-                "type": "address"
-            }
-        ],
+        "inputs": [{
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+        }],
         "name": "balanceOf",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
+        "outputs": [{
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }],
         "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "tokenId",
-                "type": "uint256"
-            }
-        ],
-        "name": "burn",
-        "outputs": [],
-        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
         "inputs": [],
         "name": "canMintCenter",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
+        "outputs": [{
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
         "inputs": [],
         "name": "canMintSpecial",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
+        "outputs": [{
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+        }],
+        "name": "checkIfCenter",
+        "outputs": [{
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+        }],
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+        }],
+        "name": "checkIfSpecial",
+        "outputs": [{
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+        }],
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "collectionURI",
+        "outputs": [{
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
         "inputs": [],
-        "name": "flipSaleState",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "tokenId",
-                "type": "uint256"
-            }
-        ],
-        "name": "getApproved",
-        "outputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            }
-        ],
+        "name": "contractURI",
+        "outputs": [{
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "parcelId",
-                "type": "uint256"
-            }
-        ],
+        "inputs": [{
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+        }],
+        "name": "getApproved",
+        "outputs": [{
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "uint256",
+            "name": "parcelId",
+            "type": "uint256"
+        }],
         "name": "getParcelData",
-        "outputs": [
-            {
-                "components": [
-                    {
-                        "internalType": "uint256",
-                        "name": "coord",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "width",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "height",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "owner",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "string",
-                        "name": "uri",
-                        "type": "string"
-                    }
-                ],
-                "internalType": "struct TMDW.Parcel",
-                "name": "",
-                "type": "tuple"
-            }
-        ],
+        "outputs": [{
+            "components": [{
+                    "internalType": "uint256",
+                    "name": "coord",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "width",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "height",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "address",
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "internalType": "string",
+                    "name": "uri",
+                    "type": "string"
+                }
+            ],
+            "internalType": "struct TMDW.Parcel",
+            "name": "",
+            "type": "tuple"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
         "inputs": [],
         "name": "getParcels",
-        "outputs": [
-            {
-                "components": [
-                    {
-                        "internalType": "uint256",
-                        "name": "coord",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "width",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "height",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "owner",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "string",
-                        "name": "uri",
-                        "type": "string"
-                    }
-                ],
-                "internalType": "struct TMDW.Parcel[]",
-                "name": "",
-                "type": "tuple[]"
-            }
-        ],
+        "outputs": [{
+            "components": [{
+                    "internalType": "uint256",
+                    "name": "coord",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "width",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "height",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "address",
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "internalType": "string",
+                    "name": "uri",
+                    "type": "string"
+                }
+            ],
+            "internalType": "struct TMDW.Parcel[]",
+            "name": "",
+            "type": "tuple[]"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
-        "inputs": [],
-        "name": "getParcelsCount",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "id",
-                "type": "uint256"
-            }
-        ],
-        "name": "getRaribleV2Royalties",
-        "outputs": [
-            {
-                "components": [
-                    {
-                        "internalType": "address payable",
-                        "name": "account",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "uint96",
-                        "name": "value",
-                        "type": "uint96"
-                    }
-                ],
-                "internalType": "struct LibPart.Part[]",
-                "name": "",
-                "type": "tuple[]"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address"
-            }
-        ],
-        "name": "getTokenIdsOfWallet",
-        "outputs": [
-            {
-                "internalType": "uint256[]",
-                "name": "",
-                "type": "uint256[]"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
+        "inputs": [{
                 "internalType": "address",
                 "name": "owner",
                 "type": "address"
@@ -535,114 +445,51 @@
             }
         ],
         "name": "isApprovedForAll",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bool",
-                "name": "_choice",
-                "type": "bool"
-            }
-        ],
-        "name": "isTransferable",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "lockFreeStyleToggle",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "lockFreestyle",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
+        "outputs": [{
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
         "inputs": [],
-        "name": "maxMint",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
+        "name": "isSaleActive",
+        "outputs": [{
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
         "inputs": [],
-        "name": "maxSales",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
+        "name": "metadataBaseURI",
+        "outputs": [{
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
-        "inputs": [],
-        "name": "maxSupply",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "pure",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address payable",
-                "name": "_to",
-                "type": "address"
-            },
-            {
+        "inputs": [{
                 "internalType": "uint256",
                 "name": "tokenId",
                 "type": "uint256"
             },
             {
-                "internalType": "uint8",
+                "internalType": "uint256",
                 "name": "width",
-                "type": "uint8"
+                "type": "uint256"
             },
             {
-                "internalType": "uint8",
+                "internalType": "uint256",
                 "name": "height",
-                "type": "uint8"
-            },
-            {
-                "internalType": "string",
-                "name": "parcelUri",
-                "type": "string"
+                "type": "uint256"
             }
         ],
         "name": "mint",
@@ -652,88 +499,24 @@
     },
     {
         "inputs": [],
-        "name": "name",
-        "outputs": [
-            {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-            }
-        ],
+        "name": "mintPrice",
+        "outputs": [{
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
-        "inputs": [],
-        "name": "occupiedList",
-        "outputs": [
-            {
-                "internalType": "uint256[]",
-                "name": "",
-                "type": "uint256[]"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "owner",
-        "outputs": [
-            {
+        "inputs": [{
                 "internalType": "address",
-                "name": "",
+                "name": "receiver",
                 "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
+            },
             {
                 "internalType": "uint256",
                 "name": "tokenId",
-                "type": "uint256"
-            }
-        ],
-        "name": "ownerOf",
-        "outputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "parcelCount",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "name": "parcels",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "coord",
                 "type": "uint256"
             },
             {
@@ -745,77 +528,110 @@
                 "internalType": "uint256",
                 "name": "height",
                 "type": "uint256"
-            },
-            {
-                "internalType": "address",
-                "name": "owner",
-                "type": "address"
-            },
-            {
-                "internalType": "string",
-                "name": "uri",
-                "type": "string"
             }
         ],
+        "name": "mintTo",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "mintedCount",
+        "outputs": [{
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
         "inputs": [],
-        "name": "paused",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
+        "name": "name",
+        "outputs": [{
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_count",
-                "type": "uint256"
-            }
-        ],
-        "name": "price",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
+        "inputs": [],
+        "name": "owner",
+        "outputs": [{
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+        }],
+        "name": "ownerOf",
+        "outputs": [{
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "parcelCount",
+        "outputs": [{
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "pause",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "paused",
+        "outputs": [{
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "postMetadataBaseURI",
+        "outputs": [{
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
         "inputs": [],
         "name": "raised",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
+        "outputs": [{
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }],
         "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "whiltelisted",
-                "type": "address"
-            }
-        ],
-        "name": "removeFromWhitelist",
-        "outputs": [],
-        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -826,28 +642,37 @@
         "type": "function"
     },
     {
-        "inputs": [
-            {
+        "inputs": [],
+        "name": "royaltyBasisPoints",
+        "outputs": [{
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
                 "internalType": "uint256",
-                "name": "_tokenId",
+                "name": "",
                 "type": "uint256"
             },
             {
                 "internalType": "uint256",
-                "name": "_salePrice",
+                "name": "salePrice",
                 "type": "uint256"
             }
         ],
         "name": "royaltyInfo",
-        "outputs": [
-            {
+        "outputs": [{
                 "internalType": "address",
-                "name": "receiver",
+                "name": "",
                 "type": "address"
             },
             {
                 "internalType": "uint256",
-                "name": "royaltyAmount",
+                "name": "",
                 "type": "uint256"
             }
         ],
@@ -855,8 +680,7 @@
         "type": "function"
     },
     {
-        "inputs": [
-            {
+        "inputs": [{
                 "internalType": "address",
                 "name": "from",
                 "type": "address"
@@ -878,8 +702,7 @@
         "type": "function"
     },
     {
-        "inputs": [
-            {
+        "inputs": [{
                 "internalType": "address",
                 "name": "from",
                 "type": "address"
@@ -896,7 +719,7 @@
             },
             {
                 "internalType": "bytes",
-                "name": "data",
+                "name": "_data",
                 "type": "bytes"
             }
         ],
@@ -906,8 +729,39 @@
         "type": "function"
     },
     {
-        "inputs": [
+        "inputs": [{
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
+            },
             {
+                "internalType": "address",
+                "name": "receiver",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "width",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "height",
+                "type": "uint256"
+            }
+        ],
+        "name": "safeTransferParcel",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [{
                 "internalType": "address",
                 "name": "operator",
                 "type": "address"
@@ -924,161 +778,195 @@
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "baseURI",
-                "type": "string"
-            }
-        ],
-        "name": "setBaseURI",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bool",
-                "name": "newCanMintCenter",
-                "type": "bool"
-            }
-        ],
+        "inputs": [{
+            "internalType": "bool",
+            "name": "newCanMintCenter",
+            "type": "bool"
+        }],
         "name": "setCanMintCenter",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "bool",
-                "name": "newCanMintSpecial",
-                "type": "bool"
-            }
-        ],
+        "inputs": [{
+            "internalType": "bool",
+            "name": "newCanMintSpecial",
+            "type": "bool"
+        }],
         "name": "setCanMintSpecial",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_newPrice",
-                "type": "uint256"
-            }
-        ],
-        "name": "setPrice",
+        "inputs": [{
+            "internalType": "string",
+            "name": "newCollectionURI",
+            "type": "string"
+        }],
+        "name": "setCollectionURI",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
     {
-        "inputs": [
-            {
+        "inputs": [{
+            "internalType": "bool",
+            "name": "newIsSaleActive",
+            "type": "bool"
+        }],
+        "name": "setIsSaleActive",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "string",
+            "name": "newMetadataBaseURI",
+            "type": "string"
+        }],
+        "name": "setMetadataBaseURI",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "uint256",
+            "name": "newMintPrice",
+            "type": "uint256"
+        }],
+        "name": "setMintPrice",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "string",
+            "name": "newPostMetadataBaseURI",
+            "type": "string"
+        }],
+        "name": "setPostMetadataBaseURI",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "uint256",
+            "name": "newRoyaltyBasisPoints",
+            "type": "uint256"
+        }],
+        "name": "setRoyaltyBasisPoints",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [{
                 "internalType": "uint256",
-                "name": "_tokenId",
+                "name": "tokenId",
                 "type": "uint256"
             },
             {
-                "internalType": "address payable",
-                "name": "_royaltiesRecipientAddress",
-                "type": "address"
+                "internalType": "string",
+                "name": "contentURI",
+                "type": "string"
+            }
+        ],
+        "name": "setTokenContentURI",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
             },
             {
-                "internalType": "uint96",
-                "name": "_percentageBasisPoints",
-                "type": "uint96"
-            }
-        ],
-        "name": "setRoyalties",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
+                "internalType": "uint256",
+                "name": "width",
+                "type": "uint256"
+            },
             {
-                "internalType": "uint96",
-                "name": "_newBPS",
-                "type": "uint96"
-            }
-        ],
-        "name": "setRoyaltyBPS",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "startPreSale",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "startPublicSale",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
+                "internalType": "uint256",
+                "name": "height",
+                "type": "uint256"
+            },
             {
-                "internalType": "bytes4",
-                "name": "interfaceId",
-                "type": "bytes4"
+                "internalType": "string[]",
+                "name": "contentURIs",
+                "type": "string[]"
             }
         ],
+        "name": "setTokenGroupContentURIs",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "bytes4",
+            "name": "interfaceId",
+            "type": "bytes4"
+        }],
         "name": "supportsInterface",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
+        "outputs": [{
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
         "inputs": [],
         "name": "symbol",
-        "outputs": [
-            {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-            }
-        ],
+        "outputs": [{
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "index",
-                "type": "uint256"
-            }
-        ],
+        "inputs": [{
+            "internalType": "uint256",
+            "name": "index",
+            "type": "uint256"
+        }],
         "name": "tokenByIndex",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
+        "outputs": [{
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }],
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+        }],
+        "name": "tokenContentURI",
+        "outputs": [{
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
-        "inputs": [
-            {
+        "inputs": [{
                 "internalType": "address",
                 "name": "owner",
                 "type": "address"
@@ -1090,51 +978,42 @@
             }
         ],
         "name": "tokenOfOwnerByIndex",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
+        "outputs": [{
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "tokenId",
-                "type": "uint256"
-            }
-        ],
+        "inputs": [{
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+        }],
         "name": "tokenURI",
-        "outputs": [
-            {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-            }
-        ],
+        "outputs": [{
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
         "inputs": [],
         "name": "totalSupply",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
+        "outputs": [{
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }],
         "stateMutability": "view",
         "type": "function"
     },
     {
-        "inputs": [
-            {
+        "inputs": [{
                 "internalType": "address",
                 "name": "from",
                 "type": "address"
@@ -1156,36 +1035,64 @@
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "newOwner",
-                "type": "address"
-            }
-        ],
+        "inputs": [{
+            "internalType": "address",
+            "name": "newOwner",
+            "type": "address"
+        }],
         "name": "transferOwnership",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
     {
-        "inputs": [],
-        "name": "transferable",
-        "outputs": [
+        "inputs": [{
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
+            },
             {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
+                "internalType": "address",
+                "name": "receiver",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "width",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "height",
+                "type": "uint256"
             }
         ],
-        "stateMutability": "view",
+        "name": "transferParcel",
+        "outputs": [],
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
-        "inputs": [
-            {
+        "inputs": [],
+        "name": "unpause",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [{
                 "internalType": "uint256",
                 "name": "parcelId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "parcelCoord",
                 "type": "uint256"
             },
             {
@@ -1205,21 +1112,15 @@
             }
         ],
         "name": "updateParcelData",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
+        "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
     {
         "inputs": [],
-        "name": "withdrawAll",
+        "name": "withdraw",
         "outputs": [],
-        "stateMutability": "payable",
+        "stateMutability": "nonpayable",
         "type": "function"
     }
 ]

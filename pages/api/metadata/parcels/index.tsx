@@ -8,6 +8,10 @@ export default function handler(req, res) {
       return getParcels(req, res)
     }
 
+    case 'GET/{id}': {
+      return getParcels(req, res)
+    }
+
     case 'POST': {
       return addParcel(req, res)
     }
@@ -23,11 +27,12 @@ async function addParcel(req, res) {
     // connect to the database
     let { db } = await connectToDatabase()
     // add the Parcel
-    await db.collection('parcels').insertOne(JSON.parse(req.body))
+    const parcel = await db.collection('parcels').insertOne(JSON.parse(req.body))
     // return a message
     return res.json({
       message: 'Parcel added successfully',
       success: true,
+      parcel:parcel
     })
   } catch (error) {
     // return an error
@@ -69,7 +74,7 @@ async function getParcel(req, res) {
     // fetch the parcels
     let parcels = await db
       .collection('parcels')
-      .find({})
+      .find({_id: ObjectId(req.params.id)})
       .sort({ published: -1 })
       .toArray()
     // return the parcels

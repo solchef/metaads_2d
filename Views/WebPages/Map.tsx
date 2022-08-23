@@ -24,6 +24,8 @@ import { store } from '../../components/store'
 // import useSound from 'use-sound'
 import { MetaadsContractUnsigned } from '../../utils/readOnly'
 import { useWeb3Context } from '../../context'
+import { InitialParcels, QuadSpaceContract } from '../../utils/constants'
+import { returnLand } from '../../utils/returnLand'
 
 let oldx, oldy
 var isMobile = false //initiate as false
@@ -104,17 +106,19 @@ export const MapView = ({ minMap, texture1, texture2, texture3 }) => {
   useEffect(() => {
     let markedOwned = []
     parcels.forEach((land) => {
-      if (address.toLowerCase() == land.owner.toLowerCase()) {
-        let x = Number(land.coord) % 1000
-        let y = Math.ceil(Number(land.coord) / 1000)
-        markedOwned.push({
-          landPosition: new Vector3(x - 1, 1, y - 1),
-          landSize: { w: Number(land.width), h: Number(land.width) },
-        })
+      if (address) {
+        if (address.toLowerCase() == land.owner.toLowerCase()) {
+          let x = Number(land.coord) % 1000
+          let y = Math.ceil(Number(land.coord) / 1000)
+          markedOwned.push({
+            landPosition: new Vector3(x - 1, 1, y - 1),
+            landSize: { w: Number(land.width), h: Number(land.width) },
+          })
+        }
       }
     })
     SetOwnerLandList(markedOwned)
-    console.log(markedOwned)
+    // console.log(markedOwned)
   }, [])
 
   useEffect(() => {
@@ -344,7 +348,9 @@ const GreenSquare = ({
             store.dispatch(setViewState(2))
             returnLand(
               Math.floor(point.x) + widthMap / 2,
-              Math.floor(point.z) + heightMap / 2
+              Math.floor(point.z) + heightMap / 2,
+              parcels,
+              address
             )
             store.dispatch(
               setLand({
@@ -377,73 +383,6 @@ const GreenSquare = ({
     }
 
     setMouseMoved(true)
-  }
-
-  const findLand = (x1, y1, x2, y2, x, y) => {
-    if (x > x1 && x < x2 && y > y1 && y < y2) return true
-
-    return false
-  }
-
-  const returnLand = async (x, y) => {
-    let pos = y * 1000 + x
-
-    let landpoint = {
-      parcId: 0,
-      data: false,
-      name: 'TMDW Token',
-      coords: x + ',' + y,
-      width: 1,
-      height: 1,
-      image: 'https://api.quadspace.io/uploads/tmdw.jpg',
-      status: 'Available',
-      url: '#',
-      description: `This NFT gives you full ownership of block ${pos} on TheMillionDollarWebsite.com (TMDW) It hasn't been claimed yet so click mint to buy it now!`,
-      position: pos,
-    }
-
-    parcels.forEach((land, i) => {
-      let cx = Number(land.coord) % 1000
-      let cy = Math.ceil(Number(land.coord) / 1000)
-
-      if (
-        findLand(
-          cx - 1,
-          cy - 1,
-          cx + Number(land.width),
-          cy + Number(land.height),
-          x + 1,
-          y + 1
-        )
-      ) {
-        landpoint = {
-          parcId: i + 1,
-          data: true,
-          name: land.name,
-          coords: x + ',' + y,
-          width: Number(land.width),
-          height: Number(land.height),
-          image: `https://api.quadspace.io/uploads/tmdw.jpg`, //temporary compressed served image of parcel
-          status: 'Bought',
-          url: land.uri,
-          description: land.description
-            ? land.description
-            : `This NFT  ${pos} on TheMillionDollarWebsite.com (TMDW) has been claimed.`,
-          position: pos,
-        }
-        // console.log(land.owner)
-        if (address.toLowerCase() == land.owner.toLowerCase()) {
-          store.dispatch(setViewState(6))
-          store.dispatch(setParcel(landpoint))
-        } else {
-          store.dispatch(setViewState(3))
-          store.dispatch(setParcel(landpoint))
-        }
-      }
-    })
-
-    store.dispatch(setParcel(landpoint))
-    return landpoint
   }
 
   return (

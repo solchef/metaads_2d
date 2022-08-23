@@ -189,7 +189,7 @@
 }
 
 .offcanvas-start {
-    transform: translateX(-75%) !important;
+    transform: translateX(-100%) !important;
 }
 
 .offcanvas-start.show {
@@ -312,4 +312,25 @@
     .btn-md span {
         font-size: 14px;
     }
+}
+
+.menu-top .btn-primary,
+.menu-top .btn-check:focus+.menu-top .btn-primary,
+.menu-top .btn-primary:focus,
+.menu-top .btn-primary:hover {
+    background: #444444!important;
+    color: #fff!important;
+}
+
+.menu-top {
+    top: 14px;
+    left: 17px;
+}
+
+.offcanvas {
+    transition: none;
+}
+
+.offcanvas-body {
+    padding-top: 0 !important;
 }

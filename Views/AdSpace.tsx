@@ -57,11 +57,11 @@ const AdSpace: React.FunctionComponent = () => {
     }
   }
 
-  useEffect(() => {
-    axios.get('https://quadspace.io/api/info').then((data) => {
-      dispatch(setBoughtedLandList(data.data.meta))
-    })
-  }, [])
+  // useEffect(() => {
+  //   axios.get('https://quadspace.io/api/info').then((data) => {
+  //     dispatch(setBoughtedLandList(data.data.meta))
+  //   })
+  // }, [])
 
   useEffect(() => {
     if (!loaded) getImage()

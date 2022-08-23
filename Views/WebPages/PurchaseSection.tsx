@@ -23,7 +23,7 @@ import { CustomizeSection } from './CustomizeSection'
 import { handleUpdateData } from '../../utils/handleUpdateData'
 
 function PurchaseSection() {
-  const { uploadMetadata, uploadImage } = useIPFS()
+  const { uploadMetadata, uploadImage, handleMultiUploadMetadata } = useIPFS()
   const landData = useAppSelector(selectLand)
   const { contracts, address } = useWeb3Context()
   const [name, setName] = useState('')
@@ -32,6 +32,7 @@ function PurchaseSection() {
   const adscontract = contracts['metaads']
   const [MintImage, setMintImage] = useState(null)
   const parcelDt = useAppSelector(getParcel)
+  const [menu, setMenu] = useState(false)
 
   const [land, setLand] = useState<any>({})
 
@@ -75,7 +76,8 @@ function PurchaseSection() {
       land,
       uploadMetadata,
       uploadImage,
-      parcelDt
+      parcelDt,
+      handleMultiUploadMetadata
     )
   }
 
@@ -83,7 +85,7 @@ function PurchaseSection() {
     if (viewState === 0) return <About />
     if (showMenu && viewState === 7) return <RoadMap />
 
-    if (!showMenu) return <Main />
+    if (!showMenu) return <></>
     if (showMenu && viewState === 1)
       return (
         <Section
@@ -141,21 +143,33 @@ function PurchaseSection() {
         data-bs-backdrop="false"
         style={{ visibility: 'visible' }}
       >
-        <div className="offcanvas-title ">
-          <span className="">
-            {viewState === 0
-              ? 'Menu'
-              : viewState === 1
-              ? 'Menu'
-              : viewState === 2
-              ? 'Menu'
-              : viewState === 4
-              ? 'Menu'
-              : viewState === 7
-              ? 'Menu'
-              : 'Menu'}
-          </span>
+        <div className="offcanvas-title mb-0 ">
+         
+          {showMenu ? '':<>
 
+
+          {!menu ? 
+          <>
+          <button onClick={()=>setMenu(!menu)} className='btn btn-primary text-start py-2  '>  <i className="bi bi-list me-2"></i> <span className='me-2'>Menu</span></button>
+          
+          
+          </>
+        :<>
+
+          <button onClick={()=>setMenu(!menu)}  className='btn text-start  btn-primary mt-2 py-2 w-75'>       <i className="bi bi-x-lg me-5"></i> <span>Menu</span></button> <br />
+          <button   className='btn text-start  btn-primary mt-2 py-2 w-75'>       <i className="icon-menu bi bi-info-circle me-5"  ></i> <span>About</span></button> <br />
+          <button   className='btn text-start  btn-primary mt-2 py-2 w-75'>     <i className="icon-menu bi bi-map  me-5"></i> <span>RoadMap</span></button> <br />
+          <button   className='btn text-start  btn-primary mt-2 py-2 w-75'>   <i  className="icon-menu"><img className="me-5" height="20" width="20" src="https://opensea.io/static/images/logos/opensea.svg"/></i> <span>MarketPlace</span></button> <br />
+          <button   className='btn text-start  btn-primary mt-2 py-2 w-75'>       <i className="bi bi-telegram me-5"></i> <span>Telegram</span></button> <br />
+          <button   className='btn text-start  btn-primary mt-2 py-2 w-75'>       <i className="bi bi-twitter me-5"></i> <span>Twitter</span></button> <br />
+       
+
+        </>
+        }
+
+     
+          
+          </>}
           <a
             className=""
             style={{ float: 'right', marginRight: '20px' }}

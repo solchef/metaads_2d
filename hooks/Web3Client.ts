@@ -75,7 +75,7 @@ export const useWeb3 = () => {
           QuadSpaceContract,
           metaadsabi,
           new ethers.providers.JsonRpcProvider(
-            'https://rinkeby.infura.io/v3/7c716361d1734288bbc5cf519570c08f'
+            'https://mainnet.infura.io/v3/7c716361d1734288bbc5cf519570c08f'
           )
         )
         const contracts = []
@@ -91,10 +91,10 @@ export const useWeb3 = () => {
           contracts,
         } as Web3Action)
       } catch (e) {
-        console.log('connect error', e)
+        // console.log('connect error', e)
       }
     } else {
-      console.error('No Web3Modal')
+      // console.error('No Web3Modal')
     }
   }, [])
 
@@ -109,7 +109,7 @@ export const useWeb3 = () => {
         type: 'RESET_WEB3_PROVIDER',
       } as Web3Action)
     } else {
-      console.error('No Web3Modal')
+      // console.error('No Web3Modal')
     }
   }, [provider])
 
@@ -134,17 +134,17 @@ export const useWeb3 = () => {
       // https://docs.ethers.io/v5/concepts/best-practices/#best-practices--network-changes
       const handleChainChanged = (_hexChainId: string) => {
         if (typeof window !== 'undefined') {
-          console.log('switched to chain...', _hexChainId)
+          // console.log('switched to chain...', _hexChainId)
           toast.info('Web3 Network Changed')
           window.location.reload()
         } else {
-          console.log('window is undefined')
+          // console.log('window is undefined')
         }
       }
 
       const handleDisconnect = (error: { code: number; message: string }) => {
         // eslint-disable-next-line no-console
-        console.log('disconnect', error)
+        // console.log('disconnect', error)
         disconnect()
       }
 

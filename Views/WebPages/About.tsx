@@ -11,21 +11,22 @@ export const About = () => {
       className="offcanvas-body about  pl-0 ml-0 pr-3  pb-5 w-100"
       id="about"
     >
-      <div className="m-2 p-3">
+      <div className="m-2 p-3 pt-0 mt-0">
         <div className="d-flex">
           <img
+            className="mt-4 me-4 hide-mobile"
             src="assets/images/million-dollar-logo.svg"
             height={30}
             width={30}
           />
-          <h3 className="mb-4"> The Million Dollar Website!</h3>
+          <h3 className="mb-4 ps-0 ms-0"> The Million Dollar Website!</h3>
         </div>
         <div>
           <div>
             <div>
               <div>
                 <div>
-                  <h4 className="pb-2 ps-3">
+                  <h4 className="pb-2 ">
                     {' '}
                     TMDW is the homepage billboard of the Metaverse!
                   </h4>
@@ -84,7 +85,7 @@ export const About = () => {
                 </div>
 
                 <div>
-                  <h4 className="pb-2 ps-3"> About Us</h4>
+                  <h4 className="pb-2 "> About Us</h4>
                   <p>
                     We created the Meta-Board the online version of your
                     traditional billboard. <br /> <br />
@@ -106,7 +107,7 @@ export const About = () => {
                   </p>
                 </div>
                 <div>
-                  <h4 className="pb-2 ps-3 mt-4">
+                  <h4 className="pb-2  mt-4">
                     {' '}
                     What’s so special about The Million Dollar Website?{' '}
                   </h4>
@@ -133,7 +134,7 @@ export const About = () => {
                   </p>
                 </div>
                 <div>
-                  <h4 className="pb-2 ms-4 mt-4">
+                  <h4 className="pb-2  mt-4">
                     {' '}
                     Purchase Price ONLY $1 per pixel{' '}
                   </h4>
@@ -202,7 +203,7 @@ export const About = () => {
                   </p>
                 </div>
                 <div>
-                  <h4 className="pb-2 ms-4 mt-4"> How does it work? </h4>
+                  <h4 className="pb-2 mt-4"> How does it work? </h4>
                   <p>
                     TMDW has 1,000,000 blocks on a 1000 x 1000 2D grid
                     represented by 1,000,000 NFTs on the Ethereum network. Each
@@ -256,6 +257,15 @@ export const About = () => {
                     And its a simple as that, buy blocks as NFTs then share your
                     NFTs, projects and creations in this digital content space
                     with the entire world!
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="pb-2 "> Contact</h4>
+                  <p>
+                    For any enquiries, you can get intouch with us through,
+                    <i> support@TheMillionDollarWebsite.com</i>
+                    <br /> <br />
                   </p>
                 </div>
                 <p className="mt-4 text-nowrap"></p>

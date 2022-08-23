@@ -14,6 +14,7 @@ import {
   setMintStatus,
 } from '../components/reducers/Settings'
 import { store } from '../components/store'
+import { splitIndividualImages } from '.'
 
 export const handleUpdateData = async (
   name: string,
@@ -34,7 +35,8 @@ export const handleUpdateData = async (
     (arg0: any, arg1: string, arg2: any, arg3: any, arg4: any): any
   },
   uploadImage,
-  parc
+  parc,
+  handleMultiUploadMetadata
 ) => {
   store.dispatch(setMintStatus('Checking validity of submitted data'))
 
@@ -53,6 +55,23 @@ export const handleUpdateData = async (
     })
     return
   }
+
+  if (!description) {
+    ErrorTransaction({
+      title: 'Upload Error ',
+      description: 'Please provide a description  attached to your quad',
+    })
+    return
+  }
+
+  if (!mintImage) {
+    ErrorTransaction({
+      title: 'Upload Error ',
+      description: 'Please upload an image to update',
+    })
+    return
+  }
+
   let squrePos = land.y * 1000 + land.x
 
   let mintableids = []
@@ -63,9 +82,62 @@ export const handleUpdateData = async (
     }
   }
 
+  const images = await splitIndividualImages(
+    URL.createObjectURL(mintImage[0]),
+    parc.width,
+    parc.height
+  )
+  // let dataarr = []
+  // for (let quad = squrePos; quad < squrePos + parc.height; quad++) {
+  //   for (let i = 0; i < parc.width; i++) {
+  //     const metadata = {
+  //       name: `QUADSPACE(${land.y}, ${land.x})`,
+  //       description: 'QUADSPACE allows you to ...',
+  //       image: 3,
+  //       parcelPosition: squrePos,
+  //       parcelId: 0,
+  //       quad: {
+  //         name: name,
+  //         description: description,
+  //         image: 3,
+  //       },
+  //       properties: [
+  //         {
+  //           trait_type: 'Space X',
+  //           value: 1,
+  //           max_value: 1000,
+  //           display_type: 'number',
+  //         },
+  //         {
+  //           trait_type: 'Space Y',
+  //           value: 1,
+  //           max_value: 1000,
+  //           display_type: 'number',
+  //         },
+  //         {
+  //           trait_type: 'QUAD SPACE',
+  //           value: 'Regular',
+  //         },
+  //       ],
+  //       external_url: 'https://quadspace.io/',
+  //     }
+  //     // console.log(metadata)
+  //     dataarr.push(metadata)
+  //   }
+  // }
+  // console.log(dataarr)
+  // const multiupload = await handleMultiUploadMetadata(
+  //   name,
+  //   QuadDescription,
+  //   dataarr,
+  //   land.x,
+  //   land.y
+  // )
+  // console.log(multiupload)
   // update image to ipfs storage and get the CID
-  const img = await uploadImage(mintImage[0])
 
+  const img = await uploadImage(mintImage[0])
+  // console.log(img)
   const metadata = await uploadMetadata(
     name,
     QuadDescription,
@@ -73,6 +145,7 @@ export const handleUpdateData = async (
     land.x,
     land.y
   )
+
   // console.log(metadata)
   if (!metadata) {
     ErrorTransaction({
@@ -98,12 +171,12 @@ export const handleUpdateData = async (
   store.dispatch(setMintStatus('Uploading parcel image. Please wait'))
 
   let imgUpload = axios.post(urlconf, formData, config).then((response) => {
-    console.log(response.data)
+    // console.log(response.data)
   })
 
   if (imgUpload) {
     store.dispatch(setMintStatus('Image has been uploaded'))
-    console.log('uploaded')
+    // console.log('uploaded')
   }
 
   const parcel = {
@@ -119,6 +192,7 @@ export const handleUpdateData = async (
     parcelHeight: parc.height,
     parcelIds: mintableids,
     address: address,
+    ipfs:metadata
   }
 
   let response = await fetch('/api/metadata/parcels', {
@@ -126,6 +200,7 @@ export const handleUpdateData = async (
     body: JSON.stringify(parcel),
   })
 
+  
   if (!response) {
     store.dispatch(
       setMintStatus(
@@ -140,53 +215,58 @@ export const handleUpdateData = async (
     })
 
     return
-  } else {
-    let response = await fetch('https://api.quadspace.io/invokegen', {
-      method: 'GET',
-    })
   }
 
+  let inserted = await response.json();
+  inserted = inserted.parcel.insertedId;
+
+  // console.log(inserted)
+
+  
   try {
-    if (adscontract) {
+  if (adscontract) {
+    store.dispatch(
+      setMintStatus('Please confirm the transaction popup on your wallet')
+    )
+    // console.log(parc)
+    // console.log(parc.parcId, squrePos, parc.width, parc.height, metadata)
+
+    let txn = await adscontract.updateParcelData(
+      parc.parcId,
+      parc.position,
+      parc.width,
+      parc.height,
+      `https://quadspace.io/api/metadata/parcels/${inserted}`
+    )
+
+    if (txn.hash) {
       store.dispatch(
-        setMintStatus('Please confirm the transaction popup on your wallet')
+        setMintStatus('Please wait as the transaction is been mined')
       )
-      console.log(parc, parc.width, parc.height)
-      let txn = await adscontract.updateParcelData(
-        parc.parcId,
-        parc.width,
-        parc.height,
-        metadata
-      )
-
-      if (txn.hash) {
-        store.dispatch(
-          setMintStatus('Please wait as the transaction is been mined')
-        )
-      }
-
-      let receipt = await txn.wait()
-
-      if (receipt) {
-        store.dispatch(
-          setMintStatus('Your tokens have been successfully updated')
-        )
-
-        SuccessfulTransaction({
-          title: 'Confirmed',
-          description:
-            'Your tokens have been successfully updated. Please hold on as the update is being printed on the board. Your window may reload.',
-        })
-
-        await fetch('https://api.quadspace.io/invokegen', {
-          method: 'GET',
-        })
-
-        location.reload()
-      }
-    } else {
-      console.log('loading transaction')
     }
+
+    let receipt = await txn.wait()
+
+    if (receipt) {
+      store.dispatch(
+        setMintStatus('Your tokens have been successfully updated')
+      )
+
+      SuccessfulTransaction({
+        title: 'Confirmed',
+        description:
+          'Your tokens have been successfully updated. Please hold on as the update is being printed on the board. Your window may reload.',
+      })
+
+      await fetch('https://api.quadspace.io/invokegen', {
+        method: 'GET',
+      })
+
+      location.reload()
+    }
+  } else {
+    console.log('loading transaction')
+  }
   } catch (e) {
     store.dispatch(setMintStatus('An error occurred, Try again'))
     ErrorTransaction({

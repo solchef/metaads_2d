@@ -8,12 +8,8 @@ export const SuccessfulTransaction = ({ title, description }) => {
     text: description,
     icon: 'success',
     confirmButtonColor: '#b401ab',
-    // cancelButtonColor: '#d33',
     confirmButtonText: 'Close',
   }).then((result) => {
-    // if (result.isConfirmed) {
-    //   Swal.fire('Thank You!', 'Check your wallet.', 'success')
-    // }
     store.dispatch(setMintStatus(''))
   })
 }
@@ -34,7 +30,9 @@ export const InfoMessage = ({ title, description }) => {
 export const ErrorTransaction = ({ title, description }) => {
   Swal.fire({
     title: title,
-    text: description,
+    text: description.includes('MintCannot')
+      ? description.replace('MintCannot', 'Cannot')
+      : description,
     icon: 'error',
     confirmButtonColor: '#b401ab',
     confirmButtonText: 'Close',
@@ -44,17 +42,15 @@ export const ErrorTransaction = ({ title, description }) => {
 }
 
 export const MiningTransaction = ({ title, description }) => {
-  let timerInterval
-
   Swal.fire({
     title: title,
-    timer: 2000,
+    text: description,
+    icon: 'info',
     timerProgressBar: true,
-
     didOpen: () => {
       Swal.showLoading()
     },
-    willClose: () => {},
+    // willClose: () => {},
   })
 }
 
