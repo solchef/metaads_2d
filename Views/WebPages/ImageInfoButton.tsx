@@ -16,10 +16,8 @@ export const ImageInfoButton = () => {
   useEffect(() => {
     fetch(parcelData.datauri, { method: 'GET' }).then((res) => {
       res.json().then((data) => {
-        // console.log(data)
         setMetaDetails(data.message[0])
       })
-      // let meta = data.message[0]
     })
   }, [])
 

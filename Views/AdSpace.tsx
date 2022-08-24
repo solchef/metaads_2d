@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useCallback, useEffect, useState } from 'react'
 import PurchaseSection from './WebPages/PurchaseSection'
 import axios from 'axios'
 import {
@@ -23,7 +23,8 @@ const AdSpace: React.FunctionComponent = () => {
   const [texture3, setTexture3] = useState()
   const [load, setLoad] = useState(true)
   const [showError, setShowError] = useState(false)
-  let loaded = false
+  const [loaded, setLoaded] = useState(false)
+  // let loaded = false
 
   manager1.onStart = function () {
     setLoad(true)
@@ -33,29 +34,34 @@ const AdSpace: React.FunctionComponent = () => {
   //   setLoad(false)
   // }
 
-  const getImage = async () => {
-    loaded = true
-    try {
-      await axios
-        .get('https://api.quadspace.io/uploads/adspsdace.json')
-        .then((data) => {
-          // console.log(data.data)
-          const texture = new TextureLoader().load(data.data)
-          const texture2 = new TextureLoader(manager1).load('./highres-min.png')
-          const uploadImage = new TextureLoader().load('./defult-sq.png')
-          const ownerLand = new TextureLoader().load('./defult-sq-yellow.png')
-          dispatch(setImage(data.data))
-          dispatch(setUpdateImage(uploadImage))
-          setTexture2(texture2)
-          setTexture1(texture)
-          setTexture3(ownerLand)
-          setLoad(false)
-        })
-    } catch (error) {
-      setShowError(true)
-      // console.log(error)
-    }
-  }
+  // const getImage = async () => {}
+
+  const getImage = useCallback(() => {
+    setTimeout(async () => {
+      try {
+        await axios
+          .get('https://api.quadspace.io/uploads/adspsdace.json')
+          .then((data) => {
+            // console.log(data.data)
+            const texture = new TextureLoader().load(data.data)
+            const texture2 = new TextureLoader(manager1).load(
+              './highres-min.png'
+            )
+            const uploadImage = new TextureLoader().load('./defult-sq.png')
+            const ownerLand = new TextureLoader().load('./defult-sq-yellow.png')
+            dispatch(setImage(data.data))
+            dispatch(setUpdateImage(uploadImage))
+            setTexture2(texture2)
+            setTexture1(texture)
+            setTexture3(ownerLand)
+            setLoad(false)
+            setLoaded(true)
+          })
+      } catch (error) {
+        setShowError(true)
+      }
+    }, 2000)
+  }, [])
 
   // useEffect(() => {
   //   axios.get('https://quadspace.io/api/info').then((data) => {
@@ -65,7 +71,8 @@ const AdSpace: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (!loaded) getImage()
-  }, [])
+    console.log('hello')
+  }, [getImage])
 
   const showMenu = useAppSelector(selectShowMenu)
   const [mouseDown, setMouseDown] = useState(false)
