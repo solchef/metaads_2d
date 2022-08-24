@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useEffect, useState } from 'react'
-import PurchaseSection from './WebPages/PurchaseSection'
+// import PurchaseSection from './WebPages/PurchaseSection'
 import axios from 'axios'
 import {
   selectReloadPage,
@@ -124,7 +124,7 @@ const AdSpace: React.FunctionComponent = () => {
           </div>
         </section>
       </Fragment>
-      <PurchaseSection />
+      {/* <PurchaseSection /> */}
     </>
   )
 }

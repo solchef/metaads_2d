@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
 // import { SliderSection } from '../Views/WebPages/SliderSection'
 // import { InfoSection } from '../Views/WebPages/InfoSection'
 
@@ -6,11 +7,15 @@ import dynamic from 'next/dynamic'
 
 const AdSpace = dynamic(() => import('../Views/AdSpace'), {
   ssr: false,
-  suspense: true,
+  suspense: false,
 })
 
 const Home = () => {
-  return <AdSpace />
+  return (
+    <Suspense fallback={''}>
+      <AdSpace />
+    </Suspense>
+  )
 }
 
 export default Home

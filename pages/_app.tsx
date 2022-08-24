@@ -10,6 +10,7 @@ import { store } from '../components/store'
 // import { ApolloProvider } from '@apollo/client'
 
 import './space.css'
+import PurchaseSection from '../Views/WebPages/PurchaseSection'
 
 const MyApp = ({ Component, pageProps }) => {
   return (
@@ -17,11 +18,12 @@ const MyApp = ({ Component, pageProps }) => {
       <Web3ContextProvider>
         <Layout>
           <Component {...pageProps} />
-          <ToastContainer
+          {/* <ToastContainer
             hideProgressBar
             position="bottom-right"
             autoClose={2000}
-          />
+          /> */}
+          <PurchaseSection />
         </Layout>
       </Web3ContextProvider>
     </Provider>
