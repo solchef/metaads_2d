@@ -54,7 +54,7 @@ const DisconnectButton = ({ disconnect, address }: DisconnectProps) => {
         href="#"
       >
         <i className="bi-wallet me-2" />
-          {truncateEthAddress(address)} 
+        {truncateEthAddress(address)}
       </a>
       <a
         className="btn-primary hoverable btn-md show-mobile"
@@ -79,7 +79,16 @@ const DisconnectButton = ({ disconnect, address }: DisconnectProps) => {
 }
 
 export function Web3Button(props) {
-  const { web3Provider, connect, disconnect, address } = useWeb3Context()
+  const { web3Provider, connect, disconnect, address, network } =
+    useWeb3Context()
+
+  if (network && network.chainId !== 1) {
+    return (
+      <a className="btn-danger hoverable btn-md hide-mobile" href="#">
+        <i className="bi-wallet me-2" /> Wrong Network
+      </a>
+    )
+  }
 
   return web3Provider ? (
     <DisconnectButton
