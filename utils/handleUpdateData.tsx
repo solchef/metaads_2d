@@ -77,64 +77,10 @@ export const handleUpdateData = async (
   let mintableids = []
   // console.log('minting')
   for (let quad = squrePos; quad < squrePos + land.w; quad++) {
-    for (let i = 0; i < land.h; i++) {
+    for (let i = 1; i < land.h; i++) {
       mintableids.push(quad + i * 1000)
     }
   }
-
-  const images = await splitIndividualImages(
-    URL.createObjectURL(mintImage[0]),
-    parc.width,
-    parc.height
-  )
-  // let dataarr = []
-  // for (let quad = squrePos; quad < squrePos + parc.height; quad++) {
-  //   for (let i = 0; i < parc.width; i++) {
-  //     const metadata = {
-  //       name: `QUADSPACE(${land.y}, ${land.x})`,
-  //       description: 'QUADSPACE allows you to ...',
-  //       image: 3,
-  //       parcelPosition: squrePos,
-  //       parcelId: 0,
-  //       quad: {
-  //         name: name,
-  //         description: description,
-  //         image: 3,
-  //       },
-  //       properties: [
-  //         {
-  //           trait_type: 'Space X',
-  //           value: 1,
-  //           max_value: 1000,
-  //           display_type: 'number',
-  //         },
-  //         {
-  //           trait_type: 'Space Y',
-  //           value: 1,
-  //           max_value: 1000,
-  //           display_type: 'number',
-  //         },
-  //         {
-  //           trait_type: 'QUAD SPACE',
-  //           value: 'Regular',
-  //         },
-  //       ],
-  //       external_url: 'https://quadspace.io/',
-  //     }
-  //     // console.log(metadata)
-  //     dataarr.push(metadata)
-  //   }
-  // }
-  // console.log(dataarr)
-  // const multiupload = await handleMultiUploadMetadata(
-  //   name,
-  //   QuadDescription,
-  //   dataarr,
-  //   land.x,
-  //   land.y
-  // )
-  // console.log(multiupload)
-  // update image to ipfs storage and get the CID
 
   const img = await uploadImage(mintImage[0])
   // console.log(img)

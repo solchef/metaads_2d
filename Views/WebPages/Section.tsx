@@ -240,7 +240,7 @@ export const Section = ({ handleSubmit }) => {
               <button
                 className={`btn-primary hoverable d-block mt-3 btn-md col-12`}
                 onClick={
-                  network && network.chainId === 1
+                  network && network.chainId === 4
                     ? handleSubmit
                     : handleNetwork
                 }

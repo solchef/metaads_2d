@@ -3,7 +3,7 @@ import { create, CID, IPFSHTTPClient } from 'ipfs-http-client'
 const projectId = '25jA0TBvDtcO15UJjpQu5u5FuPP'
 const projectSecret = '477958be72519e86a31afd65ca3d4aa9'
 
-const authorization = 'Bearer ' + projectSecret
+const authorization = 'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
 
 const ipfs = create({
   url: 'https://ipfs.infura.io:5001/api/v0',
