@@ -12,6 +12,7 @@ import {
 } from '../../components/reducers/Settings'
 import { TextureLoader, LoadingManager } from 'three'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
+import { useWeb3Context } from '../../context'
 // import { updateX, updateY } from './Map'
 
 export const CustomizeSection = ({
@@ -29,6 +30,7 @@ export const CustomizeSection = ({
   useEffect(() => {}, [])
 
   const mintingDetail = useAppSelector(getMintingstatus)
+  const {  network } = useWeb3Context()
 
   function getBase64(file) {
     return new Promise((resolve, reject) => {
@@ -235,8 +237,12 @@ export const CustomizeSection = ({
         Max Size: 5MB | File Type: JPG,PNG
       </p>
       <div className="text-center">
-        <h4>{mintingDetail}</h4>
-      </div>
+         {network && network.chainId === 1 ?
+            <h4>{mintingDetail}</h4>
+                : 
+            <h4 className='text-danger'>You are conneted to the wrong network. Please switch to Mainnet to mint</h4>
+            }     
+           </div>
 
       <button
         className="btn-primary hoverable d-block mx-3 mt-3 btn-md col-11"
