@@ -59,7 +59,6 @@ export const Section = ({ handleSubmit }) => {
         description:
           'You are connected to the wrong networkk. Please change your connection to mainnet',
       })
-
       return
     }
   }
@@ -212,7 +211,12 @@ export const Section = ({ handleSubmit }) => {
           </span>
           <br />
           <div className="text-center">
+            
+            {network && network.chainId === 1 ?
             <h4>{mintingDetail}</h4>
+                : 
+            <h4 className='text-danger'>You are conneted to the wrong network. Please switch to Mainnet to mint</h4>
+            }
             {unmintableIDs.length > 0 && (
               <h4>
                 The following tokens cannot be minted:{' '}

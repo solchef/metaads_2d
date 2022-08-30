@@ -60,7 +60,7 @@ export const handleMint = async (
       store.dispatch(
         setMintStatus('Please confirm the transaction popup on your wallet')
       )
-
+      
       let mintcost = quadPrice * mintableids.length
 
       let txn = await adscontract.mint(squrePos, land.h, land.w, {
