@@ -189,6 +189,12 @@ export const handleUpdateData = async (
       store.dispatch(
         setMintStatus('Please wait as the transaction is been mined')
       )
+
+      MiningTransaction({
+        title: 'Mining',
+        description: 'Please wait as the transaction is been mined',
+      })
+      
     }
 
     let receipt = await txn.wait()
