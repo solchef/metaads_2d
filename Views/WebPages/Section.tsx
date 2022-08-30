@@ -53,14 +53,14 @@ export const Section = ({ handleSubmit }) => {
   }
 
   const handleNetwork = () => {
-    if (network && network.chainId !== 1) {
+    // if (network && network.chainId !== 1) {
       ErrorTransaction({
         title: 'Wrong network',
         description:
           'You are connected to the wrong networkk. Please change your connection to mainnet',
       })
       return
-    }
+    // }
   }
 
   return (
@@ -240,7 +240,7 @@ export const Section = ({ handleSubmit }) => {
               <button
                 className={`btn-primary hoverable d-block mt-3 btn-md col-12`}
                 onClick={
-                  network && network.chainId !== 1
+                  network && network.chainId === 1
                     ? handleSubmit
                     : handleNetwork
                 }
