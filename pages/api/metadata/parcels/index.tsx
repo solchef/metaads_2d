@@ -75,7 +75,7 @@ async function getParcel(req, res) {
     // connect to the database
     const { db } = await connectToDatabase()
     // fetch the parcels
-    let parcels = await db
+    const parcels = await db
       .collection('parcels')
       .find({ _id: ObjectId(req.params.id) })
       .sort({ published: -1 })
