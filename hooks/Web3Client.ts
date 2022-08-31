@@ -17,6 +17,7 @@ import {
 import { toast } from 'react-toastify'
 import { QuadSpaceContract } from '../utils/constants'
 import axios from 'axios'
+import { ErrorTransaction } from '../utils/notifications'
 
 const providerOptions = {
   walletlink: {
@@ -135,7 +136,14 @@ export const useWeb3 = () => {
       const handleChainChanged = (_hexChainId: string) => {
         if (typeof window !== 'undefined') {
           // console.log('switched to chain...', _hexChainId)
-          toast.info('Web3 Network Changed')
+          // toast.info(
+          //   'Web3 Network Changed. Please reload your browser if submitting a transaction.'
+          // )
+          ErrorTransaction({
+            title: 'Wrong network',
+            description: 'Web3 Network Changed. Window will reload now',
+          })
+
           window.location.reload()
         } else {
           // console.log('window is undefined')

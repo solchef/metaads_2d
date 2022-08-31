@@ -17,10 +17,11 @@ import { useWeb3Context } from '../../context'
 import { getQuadPrice } from '../../components/reducers/Settings'
 import { verifyIsAllowed } from '../../utils'
 import ShareSection from '../../components/ShareSection'
+import { ErrorTransaction } from '../../utils/notifications'
 
 export const Section = ({ handleSubmit }) => {
   const landData = useAppSelector(selectLand)
-  const { address } = useWeb3Context()
+  const { address, network } = useWeb3Context()
   const dispatch = useAppDispatch()
   const [selectedFile, setSelectedFile] = useState('Upload Image')
   useEffect(() => {}, [])
@@ -49,6 +50,17 @@ export const Section = ({ handleSubmit }) => {
     //   }
     // }
     setUnmintableIds(unmintable)
+  }
+
+  const handleNetwork = () => {
+    // if (network && network.chainId !== 1) {
+      ErrorTransaction({
+        title: 'Wrong network',
+        description:
+          'You are connected to the wrong networkk. Please change your connection to mainnet',
+      })
+      return
+    // }
   }
 
   return (
@@ -199,7 +211,12 @@ export const Section = ({ handleSubmit }) => {
           </span>
           <br />
           <div className="text-center">
+            
+            {network && network.chainId === 1 ?
             <h4>{mintingDetail}</h4>
+                : 
+            <h4 className='text-danger'>You are conneted to the wrong network. Please switch to Mainnet to mint</h4>
+            }
             {unmintableIDs.length > 0 && (
               <h4>
                 The following tokens cannot be minted:{' '}
@@ -222,7 +239,11 @@ export const Section = ({ handleSubmit }) => {
               )}
               <button
                 className={`btn-primary hoverable d-block mt-3 btn-md col-12`}
-                onClick={handleSubmit}
+                onClick={
+                  network && network.chainId === 1
+                    ? handleSubmit
+                    : handleNetwork
+                }
                 disabled={
                   balance < landData.h * landData.w * quadPrice ||
                   unmintableIDs.length !== 0
