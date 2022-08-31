@@ -1,21 +1,10 @@
-import { getLands } from '../Views/WebPages/canvesGrid'
-import { QuadDescription } from './constants'
-import axios from 'axios'
 import {
   ErrorTransaction,
   MiningTransaction,
   SuccessfulTransaction,
 } from './notifications'
-import { fabric } from 'fabric'
-import {
-  getMintingstatus,
-  getQuadPrice,
-  setMintingstatus,
-  setMintStatus,
-} from '../components/reducers/Settings'
+import { setMintStatus } from '../components/reducers/Settings'
 import { store } from '../components/store'
-import { useAppSelector } from '../components/store/hooks'
-import { verifyIsAllowed } from './index'
 import Swal from 'sweetalert2'
 
 export const handleMint = async (
@@ -38,15 +27,25 @@ export const handleMint = async (
     (arg0: any, arg1: string, arg2: any, arg3: any, arg4: any): any
   },
   uploadImage,
-  quadPrice
+  quadPrice,
+  network
 ) => {
   store.dispatch(setMintStatus('Checking validity of submitted data'))
-  const mintingDetail = store.getState().settings.mintingStatus
 
   let squrePos = land.y * 1000 + land.x
   squrePos = squrePos + 1
 
-  let mintableids = []
+  const mintableids = []
+
+  if (network && network.chainId !== 1) {
+    store.dispatch(setMintStatus('Checking validity of submitted data'))
+
+    ErrorTransaction({
+      title: 'Wrong Network',
+      description:
+        'You are trying to mint while on the wrong network. Please switch to mainnet',
+    })
+  }
 
   for (let quad = squrePos; quad < squrePos + land.h; quad++) {
     for (let i = 0; i < land.w; i++) {
@@ -60,10 +59,10 @@ export const handleMint = async (
       store.dispatch(
         setMintStatus('Please confirm the transaction popup on your wallet')
       )
-      
-      let mintcost = quadPrice * mintableids.length
 
-      let txn = await adscontract.mint(squrePos, land.h, land.w, {
+      const mintcost = quadPrice * mintableids.length
+
+      const txn = await adscontract.mint(squrePos, land.h, land.w, {
         value: (mintcost * 10 ** 18).toFixed(0).toString(),
       })
 
@@ -78,7 +77,7 @@ export const handleMint = async (
         })
       }
 
-      let receipt = await txn.wait()
+      const receipt = await txn.wait()
 
       if (receipt) {
         store.dispatch(

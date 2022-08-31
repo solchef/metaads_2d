@@ -15,7 +15,6 @@ import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 import { Web3Balance } from '../../components/Web3Balance'
 import { useWeb3Context } from '../../context'
 import { getQuadPrice } from '../../components/reducers/Settings'
-import { verifyIsAllowed } from '../../utils'
 import ShareSection from '../../components/ShareSection'
 import { ErrorTransaction } from '../../utils/notifications'
 
@@ -23,20 +22,13 @@ export const Section = ({ handleSubmit }) => {
   const landData = useAppSelector(selectLand)
   const { address, network } = useWeb3Context()
   const dispatch = useAppDispatch()
-  const [selectedFile, setSelectedFile] = useState('Upload Image')
-  useEffect(() => {}, [])
   const mintingDetail = useAppSelector(getMintingstatus)
-  const [mintableIDs, setMintableIds] = useState([])
   const [unmintableIDs, setUnmintableIds] = useState([])
   const balance = useAppSelector(getBalance)
   const quadPrice = useAppSelector(getQuadPrice)
 
   const checkIfValid = () => {
-    let mintable = []
-    let unmintable = []
-    let isFound
-
-    let squrePos = landData.y * 1000 + landData.x
+    const unmintable = []
 
     // for (let quad = squrePos; quad < squrePos + landData.w; quad++) {
     //   for (let i = 0; i < landData.h; i++) {
@@ -54,12 +46,12 @@ export const Section = ({ handleSubmit }) => {
 
   const handleNetwork = () => {
     // if (network && network.chainId !== 1) {
-      ErrorTransaction({
-        title: 'Wrong network',
-        description:
-          'You are connected to the wrong networkk. Please change your connection to mainnet',
-      })
-      return
+    ErrorTransaction({
+      title: 'Wrong network',
+      description:
+        'You are connected to the wrong networkk. Please change your connection to mainnet',
+    })
+    return
     // }
   }
 
@@ -211,12 +203,14 @@ export const Section = ({ handleSubmit }) => {
           </span>
           <br />
           <div className="text-center">
-            
-            {network && network.chainId === 1 ?
-            <h4>{mintingDetail}</h4>
-                : 
-            <h4 className='text-danger'>You are conneted to the wrong network. Please switch to Mainnet to mint</h4>
-            }
+            {network && network.chainId === 1 ? (
+              <h4>{mintingDetail}</h4>
+            ) : (
+              <h4 className="text-danger">
+                You are conneted to the wrong network. Please switch to Mainnet
+                to mint
+              </h4>
+            )}
             {unmintableIDs.length > 0 && (
               <h4>
                 The following tokens cannot be minted:{' '}
