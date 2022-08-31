@@ -19,7 +19,7 @@ export const ImageInfoButton = () => {
         setMetaDetails(data.message[0])
       })
     })
-  }, [])
+  }, [parcelData])
 
   return (
     <div className="offcanvas-body image-info  pb-5 pt-4 mt-3 p-0 text-center">

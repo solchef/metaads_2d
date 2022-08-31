@@ -7,9 +7,9 @@
     "prettier"
   ],
   "rules": {
-    "@typescript-eslint/no-unused-vars": "ignore",
+    "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-this-alias": [
-      "ignore",
+      "off",
       {
         "allowDestructuring": false, 
         "allowedNames": ["self"] 
