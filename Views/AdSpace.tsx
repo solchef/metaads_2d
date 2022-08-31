@@ -71,7 +71,6 @@ const AdSpace: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (!loaded) getImage()
-    console.log('hello')
   }, [getImage])
 
   const showMenu = useAppSelector(selectShowMenu)
