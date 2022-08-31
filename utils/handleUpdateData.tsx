@@ -1,20 +1,12 @@
-import { getLands } from '../Views/WebPages/canvesGrid'
 import { QuadDescription } from './constants'
 import axios from 'axios'
 import {
   ErrorTransaction,
-  InfoMessage,
   MiningTransaction,
   SuccessfulTransaction,
 } from './notifications'
-import { fabric } from 'fabric'
-import {
-  getParcel,
-  setMintingstatus,
-  setMintStatus,
-} from '../components/reducers/Settings'
+import { setMintStatus } from '../components/reducers/Settings'
 import { store } from '../components/store'
-import { splitIndividualImages } from '.'
 
 export const handleUpdateData = async (
   name: string,
@@ -36,9 +28,24 @@ export const handleUpdateData = async (
   },
   uploadImage,
   parc,
-  handleMultiUploadMetadata
+  handleMultiUploadMetadata,
+  network
 ) => {
   store.dispatch(setMintStatus('Checking validity of submitted data'))
+
+  if (network && network.chainId !== 1) {
+    store.dispatch(
+      setMintStatus(
+        'You are trying to mint while on the wrong network. Please switch to mainnet'
+      )
+    )
+
+    ErrorTransaction({
+      title: 'Wrong Network',
+      description:
+        'You are trying to mint while on the wrong network. Please switch to mainnet',
+    })
+  }
 
   if (!name) {
     ErrorTransaction({
@@ -138,7 +145,7 @@ export const handleUpdateData = async (
     parcelHeight: parc.height,
     parcelIds: mintableids,
     address: address,
-    ipfs:metadata
+    ipfs: metadata,
   }
 
   let response = await fetch('/api/metadata/parcels', {
@@ -146,7 +153,6 @@ export const handleUpdateData = async (
     body: JSON.stringify(parcel),
   })
 
-  
   if (!response) {
     store.dispatch(
       setMintStatus(
@@ -163,62 +169,60 @@ export const handleUpdateData = async (
     return
   }
 
-  let inserted = await response.json();
-  inserted = inserted.parcel.insertedId;
+  let inserted = await response.json()
+  inserted = inserted.parcel.insertedId
 
   // console.log(inserted)
 
-  
   try {
-  if (adscontract) {
-    store.dispatch(
-      setMintStatus('Please confirm the transaction popup on your wallet')
-    )
-    // console.log(parc)
-    // console.log(parc.parcId, squrePos, parc.width, parc.height, metadata)
-
-    let txn = await adscontract.updateParcelData(
-      parc.parcId,
-      parc.position,
-      parc.width,
-      parc.height,
-      `https://quadspace.io/api/metadata/parcels/${inserted}`
-    )
-
-    if (txn.hash) {
+    if (adscontract) {
       store.dispatch(
-        setMintStatus('Please wait as the transaction is been mined')
+        setMintStatus('Please confirm the transaction popup on your wallet')
+      )
+      // console.log(parc)
+      // console.log(parc.parcId, squrePos, parc.width, parc.height, metadata)
+
+      let txn = await adscontract.updateParcelData(
+        parc.parcId,
+        parc.position,
+        parc.width,
+        parc.height,
+        `https://quadspace.io/api/metadata/parcels/${inserted}`
       )
 
-      MiningTransaction({
-        title: 'Mining',
-        description: 'Please wait as the transaction is been mined',
-      })
-      
+      if (txn.hash) {
+        store.dispatch(
+          setMintStatus('Please wait as the transaction is been mined')
+        )
+
+        MiningTransaction({
+          title: 'Mining',
+          description: 'Please wait as the transaction is been mined',
+        })
+      }
+
+      let receipt = await txn.wait()
+
+      if (receipt) {
+        store.dispatch(
+          setMintStatus('Your tokens have been successfully updated')
+        )
+
+        SuccessfulTransaction({
+          title: 'Confirmed',
+          description:
+            'Your tokens have been successfully updated. Please hold on as the update is being printed on the board. Your window may reload.',
+        })
+
+        await fetch('https://api.quadspace.io/invokegen', {
+          method: 'GET',
+        })
+
+        location.reload()
+      }
+    } else {
+      console.log('loading transaction')
     }
-
-    let receipt = await txn.wait()
-
-    if (receipt) {
-      store.dispatch(
-        setMintStatus('Your tokens have been successfully updated')
-      )
-
-      SuccessfulTransaction({
-        title: 'Confirmed',
-        description:
-          'Your tokens have been successfully updated. Please hold on as the update is being printed on the board. Your window may reload.',
-      })
-
-      await fetch('https://api.quadspace.io/invokegen', {
-        method: 'GET',
-      })
-
-      location.reload()
-    }
-  } else {
-    console.log('loading transaction')
-  }
   } catch (e) {
     store.dispatch(setMintStatus('An error occurred, Try again'))
     ErrorTransaction({

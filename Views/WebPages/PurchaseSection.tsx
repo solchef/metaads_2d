@@ -19,7 +19,6 @@ import { Section } from './Section'
 import Main from './Main'
 import { RoadMap } from './RoadMap'
 import { CustomizeSection } from './CustomizeSection'
-// import { MiniMap } from './Map'
 import { handleUpdateData } from '../../utils/handleUpdateData'
 
 function PurchaseSection() {
@@ -49,19 +48,7 @@ function PurchaseSection() {
   }, [landData])
 
   const handleSubmit = async () => {
-    await handleMint(
-      name,
-      address,
-      description,
-      url,
-      adscontract,
-      MintImage,
-      land,
-      uploadMetadata,
-      uploadImage,
-      quadPrice,
-      network
-    )
+    await handleMint(adscontract, land, quadPrice, network)
   }
 
   const handleCustomize = async () => {
@@ -76,7 +63,8 @@ function PurchaseSection() {
       uploadMetadata,
       uploadImage,
       parcelDt,
-      handleMultiUploadMetadata
+      handleMultiUploadMetadata,
+      network
     )
   }
 
@@ -108,31 +96,6 @@ function PurchaseSection() {
           handleSubmit={handleCustomize}
         />
       )
-  }
-  const getMiniMap = () => {
-    const ratio = 5
-    const width = window.innerWidth / ratio
-    const height = window.innerHeight / ratio
-    return (
-      <></>
-      // <div className="d-flex justify-content-center">
-      //   <div
-      //     className="d-flex justify-content-center"
-      //     id="mini-map-container"
-      //     style={{
-      //       position: 'relative',
-      //       overflow: 'hidden',
-      //       backgroundColor: '#00000050',
-      //       width: width,
-      //       height: height,
-      //       minHeight: 250,
-      //       minWidth: 250,
-      //     }}
-      //   >
-      //     <MiniMap />
-      //   </div>
-      // </div>
-    )
   }
 
   return (

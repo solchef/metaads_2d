@@ -8,25 +8,8 @@ import { store } from '../components/store'
 import Swal from 'sweetalert2'
 
 export const handleMint = async (
-  name: string,
-  address: string,
-  description: string,
-  url: string,
   adscontract,
-  mintImage: any,
   land: { y: number; x: number; w: any; h: number },
-  uploadMetadata: {
-    (
-      parcelPosition: any,
-      name: any,
-      description: any,
-      imageURL: any,
-      xProp: any,
-      yProp: any
-    ): Promise<string>
-    (arg0: any, arg1: string, arg2: any, arg3: any, arg4: any): any
-  },
-  uploadImage,
   quadPrice,
   network
 ) => {
