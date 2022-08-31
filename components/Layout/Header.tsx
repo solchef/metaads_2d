@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { QuadSpaceContract } from '../../utils/constants'
@@ -34,7 +35,7 @@ const Header = () => {
     const price = await axios.get(
       'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USDP'
     )
-    let quadPrice = (1 / price.data.USDP).toFixed(5)
+    const quadPrice = (1 / price.data.USDP).toFixed(5)
     store.dispatch(setquadPrice(quadPrice))
   }
   const [menu, setMenu] = useState(false)

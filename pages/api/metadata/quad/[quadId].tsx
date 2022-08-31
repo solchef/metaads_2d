@@ -1,11 +1,10 @@
 export default function handler(req, res) {
-  let x = Number(req.query.quadId) % 1000
-  let y = Math.ceil(Number(req.query.quadId) / 1000)
+  const x = Number(req.query.quadId) % 1000
+  const y = Math.ceil(Number(req.query.quadId) / 1000)
 
   res.status(200).json({
     name: 'TMDW#' + req.query.quadId,
-    description:
-      'TMDW is the homepage billboard of the Metaverse!',
+    description: 'TMDW is the homepage billboard of the Metaverse!',
     image: 'https://api.quadspace.io/uploads/tmdw.jpg',
     external_url: 'https://quadspace.io',
     attributes: [

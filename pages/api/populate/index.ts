@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 // import { fabric } from 'fabric'
 // import { MetaadsContractUnsigned } from '../../../utils/readOnly'
 // const fs = require('fs')
@@ -23,7 +24,7 @@
 //   let minted = await MetaadsContractUnsigned.occupiedList()
 
 //   let rects = []
-  
+
 //   const quadmints = [
 //     [0, 0],
 //     [0, 750],
@@ -194,4 +195,3 @@ export default async function handler(req, res) {
 
   res.status(200).json({ response: true, meta: metalist })
 }
-
