@@ -14,7 +14,6 @@ import {
   select_3dMode,
   setLand,
   setMiniMapPosition,
-  setParcel,
   setSelectedLand,
   setShowMenu,
   setViewState,
@@ -24,7 +23,6 @@ import { store } from '../../components/store'
 // import useSound from 'use-sound'
 import { MetaadsContractUnsigned } from '../../utils/readOnly'
 import { useWeb3Context } from '../../context'
-import { InitialParcels, QuadSpaceContract } from '../../utils/constants'
 import { returnLand } from '../../utils/returnLand'
 
 let oldx, oldy
