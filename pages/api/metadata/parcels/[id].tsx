@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { connectToDatabase } = require('../../../../lib/mongodb')
 const ObjectId = require('mongodb').ObjectId
 
@@ -13,11 +14,11 @@ export default function handler(req, res) {
 async function getParcel(req, res) {
   try {
     // connect to the database
-    let { db } = await connectToDatabase()
+    const { db } = await connectToDatabase()
     // fetch the parcels
-    let parcels = await db
+    const parcels = await db
       .collection('parcels')
-      .find({_id: ObjectId(req.query.id)})
+      .find({ _id: ObjectId(req.query.id) })
       .sort({ published: -1 })
       .toArray()
     // return the parcels
@@ -33,5 +34,3 @@ async function getParcel(req, res) {
     })
   }
 }
-
-

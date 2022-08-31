@@ -1,17 +1,14 @@
 import dynamic from 'next/dynamic'
-import { Suspense } from 'react'
-import AdSpace from '../Views/AdSpace'
+// import { SliderSection } from '../Views/WebPages/SliderSection'
+// import { InfoSection } from '../Views/WebPages/InfoSection'
 
-// const AdSpace = dynamic(() => import('../Views/AdSpace'), {
-//   ssr: true,
-//   suspense: false,
-// })
+// eslint-disable-next-line @typescript-eslint/ban-types
+const AdSpace = dynamic(() => import('../Views/AdSpace'), {
+  ssr: false,
+})
+
 const Home = () => {
-  return (
-    <Suspense fallback={''}>
-      <AdSpace />
-    </Suspense>
-  )
+  return <AdSpace />
 }
 
 export default Home

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { connectToDatabase } = require('../../../../lib/mongodb')
 const ObjectId = require('mongodb').ObjectId
 
@@ -25,14 +26,16 @@ export default function handler(req, res) {
 async function addParcel(req, res) {
   try {
     // connect to the database
-    let { db } = await connectToDatabase()
+    const { db } = await connectToDatabase()
     // add the Parcel
-    const parcel = await db.collection('parcels').insertOne(JSON.parse(req.body))
+    const parcel = await db
+      .collection('parcels')
+      .insertOne(JSON.parse(req.body))
     // return a message
     return res.json({
       message: 'Parcel added successfully',
       success: true,
-      parcel:parcel
+      parcel: parcel,
     })
   } catch (error) {
     // return an error
@@ -46,9 +49,9 @@ async function addParcel(req, res) {
 async function getParcels(req, res) {
   try {
     // connect to the database
-    let { db } = await connectToDatabase()
+    const { db } = await connectToDatabase()
     // fetch the parcels
-    let parcels = await db
+    const parcels = await db
       .collection('parcels')
       .find({})
       .sort({ published: -1 })
@@ -70,11 +73,11 @@ async function getParcels(req, res) {
 async function getParcel(req, res) {
   try {
     // connect to the database
-    let { db } = await connectToDatabase()
+    const { db } = await connectToDatabase()
     // fetch the parcels
-    let parcels = await db
+    const parcels = await db
       .collection('parcels')
-      .find({_id: ObjectId(req.params.id)})
+      .find({ _id: ObjectId(req.params.id) })
       .sort({ published: -1 })
       .toArray()
     // return the parcels
@@ -94,7 +97,7 @@ async function getParcel(req, res) {
 async function updateParcel(req, res) {
   try {
     // connect to the database
-    let { db } = await connectToDatabase()
+    const { db } = await connectToDatabase()
 
     // update the published status of the Parcel
     await db.collection('parcels').updateOne(

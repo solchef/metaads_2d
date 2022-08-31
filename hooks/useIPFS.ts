@@ -3,7 +3,8 @@ import { create, CID, IPFSHTTPClient } from 'ipfs-http-client'
 const projectId = '25jA0TBvDtcO15UJjpQu5u5FuPP'
 const projectSecret = '477958be72519e86a31afd65ca3d4aa9'
 
-const authorization = 'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
+const authorization =
+  'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64')
 
 const ipfs = create({
   url: 'https://ipfs.infura.io:5001/api/v0',
@@ -91,13 +92,11 @@ export const useIPFS = () => {
     xProp,
     yProp
   ) => {
-    let imgArray = []
     // await images.forEach((img) => {
 
     //   imgArray.push();
     // })
 
-    let squrePos = yProp * 1000 + xProp
     const metadataArr = []
 
     // const metadataAdded = await ipfs.addAll(JSON.stringify(images))
@@ -160,7 +159,7 @@ export const useIPFS = () => {
     //     return URL.createObjectURL(new Blob(content, { type: mime }))
     //   }
     // }
-    let res = await ipfs.get(cid)
+    const res = await ipfs.get(cid)
     // console.log(res)
     // const files = await res.files()
 

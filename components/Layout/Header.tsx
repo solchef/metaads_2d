@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react/jsx-no-target-blank */
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { QuadSpaceContract } from '../../utils/constants'
@@ -34,7 +37,7 @@ const Header = () => {
     const price = await axios.get(
       'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USDP'
     )
-    let quadPrice = (1 / price.data.USDP).toFixed(5)
+    const quadPrice = (1 / price.data.USDP).toFixed(5)
     store.dispatch(setquadPrice(quadPrice))
   }
   const [menu, setMenu] = useState(false)
@@ -157,6 +160,20 @@ const Header = () => {
                           {' '}
                           <i className="bi bi-twitter me-4"></i>{' '}
                           <span className="me-3">Twitter</span>
+                        </button>{' '}
+                        <br />
+                      </a>
+                      <a
+                        className="p-0"
+                        target="_blank"
+                        href={
+                          'https://www.instagram.com/TheMillionDollarWebsite/'
+                        }
+                      >
+                        <button className="btn text-start  btn-primary mt-2 py-2 w-100">
+                          {' '}
+                          <i className="bi bi-twitter me-4"></i>{' '}
+                          <span className="me-3">Instagram</span>
                         </button>{' '}
                         <br />
                       </a>

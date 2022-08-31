@@ -1,15 +1,15 @@
 import { MetaadsContractUnsigned } from '../../../utils/readOnly'
 
 export default async function handler(req, res) {
-  let minted = await MetaadsContractUnsigned.occupiedList()
+  const minted = await MetaadsContractUnsigned.occupiedList()
 
   const metalist = []
   minted.forEach(async (nft) => {
-    let y = Number(nft) % 1000
-    let x = Math.ceil(Number(nft) / 1000)
+    const y = Number(nft) % 1000
+    const x = Math.ceil(Number(nft) / 1000)
 
     // let holder = await MetaadsContractUnsigned.ownerOf(Number(nft))
-    let itemMeta = {
+    const itemMeta = {
       name: 'Quad #' + Number(nft),
       description:
         'Quadspace metaverse allows businesses, meta realtors and individual NFT collectors to acquire Quad for $1. These estate can be used as space, 3d retail space or simply a place for you and your meta buddies to kick it!',
