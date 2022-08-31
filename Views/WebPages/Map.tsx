@@ -39,9 +39,11 @@ let oldx, oldy
 // }
 // const materialList = []
 
-const isMobile = window.innerWidth <= 768
+let isMobile = true
+if (windows !== undefined) {
+  window.innerWidth <= 768
+}
 // const materialList = []
-console.log(isMobile)
 export const MiniMap = () => {
   // const imageStore = useAppSelector(selectImage)
   // const canvas = document.getElementById('mycanvas').children[0].children[0]
