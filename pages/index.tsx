@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 
 const AdSpace = dynamic(() => import('../Views/AdSpace'), {
-  ssr: false,
+  // ssr: false,
   suspense: true,
 })
 const Home = () => {
