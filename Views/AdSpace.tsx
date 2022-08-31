@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useState } from 'react'
+import { Fragment, Suspense, useCallback, useEffect, useState } from 'react'
 // import PurchaseSection from './WebPages/PurchaseSection'
 import axios from 'axios'
 import {

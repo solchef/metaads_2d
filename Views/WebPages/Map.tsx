@@ -39,10 +39,6 @@ let oldx, oldy
 // }
 // const materialList = []
 
-let isMobile = true
-if (windows !== undefined) {
-  window.innerWidth <= 768
-}
 // const materialList = []
 export const MiniMap = () => {
   // const imageStore = useAppSelector(selectImage)
@@ -82,6 +78,11 @@ export const MapView = ({ minMap, texture1, texture2, texture3 }) => {
   //
   const { address } = useWeb3Context()
 
+  let isMobile = true
+
+  useEffect(() => {
+    isMobile = window.innerWidth <= 768
+  }, [window.innerWidth])
   useEffect(() => {
     if (orbit.current) {
       orbit.current.enableRotate = _3dMode
@@ -225,7 +226,7 @@ export const MapView = ({ minMap, texture1, texture2, texture3 }) => {
             enableDamping={false}
             mouseButtons={{ LEFT: 2, MIDDLE: 1, RIGHT: 0 }}
             onChange={() => {
-              onWheel(orbit.current.object)
+              onWheel(orbit.current.object, isMobile)
               dispatch(
                 setMiniMapPosition({
                   x: orbit.current.object.position.x,
@@ -265,6 +266,12 @@ const GreenSquare = ({
   const heightMap = 1000
   const { gl } = useThree()
   THREE.Cache.enabled = true
+
+  let isMobile = true
+
+  useEffect(() => {
+    isMobile = window.innerWidth <= 768
+  }, [window.innerWidth])
 
   if (isMobile) gl.setPixelRatio(1)
   if (miniMap) gl.setPixelRatio(0.4)
@@ -579,7 +586,7 @@ const ViewedAria = (zoomLevel) => {
     </div>
   )
 }
-const onWheel = (camera) => {
+const onWheel = (camera, isMobile) => {
   if (!isMobile) {
     if (camera.position.y < 1300 && camera.position.y > 1164)
       store.dispatch(setZoomLevel(1))
