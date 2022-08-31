@@ -39,7 +39,7 @@ void main()
 {
         vec4 lansd= texture2D(bumpTexture, vUv)* (brightness-0.9);
         vec4 background= texture2D(bumpTexture2, vUv)* brightness;
-        vec4 backGround1= vec4(mix(lansd.rgb,mix(background.rgb,lansd.rgb,background.a),background.a),1.9);
+        vec4 backGround1= vec4(mix(mix(lansd.rgb,background.rgb,background.a),lansd.rgb,lansd.a),0.1);
         gl_FragColor = vec4(backGround1.rgb ,0.1);
 }
 `

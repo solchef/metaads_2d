@@ -218,7 +218,7 @@ export const MapView = ({ minMap, texture1, texture2, texture3 }) => {
             maxAzimuthAngle={0}
             minZoom={0}
             maxZoom={1600}
-            minDistance={20}
+            minDistance={90}
             maxDistance={isMobile ? 1900 : 1300}
             enableDamping={false}
             mouseButtons={{ LEFT: 2, MIDDLE: 1, RIGHT: 0 }}
@@ -593,11 +593,11 @@ const onWheel = (camera) => {
       store.dispatch(setZoomLevel(6))
     else if (camera.position.y < 449 && camera.position.y > 306)
       store.dispatch(setZoomLevel(7))
-    else if (camera.position.y < 306 && camera.position.y > 163)
+    else if (camera.position.y < 306 && camera.position.y > 263)
       store.dispatch(setZoomLevel(8))
-    else if (camera.position.y < 163 && camera.position.y > 40)
+    else if (camera.position.y < 163 && camera.position.y > 140)
       store.dispatch(setZoomLevel(9))
-    else if (camera.position.y >= 20 && camera.position.y < 40) {
+    else if (camera.position.y >= 20 && camera.position.y < 100) {
       store.dispatch(setZoomLevel(10))
     }
   } else {
@@ -617,9 +617,9 @@ const onWheel = (camera) => {
       store.dispatch(setZoomLevel(7))
     else if (camera.position.y < 547 && camera.position.y > 338)
       store.dispatch(setZoomLevel(8))
-    else if (camera.position.y < 338 && camera.position.y > 109)
+    else if (camera.position.y < 338 && camera.position.y > 209)
       store.dispatch(setZoomLevel(9))
-    else if (camera.position.y >= 20 && camera.position.y < 40) {
+    else if (camera.position.y >= 20 && camera.position.y < 140) {
       store.dispatch(setZoomLevel(10))
     }
   }
