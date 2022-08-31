@@ -57,7 +57,7 @@ export const returnLand = async (x, y, parcels, address) => {
       store.dispatch(setViewState(3))
     }
   })
-
+  console.log(parcels)
   parcels.forEach(async (land, i) => {
     let cx = Number(land.coord) % 1000
     let cy = Math.ceil(Number(land.coord) / 1000)
@@ -66,8 +66,15 @@ export const returnLand = async (x, y, parcels, address) => {
 
     // try {
     if (land.uri != '') {
-      let data = await fetch(land.uri, { method: 'GET' })
-      let res = await data.json()
+      console.log(land.uri)
+      let data = await axios.get(land.uri, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET',
+        },
+      })
+      console.log(data)
+      let res = await data
       if (res) {
         // console.log(data)
         meta = res.message[0]

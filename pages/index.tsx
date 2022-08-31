@@ -6,7 +6,6 @@ import dynamic from 'next/dynamic'
 const AdSpace = dynamic(() => import('../Views/AdSpace'), {
   ssr: false,
 })
-
 const Home = () => {
   return <AdSpace />
 }
