@@ -24,17 +24,10 @@ const MainPage: React.FunctionComponent = () => {
   const [load, setLoad] = useState(true)
   const [showError, setShowError] = useState(false)
   const [loaded, setLoaded] = useState(false)
-  // let loaded = false
 
   manager1.onStart = function () {
     setLoad(true)
   }
-
-  // manager1.onLoad = function () {
-  //   setLoad(false)
-  // }
-
-  // const getImage = async () => {}
 
   const getImage = useCallback(() => {
     setTimeout(async () => {
@@ -42,7 +35,6 @@ const MainPage: React.FunctionComponent = () => {
         await axios
           .get('https://api.quadspace.io/uploads/adspsdace.json')
           .then((data) => {
-            // console.log(data.data)
             const texture = new TextureLoader().load(data.data)
             const texture2 = new TextureLoader(manager1).load(
               './highres-min.png'
@@ -73,7 +65,6 @@ const MainPage: React.FunctionComponent = () => {
   useEffect(() => {
     if (!loaded) {
       getImage()
-      console.log('first')
     }
   }, [])
 

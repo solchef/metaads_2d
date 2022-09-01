@@ -209,6 +209,7 @@ export const MapView = ({ minMap, texture1, texture2, texture3 }) => {
               })}
             </group>
           </>
+          {/* @ts-ignore */}
           <PerspectiveCamera
             position={[0, isMobile ? 1900 : 1300, 0]}
             makeDefault
