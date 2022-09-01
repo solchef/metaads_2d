@@ -3,12 +3,12 @@ import dynamic from 'next/dynamic'
 // import { InfoSection } from '../Views/WebPages/InfoSection'
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-const AdSpace = dynamic(() => import('../Views/AdSpace'), {
+const MainPage = dynamic(() => import('../Views/MainPage'), {
   ssr: false,
 })
 
 const Home = () => {
-  return <AdSpace />
+  return <MainPage />
 }
 
 export default Home

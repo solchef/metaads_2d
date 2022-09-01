@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '../components/store/hooks'
 import { ErrorReload, MapView } from './WebPages/Map'
 import { Loader } from '../utils/loader'
 
-const AdSpace: React.FunctionComponent = () => {
+const MainPage: React.FunctionComponent = () => {
   const reload = useAppSelector(selectReloadPage)
   const dispatch = useAppDispatch()
   const manager1 = new LoadingManager()
@@ -61,6 +61,7 @@ const AdSpace: React.FunctionComponent = () => {
         setShowError(true)
       }
     }, 2000)
+    setLoaded(true)
   }, [])
 
   // useEffect(() => {
@@ -70,8 +71,11 @@ const AdSpace: React.FunctionComponent = () => {
   // }, [])
 
   useEffect(() => {
-    if (!loaded) getImage()
-  }, [getImage])
+    if (!loaded) {
+      getImage()
+      console.log('first')
+    }
+  }, [])
 
   const showMenu = useAppSelector(selectShowMenu)
   const [mouseDown, setMouseDown] = useState(false)
@@ -128,4 +132,4 @@ const AdSpace: React.FunctionComponent = () => {
   )
 }
 
-export default AdSpace
+export default MainPage

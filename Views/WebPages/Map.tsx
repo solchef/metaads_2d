@@ -66,7 +66,7 @@ export const MapView = ({ minMap, texture1, texture2, texture3 }) => {
   const _3dMode = useAppSelector(select_3dMode)
   const land = useAppSelector(selectLand)
   const imageStore = useAppSelector(selectUpdateImage)
-  const orbit = useRef()
+  const orbit: any = useRef()
   const zoomIn = useAppSelector(selectZoomIn)
   const zoomOut = useAppSelector(selectZoomOut)
   const [buyMode, setBuyMode] = useState(false)
@@ -319,7 +319,7 @@ const GreenSquare = ({
 
   const getSelectedMap = (point) => {
     return boughtedLandListData.find(
-      (data) =>
+      (data: any) =>
         data.attributes[1].value >= Math.floor(point.x) + widthMap / 2 &&
         data.attributes[1].value < Math.floor(point.x) + widthMap / 2 + x &&
         data.attributes[0].value >= boxPosition.z + heightMap / 2 &&
@@ -401,17 +401,19 @@ const GreenSquare = ({
         position={[0, 0, 0]}
         rotation={[-Math.PI / 2, 0, 0]}
         scale={[1, 1, 1]}
+        //@ts-ignore
         onClick={({ point, nativeEvent }) => {
           if (nativeEvent.which !== 3) onPointUp(point)
         }}
         onPointerDown={(e) => {
           setMouseMoved(true)
         }}
+        //@ts-ignore
         onPointerMove={({ point }) => {
           onMove(point)
         }}
       >
-        <planeBufferGeometry args={[widthMap, heightMap]} />
+        <planeGeometry args={[widthMap, heightMap]} />
         <shaderMaterial
           uniforms={{
             bumpTexture: { value: texture },
@@ -468,7 +470,9 @@ const ViewedAria = (zoomLevel) => {
   const [height, setHight] = useState(conHeight)
 
   const getResize = (zoom) => {
+    //@ts-ignore
     setXPosition(store.getState().settings.miniMapPosition.x)
+    //@ts-ignore
     setYPosition(store.getState().settings.miniMapPosition.y)
     if (zoom === 10) {
       setWidth(350)

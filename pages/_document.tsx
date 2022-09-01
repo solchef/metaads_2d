@@ -66,6 +66,7 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
+
         {/* <script async src="https://code.jquery.com/jquery-1.9.1.js"></script>
         <script
           async

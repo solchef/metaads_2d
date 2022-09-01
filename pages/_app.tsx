@@ -8,6 +8,7 @@ import { store } from '../components/store'
 // import 'sweetalert2/src/sweetalert2.scss'
 // import '@sweetalert2/themes/dark/dark.scss'
 // import { ApolloProvider } from '@apollo/client'
+import { NavigationContainer } from '@react-navigation/native'
 
 import './space.css'
 import PurchaseSection from '../Views/WebPages/PurchaseSection'
