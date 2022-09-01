@@ -19,13 +19,12 @@ import { Section } from './Section'
 import Main from './Main'
 import { RoadMap } from './RoadMap'
 import { CustomizeSection } from './CustomizeSection'
-// import { MiniMap } from './Map'
 import { handleUpdateData } from '../../utils/handleUpdateData'
 
 function PurchaseSection() {
   const { uploadMetadata, uploadImage, handleMultiUploadMetadata } = useIPFS()
   const landData = useAppSelector(selectLand)
-  const { contracts, address } = useWeb3Context()
+  const { contracts, address, network } = useWeb3Context()
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [url, setUrl] = useState('')
@@ -33,9 +32,7 @@ function PurchaseSection() {
   const [MintImage, setMintImage] = useState(null)
   const parcelDt = useAppSelector(getParcel)
   const [menu, setMenu] = useState(false)
-
   const [land, setLand] = useState<any>({})
-
   const viewState = useAppSelector(selectViewState)
   const dispatch = useAppDispatch()
   const showMenu = useAppSelector(selectShowMenu)
@@ -51,22 +48,11 @@ function PurchaseSection() {
   }, [landData])
 
   const handleSubmit = async () => {
-    const result = await handleMint(
-      name,
-      address,
-      description,
-      url,
-      adscontract,
-      MintImage,
-      land,
-      uploadMetadata,
-      uploadImage,
-      quadPrice
-    )
+    await handleMint(adscontract, land, quadPrice, network)
   }
 
   const handleCustomize = async () => {
-    const result = await handleUpdateData(
+    await handleUpdateData(
       name,
       address,
       description,
@@ -77,7 +63,8 @@ function PurchaseSection() {
       uploadMetadata,
       uploadImage,
       parcelDt,
-      handleMultiUploadMetadata
+      handleMultiUploadMetadata,
+      network
     )
   }
 
@@ -110,31 +97,6 @@ function PurchaseSection() {
         />
       )
   }
-  const getMiniMap = () => {
-    const ratio = 5
-    const width = window.innerWidth / ratio
-    const height = window.innerHeight / ratio
-    return (
-      <></>
-      // <div className="d-flex justify-content-center">
-      //   <div
-      //     className="d-flex justify-content-center"
-      //     id="mini-map-container"
-      //     style={{
-      //       position: 'relative',
-      //       overflow: 'hidden',
-      //       backgroundColor: '#00000050',
-      //       width: width,
-      //       height: height,
-      //       minHeight: 250,
-      //       minWidth: 250,
-      //     }}
-      //   >
-      //     <MiniMap />
-      //   </div>
-      // </div>
-    )
-  }
 
   return (
     <>
@@ -144,32 +106,71 @@ function PurchaseSection() {
         style={{ visibility: 'visible' }}
       >
         <div className="offcanvas-title mb-0 ">
-         
-          {showMenu ? '':<>
-
-
-          {!menu ? 
-          <>
-          <button onClick={()=>setMenu(!menu)} className='btn btn-primary text-start py-2  '>  <i className="bi bi-list me-2"></i> <span className='me-2'>Menu</span></button>
-          
-          
-          </>
-        :<>
-
-          <button onClick={()=>setMenu(!menu)}  className='btn text-start  btn-primary mt-2 py-2 w-75'>       <i className="bi bi-x-lg me-5"></i> <span>Menu</span></button> <br />
-          <button   className='btn text-start  btn-primary mt-2 py-2 w-75'>       <i className="icon-menu bi bi-info-circle me-5"  ></i> <span>About</span></button> <br />
-          <button   className='btn text-start  btn-primary mt-2 py-2 w-75'>     <i className="icon-menu bi bi-map  me-5"></i> <span>RoadMap</span></button> <br />
-          <button   className='btn text-start  btn-primary mt-2 py-2 w-75'>   <i  className="icon-menu"><img className="me-5" height="20" width="20" src="https://opensea.io/static/images/logos/opensea.svg"/></i> <span>MarketPlace</span></button> <br />
-          <button   className='btn text-start  btn-primary mt-2 py-2 w-75'>       <i className="bi bi-telegram me-5"></i> <span>Telegram</span></button> <br />
-          <button   className='btn text-start  btn-primary mt-2 py-2 w-75'>       <i className="bi bi-twitter me-5"></i> <span>Twitter</span></button> <br />
-       
-
-        </>
-        }
-
-     
-          
-          </>}
+          {showMenu ? (
+            ''
+          ) : (
+            <>
+              {!menu ? (
+                <>
+                  <button
+                    onClick={() => setMenu(!menu)}
+                    className="btn btn-primary text-start py-2  "
+                  >
+                    {' '}
+                    <i className="bi bi-list me-2"></i>{' '}
+                    <span className="me-2">Menu</span>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => setMenu(!menu)}
+                    className="btn text-start  btn-primary mt-2 py-2 w-75"
+                  >
+                    {' '}
+                    <i className="bi bi-x-lg me-5"></i> <span>Menu</span>
+                  </button>{' '}
+                  <br />
+                  <button className="btn text-start  btn-primary mt-2 py-2 w-75">
+                    {' '}
+                    <i className="icon-menu bi bi-info-circle me-5"></i>{' '}
+                    <span>About</span>
+                  </button>{' '}
+                  <br />
+                  <button className="btn text-start  btn-primary mt-2 py-2 w-75">
+                    {' '}
+                    <i className="icon-menu bi bi-map  me-5"></i>{' '}
+                    <span>RoadMap</span>
+                  </button>{' '}
+                  <br />
+                  <button className="btn text-start  btn-primary mt-2 py-2 w-75">
+                    {' '}
+                    <i className="icon-menu">
+                      <img
+                        className="me-5"
+                        height="20"
+                        width="20"
+                        src="https://opensea.io/static/images/logos/opensea.svg"
+                      />
+                    </i>{' '}
+                    <span>MarketPlace</span>
+                  </button>{' '}
+                  <br />
+                  <button className="btn text-start  btn-primary mt-2 py-2 w-75">
+                    {' '}
+                    <i className="bi bi-telegram me-5"></i>{' '}
+                    <span>Telegram</span>
+                  </button>{' '}
+                  <br />
+                  <button className="btn text-start  btn-primary mt-2 py-2 w-75">
+                    {' '}
+                    <i className="bi bi-twitter me-5"></i> <span>Twitter</span>
+                  </button>{' '}
+                  <br />
+                </>
+              )}
+            </>
+          )}
           <a
             className=""
             style={{ float: 'right', marginRight: '20px' }}

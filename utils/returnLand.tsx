@@ -59,10 +59,10 @@ export const returnLand = async (x, y, parcels, address) => {
       store.dispatch(setViewState(3))
     }
   })
-  console.log(parcels)
+  // console.log(parcels)
   parcels.forEach(async (land, i) => {
-    let cx = Number(land.coord) % 1000
-    let cy = Math.ceil(Number(land.coord) / 1000)
+    const cx = Number(land.coord) % 1000
+    const cy = Math.ceil(Number(land.coord) / 1000)
 
     if (
       findLand(

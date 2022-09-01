@@ -172,7 +172,7 @@ const Header = () => {
                       >
                         <button className="btn text-start  btn-primary mt-2 py-2 w-100">
                           {' '}
-                          <i className="bi bi-twitter me-4"></i>{' '}
+                          <i className="bi bi-instagram me-4"></i>{' '}
                           <span className="me-3">Instagram</span>
                         </button>{' '}
                         <br />
