@@ -87,7 +87,7 @@ export const About = () => {
                 <div>
                   <h4 className="pb-2 "> About Us</h4>
                   <p>
-                    We created the Meta-Board the online version of your
+                    We created the Meta-Board,  the online version of your
                     traditional billboard. <br /> <br />
                     <a
                       target="_blank"
@@ -126,7 +126,7 @@ export const About = () => {
                     project, you’re nft.
                     <br /> <br />
                     Anything you like! Through the partnership with Quadspace
-                    each pixel will come with it’s own meta land. Here you can
+                    each pixel will come with its own meta land. Here you can
                     get creative and design anything you like.
                     <br /> <br />
                     So that when people click on your pixel it gives them the
@@ -144,9 +144,9 @@ export const About = () => {
                       target="_blank"
                       href="https://www.TheMillionDollarWebsite.com"
                     >
-                      The Million Dollar Website
+                      The Million Dollar Website  
                     </a>
-                    acted as an advertising board on the internet, selling one
+                    {' '} acted as an advertising board on the internet, selling one
                     million pixels on the web for $1 each.
                     <br /> <br />
                     Back then the web was still very static and there were no
@@ -217,7 +217,7 @@ export const About = () => {
                     <a target="_blank" href="https://metamask.io">
                       Metamask
                     </a>{' '}
-                    or browser like{' '}
+                    or a browser like{' '}
                     <a target="_blank" href="https://brave.com/">
                       Brave
                     </a>{' '}
@@ -250,11 +250,11 @@ export const About = () => {
                     change the image, title, description and url by clicking it
                     and selecting "update token" on the side-panel.
                     <br /> <br />
-                    By connecting your wallet the site will recognizes that you
+                    By connecting your wallet the site will recognize that you
                     own that NFT and allow you to update the content associated
                     with that block.
                     <br /> <br />
-                    And its a simple as that, buy blocks as NFTs then share your
+                    And it's a simple as that, buy blocks as NFTs then share your
                     NFTs, projects and creations in this digital content space
                     with the entire world!
                   </p>
@@ -263,7 +263,7 @@ export const About = () => {
                 <div>
                   <h4 className="pb-2 "> Contact</h4>
                   <p>
-                    For any enquiries, you can get intouch with us through,
+                    For any enquiries, you can get in touch with us through,
                     <i> support@TheMillionDollarWebsite.com</i>
                     <br /> <br />
                   </p>
@@ -285,3 +285,4 @@ export const About = () => {
     </div>
   )
 }
+
