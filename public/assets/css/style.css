@@ -1278,3 +1278,7 @@ ul.timeline>li:before {
     outline: 0;
     box-shadow: none!important;
 }
+
+.image-border {
+    border: 1px solid #aa01b3;
+}

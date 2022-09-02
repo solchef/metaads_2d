@@ -57,6 +57,10 @@ export default function ShareSection() {
         <FacebookIcon size={32} round />
       </FacebookShareButton> */}
 
+      <a href='https://www.instagram.com/TheMillionDollarWebsite/' className="mr-4 fs-12" target="_blank">
+        <i className="bi bi-instagram me-7 mt-2 mr-4" style={{fontSize:"30px", marginRight:"10px"}}></i>{' '}
+      </a>
+    
       <TwitterShareButton
         // title={'THE MILLION DOLLAR WEBSITE!'}
         title="THE MILLION DOLLAR WEBSITE! This is your chance to truly own for the first time a piece of digital history through blockchain technology. We divided the MetaBoard to 1 million pixels. "

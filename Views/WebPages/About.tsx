@@ -41,7 +41,7 @@ export const About = () => {
                     src="https://milliondollartokenpage.com/assets/pixel-block.mp4"
                   ></video> */}
                   <img
-                    className="pb-2 ps-3"
+                    className="pb-2 ps-3 image-border"
                     src="assets/images/step1-min.png"
                     width={'100%'}
                   />
@@ -57,7 +57,7 @@ export const About = () => {
                   >
                   </video> */}
                   <img
-                    className="pb-2 ps-3"
+                    className="pb-2 ps-3 image-border"
                     src="assets/images/step2-min.png"
                     width={'100%'}
                   />
@@ -74,7 +74,7 @@ export const About = () => {
                   </video> */}
 
                   <img
-                    className="pb-2 ps-3"
+                    className="pb-2 ps-3 image-border"
                     src="assets/images/step3-min.png"
                     width={'100%'}
                   />
