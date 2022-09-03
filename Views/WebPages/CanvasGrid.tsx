@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
   ReactSVGPanZoom,
-  fitSelection,
-  zoomOnViewerCenter,
-  fitToViewer,
 } from 'react-svg-pan-zoom'
 import {
   selectLand,
@@ -48,18 +45,15 @@ const CanvasGrid = (props: any) => {
   const [moved, setMoved] = useState(false)
   const { address } = useWeb3Context()
   const [loaded, setLoaded] = useState(false)
-//   const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const land = useAppSelector(selectLand)
   const imageStore = useAppSelector(selectUpdateImage)
   const zoomLevel = useAppSelector(selectZoomLevel)
   const zoomIn = useAppSelector(selectZoomIn)
   const zoomOut = useAppSelector(selectZoomOut)
 
-
-
   useEffect(() => {
-    console.log(window.innerWidth)
-    window.innerWidth >= 768 ? Viewer.current.zoom(500, 0, 0.08) : Viewer.current.zoom(0, 200, 0.042)
+    window.innerWidth >= 768 ? Viewer.current.zoom(500, 10, 0.08) : Viewer.current.zoom(0, 200, 0.042) && setIsMobile(true)
   }, [window.innerWidth])
 
   useEffect(() => {
@@ -79,8 +73,6 @@ const CanvasGrid = (props: any) => {
       }
     })
   }, [])
-
-
 
 
   const handleSelectionEvents = async (x: number, y: number) => {
@@ -138,6 +130,8 @@ const CanvasGrid = (props: any) => {
     }
   }, [imageStore])
 
+
+
   return (
     <>
       <ReactSVGPanZoom
@@ -159,7 +153,7 @@ const CanvasGrid = (props: any) => {
         toolBar="none"
         onChangeTool={(tool: React.SetStateAction<string>) => setTool(tool)}
         value={value}
-        onChangeValue={(value: React.SetStateAction<{}>) => setValue(value)}
+        onChangeValue={(value: React.SetStateAction<any>) => setValue(value)}
         scaleFactorMax={10}
         scaleFactorMin={0.01}
         scaleFactor={1.1}
