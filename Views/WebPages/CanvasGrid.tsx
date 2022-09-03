@@ -1,4 +1,3 @@
-import { Position } from '@react-three/drei/helpers/Position'
 import React, { useEffect, useRef, useState } from 'react'
 import {
   ReactSVGPanZoom,
@@ -19,7 +18,11 @@ import { useAppSelector } from '../../components/store/hooks'
 import { useWeb3Context } from '../../context'
 import { MetaadsContractUnsigned } from '../../utils/readOnly'
 import { returnLand } from '../../utils/returnLand'
-import { selectZoomLevel, selectZoomOut } from '../../components/reducers/Settings';
+import {
+  selectZoomLevel,
+  selectZoomOut,
+  selectShowMenu,
+} from '../../components/reducers/Settings'
 
 const CanvasGrid = (props: any) => {
   const [tool, setTool] = useState('auto')
@@ -28,16 +31,21 @@ const CanvasGrid = (props: any) => {
     SVGMinX: 0,
     SVGMinY: 0,
     miniatureOpen: true,
-    preventPanOutside:true,
+    preventPanOutside: true,
     focus: true,
-    lastAction: "zoom",
+    lastAction: 'zoom',
   })
   const [selector, setSelector] = useState<any>()
   const [imagePreview, setImagePreview] = useState<any>(null)
   const [parcels, setParcels] = useState([])
-  const [minProps, setMinProps] = useState({position:"right", background:"#fff", height:200, width:200})
-  const [toolProps, setToolProps] = useState({position:"none"})
-
+  const [minProps, setMinProps] = useState({
+    position: 'right',
+    background: '#fff',
+    height: 200,
+    width: 200,
+  })
+  const [toolProps, setToolProps] = useState({ position: 'none' })
+  const [moved, setMoved] = useState(false)
   const { address } = useWeb3Context()
   const [loaded, setLoaded] = useState(false)
   const land = useAppSelector(selectLand)
@@ -51,14 +59,12 @@ const CanvasGrid = (props: any) => {
   }, [])
 
   useEffect(() => {
-    if(loaded)
-    Viewer.current.zoomOnViewerCenter(1.1 * zoomLevel)
-  },[zoomOut]);
+    if (loaded) Viewer.current.zoomOnViewerCenter(1.1 * zoomLevel)
+  }, [zoomOut])
 
   useEffect(() => {
-    if(loaded)
-    Viewer.current.zoomOnViewerCenter(0.08 * zoomLevel)
-  },[zoomIn]);
+    if (loaded) Viewer.current.zoomOnViewerCenter(0.08 * zoomLevel)
+  }, [zoomIn])
 
   /* Read all the available methods in the documentation */
   const _zoomOnViewerCenter1 = () => Viewer.current.zoomOnViewerCenter(1.1)
@@ -140,16 +146,17 @@ const CanvasGrid = (props: any) => {
     <>
       <ReactSVGPanZoom
         ref={Viewer}
-        width={"97vw"}
-        height={"92vh"}
+        width={'97vw'}
+        height={'92vh'}
         background={'black'}
         SVGBackground={'black'}
         onClick={(event: { x: any; y: any }) =>
           returnSelector(event.x, event.y)
         }
-        onTouchEnd={(event: { x: any; y: any }) =>
-        returnSelector(event.x, event.y)
-      }
+        onTouchEnd={(event: { changedPoints: any; x: any; y: any }) =>
+          {!moved ? returnSelector(event?.changedPoints[0]?.x, event?.changedPoints[0]?.y) : setMoved(false)}
+        }
+        onTouchMove={(e:any) => {setMoved(true)}}
         miniatureProps={minProps}
         toolbarProps={toolProps}
         tool={tool}
@@ -162,45 +169,44 @@ const CanvasGrid = (props: any) => {
         scaleFactor={1.1}
         detectAutoPan={false}
         preventPanOutside={true}
-        
       >
         <svg>
-        <svg width={10001} height={10001} xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern
-              id="a"
-              width={10}
-              height={10}
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d="M10 0H0v10"
-                fill="none"
-                stroke="#a301b9"
-                strokeWidth="1"
-              />
-            </pattern>
-            <pattern
-              id="b"
-              width={100}
-              height={100}
-              patternUnits="userSpaceOnUse"
-            >
-              <path fill="url(#a)" d="M0 0h100v100H0z" />
-              <path d="M100 0H0v100" fill="none" stroke="#a301b9" />
-            </pattern>
-          </defs>
-          <rect style={{ width: '100%', height: '100%' }} fill="url(#b)" />
-          <image
-            xlinkHref="https://api.quadspace.io/uploads/adspsdace.png"
-            x="0"
-            y="0"
-            width={10000}
-            height={10000}
-          />
-          {selector}
-          {imagePreview}
-        </svg>
+          <svg width={10001} height={10001} xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern
+                id="a"
+                width={10}
+                height={10}
+                patternUnits="userSpaceOnUse"
+              >
+                <path
+                  d="M10 0H0v10"
+                  fill="none"
+                  stroke="#a301b9"
+                  strokeWidth="1"
+                />
+              </pattern>
+              <pattern
+                id="b"
+                width={100}
+                height={100}
+                patternUnits="userSpaceOnUse"
+              >
+                <path fill="url(#a)" d="M0 0h100v100H0z" />
+                <path d="M100 0H0v100" fill="none" stroke="#a301b9" />
+              </pattern>
+            </defs>
+            <rect style={{ width: '100%', height: '100%' }} fill="url(#b)" />
+            <image
+              xlinkHref="https://api.quadspace.io/uploads/adspsdace.png"
+              x="0"
+              y="0"
+              width={10000}
+              height={10000}
+            />
+            {selector}
+            {imagePreview}
+          </svg>
         </svg>
       </ReactSVGPanZoom>
     </>
