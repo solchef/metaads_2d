@@ -20,6 +20,7 @@ import Main from './Main'
 import { RoadMap } from './RoadMap'
 import { CustomizeSection } from './CustomizeSection'
 import { handleUpdateData } from '../../utils/handleUpdateData'
+import ShareSection from '../../components/ShareSection'
 
 function PurchaseSection() {
   const { uploadMetadata, uploadImage, handleMultiUploadMetadata } = useIPFS()
@@ -103,144 +104,43 @@ function PurchaseSection() {
       <div
         className={`offcanvas offcanvas-start  ${showMenu && 'show'}`}
         data-bs-backdrop="false"
+        id="menu"
         style={{ visibility: 'visible' }}
       >
-        <div className="offcanvas-title mb-0 ">
-          {showMenu ? (
-            ''
-          ) : (
-            <>
-              {!menu ? (
-                <>
-                  <button
-                    onClick={() => setMenu(!menu)}
-                    className="btn btn-primary text-start py-2  "
-                  >
-                    {' '}
-                    <i className="bi bi-list me-2"></i>{' '}
-                    <span className="me-2">Menu</span>
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    onClick={() => setMenu(!menu)}
-                    className="btn text-start  btn-primary mt-2 py-2 w-75"
-                  >
-                    {' '}
-                    <i className="bi bi-x-lg me-5"></i> <span>Menu</span>
-                  </button>{' '}
-                  <br />
-                  <button className="btn text-start  btn-primary mt-2 py-2 w-75">
-                    {' '}
-                    <i className="icon-menu bi bi-info-circle me-5"></i>{' '}
-                    <span>About</span>
-                  </button>{' '}
-                  <br />
-                  <button className="btn text-start  btn-primary mt-2 py-2 w-75">
-                    {' '}
-                    <i className="icon-menu bi bi-map  me-5"></i>{' '}
-                    <span>RoadMap</span>
-                  </button>{' '}
-                  <br />
-                  <button className="btn text-start  btn-primary mt-2 py-2 w-75">
-                    {' '}
-                    <i className="icon-menu">
-                      <img
-                        className="me-5"
-                        height="20"
-                        width="20"
-                        src="https://opensea.io/static/images/logos/opensea.svg"
-                      />
-                    </i>{' '}
-                    <span>MarketPlace</span>
-                  </button>{' '}
-                  <br />
-                  <button className="btn text-start  btn-primary mt-2 py-2 w-75">
-                    {' '}
-                    <i className="bi bi-telegram me-5"></i>{' '}
-                    <span>Telegram</span>
-                  </button>{' '}
-                  <br />
-                  <button className="btn text-start  btn-primary mt-2 py-2 w-75">
-                    {' '}
-                    <i className="bi bi-twitter me-5"></i> <span>Twitter</span>
-                  </button>{' '}
-                  <br />
-                </>
-              )}
-            </>
-          )}
-          <a
-            className=""
-            style={{ float: 'right', marginRight: '20px' }}
-            onClick={() => {
-              dispatch(setShowMenu(!showMenu))
-              dispatch(setViewState(4))
-            }}
-            href="#"
-          >
-            {showMenu && <i className="fa fa-close"></i>}
-          </a>
-          {/* {viewState !== 0 && showMenu ? getMiniMap() : ''} */}
-        </div>
-        {getVisibilityMode()}
-      </div>
-      <div
-        data-bs-scroll="true"
-        className="offcanvas show-mobile offcanvas-top"
-        data-bs-backdrop="false"
-        tabIndex={-1}
-        id="offcanvasTop"
-        aria-labelledby="offcanvasTopLabel"
-      >
-        <div className="offcanvas-header">
-          <h5 id="offcanvasTopLabel">filter</h5>
-          <button
-            type="button"
-            className="btn-close text-reset"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          />
-        </div>
-        <div className="offcanvas-body">
-          <div className="filter flex-column d-flex ms-auto ">
-            <div className="mb-3 checkbox checkbox-available">
-              <input
-                id="checkboxAvailable"
-                className="styled"
-                type="checkbox"
-                defaultChecked
-                disabled
-              />
-              <label htmlFor="checkboxAvailable">Available to Buy</label>
+        <div className="container  p-0">
+          <div className="card border-0">
+            <div className="card-header">
+              <div className="d-flex justify-content-between">
+                <img
+                  className="mt-4 me-4 hide-mobile"
+                  src="assets/images/million-dollar-logo.svg"
+                  height={100}
+                  width={100}
+                />
+                <div className="p-1 mt-3">
+                  <h3 className='text-primary'>THE MILLION DOLLAR WEBSITE</h3>
+                  <h6 className='text-muted'><i>TMDW is the homepage billboard of the Metaverse!</i></h6>
+                </div>
+                <a
+                  href="#"
+                  onClick={() => {
+                    dispatch(setShowMenu(!showMenu))
+                    dispatch(setViewState(4))
+                  }}
+                >
+                  {showMenu && <i className="fa fa-close fa-xl mt-2" />}
+                </a>
+              </div>
             </div>
-            <div className="mb-3 checkbox checkbox-own">
-              <input
-                id="checkboxOwn"
-                type="checkbox"
-                className="styled"
-                defaultChecked
-              />
-              <label htmlFor="checkboxOwn">PREMIUM ADSPACE</label>
-            </div>
-            <div className="mb-3 checkbox checkbox-own">
-              <input
-                id="checkboxOwn"
-                type="checkbox"
-                className="styled"
-                defaultChecked
-              />
-              <label htmlFor="checkboxOwn">I Already Own</label>
-            </div>
-            <div className="checkbox checkbox-sold">
-              <input
-                id="checkboxSold"
-                type="checkbox"
-                className="styled"
-                defaultChecked
-              />
-              <label htmlFor="checkboxSold">Already Sold</label>
+            <div className="card-body  scroll">
+              {getVisibilityMode()}
+
+              <div className="text-center mt-2">
+                <p> Share with your friends and followers</p>
+                <div className="d-flex mt-2 justify-content-center">
+                  <ShareSection />
+                </div>
+              </div>
             </div>
           </div>
         </div>

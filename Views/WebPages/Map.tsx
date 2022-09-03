@@ -442,7 +442,7 @@ const GreenSquare = ({
         <mesh position={landPosition} ref={ref} rotation={[-Math.PI / 2, 0, 0]}>
           <planeBufferGeometry args={[x, y]} />
           <meshBasicMaterial
-            ref={land}
+            ref={land}x
             map={uploadImage}
             color="#ffffff"
             attach="material"
