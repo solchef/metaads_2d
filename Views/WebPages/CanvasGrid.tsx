@@ -143,10 +143,11 @@ const CanvasGrid = (props: any) => {
         onClick={(event: { x: any; y: any }) =>
           returnSelector(event.x, event.y)
         }
-        onTouchEnd={(event: { changedPoints: any; x: any; y: any }) =>
-          {!moved ? returnSelector(event?.changedPoints[0]?.x, event?.changedPoints[0]?.y) : setMoved(false)}
-        }
+        onTouchStart={(e:any) => {e.touches.length === 2 && setMoved(true)}}
         onTouchMove={(e:any) => {setMoved(true)}}
+        onTouchEnd={(event: { changedPoints: any; x: any; y: any }) =>
+        {!moved ? returnSelector(event?.changedPoints[0]?.x, event?.changedPoints[0]?.y) : setMoved(false)}
+      }
         miniatureProps={minProps}
         toolbarProps={toolProps}
         tool={tool}
