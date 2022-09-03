@@ -54,9 +54,6 @@ const CanvasGrid = (props: any) => {
   const _fitSelection2 = () => setValue(fitSelection(value, 40, 40, 200, 200))
   const _fitToViewer2 = () => setValue(fitToViewer(value))
 
-    
-
-
     useEffect(() => {
         MetaadsContractUnsigned.getParcels().then((list) => {
           if (list.length > 0) setParcels(list)
@@ -79,14 +76,15 @@ const CanvasGrid = (props: any) => {
       }
 
     const returnSelector = (x: number,y: number) => {
+        store.dispatch(setViewState(2))
         const coordX = Math.floor(x/10) * 10
         const coordY = Math.floor(y/10) * 10
-        setSelector(<rect x={coordX} y={coordY} height={land.h * 10} width={land.w * 10 }style={{fill: "#00cc00"}}/>)
+        setSelector(<rect x={coordX} y={coordY} height={land.h * 10} width={land.w * 10 }style={{fill: "#fff"}}/>)
         handleSelectionEvents(coordX/10,coordY/10)
     }
 
     useEffect(() => {
-        setSelector(<rect x={land.x * 10} y={land.y * 10} height={land.h * 10} width={land.w * 10} style={{fill: "#00cc00"}}/>)
+        setSelector(<rect x={land.x * 10} y={land.y * 10} height={land.h * 10} width={land.w * 10} style={{fill: "#fff"}}/>)
     },[land.h, land.w])
 
     useEffect(() => {

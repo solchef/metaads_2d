@@ -1285,30 +1285,8 @@ ul.timeline>li:before {
     padding: 0px;
 }
 
-.scroll {
-    max-height: 800px;
-    overflow-y: auto;
-}
-
 #menu {
     color: black;
-}
-
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-
-.scroll::-webkit-scrollbar {
-    display: none;
-}
-
-
-/* Hide scrollbar for IE, Edge and Firefox */
-
-.scroll {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
 }
 
 #menu .text-primary {
@@ -1317,4 +1295,18 @@ ul.timeline>li:before {
 
 #menu .card-header {
     background-color: transparent;
+}
+
+#menu .scroll::-webkit-scrollbar {
+    display: none;
+}
+
+#menu .scroll {
+    max-height: 800px;
+    overflow-y: auto;
+}
+
+#menu .scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }

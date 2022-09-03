@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { setParcel, setViewState } from '../components/reducers/Settings'
+import { setParcel, setShowMenu, setViewState } from '../components/reducers/Settings'
 import { store } from '../components/store'
 import { InitialParcels, QuadSpaceContract } from './constants'
 
@@ -11,6 +11,7 @@ export const findLand = (x1, y1, x2, y2, x, y) => {
 }
 
 export const returnLand = async (x, y, parcels, address) => {
+  store.dispatch(setShowMenu(true))
   store.dispatch(setViewState(2))
   
   let pos = y * 1000 + x
