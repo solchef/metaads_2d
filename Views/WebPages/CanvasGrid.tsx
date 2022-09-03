@@ -30,7 +30,7 @@ const CanvasGrid = (props: any) => {
   const [value, setValue] = useState({
     SVGMinX: 0,
     SVGMinY: 0,
-    miniatureOpen: true,
+    miniatureOpen: false,
     preventPanOutside: true,
     focus: true,
     lastAction: 'zoom',
@@ -39,7 +39,7 @@ const CanvasGrid = (props: any) => {
   const [imagePreview, setImagePreview] = useState<any>(null)
   const [parcels, setParcels] = useState([])
   const [minProps, setMinProps] = useState({
-    position: 'right',
+    position: 'none',
     background: '#fff',
     height: 200,
     width: 200,
@@ -48,15 +48,19 @@ const CanvasGrid = (props: any) => {
   const [moved, setMoved] = useState(false)
   const { address } = useWeb3Context()
   const [loaded, setLoaded] = useState(false)
+//   const [isMobile, setIsMobile] = useState(false);
   const land = useAppSelector(selectLand)
   const imageStore = useAppSelector(selectUpdateImage)
   const zoomLevel = useAppSelector(selectZoomLevel)
   const zoomIn = useAppSelector(selectZoomIn)
   const zoomOut = useAppSelector(selectZoomOut)
 
+
+
   useEffect(() => {
-    Viewer.current.zoom(500, 0, 0.08)
-  }, [])
+    console.log(window.innerWidth)
+    window.innerWidth >= 768 ? Viewer.current.zoom(500, 0, 0.08) : Viewer.current.zoom(0, 200, 0.042)
+  }, [window.innerWidth])
 
   useEffect(() => {
     if (loaded) Viewer.current.zoomOnViewerCenter(1.1 * zoomLevel)
@@ -66,17 +70,6 @@ const CanvasGrid = (props: any) => {
     if (loaded) Viewer.current.zoomOnViewerCenter(0.08 * zoomLevel)
   }, [zoomIn])
 
-  /* Read all the available methods in the documentation */
-  const _zoomOnViewerCenter1 = () => Viewer.current.zoomOnViewerCenter(1.1)
-  const _zoomOnViewerCenter3 = () => Viewer.current.zoomOnViewerCenter(0.9)
-
-  const _fitSelection1 = () => Viewer.current.fitSelection(40, 40, 200, 200)
-  const _fitToViewer1 = () => Viewer.current.fitToViewer()
-
-  /* keep attention! handling the state in the following way doesn't fire onZoom and onPam hooks */
-  const _zoomOnViewerCenter2 = () => setValue(zoomOnViewerCenter(value, 1.1))
-  const _fitSelection2 = () => setValue(fitSelection(value, 40, 40, 200, 200))
-  const _fitToViewer2 = () => setValue(fitToViewer(value))
 
   useEffect(() => {
     MetaadsContractUnsigned.getParcels().then((list) => {
@@ -86,6 +79,9 @@ const CanvasGrid = (props: any) => {
       }
     })
   }, [])
+
+
+
 
   const handleSelectionEvents = async (x: number, y: number) => {
     returnLand(x, y, parcels, address)
@@ -165,7 +161,7 @@ const CanvasGrid = (props: any) => {
         value={value}
         onChangeValue={(value: React.SetStateAction<{}>) => setValue(value)}
         scaleFactorMax={10}
-        scaleFactorMin={0.07}
+        scaleFactorMin={0.01}
         scaleFactor={1.1}
         detectAutoPan={false}
         preventPanOutside={true}
