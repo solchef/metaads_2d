@@ -17,6 +17,8 @@ export const ImageInfoButton = () => {
     fetch(parcelData.datauri, { method: 'GET' }).then((res) => {
       res.json().then((data) => {
         setMetaDetails(data.message[0])
+      }).catch(e => {
+          // console.log(e)
       })
     })
   }, [parcelData])
@@ -73,7 +75,7 @@ export const ImageInfoButton = () => {
         </div>
 
         {address &&
-        address.toLowerCase() !== parcelData.address.toLowerCase() ? (
+        address.toLowerCase() === parcelData.address.toLowerCase() ? (
           <div className="d-flex ">
             <a
               className="btn-primary w-100 fs-7 text-nowrap hoverable me-2 mt-4 d-block  btn-md "

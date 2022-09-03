@@ -46,16 +46,17 @@ export const CustomizeSection = ({
       setSelectedFile(e.target.files[0].name)
       setMintImage(e.target.files)
       setPreview(URL.createObjectURL(e.target.files[0]))
-      getBase64(e.target.files[0]).then((data) => {
-        const manager1 = new LoadingManager()
-        const texture = new TextureLoader(manager1).load(
-          URL.createObjectURL(e.target.files[0])
-        )
-        manager1.onLoad = () => {
-          texture.needsUpdate = true
-          dispatch(setUpdateImage(texture))
-        }
-      })
+      dispatch(setUpdateImage(URL.createObjectURL(e.target.files[0])))
+      // getBase64(e.target.files[0]).then((data) => {
+        // const manager1 = new LoadingManager()
+        // const texture = new TextureLoader(manager1).load(
+        //   URL.createObjectURL(e.target.files[0])
+        // )
+        // manager1.onLoad = () => {
+        //   texture.needsUpdate = true
+        //   dispatch(setUpdateImage(texture))
+        // }
+      // })
     } else if (
       e.target.files.length &&
       e.target.files[0].size / 1024 / 1024 > 5
@@ -240,7 +241,7 @@ export const CustomizeSection = ({
          {network && network.chainId === 1 ?
             <h4>{mintingDetail}</h4>
                 : 
-            <h4 className='text-danger'>You are conneted to the wrong network. Please switch to Mainnet to mint</h4>
+            <h4 className='text-danger'>You are connected to the wrong network. Please switch to Mainnet to mint</h4>
             }     
            </div>
 

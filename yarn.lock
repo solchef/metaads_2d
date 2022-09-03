@@ -11956,7 +11956,7 @@ prompts@^2.0.1, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.0, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -12350,6 +12350,14 @@ react-step-wizard@^5.3.11:
   version "5.3.11"
   resolved "https://registry.yarnpkg.com/react-step-wizard/-/react-step-wizard-5.3.11.tgz#a52b46db772c0340dd6f45f93716d2afcf2196e2"
   integrity sha512-TD3ocUdt4XWvisTNEiATh+cFuh1RK0LgvYqOResTIhLtFmdWnXzFVaNIZJ3qzW5Bm6yeotzZ4KAmRjmsqBXnWQ==
+
+react-svg-pan-zoom@^3.11.0:
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/react-svg-pan-zoom/-/react-svg-pan-zoom-3.11.0.tgz#48e5d092b88e99e330ccadd96bde0ed7ca71c898"
+  integrity sha512-xK2tpfp4YksHOfyMZH5zXP52ARLSBgkoJgWNJmJ1B+6O1tkuf23TQp7Q4m9GG5IRSK5KWO0JEGEWlNYG9+iiug==
+  dependencies:
+    prop-types "^15.8.0"
+    transformation-matrix "^2.11.1"
 
 react-three-fiber@6.0.13:
   version "6.0.13"
@@ -14145,6 +14153,11 @@ tr46@~0.0.3:
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
   integrity sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==
 
+transformation-matrix@^2.11.1:
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/transformation-matrix/-/transformation-matrix-2.12.0.tgz#cb826a23aa5d675d18940215ccb7613b8587830f"
+  integrity sha512-BbzXM7el7rNwIr1s87m8tcffH5qgY+HYROLn3BStRU9Y6vYTL37YZKadfNPEvGbP813iA1h8qflo4pa2TomkyQ==
+
 trim-newlines@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-3.0.1.tgz#260a5d962d8b752425b32f3a7db0dcacd176c144"
@@ -14194,7 +14207,7 @@ ts-invariant@^0.10.3:
   dependencies:
     tslib "^2.1.0"
 
-ts-node@^10.8.1:
+ts-node@^10.9.1:
   version "10.9.1"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.9.1.tgz#e73de9102958af9e1f0b168a6ff320e25adcff4b"
   integrity sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==

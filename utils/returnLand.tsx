@@ -11,9 +11,10 @@ export const findLand = (x1, y1, x2, y2, x, y) => {
 }
 
 export const returnLand = async (x, y, parcels, address) => {
+  store.dispatch(setViewState(2))
+  
   let pos = y * 1000 + x
   pos = pos + 1
-  // console.log(parcels)
   let landpoint = {
     parcId: 0,
     data: false,
@@ -89,16 +90,7 @@ export const returnLand = async (x, y, parcels, address) => {
         address: land.owner,
         datauri: land.uri,
       }
-
       store.dispatch(setViewState(3))
-
-      // if (address) {
-      //   if (address.toLowerCase() == land.owner.toLowerCase()) {
-      //     store.dispatch(setViewState(6))
-      //   } else {
-      //     store.dispatch(setViewState(3))
-      //   }
-      // }
     }
   })
 

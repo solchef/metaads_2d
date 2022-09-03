@@ -41,6 +41,7 @@
     "react-scripts": "5.0.1",
     "react-share": "^4.4.0",
     "react-step-wizard": "^5.3.11",
+    "react-svg-pan-zoom": "^3.11.0",
     "react-three-fiber": "6.0.13",
     "react-toastify": "^9.0.8",
     "react-use": "^17.4.0",

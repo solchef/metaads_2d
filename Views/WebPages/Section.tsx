@@ -207,8 +207,8 @@ export const Section = ({ handleSubmit }) => {
               <h4>{mintingDetail}</h4>
             ) : (
               <h4 className="text-danger">
-                You are conneted to the wrong network. Please switch to Mainnet
-                to mint
+                You are connected to the wrong network. Please switch to Mainnet
+                to mint.
               </h4>
             )}
             {unmintableIDs.length > 0 && (
@@ -226,7 +226,7 @@ export const Section = ({ handleSubmit }) => {
               {balance < landData.h * landData.w * quadPrice && (
                 <div className=" text-warning">
                   <p>
-                    You do not have enough Etherium in your connected wallet.
+                    You do not have enough Ethereum in your connected wallet.
                     Please add some funds, refresh and try again.
                   </p>
                 </div>

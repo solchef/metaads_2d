@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '../components/store/hooks'
 // import 'react-minimap/dist/react-minimap.css'
 import { ErrorReload, MapView } from './WebPages/Map'
 import { Loader } from '../utils/loader'
+import CanvasGrid from './WebPages/CanvasGrid'
 
 const MainPage: React.FunctionComponent = () => {
   const reload = useAppSelector(selectReloadPage)
@@ -78,6 +79,14 @@ const MainPage: React.FunctionComponent = () => {
     else document.getElementById('container').style.cursor = 'pointer'
   }, [mouseMove, mouseDown])
 
+  const draw = (ctx, frameCount) => {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+    ctx.fillStyle = 'white'
+    ctx.beginPath()
+    ctx.arc(50, 100, 20*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
+    ctx.fill()
+  }
+
   return (
     <>
       <Fragment>
@@ -96,7 +105,7 @@ const MainPage: React.FunctionComponent = () => {
                 setMouseMove(true)
               }}
             >
-              {reload ? (
+              {/* {reload ? (
                 load && !texture1 && !texture2 ? (
                   showError ? (
                     <ErrorReload />
@@ -113,7 +122,8 @@ const MainPage: React.FunctionComponent = () => {
                 )
               ) : (
                 ''
-              )}
+              )} */}
+              <CanvasGrid />
             </div>
           </div>
         </section>
