@@ -1,3 +1,4 @@
+import { Position } from '@react-three/drei/helpers/Position'
 import React, { useEffect, useRef, useState } from 'react'
 import {
   ReactSVGPanZoom,
@@ -8,6 +9,7 @@ import {
 import {
   selectLand,
   selectUpdateImage,
+  selectZoomIn,
   setLand,
   setShowMenu,
   setViewState,
@@ -17,37 +19,46 @@ import { useAppSelector } from '../../components/store/hooks'
 import { useWeb3Context } from '../../context'
 import { MetaadsContractUnsigned } from '../../utils/readOnly'
 import { returnLand } from '../../utils/returnLand'
+import { selectZoomLevel, selectZoomOut } from '../../components/reducers/Settings';
 
 const CanvasGrid = (props: any) => {
   const [tool, setTool] = useState('auto')
   const Viewer = useRef(null)
   const [value, setValue] = useState({
-    viewerHeight: 400,
-    viewerWidth: 400,
-    SVGHeight: 10001,
     SVGMinX: 0,
     SVGMinY: 0,
-    SVGWidth: 10001,
     miniatureOpen: true,
-    // a: 0.04056742205903155,
-    // b: 0,
-    // c: 0,
-    // d: 0.04056742205903155,
-    // e: 721.7607038365427,
-    // f: 268.517784620847,
-    // focus: true,
-    // lastAction: "zoom",
+    preventPanOutside:true,
+    focus: true,
+    lastAction: "zoom",
   })
   const [selector, setSelector] = useState<any>()
   const [imagePreview, setImagePreview] = useState<any>(null)
   const [parcels, setParcels] = useState([])
+  const [minProps, setMinProps] = useState({position:"right", background:"#fff", height:200, width:200})
+  const [toolProps, setToolProps] = useState({position:"none"})
+
   const { address } = useWeb3Context()
+  const [loaded, setLoaded] = useState(false)
   const land = useAppSelector(selectLand)
   const imageStore = useAppSelector(selectUpdateImage)
+  const zoomLevel = useAppSelector(selectZoomLevel)
+  const zoomIn = useAppSelector(selectZoomIn)
+  const zoomOut = useAppSelector(selectZoomOut)
 
   useEffect(() => {
     Viewer.current.zoom(500, 0, 0.08)
   }, [])
+
+  useEffect(() => {
+    if(loaded)
+    Viewer.current.zoomOnViewerCenter(1.1 * zoomLevel)
+  },[zoomOut]);
+
+  useEffect(() => {
+    if(loaded)
+    Viewer.current.zoomOnViewerCenter(0.08 * zoomLevel)
+  },[zoomIn]);
 
   /* Read all the available methods in the documentation */
   const _zoomOnViewerCenter1 = () => Viewer.current.zoomOnViewerCenter(1.1)
@@ -83,6 +94,7 @@ const CanvasGrid = (props: any) => {
   }
 
   const returnSelector = (x: number, y: number) => {
+    setLoaded(true)
     store.dispatch(setViewState(2))
     const coordX = Math.floor(x / 10) * 10
     const coordY = Math.floor(y / 10) * 10
@@ -128,8 +140,8 @@ const CanvasGrid = (props: any) => {
     <>
       <ReactSVGPanZoom
         ref={Viewer}
-        width={10001}
-        height={10001}
+        width={"97vw"}
+        height={"92vh"}
         background={'black'}
         SVGBackground={'black'}
         onClick={(event: { x: any; y: any }) =>
@@ -138,13 +150,21 @@ const CanvasGrid = (props: any) => {
         onTouchEnd={(event: { x: any; y: any }) =>
         returnSelector(event.x, event.y)
       }
+        miniatureProps={minProps}
+        toolbarProps={toolProps}
         tool={tool}
+        toolBar="none"
         onChangeTool={(tool: React.SetStateAction<string>) => setTool(tool)}
         value={value}
         onChangeValue={(value: React.SetStateAction<{}>) => setValue(value)}
         scaleFactorMax={10}
         scaleFactorMin={0.07}
+        scaleFactor={1.1}
+        detectAutoPan={false}
+        preventPanOutside={true}
+        
       >
+        <svg>
         <svg width={10001} height={10001} xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern
@@ -180,6 +200,7 @@ const CanvasGrid = (props: any) => {
           />
           {selector}
           {imagePreview}
+        </svg>
         </svg>
       </ReactSVGPanZoom>
     </>
