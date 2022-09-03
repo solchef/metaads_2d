@@ -45,7 +45,9 @@ const CanvasGrid = (props: any) => {
   const [moved, setMoved] = useState(false)
   const { address } = useWeb3Context()
   const [loaded, setLoaded] = useState(false)
+  const [zoomed, setZoomed] = useState(false)
   const [isMobile, setIsMobile] = useState(false);
+  const [strokeWidth, setStrokeWidth] = useState(1)
   const land = useAppSelector(selectLand)
   const imageStore = useAppSelector(selectUpdateImage)
   const zoomLevel = useAppSelector(selectZoomLevel)
@@ -57,13 +59,17 @@ const CanvasGrid = (props: any) => {
   }, [window.innerWidth])
 
   useEffect(() => {
-    if (loaded) Viewer.current.zoomOnViewerCenter(1.1 * zoomLevel)
+    // console.log(zoomLevel)
+    zoomed && Viewer.current.zoomOnViewerCenter(1.5)
+  }, [zoomIn])
+
+  useEffect(() => {
+     zoomed && Viewer.current.zoomOnViewerCenter(0.68)
   }, [zoomOut])
 
   useEffect(() => {
-    if (loaded) Viewer.current.zoomOnViewerCenter(0.08 * zoomLevel)
-  }, [zoomIn])
-
+     zoomLevel > 1 && setZoomed(true) 
+ }, [zoomLevel])
 
   useEffect(() => {
     MetaadsContractUnsigned.getParcels().then((list) => {
@@ -73,8 +79,7 @@ const CanvasGrid = (props: any) => {
       }
     })
   }, [])
-
-
+  
   const handleSelectionEvents = async (x: number, y: number) => {
     returnLand(x, y, parcels, address)
     store.dispatch(
@@ -136,8 +141,8 @@ const CanvasGrid = (props: any) => {
     <>
       <ReactSVGPanZoom
         ref={Viewer}
-        width={'97vw'}
-        height={'92vh'}
+        width={window.innerWidth}
+        height={window.innerHeight}
         background={'black'}
         SVGBackground={'black'}
         onClick={(event: { x: any; y: any }) =>
@@ -156,7 +161,7 @@ const CanvasGrid = (props: any) => {
         value={value}
         onChangeValue={(value: React.SetStateAction<any>) => setValue(value)}
         scaleFactorMax={10}
-        scaleFactorMin={0.01}
+        scaleFactorMin={ isMobile ? 0.042 : 0.08}
         scaleFactor={1.1}
         detectAutoPan={false}
         preventPanOutside={true}
@@ -174,7 +179,7 @@ const CanvasGrid = (props: any) => {
                   d="M10 0H0v10"
                   fill="none"
                   stroke="#a301b9"
-                  strokeWidth="1"
+                  strokeWidth={strokeWidth}
                 />
               </pattern>
               <pattern
@@ -184,10 +189,10 @@ const CanvasGrid = (props: any) => {
                 patternUnits="userSpaceOnUse"
               >
                 <path fill="url(#a)" d="M0 0h100v100H0z" />
-                <path d="M100 0H0v100" fill="none" stroke="#a301b9" />
+                <path d="M100 0H0v100" fill="none" stroke="#a301b9" strokeWidth={(strokeWidth * 1.5)} />
               </pattern>
             </defs>
-            <rect style={{ width: '100%', height: '100%' }} fill="url(#b)" />
+            <rect style={{ width: '100%', height: '100%' }} fill="url(#b)"  />
             <image
               xlinkHref="https://api.quadspace.io/uploads/adspsdace.png"
               x="0"
