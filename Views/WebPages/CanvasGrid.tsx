@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react'
 import {
   ReactSVGPanZoom,
@@ -55,17 +56,16 @@ const CanvasGrid = (props: any) => {
   const zoomOut = useAppSelector(selectZoomOut)
 
   useEffect(() => {
-    window.innerWidth >= 768 ? Viewer.current.zoom(500, 10, 0.08) : Viewer.current.zoom(0, 200, 0.042) && setIsMobile(true)
-  }, [window.innerWidth])
+    window.innerWidth >= 768 ? Viewer.current.zoom(600, 10, 0.08) : Viewer.current.zoom(0, 200, 0.042) && setIsMobile(true)
+  }, [])
 
   useEffect(() => {
-    // console.log(zoomLevel)
     zoomed && Viewer.current.zoomOnViewerCenter(1.5)
-  }, [zoomIn, zoomLevel])
+  }, [zoomIn])
 
   useEffect(() => {
      zoomed && Viewer.current.zoomOnViewerCenter(0.68)
-  }, [zoomOut, zoomLevel])
+  }, [zoomOut])
 
   useEffect(() => {
      zoomLevel > 1 && setZoomed(true) 
