@@ -61,11 +61,11 @@ const CanvasGrid = (props: any) => {
   useEffect(() => {
     // console.log(zoomLevel)
     zoomed && Viewer.current.zoomOnViewerCenter(1.5)
-  }, [zoomIn])
+  }, [zoomIn, zoomLevel])
 
   useEffect(() => {
      zoomed && Viewer.current.zoomOnViewerCenter(0.68)
-  }, [zoomOut])
+  }, [zoomOut, zoomLevel])
 
   useEffect(() => {
      zoomLevel > 1 && setZoomed(true) 
