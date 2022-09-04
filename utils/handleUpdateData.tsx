@@ -79,9 +79,9 @@ export const handleUpdateData = async (
     return
   }
 
-  let squrePos = land.y * 1000 + land.x
+  const squrePos = land.y * 1000 + land.x
 
-  let mintableids = []
+  const mintableids = []
   // console.log('minting')
   for (let quad = squrePos; quad < squrePos + land.w; quad++) {
     for (let i = 1; i < land.h; i++) {
@@ -123,7 +123,7 @@ export const handleUpdateData = async (
   }
   store.dispatch(setMintStatus('Uploading parcel image. Please wait'))
 
-  let imgUpload = axios.post(urlconf, formData, config).then((response) => {
+  const imgUpload = axios.post(urlconf, formData, config).then((response) => {
     // console.log(response.data)
   })
 
@@ -148,7 +148,7 @@ export const handleUpdateData = async (
     ipfs: metadata,
   }
 
-  let response = await fetch('/api/metadata/parcels', {
+  const response = await fetch('/api/metadata/parcels', {
     method: 'POST',
     body: JSON.stringify(parcel),
   })
@@ -182,7 +182,7 @@ export const handleUpdateData = async (
       // console.log(parc)
       // console.log(parc.parcId, squrePos, parc.width, parc.height, metadata)
 
-      let txn = await adscontract.updateParcelData(
+      const txn = await adscontract.updateParcelData(
         parc.parcId,
         parc.position,
         parc.width,
@@ -201,7 +201,7 @@ export const handleUpdateData = async (
         })
       }
 
-      let receipt = await txn.wait()
+      const receipt = await txn.wait()
 
       if (receipt) {
         store.dispatch(

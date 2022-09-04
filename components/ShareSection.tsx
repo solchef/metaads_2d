@@ -1,47 +1,13 @@
 import {
-  EmailShareButton,
-  FacebookShareButton,
-  HatenaShareButton,
-  InstapaperShareButton,
-  LineShareButton,
-  LinkedinShareButton,
-  LivejournalShareButton,
-  MailruShareButton,
-  OKShareButton,
-  PinterestShareButton,
-  PocketShareButton,
-  RedditShareButton,
+
   TelegramShareButton,
-  TumblrShareButton,
   TwitterShareButton,
-  ViberShareButton,
-  VKShareButton,
-  WhatsappShareButton,
-  WorkplaceShareButton,
+
 } from 'react-share'
 
 import {
-  EmailIcon,
-  FacebookIcon,
-  FacebookMessengerIcon,
-  HatenaIcon,
-  InstapaperIcon,
-  LineIcon,
-  LinkedinIcon,
-  LivejournalIcon,
-  MailruIcon,
-  OKIcon,
-  PinterestIcon,
-  PocketIcon,
-  RedditIcon,
   TelegramIcon,
-  TumblrIcon,
-  TwitterIcon,
-  ViberIcon,
-  VKIcon,
-  WeiboIcon,
-  WhatsappIcon,
-  WorkplaceIcon,
+  TwitterIcon
 } from 'react-share'
 
 export default function ShareSection() {
@@ -57,7 +23,7 @@ export default function ShareSection() {
         <FacebookIcon size={32} round />
       </FacebookShareButton> */}
 
-      <a href='https://www.instagram.com/TheMillionDollarWebsite/' className="mr-4 fs-12" target="_blank">
+      <a href='https://www.instagram.com/TheMillionDollarWebsite/' className="mr-4 fs-12" target="_blank" rel="noopener noreferrer">
         <i className="bi bi-instagram me-7 mt-2 mr-4" style={{fontSize:"30px", marginRight:"10px"}}></i>{' '}
       </a>
     

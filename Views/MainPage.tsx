@@ -4,7 +4,7 @@ import axios from 'axios'
 import {
   selectReloadPage,
   selectShowMenu,
-  setBoughtedLandList,
+  setBoughtLandList,
   setImage,
   setUpdateImage,
 } from '../components/reducers/Settings'
@@ -30,32 +30,32 @@ const MainPage: React.FunctionComponent = () => {
     setLoad(true)
   }
 
-  const getImage = useCallback(() => {
-    setTimeout(async () => {
-      try {
-        await axios
-          .get('https://api.quadspace.io/uploads/adspsdace.json')
-          .then((data) => {
-            const texture = new TextureLoader().load(data.data)
-            const texture2 = new TextureLoader(manager1).load(
-              './highres-min.png'
-            )
-            const uploadImage = new TextureLoader().load('./defult-sq.png')
-            const ownerLand = new TextureLoader().load('./defult-sq-yellow.png')
-            dispatch(setImage(data.data))
-            dispatch(setUpdateImage(uploadImage))
-            setTexture2(texture2)
-            setTexture1(texture)
-            setTexture3(ownerLand)
-            setLoad(false)
-            setLoaded(true)
-          })
-      } catch (error) {
-        setShowError(true)
-      }
-    }, 2000)
-    setLoaded(true)
-  }, [])
+  // const getImage = useCallback(() => {
+  //   setTimeout(async () => {
+  //     try {
+  //       await axios
+  //         .get('https://api.quadspace.io/uploads/adspsdace.json')
+  //         .then((data) => {
+  //           const texture = new TextureLoader().load(data.data)
+  //           const texture2 = new TextureLoader(manager1).load(
+  //             './highres-min.png'
+  //           )
+  //           const uploadImage = new TextureLoader().load('./defult-sq.png')
+  //           const ownerLand = new TextureLoader().load('./defult-sq-yellow.png')
+  //           dispatch(setImage(data.data))
+  //           dispatch(setUpdateImage(uploadImage))
+  //           setTexture2(texture2)
+  //           setTexture1(texture)
+  //           setTexture3(ownerLand)
+  //           setLoad(false)
+  //           setLoaded(true)
+  //         })
+  //     } catch (error) {
+  //       setShowError(true)
+  //     }
+  //   }, 2000)
+  //   setLoaded(true)
+  // }, [])
 
   // useEffect(() => {
   //   axios.get('https://quadspace.io/api/info').then((data) => {
@@ -63,11 +63,11 @@ const MainPage: React.FunctionComponent = () => {
   //   })
   // }, [])
 
-  useEffect(() => {
-    if (!loaded) {
-      getImage()
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (!loaded) {
+  //     getImage()
+  //   }
+  // }, [getImage, loaded])
 
   const showMenu = useAppSelector(selectShowMenu)
   const [mouseDown, setMouseDown] = useState(false)

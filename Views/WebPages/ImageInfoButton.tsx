@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import { useEffect, useState } from 'react'
 import { getParcel, setViewState } from '../../components/reducers/Settings'
 import ShareSection from '../../components/ShareSection'
@@ -11,7 +12,7 @@ import truncateEthAddress from '../../utils/truncate'
 export const ImageInfoButton = () => {
   const parcelData = useAppSelector(getParcel)
   const { address } = useWeb3Context()
-  const [metaDetails, setMetaDetails] = useState()
+  const [metaDetails, setMetaDetails] = useState<any>()
 
   useEffect(() => {
     fetch(parcelData.datauri, { method: 'GET' }).then((res) => {

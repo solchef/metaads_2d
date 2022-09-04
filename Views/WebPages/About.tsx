@@ -15,6 +15,7 @@ export const About = () => {
         className=" image-border mb-4"
         src="assets/images/step1-min.png"
         width={'100%'}
+        alt="quad"
       />
 
       <p>2- Mint new tokens by selecting ones for sale.</p>
@@ -23,6 +24,7 @@ export const About = () => {
         className="  image-border mb-4"
         src="assets/images/step1-min.png"
         width={'100%'}
+        alt="quad"
       />
 
       <p>3- Update tokens to show off what you've got!</p>
@@ -31,6 +33,7 @@ export const About = () => {
         className="  image-border mb-4"
         src="assets/images/step1-min.png"
         width={'100%'}
+        alt="quad"
       />
 
       <p>It's that simple! Join us now to own a piece of crypto history! ❤️</p>
@@ -43,11 +46,11 @@ export const About = () => {
         billboard.{' '}
       </p>
       <p>
-        <a target="_blank" href="https://www.TheMillionDollarWebsite.com">
+        <a target="_blank" rel="noopener noreferrer" href="https://www.TheMillionDollarWebsite.com">
           The Million Dollar Website
         </a>{' '}
         leads to the domain{' '}
-        <a target="_blank" href="https://www.quadspace.io">
+        <a target="_blank" rel="noopener noreferrer" href="https://www.quadspace.io">
           www.quadspace.io
         </a>
         .Because Quadspace powers the Metaverse component of this project.
@@ -89,7 +92,7 @@ export const About = () => {
       <h4 className="pb-2  mt-4"> Purchase Price ONLY $1 per pixel </h4>
       <p className="w-100">
         When it was created in 2005, milliondollarhomepage.com{' '}
-        <a target="_blank" href="https://www.TheMillionDollarWebsite.com">
+        <a target="_blank" rel="noopener noreferrer" href="https://www.TheMillionDollarWebsite.com">
           The Million Dollar Website
         </a>{' '}
         acted as an advertising board on the internet, selling one million
@@ -103,38 +106,38 @@ export const About = () => {
       <p>
         Today the internet is a lot more fun to play with and cryptocurrencies
         like Bitcoin
-        <a target="_blank" href="https://bitcoin.org/en/faq">
+        <a target="_blank" rel="noopener noreferrer" href="https://bitcoin.org/en/faq">
           Bitcoin
         </a>
         and{' '}
-        <a target="_blank" href="https://ethereum.org/en/what-is-ethereum">
+        <a target="_blank" rel="noopener noreferrer" href="https://ethereum.org/en/what-is-ethereum">
           {' '}
           Ethereum
         </a>{' '}
         have ushered in a whole new age known as{' '}
         <a
-          target="_blank"
+          target="_blank" rel="noopener noreferrer"
           href="https://ethereum.org/en/developers/docs/web2-vs-web3/"
         >
           Web3
         </a>{' '}
         where digitally native money and assets, represented by
         <a
-          target="_blank"
+          target="_blank" rel="noopener noreferrer"
           href="https://blog.coinbase.com/a-beginners-guide-to-ethereum-tokens-fbd5611fe30b"
         >
           tokens
         </a>{' '}
         and{' '}
         <a
-          target="_blank"
+          target="_blank" rel="noopener noreferrer"
           href="https://opensea.io/blog/guides/non-fungible-tokens"
         >
           NFTs
         </a>{' '}
         , can be transacted openly{' '}
         <a
-          target="_blank"
+          target="_blank" rel="noopener noreferrer"
           href="https://www.investopedia.com/terms/p/peertopeer-p2p-service.asp"
         >
           peer-to-peer
@@ -158,11 +161,11 @@ export const About = () => {
         description and url to another website! To mint new blocks and make use
         of Ethereum and Web3 technologies you need to have a Web3 enabled plugin
         like{' '}
-        <a target="_blank" href="https://metamask.io">
+        <a target="_blank" rel="noopener noreferrer" href="https://metamask.io">
           Metamask
         </a>{' '}
         or a browser like{' '}
-        <a target="_blank" href="https://brave.com/">
+        <a target="_blank" rel="noopener noreferrer" href="https://brave.com/">
           Brave
         </a>{' '}
         , which has a native crypto wallet, and to have some cryptocurrency in
@@ -170,19 +173,19 @@ export const About = () => {
       </p>
       <p>
         You'll need{' '}
-        <a target="_blank" href="https://ethereum.org/en/eth/">
+        <a target="_blank" rel="noopener noreferrer" href="https://ethereum.org/en/eth/">
           Ether
         </a>{' '}
         in your wallet to pay for the{' '}
         <a
-          target="_blank"
+          target="_blank" rel="noopener noreferrer"
           href="https://postergrind.com/how-much-does-it-cost-to-mint-an-nft/"
         >
           minting fees
         </a>{' '}
         of the NFT collection and{' '}
         <a
-          target="_blank"
+          target="_blank" rel="noopener noreferrer"
           href="https://www.coindesk.com/learn/ethereum-101/ethereum-mining-works"
         >
           mining fees

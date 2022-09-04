@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
@@ -107,12 +108,12 @@ export const MapView = ({ minMap, texture1, texture2, texture3 }) => {
 
   // load user Lands
   useEffect(() => {
-    let markedOwned = []
+    const markedOwned = []
     parcels.forEach((land) => {
       if (address) {
         if (address.toLowerCase() == land.owner.toLowerCase()) {
-          let x = Number(land.coord) % 1000
-          let y = Math.ceil(Number(land.coord) / 1000)
+          const x = Number(land.coord) % 1000
+          const y = Math.ceil(Number(land.coord) / 1000)
           markedOwned.push({
             landPosition: new Vector3(x - 1, 1, y - 1),
             landSize: { w: Number(land.width), h: Number(land.width) },
@@ -262,7 +263,7 @@ const GreenSquare = ({
   // const [playError] = useSound('./errorSound.mp3')
   const ref = useRef()
   const land = useRef()
-  const boughtedLandListData = store.getState().settings.boughtedLandList
+  const boughtedLandListData = store.getState().settings.boughtLandList
   const widthMap = 1000
   const heightMap = 1000
   const { gl } = useThree()

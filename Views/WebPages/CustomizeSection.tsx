@@ -27,7 +27,6 @@ export const CustomizeSection = ({
   const [preview, setPreview] = useState(null)
   const [selectedFile, setSelectedFile] = useState('Upload Image')
 
-  useEffect(() => {}, [])
 
   const mintingDetail = useAppSelector(getMintingstatus)
   const {  network } = useWeb3Context()

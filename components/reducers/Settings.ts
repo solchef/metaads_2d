@@ -8,7 +8,7 @@ export interface Settings {
   viewState: number
   selectMode: boolean
   showMenu: boolean
-  boughtedLandList: []
+  boughtLandList: []
   reloadPage: boolean
   zoomIn: number
   zoomOut: number
@@ -46,7 +46,7 @@ const initialState: Settings = {
   viewState: 0,
   showMenu: true,
   selectMode: true,
-  boughtedLandList: [],
+  boughtLandList: [],
   reloadPage: true,
   zoomIn: 1,
   zoomOut: 1,
@@ -96,7 +96,7 @@ export const counterSlice = createSlice({
       state.selectMode = action.payload
     },
     setBoughtedLandList: (state, action: PayloadAction<[]>) => {
-      state.boughtedLandList = action.payload
+      state.boughtLandList = action.payload
     },
     setReloadPage: (state, action: PayloadAction<boolean>) => {
       state.reloadPage = action.payload
@@ -155,7 +155,7 @@ export const {
   set_3dMode,
   setViewState,
   setSelectMode,
-  setBoughtedLandList,
+  setBoughtedLandList: setBoughtLandList,
   setReloadPage,
   setZoomIn,
   setShowMenu,
@@ -181,7 +181,7 @@ export const selectSelectMode = (state: RootState) => state.settings.selectMode
 export const selectSelectLand = (state: RootState) =>
   state.settings.selectedLand
 export const selectBoughtedLandList = (state: RootState) =>
-  state.settings.boughtedLandList
+  state.settings.boughtLandList
 export const selectReloadPage = (state: RootState) => state.settings.reloadPage
 export const selectShowMenu = (state: RootState) => state.settings.showMenu
 export const selectZoomIn = (state: RootState) => state.settings.zoomIn
@@ -209,7 +209,7 @@ export const setLandData =
 export const setBoughtedLandListData =
   (view: []): AppThunk =>
   (dispatch) => {
-    dispatch(setBoughtedLandList(view))
+    dispatch(setBoughtLandList(view))
   }
 
 export const set_3dModeData =
