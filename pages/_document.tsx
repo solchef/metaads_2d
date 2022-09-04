@@ -25,7 +25,7 @@ export default function Document() {
 
           <title>QUADSPACE.IO</title>
           {/* Favicon*/}
-          <link rel="icon" type="image/png" href="assets/favicon.png" />
+          <link rel="icon" type="image/png" href="/assets/favicon.png" />
           {/* Core theme CSS (includes Bootstrap)*/}
           <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -53,43 +53,10 @@ export default function Document() {
           />
         </div>
       </MainHead>
-      {/* <Head>
-        <title>QuadSpace</title>
-        <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-      </Head> */}
       <body>
         <Main />
         <NextScript />
-        {/* <script type="text/javascript" src="https://unpkg.com/default-passive-events"></script> */}
-
-        {/* <script async src="https://code.jquery.com/jquery-1.9.1.js"></script>
-        <script
-          async
-          src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"
-        ></script>
-        <script
-          async
-          src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        ></script>
-        <script
-          async
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        ></script>
-        <script
-          async
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        ></script>
-        <script async src="/assets/js/scripts.js"></script>
-        <script
-          async
-          src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
-        ></script> */}
+    
       </body>
     </Html>
   )

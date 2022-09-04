@@ -17,7 +17,6 @@ import { About } from './About'
 import { ImageInfoButton } from './ImageInfoButton'
 import { Sellsection } from './sellsection'
 import { Section } from './Section'
-import Main from './Main'
 import { RoadMap } from './RoadMap'
 import { CustomizeSection } from './CustomizeSection'
 import { handleUpdateData } from '../../utils/handleUpdateData'
@@ -87,7 +86,6 @@ function PurchaseSection() {
       )
     if (showMenu && viewState === 2) return <Sellsection />
     if (showMenu && viewState === 3) return <ImageInfoButton />
-    if (showMenu && viewState === 4) return <Main />
     if (showMenu && viewState === 6)
       return (
         <CustomizeSection
@@ -108,35 +106,40 @@ function PurchaseSection() {
         id="menu"
         style={{ visibility: 'visible' }}
       >
-        <div className="container  p-0">
-          <div className="card border-0 vh-100">
+        <div className="container  p-0 bg-white rounded">
+          <div className="card border-0 vh-100 ">
+       
             <div className="card-header">
+            <a
+                  href="#"
+                  className='position-absolute p-3'
+                  style={{right:"0"}}
+                  onClick={() => {
+                    dispatch(setShowMenu(!showMenu))
+                  }}
+                >
+                 {showMenu && <i className="fa fa-close fa-xl pr-3" />}
+            </a>
               <div className="d-flex justify-content-between">
                 <img
-                  className="mt-4 me-4 hide-mobile"
+                  className="mt-4 me-2"
                   alt="img"
                   src="assets/images/million-dollar-logo.svg"
                   height={100}
                   width={100}
                 />
                 <div className="p-1 mt-3">
-                  <h3 className='text-primary'>THE MILLION DOLLAR WEBSITE</h3>
-                  <h6 className='text-muted fst-italic'>TMDW is the homepage billboard of the Metaverse!</h6>
+                  <h3 className='text-primary'>THE MILLION <br/> DOLLAR WEBSITE</h3>
+                  <h6 className='text-muted  fst-italic'>TMDW is the homepage billboard of the Metaverse!</h6>
                 </div>
-                <a
-                  href="#"
-                  onClick={() => {
-                    dispatch(setShowMenu(!showMenu))
-                    dispatch(setViewState(4))
-                  }}
-                >
-                  {showMenu && <i className="fa fa-close fa-xl mt-2" />}
-                </a>
-              </div>
-            </div>
-            <div className="card-body  scroll">
-              {getVisibilityMode()}
 
+            
+            
+              </div>
+              
+            </div>
+              <div className="scroll vh-100">
+              {getVisibilityMode()}
               </div>
                 
             <div className="card-footer">

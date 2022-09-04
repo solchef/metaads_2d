@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-target-blank */
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { getParcel, setViewState } from '../../components/reducers/Settings'
 import ShareSection from '../../components/ShareSection'
 import { store } from '../../components/store'
@@ -25,10 +25,11 @@ export const ImageInfoButton = () => {
   }, [parcelData])
 
   return (
-    <div className="offcanvas-body image-info  text-center">
+    <Fragment>
+    <div className="card-body px-0 text-center">
       <div className="d-flex justify-content-center">
         <div className="square-grid full-size">
-          <div className='image-container pt-3'>
+          <div className='image-container pt-4'>
           <Image
             layout='intrinsic'
             width={150}
@@ -43,12 +44,18 @@ export const ImageInfoButton = () => {
           </div>
         </div>
       </div>
+      </div>
+
       <hr className="" />
-      <div className="">
+
+      <div className="card-body text-center">
+        
         <h3 className='text-primary'>
           {metaDetails ? metaDetails?.name : `Token #${parcelData.position}`}
         </h3>
+
         <h4>{parcelData.name}</h4>
+
         <span className=" link d-block pb-1 ">
           <a
             href={metaDetails ? metaDetails?.url : parcelData.url}
@@ -60,6 +67,7 @@ export const ImageInfoButton = () => {
             </u>
           </a>
         </span>
+
         <p className="text-start ">
           {metaDetails ? metaDetails?.QuadDescription : parcelData.description}
         </p>
@@ -113,7 +121,8 @@ export const ImageInfoButton = () => {
             </a>
           </div>
         )}
-      </div>
+    
     </div>
+    </Fragment>
   )
 }

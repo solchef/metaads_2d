@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 // import Image from 'next/image'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Fragment } from 'react';
 import { Web3Button } from '../../components'
 import {
   getBalance,
@@ -56,10 +56,10 @@ export const Section = ({ handleSubmit }) => {
   }
 
   return (
-    <>
-      <div className="offcanvas-body image-info mt-4  pb-5  p-4">
+    <Fragment>
+      <div className="xffff">
         <h3> SQ.NFT SIZE</h3>
-        <div className="mt-2">
+        <div className="mt-3">
           <form>
             <div className="input-group hoverable mb-4">
             
@@ -124,12 +124,12 @@ export const Section = ({ handleSubmit }) => {
             <span className='text-bold'>Account Balance:</span>{' '}
             {address ? <Web3Balance /> : 'Not Connected'}{' '}
           </p>
-       
+       </div>
         
         <hr />
-
-        <div className="d-flex  justify-content-between">
-          <span className=" mt-2">
+      <div className='card-body text-center m-3'>
+        <div className="d-flex  justify-content-between mb-4">
+          <span className="mt-2">
              <i className='fa fa-shopping-cart'></i> : &nbsp;
             {landData.h * landData.w}{' '}
             {landData.h * landData.w == 1 ? 'token' : 'tokens'}
@@ -255,6 +255,6 @@ export const Section = ({ handleSubmit }) => {
           )}
      
       </div>
-    </>
+   </Fragment>
   )
 }

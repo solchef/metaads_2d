@@ -13,7 +13,6 @@ import {
 import { TextureLoader, LoadingManager } from 'three'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
 import { useWeb3Context } from '../../context'
-// import { updateX, updateY } from './Map'
 
 export const CustomizeSection = ({
   setName,
@@ -65,30 +64,15 @@ export const CustomizeSection = ({
   }
 
   const checkIfValid = () => {
-    // let mintable = []
-    // let unmintable = []
-    // let isFound
-    // let squrePos = landData.y * 1000 + landData.x
-    // for (let quad = squrePos; quad < squrePos + landData.w; quad++) {
-    //   for (let i = 0; i < landData.h; i++) {
-    //     isFound = verifyIsAllowed(quad + 1)
-    //     if (!isFound) {
-    //       mintable.push(quad + i * 1000)
-    //     } else {
-    //       unmintable.push(quad + i * 1000)
-    //     }
-    //     // console.log(isFound)
-    //   }
-    // }
-    // setUnmintableIds(unmintable)
+    // 
   }
 
   return (
-    <div className="offcanvas-body image-info mt-4  pb-5 p-0 ">
+    <div className="card-body m-3">
       <h3>Customize Your Squres</h3>
       <p>Set width and Height to customize</p>
       <div className="mt-2">
-        <form>
+      
           <div className="input-group hoverable mb-4">
             <span className="input-group-text p-0">
               <i className="bi-border" />
@@ -139,11 +123,11 @@ export const CustomizeSection = ({
               }}
             />
           </div>
-        </form>
+      
       </div>
 
       <div className="mt-2">
-        <form>
+       
           <div className="input-group hoverable mb-4">
             <span className="input-group-text ">
               <i className="bi bi-geo-alt"></i>
@@ -157,9 +141,8 @@ export const CustomizeSection = ({
               }}
             />
           </div>
-        </form>
-
-        <form>
+       
+      
           <div className="input-group hoverable mb-4">
             <span className="input-group-text ">
               <i className="bi bi-link"></i>
@@ -173,7 +156,7 @@ export const CustomizeSection = ({
               }}
             />
           </div>
-        </form>
+      
 
         <form
           style={{ cursor: 'pointer' }}
@@ -205,20 +188,19 @@ export const CustomizeSection = ({
 
           {preview ? (
             <div className="text-center mb-2">
-              <img src={preview} height={100} width={100} />
+              <img alt={"preview"} src={preview} height={100} width={100} />
             </div>
           ) : (
             <></>
           )}
         </form>
-        <form>
+      
           <div className="input-group hoverable mb-3">
             <span className="input-group-text ">
               <i className="bi bi-file-text"></i>
             </span>
 
             <textarea
-              // style={{ borderRadius: '0.25rem' }}
               placeholder="Description"
               className="p-2  form-control"
               id="w3review"
@@ -230,7 +212,7 @@ export const CustomizeSection = ({
               cols={50}
             ></textarea>
           </div>
-        </form>
+       
       </div>
       <p className="mb-3">
         Image Size ({landData.h}0 X {landData.w}0px) <br />
@@ -245,9 +227,8 @@ export const CustomizeSection = ({
            </div>
 
       <button
-        className="btn-primary hoverable d-block mx-3 mt-3 btn-md col-11"
+        className="btn-primary hoverable mt-4 d-block  btn-md col-12"
         onClick={handleSubmit}
-        // disabled={mintingDetail !== null}
       >
         <i className="bi-wallet me-2"></i> UPLOAD INFO
       </button>

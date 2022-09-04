@@ -8,7 +8,7 @@ export const RoadMap = () => {
   return (
     <div
       style={{ paddingLeft: 10 }}
-      className="offcanvas-body about "
+      className="card-body about"
       id="about"
     >
       <div className="d-flex"></div>
