@@ -7,7 +7,7 @@ import ShareSection from '../../components/ShareSection'
 
 export const About = () => {
   return (
-    <Fragment>
+    <div className='offcanvas-body'>
       <h5 className='text-primary'><i>HOW IT WORKS</i></h5>
       <p>1- Check out what's hot by scrolling and selecting tokens.</p>
 
@@ -89,7 +89,7 @@ export const About = () => {
         into your meta space!
       </p>
 
-      <h4 className="pb-2  mt-4"> Purchase Price ONLY $1 per pixel </h4>
+      <h5 className="pb-2  mt-4 text-primary"> Purchase Price ONLY $1 per pixel </h5>
       <p className="w-100">
         When it was created in 2005, milliondollarhomepage.com{' '}
         <a target="_blank" rel="noopener noreferrer" href="https://www.TheMillionDollarWebsite.com">
@@ -150,7 +150,7 @@ export const About = () => {
         you like!{' '}
       </p>
 
-      <h4 className="pb-2 mt-4"> How does it work? </h4>
+      <h5 className="pb-2 mt-4 text-primary"> How does it work? </h5>
       <p>
         TMDW has 1,000,000 blocks on a 1000 x 1000 2D grid represented by
         1,000,000 NFTs on the Ethereum network. Each NFT can either be minted or
@@ -208,11 +208,11 @@ export const About = () => {
         world!
       </p>
 
-      <h4 className="pb-2 "> Contact</h4>
+      <h5 className="pb-2 text-primary"> Contact</h5>
       <p>
         For any enquiries, you can get in touch with us through,
         <i> support@TheMillionDollarWebsite.com</i>
       </p>
-    </Fragment>
+    </div>
   )
 }

@@ -13,22 +13,29 @@ import { useAppDispatch, useAppSelector } from '../components/store/hooks'
 // import 'react-minimap/dist/react-minimap.css'
 import { ErrorReload, MapView } from './WebPages/Map'
 import { Loader } from '../utils/loader'
-import CanvasGrid from './WebPages/CanvasGrid'
+import dynamic from 'next/dynamic'
+// import CanvasGrid from './WebPages/CanvasGrid'
+
+const CanvasGrid = dynamic(
+  () => import("./WebPages/CanvasGrid"),
+  { suspense: false }
+);
+
 
 const MainPage: React.FunctionComponent = () => {
-  const reload = useAppSelector(selectReloadPage)
+  // const reload = useAppSelector(selectReloadPage)
   const dispatch = useAppDispatch()
-  const manager1 = new LoadingManager()
+  // const manager1 = new LoadingManager()
   const [texture1, setTexture1] = useState()
   const [texture2, setTexture2] = useState()
   const [texture3, setTexture3] = useState()
-  const [load, setLoad] = useState(true)
+  // const [load, setLoad] = useState(true)
   const [showError, setShowError] = useState(false)
   const [loaded, setLoaded] = useState(false)
 
-  manager1.onStart = function () {
-    setLoad(true)
-  }
+  // manager1.onStart = function () {
+  //   setLoad(true)
+  // }
 
   // const getImage = useCallback(() => {
   //   setTimeout(async () => {
@@ -123,7 +130,14 @@ const MainPage: React.FunctionComponent = () => {
               ) : (
                 ''
               )} */}
-              <CanvasGrid />
+              {/* <Suspense fallback={<Loader />}> */}
+              {/* {loaded ?  */}
+                 <CanvasGrid setLoaded={setLoaded} loaded={loaded} />
+                 {/* : */}
+                  {/* <Loader /> */}
+               {/* } */}
+               
+              {/* </Suspense> */}
             </div>
           </div>
         </section>

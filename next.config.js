@@ -7,6 +7,7 @@ const nextConfig = {
     // experimental: {
     //   externalDir: true,
     // },
+    images: { domains: ['api.quadspace.io'], formats: ['image/avif', 'image/webp'], },
     typescript: {
         // !! WARN !!
         // Dangerously allow production builds to successfully complete even if

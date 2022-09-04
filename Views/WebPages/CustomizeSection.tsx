@@ -90,7 +90,7 @@ export const CustomizeSection = ({
       <div className="mt-2">
         <form>
           <div className="input-group hoverable mb-4">
-            <span className="input-group-text ">
+            <span className="input-group-text p-0">
               <i className="bi-border" />
             </span>
             <input

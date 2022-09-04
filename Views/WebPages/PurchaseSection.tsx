@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from 'react'
 import {
   selectViewState,
@@ -108,18 +109,19 @@ function PurchaseSection() {
         style={{ visibility: 'visible' }}
       >
         <div className="container  p-0">
-          <div className="card border-0">
+          <div className="card border-0 vh-100">
             <div className="card-header">
               <div className="d-flex justify-content-between">
                 <img
                   className="mt-4 me-4 hide-mobile"
+                  alt="img"
                   src="assets/images/million-dollar-logo.svg"
                   height={100}
                   width={100}
                 />
                 <div className="p-1 mt-3">
                   <h3 className='text-primary'>THE MILLION DOLLAR WEBSITE</h3>
-                  <h6 className='text-muted'><i>TMDW is the homepage billboard of the Metaverse!</i></h6>
+                  <h6 className='text-muted fst-italic'>TMDW is the homepage billboard of the Metaverse!</h6>
                 </div>
                 <a
                   href="#"
@@ -135,13 +137,17 @@ function PurchaseSection() {
             <div className="card-body  scroll">
               {getVisibilityMode()}
 
-              <div className="text-center mt-2">
+              </div>
+                
+            <div className="card-footer">
+              <div className="text-center">
                 <p> Share with your friends and followers</p>
-                <div className="d-flex mt-2 justify-content-center">
+                <div className="d-flex  justify-content-center">
                   <ShareSection />
                 </div>
               </div>
             </div>
+            
           </div>
         </div>
       </div>

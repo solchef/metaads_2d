@@ -1310,3 +1310,23 @@ ul.timeline>li:before {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
+.border-primary-thick {
+    border: 3px solid #f40b73 !important;
+}
+
+.square-grid {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoBAMAAAB+0KVeAAAAHlBMVEUAAABkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGSH0mEbAAAACnRSTlMAzDPDPPPYnGMw2CgMzQAAAChJREFUKM9jgAPOAgZMwGIwKkhXQSUY0BCCMxkEYUAsEM4cjI4fwYIAf2QMNbUsZjcAAAAASUVORK5CYII=');
+    background-size: 15px;
+}
+
+.full-size {
+    width: 100vw;
+    height: 20vh;
+}
+
+.image-container {
+    height: 100px;
+    width: auto;
+    display: block;
+}

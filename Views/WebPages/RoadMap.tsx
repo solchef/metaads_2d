@@ -44,12 +44,7 @@ export const RoadMap = () => {
           </p>
         </li>
       </ul>
-      <div className="text-center mt-2">
-        <p> Share with your friends and followers</p>
-        <div className="d-flex mt-2 justify-content-center">
-          <ShareSection />
-        </div>
-      </div>
+    
     </div>
   )
 }

@@ -8,7 +8,7 @@ import { useWeb3Context } from '../../context'
 import { shortUrl } from '../../utils'
 import { QuadSpaceContract } from '../../utils/constants'
 import truncateEthAddress from '../../utils/truncate'
-
+import Image from 'next/image'
 export const ImageInfoButton = () => {
   const parcelData = useAppSelector(getParcel)
   const { address } = useWeb3Context()
@@ -25,45 +25,46 @@ export const ImageInfoButton = () => {
   }, [parcelData])
 
   return (
-    <div className="offcanvas-body image-info  pb-5 pt-4 mt-3 p-0 text-center">
+    <div className="offcanvas-body image-info  text-center">
       <div className="d-flex justify-content-center">
-        <div className="">
-          <img
-            height={200}
-            width={250}
+        <div className="square-grid full-size">
+          <div className='image-container pt-3'>
+          <Image
+            layout='intrinsic'
+            width={150}
+            height={150}
+            alt= {metaDetails ? metaDetails?.name : `Token #${parcelData.position}`}
             src={
               metaDetails
                 ? `https://api.quadspace.io/uploads/${metaDetails?.image_temp}`
                 : parcelData.image
             }
           />
+          </div>
         </div>
       </div>
-      <hr className="my-4" />
-      <div className="px-5">
-        {/* {console.log(metaDetails)} */}
-        <h4>
+      <hr className="" />
+      <div className="">
+        <h3 className='text-primary'>
           {metaDetails ? metaDetails?.name : `Token #${parcelData.position}`}
-        </h4>
-        <h3>{parcelData.name}</h3>
+        </h3>
+        <h4>{parcelData.name}</h4>
         <span className=" link d-block pb-1 ">
-          {/* <i className="bi bi-link"></i> :&nbsp; */}
           <a
             href={metaDetails ? metaDetails?.url : parcelData.url}
             target="_blank"
-            className="text-success"
-          >
+            className="text-success">
             <u>
               https://
-              {shortUrl(metaDetails ? metaDetails?.name : parcelData.url, 15)}
+              {shortUrl(metaDetails ? metaDetails?.url : parcelData.url, 15)}
             </u>
           </a>
         </span>
-        <p className="text-start mt-3">
+        <p className="text-start ">
           {metaDetails ? metaDetails?.QuadDescription : parcelData.description}
         </p>
-        <div className="d-flex flex-wrap flex-column">
-          <span className="mt-3">
+
+          <span className="">
             Owned By{' '}
             <a
               className=" font-small"
@@ -73,7 +74,7 @@ export const ImageInfoButton = () => {
               <small>{truncateEthAddress(parcelData.address)}</small>
             </a>
           </span>
-        </div>
+       
 
         {address &&
         address.toLowerCase() !== parcelData.address.toLowerCase() ? (
@@ -112,13 +113,6 @@ export const ImageInfoButton = () => {
             </a>
           </div>
         )}
-
-        <p className="mt-4 text-nowrap">
-          Share with your friends and followers
-        </p>
-        <div className="d-flex mt-2 justify-content-center">
-          <ShareSection />
-        </div>
       </div>
     </div>
   )

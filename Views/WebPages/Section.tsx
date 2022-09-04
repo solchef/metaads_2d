@@ -62,7 +62,8 @@ export const Section = ({ handleSubmit }) => {
         <div className="mt-2">
           <form>
             <div className="input-group hoverable mb-4">
-              <span className="input-group-text ">
+            
+              <span className="input-group-text p-0">
                 <i className="bi-border" />
               </span>
               <input
@@ -74,7 +75,7 @@ export const Section = ({ handleSubmit }) => {
                 pattern="^(.*[^0-9]|)(1000|[1-9]\d{0,2})([^0-9].*|)$"
                 placeholder="Width"
                 value={landData.h}
-                className="form-control"
+                className="form-control mb-0"
                 onChange={(e) => {
                   checkIfValid()
                   dispatch(
@@ -87,7 +88,7 @@ export const Section = ({ handleSubmit }) => {
                   )
                 }}
               />
-
+             
               <input
                 type="number"
                 aria-label="H"
@@ -97,7 +98,7 @@ export const Section = ({ handleSubmit }) => {
                 step={1}
                 placeholder="Hight"
                 value={landData.w}
-                className="form-control value="
+                className="form-control mb-0"
                 onChange={(e) => {
                   dispatch(
                     setLand({
@@ -113,23 +114,23 @@ export const Section = ({ handleSubmit }) => {
             </div>
           </form>
         </div>
-        <p>Spec sq. Size (1 sq=10x10px)</p>
-        <hr />
-        <div className="">
-          <span className=" me-2 mt-2">
-            <b>Token Price:</b> {quadPrice}
-          </span>
-          <br />
-          <span className=" me-2 mt-2">
-            <b>Account Balance:</b>{' '}
+      
+          <p className="py-0"><span className='text-bold'>Spec sq. Size :</span> (1 sq=10x10px)</p>
+          <p className="py-0">
+            <span className='text-bold'>Token Price:</span> {quadPrice}
+          </p>
+       
+          <p className="py-0">
+            <span className='text-bold'>Account Balance:</span>{' '}
             {address ? <Web3Balance /> : 'Not Connected'}{' '}
-          </span>
-        </div>
+          </p>
+       
+        
+        <hr />
 
-        <br />
-        <div className="d-flex  ">
-          <span className=" me-2 mt-2">
-            <img src="assets/images/square_icon.png" width="16px" /> : &nbsp;
+        <div className="d-flex  justify-content-between">
+          <span className=" mt-2">
+             <i className='fa fa-shopping-cart'></i> : &nbsp;
             {landData.h * landData.w}{' '}
             {landData.h * landData.w == 1 ? 'token' : 'tokens'}
           </span>
@@ -190,18 +191,21 @@ export const Section = ({ handleSubmit }) => {
             {landData.h * landData.w} )
           </span>
         </div>
-        <br />
-        <div className="flex flex-row">
-          <span className="me-2 mt-2">
+      
+        <div className="d-flex justify-content-between ">
+          <span className="me-2 ">
             <i className="bi bi-geo-alt" />: &nbsp;{' '}
             {landData.x + 'X, ' + landData.y + 'Y'}
           </span>
 
-          <span className=" me-2 mt-2">
+          <span className=" me-2 ">
             <i className="bi bi-border " />
             &nbsp;: ( {landData.h + ' X ' + landData.w} )
           </span>
-          <br />
+          </div>
+
+
+      
           <div className="text-center">
             {network && network.chainId === 1 ? (
               <h4>{mintingDetail}</h4>
@@ -249,13 +253,7 @@ export const Section = ({ handleSubmit }) => {
           ) : (
             <Web3Button title="PURCHASE LOT" />
           )}
-        </div>
-        <div className="text-center mt-5 p-0 w-100">
-          <p> Share with your friends and followers</p>
-          <div className="d-flex mt-2 justify-content-center">
-            <ShareSection />
-          </div>
-        </div>
+     
       </div>
     </>
   )

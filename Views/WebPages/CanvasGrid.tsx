@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
 import {
   ReactSVGPanZoom,
 } from 'react-svg-pan-zoom'
@@ -10,6 +10,7 @@ import {
   setLand,
   setShowMenu,
   setViewState,
+  setZoomLevel,
 } from '../../components/reducers/Settings'
 import { store } from '../../components/store'
 import { useAppSelector } from '../../components/store/hooks'
@@ -21,8 +22,9 @@ import {
   selectZoomOut,
   selectShowMenu,
 } from '../../components/reducers/Settings'
+import { Loader } from '../../utils/loader'
 
-const CanvasGrid = (props: any) => {
+const CanvasGrid = ({setLoaded, loaded}) => {
   const [tool, setTool] = useState('auto')
   const Viewer = useRef(null)
   const [value, setValue] = useState({
@@ -45,7 +47,6 @@ const CanvasGrid = (props: any) => {
   const [toolProps, setToolProps] = useState({ position: 'none' })
   const [moved, setMoved] = useState(false)
   const { address } = useWeb3Context()
-  const [loaded, setLoaded] = useState(false)
   const [zoomed, setZoomed] = useState(false)
   const [isMobile, setIsMobile] = useState(false);
   const [strokeWidth, setStrokeWidth] = useState(1)
@@ -54,7 +55,7 @@ const CanvasGrid = (props: any) => {
   const zoomLevel = useAppSelector(selectZoomLevel)
   const zoomIn = useAppSelector(selectZoomIn)
   const zoomOut = useAppSelector(selectZoomOut)
-
+ 
   useEffect(() => {
     window.innerWidth >= 768 ? Viewer.current.zoom(600, 10, 0.08) : Viewer.current.zoom(0, 200, 0.042) && setIsMobile(true)
   }, [])
@@ -67,8 +68,24 @@ const CanvasGrid = (props: any) => {
      zoomed && Viewer.current.zoomOnViewerCenter(0.68)
   }, [zoomOut])
 
+
+
   useEffect(() => {
-     zoomLevel > 1 && setZoomed(true) 
+    const zoomRanges = [0.08, 0.12, 0.18, 0.27, 0.405, 0.605, 0.9112, 1.3668,  2.05, 2.9 ]
+    let currZoom =  1
+    zoomRanges.forEach((element,i) => {
+          if(value.d > element)
+            currZoom = i + 1;
+    });
+    store.dispatch(setZoomLevel(currZoom));
+ }, [value])
+
+  useEffect(() => {
+     zoomLevel > 0 && setZoomed(true);
+     zoomLevel < 4 && setStrokeWidth(4);
+     zoomLevel > 4 && setStrokeWidth(1);
+     zoomLevel > 8 && setStrokeWidth(0.5);
+     
  }, [zoomLevel])
 
   useEffect(() => {
@@ -93,7 +110,7 @@ const CanvasGrid = (props: any) => {
   }
 
   const returnSelector = (x: number, y: number) => {
-    setLoaded(true)
+    // setLoaded(true)
     store.dispatch(setViewState(2))
     const coordX = Math.floor(x / 10) * 10
     const coordY = Math.floor(y / 10) * 10
@@ -108,7 +125,7 @@ const CanvasGrid = (props: any) => {
     )
     handleSelectionEvents(coordX / 10, coordY / 10)
   }
-
+  // console.log(loaded)
   useEffect(() => {
     setSelector(
       <rect
@@ -135,10 +152,12 @@ const CanvasGrid = (props: any) => {
     }
   }, [imageStore])
 
-
-
   return (
+    
     <>
+        <div style={{display: loaded ? "none" : 'block'}}>
+       <Loader/> 
+       </div>
       <ReactSVGPanZoom
         ref={Viewer}
         width={window.innerWidth}
@@ -160,13 +179,16 @@ const CanvasGrid = (props: any) => {
         onChangeTool={(tool: React.SetStateAction<string>) => setTool(tool)}
         value={value}
         onChangeValue={(value: React.SetStateAction<any>) => setValue(value)}
-        scaleFactorMax={10}
+        scaleFactorMax={3.075}
         scaleFactorMin={ isMobile ? 0.042 : 0.08}
         scaleFactor={1.1}
+        scaleFactorOnWheel={1.1}
         detectAutoPan={false}
         preventPanOutside={true}
       >
+     
         <svg>
+          
           <svg width={10001} height={10001} xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern
@@ -199,11 +221,13 @@ const CanvasGrid = (props: any) => {
               y="0"
               width={10000}
               height={10000}
+              onLoad={() => setLoaded(true)}
             />
             {selector}
             {imagePreview}
           </svg>
         </svg>
+        
       </ReactSVGPanZoom>
     </>
   )

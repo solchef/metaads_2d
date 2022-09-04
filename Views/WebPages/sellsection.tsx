@@ -11,6 +11,7 @@ import {
 } from '../../components/reducers/Settings'
 import ShareSection from '../../components/ShareSection'
 import { useAppDispatch, useAppSelector } from '../../components/store/hooks'
+import Image from 'next/image'
 
 export const Sellsection = () => {
   const parcelData = useAppSelector(getParcel)
@@ -37,24 +38,31 @@ export const Sellsection = () => {
       {/* <h3> FOR SALE</h3> */}
 
       <div className="d-flex justify-content-center">
-        <div className="forsale d-flex flex-wrap flex-row mb-4">
-          <div className="col-12">
-            <img src="assets/images/million-dollar-logo.svg" height={100} />{' '}
-          </div>
-          <div className="col-12">
-            <h3>FOR SALE</h3>
+  
+         <div className="square-grid full-size">
+          <div className='image-container pt-3 flex-column'>
+          <Image
+            layout='intrinsic'
+            className="border border-primary-thick"
+            width={80}
+            height={80}
+            alt= "for sale"
+            src="/assets/images/million-dollar-logo.svg"
+          /> <br/>
+            <h6>{land.position}</h6>
+            <h6>For Sale</h6>
           </div>
         </div>
       </div>
 
       <hr className="my-4" />
-      <div className="px-5">
+      <div className="">
         <h3>TMDW Token {land.position}</h3>
         <p className="mt-2 text-start">{land.description}</p>
 
         <div className="d-flex flex-wrap flex-column">
           <a
-            className="btn-primary hoverable mx-3 mt-4 d-block  btn-md "
+            className="btn-primary hoverable  mt-4 d-block  btn-md "
             onClick={() => {
               dispatch(setViewState(1))
               dispatch(setClickMint(!clickMint))
@@ -63,12 +71,6 @@ export const Sellsection = () => {
           >
             <i className="bi-wallet me-2"></i> MINT TOKEN
           </a>
-        </div>
-        <p className="mt-4 text-nowrap">
-          Share with your friends and followers
-        </p>
-        <div className="d-flex mt-2 justify-content-center">
-          <ShareSection />
         </div>
       </div>
     </div>
