@@ -57,6 +57,7 @@ export const Section = ({ handleSubmit }) => {
 
   return (
     <Fragment>
+    <div className='card-body m-3'>
       <div className="xffff">
         <h3> SQ.NFT SIZE</h3>
         <div className="mt-3">
@@ -125,7 +126,7 @@ export const Section = ({ handleSubmit }) => {
             {address ? <Web3Balance /> : 'Not Connected'}{' '}
           </p>
        </div>
-        
+        </div>
         <hr />
       <div className='card-body text-center m-3'>
         <div className="d-flex  justify-content-between mb-4">
@@ -255,6 +256,6 @@ export const Section = ({ handleSubmit }) => {
           )}
      
       </div>
-   </Fragment>
+      </Fragment>
   )
 }
