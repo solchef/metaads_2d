@@ -104,7 +104,7 @@ export const About = () => {
           jump into your meta space!
         </p>
 
-        <h5 className="pb-2  mt-4 text-primary">
+        <h5 className="mt-5 text-primary">
           {' '}
           Purchase Price ONLY $1 per pixel{' '}
         </h5>
@@ -184,7 +184,7 @@ export const About = () => {
           anything you like!{' '}
         </p>
 
-        <h5 className="pb-2 mt-4 text-primary"> How does it work? </h5>
+        <h5 className=" mt-5 text-primary"> How does it work? </h5>
         <p>
           TMDW has 1,000,000 blocks on a 1000 x 1000 2D grid represented by
           1,000,000 NFTs on the Ethereum network. Each NFT can either be minted

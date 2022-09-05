@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-duplicate-props */
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from 'react'
 import {
@@ -120,25 +121,23 @@ function PurchaseSection() {
                 >
                  {showMenu && <i className="fa fa-close fa-xl pr-3" />}
             </a>
-              <div className="d-flex justify-content-between">
+              <div className="d-flex justify-content-around align-items-center">
                 <img
-                  className="mt-4 me-2"
+                  className="logo"
                   alt="img"
                   src="assets/images/million-dollar-logo.svg"
-                  height={100}
-                  width={100}
+                
                 />
                 <div className="p-1 mt-3">
-                  <h3 className='text-primary'>THE MILLION <br/> DOLLAR WEBSITE</h3>
-                  <h6 className='text-muted  fst-italic'>TMDW is the homepage billboard of the Metaverse!</h6>
+                  <h4 className='text-primary mb-2 mt-3'>THE MILLION <br/> DOLLAR WEBSITE</h4>
+                  <p className='text-muted  fst-italic'>TMDW is the homepage billboard <br/> of the Metaverse!</p>
                 </div>
-
-            
             
               </div>
               
             </div>
-              <div className="scroll vh-100">
+
+            <div className="scroll">
               {getVisibilityMode()}
               </div>
                 
