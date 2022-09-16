@@ -22,6 +22,7 @@ import { RoadMap } from './RoadMap'
 import { CustomizeSection } from './CustomizeSection'
 import { handleUpdateData } from '../../utils/handleUpdateData'
 import ShareSection from '../../components/ShareSection'
+import { Referral } from './referral'
 
 function PurchaseSection() {
   const { uploadMetadata, uploadImage, handleMultiUploadMetadata } = useIPFS()
@@ -73,6 +74,7 @@ function PurchaseSection() {
   const getVisibilityMode = () => {
     if (viewState === 0) return <About />
     if (showMenu && viewState === 7) return <RoadMap />
+    if (showMenu && viewState === 9) return <Referral />
 
     if (!showMenu) return <></>
     if (showMenu && viewState === 1)
