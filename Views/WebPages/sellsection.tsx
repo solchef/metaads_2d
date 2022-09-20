@@ -15,9 +15,10 @@ import Image from 'next/image'
 
 export const Sellsection = () => {
   const parcelData = useAppSelector(getParcel)
+
   const [land, setLand] = useState({
     data: false,
-    name: 'quad',
+    name: 'TMDW Token',
     coords: '-1 , -1',
     width: 0,
     height: 0,
@@ -58,7 +59,9 @@ export const Sellsection = () => {
 
       <div className="card-body text-center m-3">
         <div className="">
-          <h3>TMDW Token <br/> {land.position}</h3>
+          <h3>
+            {land.name} <br /> {land.position}
+          </h3>
           <p className="mt-2 text-start">{land.description}</p>
 
           <div className="d-flex flex-wrap flex-column">
@@ -75,7 +78,6 @@ export const Sellsection = () => {
           </div>
         </div>
       </div>
-
     </Fragment>
   )
 }

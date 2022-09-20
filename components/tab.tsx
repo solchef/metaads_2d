@@ -33,7 +33,7 @@ export function Tabs() {
             }}
             id="one"
           />
-          <label htmlFor="two">Rewards </label>
+          <label htmlFor="two">Referral </label>
           <input
             type="radio"
             name="tab"
@@ -72,20 +72,23 @@ export function Tabs() {
                   <i className="fa-regular fa-clone"></i>
                 </a>
                 {copySuccess == true ? (
-                  <span className="text-success sucess-text-helper">copied</span>
+                  <span className="text-success sucess-text-helper">
+                    copied
+                  </span>
                 ) : (
                   <></>
                 )}
-                
+
                 <div>
                   <ShareCustom />
                 </div>
               </>
             ) : null}
-            {currentActive == 2 ? <>
-            <h6 style={{marginTop:"15px"}}>See your Referral points</h6>
-         
-            </> : null}
+            {currentActive == 2 ? (
+              <>
+                <h6 style={{ marginTop: '15px' }}>See your Referral points</h6>
+              </>
+            ) : null}
           </div>
           <div className="active-bar">
             <span></span>

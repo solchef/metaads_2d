@@ -117,7 +117,7 @@ const Header = () => {
                         <span className="me-3">RoadMap</span>
                       </button>{' '}
                       <br />
-                      <button
+                      {/* <button
                         onClick={() => {
                           dispatch(setShowMenu(true))
 
@@ -127,8 +127,8 @@ const Header = () => {
                       >
                         {' '}
                         <i className="bi-star-fill me-4"></i>{' '}
-                        <span className="me-3">Rewards</span>
-                      </button>{' '}
+                        <span className="me-3">Referral</span>
+                      </button>{' '} */}
                       <a
                         className="p-0"
                         target="_blank"

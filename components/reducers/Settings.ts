@@ -3,7 +3,7 @@ import { QuadSpaceContract } from '../../utils/constants'
 import { RootState, AppThunk } from '../store'
 
 export interface Settings {
-  land: { x: number; y: number; w: number; h: number }
+  land: { x: number; y: number; w: number; h: number; p: number }
   _3dMode: boolean
   viewState: number
   selectMode: boolean
@@ -41,7 +41,7 @@ export interface Settings {
 }
 
 const initialState: Settings = {
-  land: { x: -1, y: -1, w: 1, h: 1 },
+  land: { x: -1, y: -1, w: 1, h: 1, p: 1 },
   _3dMode: false,
   viewState: 0,
   showMenu: true,

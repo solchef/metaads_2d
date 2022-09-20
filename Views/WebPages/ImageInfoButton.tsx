@@ -16,41 +16,47 @@ export const ImageInfoButton = () => {
 
   useEffect(() => {
     fetch(parcelData.datauri, { method: 'GET' }).then((res) => {
-      res.json().then((data) => {
-        setMetaDetails(data.message[0])
-      }).catch(e => {
+      res
+        .json()
+        .then((data) => {
+          setMetaDetails(data.message[0])
+        })
+        .catch((e) => {
           // console.log(e)
-      })
+        })
     })
   }, [parcelData])
 
   return (
     <Fragment>
-    <div className="card-body px-0 text-center">
-      <div className="d-flex justify-content-center">
-        <div className="square-grid full-size">
-          <div className='image-container pt-4'>
-          <Image
-            layout='intrinsic'
-            width={150}
-            height={150}
-            alt= {metaDetails ? metaDetails?.name : `Token #${parcelData.position}`}
-            src={
-              metaDetails
-                ? `https://api.quadspace.io/uploads/${metaDetails?.image_temp}`
-                : parcelData.image
-            }
-          />
+      <div className="card-body px-0 text-center">
+        <div className="d-flex justify-content-center">
+          <div className="square-grid full-size">
+            <div className="image-container pt-4">
+              <Image
+                layout="intrinsic"
+                width={150}
+                height={150}
+                alt={
+                  metaDetails
+                    ? metaDetails?.name
+                    : `Token #${parcelData.position}`
+                }
+                src={
+                  metaDetails
+                    ? `https://api.quadspace.io/uploads/${metaDetails?.image_temp}`
+                    : parcelData.image
+                }
+              />
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
       <hr className="" />
 
       <div className="card-body text-center">
-        
-        <h3 className='text-primary'>
+        <h3 className="text-primary">
           {metaDetails ? metaDetails?.name : `Token #${parcelData.position}`}
         </h3>
 
@@ -60,7 +66,8 @@ export const ImageInfoButton = () => {
           <a
             href={metaDetails ? metaDetails?.url : parcelData.url}
             target="_blank"
-            className="text-success">
+            className="text-success"
+          >
             <u>
               https://
               {shortUrl(metaDetails ? metaDetails?.url : parcelData.url, 15)}
@@ -72,17 +79,16 @@ export const ImageInfoButton = () => {
           {metaDetails ? metaDetails?.QuadDescription : parcelData.description}
         </p>
 
-          <span className="">
-            Owned By{' '}
-            <a
-              className=" font-small"
-              target="_blank"
-              href={`https://etherscan.io/address/${parcelData.address}`}
-            >
-              <small>{truncateEthAddress(parcelData.address)}</small>
-            </a>
-          </span>
-       
+        <span className="">
+          Owned By{' '}
+          <a
+            className=" font-small"
+            target="_blank"
+            href={`https://etherscan.io/address/${parcelData.address}`}
+          >
+            <small>{truncateEthAddress(parcelData.address)}</small>
+          </a>
+        </span>
 
         {address &&
         address.toLowerCase() !== parcelData.address.toLowerCase() ? (
@@ -121,8 +127,7 @@ export const ImageInfoButton = () => {
             </a>
           </div>
         )}
-    
-    </div>
+      </div>
     </Fragment>
   )
 }
