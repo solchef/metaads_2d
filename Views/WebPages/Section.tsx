@@ -61,6 +61,10 @@ export const Section = ({ handleSubmit }) => {
     setPrice()
   }, [])
 
+  useEffect(() => {
+    setPrice()
+  }, [landData])
+
   const setPrice = async () => {
     const price = []
     let count = 0
@@ -73,13 +77,11 @@ export const Section = ({ handleSubmit }) => {
         } else {
           price[count] = 5
         }
-
         count++
-        // console.log(count)
       }
     }
+    // console.log(count)
 
-    console.log(price)
     const mintprice = price.reduce((a, b) => a + b, 0)
     if (price) setPriceMint(mintprice)
     return mintprice
@@ -114,7 +116,7 @@ export const Section = ({ handleSubmit }) => {
                         y: landData.y,
                         w: landData.w,
                         h: parseInt(e.target.value),
-                        p: await setPrice(),
+                        // p: await setPrice(),
                       })
                     )
                   }}
@@ -137,7 +139,7 @@ export const Section = ({ handleSubmit }) => {
                         y: landData.y,
                         w: parseInt(e.target.value),
                         h: landData.h,
-                        p: await setPrice(),
+                        // p: await setPrice(),
                       })
                     ),
                       checkIfValid()
