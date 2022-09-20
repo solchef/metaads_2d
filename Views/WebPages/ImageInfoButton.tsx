@@ -91,24 +91,7 @@ export const ImageInfoButton = () => {
         </span>
 
         {address &&
-        address.toLowerCase() !== parcelData.address.toLowerCase() ? (
-          <div className="d-flex ">
-            <a
-              className="btn-primary w-100 fs-7 text-nowrap hoverable me-2 mt-4 d-block  btn-md "
-              target="_blank"
-              href={`https://opensea.io/assets/ethereum/${QuadSpaceContract}/${parcelData.position}`}
-            >
-              Bid on Token
-            </a>
-            <a
-              className="btn-primary w-100 fs-7 text-nowrap hoverable  mt-4 d-block  btn-md "
-              target="_blank"
-              href={`https://etherscan.io/nft/${QuadSpaceContract}/${parcelData.position}`}
-            >
-              View on Etherscan
-            </a>
-          </div>
-        ) : (
+        address.toLowerCase() === parcelData.address.toLowerCase() ? (
           <div className="d-flex ">
             <a
               className="btn-primary w-100 fs-7 text-nowrap hoverable me-2 mt-4 d-block  btn-md "
@@ -124,6 +107,23 @@ export const ImageInfoButton = () => {
               href={`https://opensea.io/${QuadSpaceContract}/${parcelData.position}`}
             >
               View On OpenSea
+            </a>
+          </div>
+        ) : (
+          <div className="d-flex ">
+            <a
+              className="btn-primary w-100 fs-7 text-nowrap hoverable me-2 mt-4 d-block  btn-md "
+              target="_blank"
+              href={`https://opensea.io/assets/ethereum/${QuadSpaceContract}/${parcelData.position}`}
+            >
+              Bid on Token
+            </a>
+            <a
+              className="btn-primary w-100 fs-7 text-nowrap hoverable  mt-4 d-block  btn-md "
+              target="_blank"
+              href={`https://etherscan.io/nft/${QuadSpaceContract}/${parcelData.position}`}
+            >
+              View on Etherscan
             </a>
           </div>
         )}
