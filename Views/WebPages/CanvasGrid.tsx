@@ -240,7 +240,7 @@ const CanvasGrid = ({ setLoaded, loaded }) => {
             </defs>
             <rect style={{ width: '100%', height: '100%' }} fill="url(#b)" />
             <image
-              xlinkHref="https://api.quadspace.io/uploads/adspsdace.png"
+              xlinkHref="https://quadfilemanager.vercel.app/adspsdace.png"
               x="0"
               y="0"
               width={10000}
