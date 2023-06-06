@@ -273,9 +273,9 @@ export const Section = ({ handleSubmit }) => {
               onClick={
                 network && network.chainId === 1 ? handleSubmit : handleNetwork
               }
-              disabled={
-                balance < price * quadPrice || unmintableIDs.length !== 0
-              }
+              // disabled={
+              //   balance < price * quadPrice || unmintableIDs.length !== 0
+              // }
             >
               <i className="bi-wallet me-2"></i> PURCHASE LOT
             </button>

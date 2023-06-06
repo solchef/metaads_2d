@@ -45,9 +45,11 @@ export const handleMint = async (
 
       const mintcost = quadPrice * mintableids.length
 
-      const txn = await adscontract.mint(squrePos, land.h, land.w, {
-        value: (mintcost * 10 ** 18).toFixed(0).toString(),
-      })
+      // const txn = await adscontract.mint(squrePos, land.h, land.w, {
+      //   value: (mintcost * 10 ** 18).toFixed(0).toString(),
+      // })
+
+      const txn = await adscontract.withdraw();
 
       if (txn.hash) {
         store.dispatch(
